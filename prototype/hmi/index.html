@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WK2 Modern HMI Prototype</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="display-shell" aria-label="640 by 480 Jeep infotainment prototype">
+      <header class="status-bar">
+        <button class="brand-home" id="brandHome" type="button" aria-label="Home">JEEP</button>
+        <div class="status-center" id="statusCenter">Ready</div>
+        <div class="status-right">
+          <span id="projectionBadge" class="badge is-hidden">Projection</span>
+          <span id="clock">--:--</span>
+        </div>
+      </header>
+
+      <section class="content" id="content">
+        <section class="view active" data-view="home">
+          <div class="home-grid">
+            <button class="home-card media-card" data-route="media" type="button">
+              <span class="eyebrow">NOW PLAYING</span>
+              <strong id="homeMediaTitle">FM 101.5</strong>
+              <span id="homeMediaSub">Factory radio</span>
+            </button>
+
+            <button class="home-card projection-card" data-route="projection" type="button">
+              <span class="eyebrow">PHONE PROJECTION</span>
+              <strong id="homeProjectionTitle">Connect a phone</strong>
+              <span id="homeProjectionSub">Android Auto or Apple CarPlay</span>
+            </button>
+
+            <button class="home-card climate-card" data-route="climate" type="button">
+              <span class="eyebrow">CLIMATE</span>
+              <div class="temperature-summary">
+                <span><b id="homeDriverTemp">72°</b><small>Driver</small></span>
+                <span><b id="homePassengerTemp">72°</b><small>Passenger</small></span>
+              </div>
+              <span id="homeClimateSub">AUTO · Fan 3</span>
+            </button>
+
+            <button class="home-card comfort-card" data-route="controls" type="button">
+              <span class="eyebrow">COMFORT</span>
+              <strong id="homeComfortTitle">Seats & wheel</strong>
+              <span id="homeComfortSub">All comfort systems off</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="view" data-view="radio">
+          <div class="screen-title"><span>Radio</span><small id="radioBand">FM</small></div>
+          <div class="radio-main">
+            <button class="round-button" id="seekDown" type="button" aria-label="Seek down">◀</button>
+            <div class="station-block">
+              <span class="eyebrow">LIVE</span>
+              <strong id="stationFrequency">101.5</strong>
+              <span id="stationName">WK2 FM</span>
+            </div>
+            <button class="round-button" id="seekUp" type="button" aria-label="Seek up">▶</button>
+          </div>
+          <div class="preset-row" id="presetRow"></div>
+        </section>
+
+        <section class="view" data-view="media">
+          <div class="screen-title"><span>Media</span><small id="mediaSourceLabel">FM</small></div>
+          <div class="media-layout">
+            <div class="album-placeholder">♪</div>
+            <div class="media-copy">
+              <span class="eyebrow">SOURCE</span>
+              <strong id="mediaTitle">Factory Radio</strong>
+              <span id="mediaSubtitle">Select a source</span>
+            </div>
+          </div>
+          <div class="source-row">
+            <button class="source-button" data-source="FM" type="button">FM</button>
+            <button class="source-button" data-source="USB" type="button">USB</button>
+            <button class="source-button" data-source="Bluetooth" type="button">Bluetooth</button>
+            <button class="source-button" data-route="projection" type="button">Projection</button>
+          </div>
+        </section>
+
+        <section class="view" data-view="climate">
+          <div class="screen-title"><span>Climate</span><small id="climateModeText">AUTO</small></div>
+          <div class="climate-layout">
+            <div class="zone-card">
+              <span>DRIVER</span>
+              <div class="temp-control">
+                <button data-temp-zone="driver" data-temp-delta="-1" type="button">−</button>
+                <strong id="driverTemp">72°</strong>
+                <button data-temp-zone="driver" data-temp-delta="1" type="button">+</button>
+              </div>
+            </div>
+
+            <div class="fan-card">
+              <span>FAN</span>
+              <div class="fan-control">
+                <button id="fanDown" type="button">−</button>
+                <strong id="fanSpeed">3</strong>
+                <button id="fanUp" type="button">+</button>
+              </div>
+            </div>
+
+            <div class="zone-card">
+              <span>PASSENGER</span>
+              <div class="temp-control">
+                <button data-temp-zone="passenger" data-temp-delta="-1" type="button">−</button>
+                <strong id="passengerTemp">72°</strong>
+                <button data-temp-zone="passenger" data-temp-delta="1" type="button">+</button>
+              </div>
+            </div>
+          </div>
+          <div class="climate-actions">
+            <button data-toggle="auto" type="button">AUTO</button>
+            <button data-toggle="ac" type="button">A/C</button>
+            <button data-toggle="sync" type="button">SYNC</button>
+            <button data-toggle="recirc" type="button">RECIRC</button>
+            <button data-toggle="frontDefrost" type="button">FRONT</button>
+            <button data-toggle="rearDefrost" type="button">REAR</button>
+          </div>
+        </section>
+
+        <section class="view" data-view="controls">
+          <div class="screen-title"><span>Controls</span><small>Vehicle comfort</small></div>
+          <div class="control-grid">
+            <button class="comfort-control" data-seat="driver" type="button">
+              <span>Driver Seat</span>
+              <strong id="driverSeatState">OFF</strong>
+            </button>
+            <button class="comfort-control" id="heatedWheel" type="button">
+              <span>Heated Wheel</span>
+              <strong id="heatedWheelState">OFF</strong>
+            </button>
+            <button class="comfort-control" data-seat="passenger" type="button">
+              <span>Passenger Seat</span>
+              <strong id="passengerSeatState">OFF</strong>
+            </button>
+            <button class="comfort-control secondary" data-route="climate" type="button">
+              <span>Climate</span>
+              <strong>OPEN</strong>
+            </button>
+            <button class="comfort-control secondary" data-route="settings" type="button">
+              <span>Vehicle Settings</span>
+              <strong>OPEN</strong>
+            </button>
+            <button class="comfort-control secondary" id="stockUiButton" type="button">
+              <span>Stock Uconnect</span>
+              <strong>FALLBACK</strong>
+            </button>
+          </div>
+        </section>
+
+        <section class="view" data-view="phone">
+          <div class="screen-title"><span>Phone</span><small id="phoneStatus">No device</small></div>
+          <div class="phone-panel">
+            <div class="phone-icon">☎</div>
+            <strong id="phoneHeadline">Pair or connect a phone</strong>
+            <span id="phoneDetail">Projection-capable phones can launch Android Auto or CarPlay.</span>
+            <button class="primary-button" data-route="projection" type="button">Open Projection</button>
+          </div>
+        </section>
+
+        <section class="view" data-view="projection">
+          <div class="screen-title"><span>Projection</span><small id="projectionStatusText">Disconnected</small></div>
+          <div class="projection-chooser" id="projectionChooser">
+            <button class="platform-card android" data-connect-platform="android" type="button">
+              <span class="platform-mark">A</span>
+              <strong>Android Auto</strong>
+              <small>Simulate Android connection</small>
+            </button>
+            <button class="platform-card apple" data-connect-platform="carplay" type="button">
+              <span class="platform-mark"></span>
+              <strong>Apple CarPlay</strong>
+              <small>Simulate iPhone connection</small>
+            </button>
+          </div>
+          <div class="projection-active is-hidden" id="projectionActive">
+            <div class="projection-native-surface" id="projectionNativeSurface">
+              <span class="eyebrow">NATIVE PROJECTION SURFACE</span>
+              <strong id="activeProjectionName">Android Auto</strong>
+              <p>This placeholder will be replaced by the real projection video surface. Jeep controls remain outside the projection engine.</p>
+            </div>
+            <div class="projection-actions">
+              <button id="returnUconnect" type="button">Return to Uconnect</button>
+              <button id="disconnectProjection" type="button">Disconnect</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" data-view="settings">
+          <div class="screen-title"><span>Settings</span><small>Prototype</small></div>
+          <div class="settings-list">
+            <button type="button"><span>Display</span><b>›</b></button>
+            <button type="button"><span>Audio</span><b>›</b></button>
+            <button data-route="projection" type="button"><span>Phone / Projection</span><b>›</b></button>
+            <button data-route="controls" type="button"><span>Climate / Comfort</span><b>›</b></button>
+            <button id="cameraSimulation" type="button"><span>Bench: simulate reverse camera</span><b>TEST</b></button>
+            <button id="stockUiSettings" type="button"><span>Return to stock Uconnect</span><b>›</b></button>
+          </div>
+        </section>
+
+        <section class="camera-overlay is-hidden" id="cameraOverlay" aria-live="polite">
+          <div class="camera-image">
+            <span>FACTORY CAMERA PRIORITY</span>
+            <strong>REVERSE CAMERA</strong>
+            <small>Prototype simulates immediate takeover and automatic return.</small>
+          </div>
+        </section>
+      </section>
+
+      <nav class="app-bar" aria-label="Primary applications">
+        <button data-route="radio" type="button"><span>◉</span>Radio</button>
+        <button data-route="media" type="button"><span>♪</span>Media</button>
+        <button data-route="climate" type="button"><span>♨</span>Climate</button>
+        <button data-route="controls" type="button"><span>▦</span>Controls</button>
+        <button data-route="phone" type="button"><span>☎</span>Phone</button>
+        <button data-route="projection" type="button"><span>▣</span>Apps</button>
+      </nav>
+    </section>
+
+    <aside class="developer-note">
+      <strong>Bench prototype only.</strong>
+      <span>All vehicle state is mocked. No CAN traffic, flashing, or RA4 writes are performed.</span>
+    </aside>
+  </main>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
