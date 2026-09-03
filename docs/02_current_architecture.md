@@ -1,0 +1,76 @@
+# 02 - Current RA4 Architecture
+
+This document records the current evidence from static analysis of RA4 18.45.01.
+
+## VERIFIED
+
+### Platform
+
+- QNX on 32-bit ARM.
+- TI OMAP3730 platform evidence exists in device/boot/graphics component names.
+- Factory HMI targets 640x480.
+
+### HMI
+
+- Adobe AIR / SWF-based interface.
+- Modular screens for HVAC, comfort controls, settings, camera, media and phone functions.
+- HMI code references Harman ModuleLink APIs rather than embedding raw CAN logic in each screen.
+
+### Vehicle integration
+
+- QNX PPS is used around vehicle/CAN data.
+- Heated-seat state definitions were found in PPS-backed sensor/property configuration.
+- Writable vehicle-side PPS objects also exist.
+- Existing HMI code exposes higher-level HVAC and comfort methods such as heated-seat/steering-wheel capability checks and HVAC state changes.
+
+### Display and touch
+
+- QNX Screen is present.
+- `libscreen` and QNX Screen APIs are used by factory utilities.
+- Touch calibration code consumes QNX Screen events and mtouch infrastructure.
+
+### Audio
+
+- Factory audio configuration maps logical sources into the multimedia/audio stack.
+- Existing source mappings include MME-backed media sources and an `audioApp` path.
+
+### USB / phone connectivity
+
+- QNX USB stack is present.
+- Existing iPod/iPhone accessory integration and an iPhone tunnel adapter are present.
+
+### Projection-facing HMI scaffolding
+
+The RA4 HMI contains code-facing projection concepts including:
+
+- `IPhoneProjection`
+- `PhoneProjectionEvent`
+- `phoneProjectionService`
+- `DeviceProjection.swf`
+- `isSourceCarPlay`
+- `isSourceGAL`
+- projection active/loading/error state handling
+
+Persistency configuration contains projection-related properties including:
+
+- `enableCarplay`
+- `enableAndroidAuto`
+- `enableMirrorLink`
+- `Projection_AutoShow`
+- `projectionAutoPlay`
+
+## STRONG EVIDENCE
+
+The RA4 uses a shared Harman/FCA HMI codebase that contains projection-aware UI behavior even though the complete projection backend does not appear to be installed in this product build.
+
+## UNKNOWN
+
+- Exact complete interface contract for `IPhoneProjection`.
+- Whether a compatible replacement `phoneProjectionService` can be supplied without modifying signed firmware.
+- Exact display-surface arbitration rules between stock HMI, camera and an external projection surface.
+- Exact touch routing behavior during an active projection session.
+- Exact application-audio registration/control path required for a new projection source.
+
+## Security constraint
+
+RA4 USB updates verify signed content. The project should not depend on bypassing that signing chain.
