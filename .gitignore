@@ -1,0 +1,44 @@
+# Stock Uconnect firmware archives
+Uconnect*.zip
+/Uconnect_VP4,18.45.01-My13-17.zip
+/Uconnect_VP4_18.45.01-My13-17.zip
+/UAS_21.9.zip
+
+# Stock firmware and disk/update images
+*.iso
+*.upd
+RA4_ifs-cmc.bin
+ifs-cmc.bin
+
+# Local firmware analysis trees
+/analysis_ra4_18.45.01/
+/analysis_uas_21.9/
+
+# Local firmware/handoff corpora containing vendor material
+/RA4_av_handoff/
+/RA4_handoff/
+/RA4_handoff_2/
+/RA4_io_handoff/
+/RA4_projection_handoff/
+/RA4_runtime_handoff/
+/UAS_handoff/
+/UAS_handoff_2/
+
+# Archive equivalents containing vendor material
+/RA4_av_handoff.zip
+/RA4_handoff.zip
+/RA4_handoff_2.zip
+/RA4_io_handoff.zip
+/RA4_projection_handoff.zip
+/RA4_runtime_handoff.zip
+/RA4_runtime_handoff(1).zip
+/UAS_handoff.zip
+/UAS_handoff_2.zip
+
+# Accidental literal Windows environment-variable path
+%SystemDrive%/
+
+# Generated local analysis artifacts and dependencies
+__pycache__/
+node_modules/
+/Python/
