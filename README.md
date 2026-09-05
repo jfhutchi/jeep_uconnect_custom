@@ -58,8 +58,11 @@ Current analysis of RA4 18.45.01 shows:
 - Factory HMI references projection-related concepts including CarPlay, GAL, `IPhoneProjection`, `PhoneProjectionEvent`, and `phoneProjectionService`
 - Persistency schema includes projection properties such as `enableCarplay`, `enableAndroidAuto`, `Projection_AutoShow`, and `projectionAutoPlay`
 - Core runtime includes QNX display, USB, audio and iPhone-accessory infrastructure
+- An original 2017Q2 VP4 navigation-update image has been recovered and analyzed read-only, including FAT corruption/recovery, nested SWDL/installer ISOs, a successful MY14 runtime update log, and the stripped ARM32 Synctool license-classification flow
 
 These findings do **not** imply that a hidden switch alone enables CarPlay or Android Auto. The actual projection backend appears to be absent or incomplete in the RA4 build.
+
+Detailed navigation-update findings: [`reports/map_update_2017q2_reverse_engineering.md`](reports/map_update_2017q2_reverse_engineering.md).
 
 ## Safety / scope
 
