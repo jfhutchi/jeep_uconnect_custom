@@ -13,6 +13,12 @@ This report records owner-authorized, read-only analysis of an original Uconnect
 
 No original FCA/Harman/NNG binary, ISO, executable, license file, activation material, or vendor payload is committed by this report.
 
+The continued identity analysis is documented in detail in
+[Synctool device and license-selection pipeline](synctool_device_license_selection.md).
+It corrects two earlier hypotheses: `application_skuid` is an output property
+populated by a license-manager query, and the scanner's incompatibility vector
+stores runtime source-container ordinals, not App SKU/model-year IDs.
+
 ## 1. FAT32 image geometry and corruption
 
 **[CONFIRMED]** The image contains an MBR partition of type `0x0C` beginning at LBA 8064.
@@ -184,7 +190,8 @@ The binary is stripped, but literal strings and ARM cross-references allow usefu
 
 | Purpose | Address range |
 | --- | --- |
-| App-SKU handling | `0x00110E6C-0x00111090` |
+| App-SKU handling (code; exclusive end) | `0x00110E6C-0x00111078` |
+| App-SKU caller (code; exclusive end) | `0x0011A9B4-0x0011AF68` |
 | `device.nng` parsing | `0x00116178-0x00116574` |
 | request-code routine 1 | `0x0011CB14-0x0011CE3C` |
 | request-code routine 2 | `0x0011CE3C-0x0011D164` |
@@ -204,13 +211,18 @@ The request-code routines are separate from the license classifier. Compatibilit
 - `Found incompatible activable license record <%s> type:0x%x`
 - `Found invalid license record <%s> type:0x%x`
 
-**[HIGH]** Caller behavior and state assignments support this return enum:
+**[CONFIRMED]** Scanner state assignments and caller checks at `0x001250FC-0x00125104` and `0x00125170` establish this return enum:
 
 - 0 = all valid
 - 1 = activation needed
 - 2 = invalid
 
-An invalid state dominates activation-needed state.
+Once set, state 2 dominates activation-needed. However, an invalid record sets
+state 2 only when context policy byte `+0x51` is zero (`0x0011D89C-0x0011D8AC`).
+The context constructors initialize `+0x51/+0x52` to one; these are copied to
+result policy bytes `+0/+1`. The normal caller can therefore discard unsuitable
+record groups and continue. Enum 0 is not proof that every raw media record
+was valid. This qualifies the earlier enum-only model.
 
 ## 11. Named license types
 
@@ -228,7 +240,11 @@ Helper `0x001051F4` recognizes Application-license records and queries property 
 
 Helper `0x00105194` recognizes User-Interface-license records and queries property `0x0000000C`.
 
-These are distinct selectors; the setup path also uses a plain `0x000005FF` selector and must not be conflated with `0x420005FF`.
+The setup path supplies plain `0x000005FF` to the Application distributor's
+secondary interface slot `+0x28`. That interface encodes the type prefix,
+producing `0x420005FF`. The two values are therefore related at a proved adapter
+boundary, not interchangeable at arbitrary call sites. The GUI query remains
+a distinct selector.
 
 ## 12. Device-side versus license-side identity
 
@@ -236,13 +252,19 @@ These are distinct selectors; the setup path also uses a plain `0x000005FF` sele
 
 `Device.nng read, valid:%d t:%s %s appcid:0x%x`
 
-The parsed software-identity schema includes:
+The license manager's named property schema includes:
 
 - `swid_info`
 - `device_swid`
 - `application_skuid`
 
-`application_skuid` is stored in the larger SWID/device object around offset `+0x2F4`.
+**[CONFIRMED]** `application_skuid` names a property subobject at license-manager
+offset `+0x2F4`, not a raw integer established as input parsed from `device.nng`.
+Callback `0x0023FFD4` calls manager slot `+0x58` with selector zero at
+`0x0023FFF8`, formats the returned integer, and updates the property at
+`0x00240010`. The implementation substitutes selector 6 or 7 for zero.
+The logged App-SKU query instead supplies `0x284`; equality of the two outputs
+is not established.
 
 **[CONFIRMED]** The license-side model separately exposes:
 
@@ -252,9 +274,16 @@ The parsed software-identity schema includes:
 - `has_license_for_module`
 - `license_model`
 
-`license_model` is stored around offset `+0x1D0` in the parsed license object.
+**[CONFIRMED]** `license_model` is another named property subobject of the
+license manager at `+0x1D0`, initialized at `0x00258710` and registered at
+`0x002590F4`. Those references do not identify a numeric field in a parsed
+license record. The previous "parsed license object" interpretation was too
+strong and is superseded by the constructor and property-registration evidence.
 
-This establishes a real architectural split between device/application identity and license-policy metadata.
+**[CONFIRMED]** The separate compact `device.nng` object stores its `appcid`
+at `+0x10`; helper `0x00105118` reads it from file offset `0x5C`, called at
+`0x001163CC`. No direct flow from this word to logged context `+0x24` has been
+proved. Protected device-identity processing is not emulated here.
 
 ## 13. Dynamic compatibility vector
 
@@ -266,7 +295,11 @@ This establishes a real architectural split between device/application identity 
 
 The code behaves as a `std::vector<uint32_t>`.
 
-At scanner entry, `end` is reset to `begin`, emptying the vector while retaining its allocation. Synctool then walks an existing device-side record collection, extracts 32-bit values from records, and inserts them into the vector in sorted order.
+At scanner entry, `end` is reset to `begin`, emptying the vector while retaining
+its allocation. Synctool queries the Application distributor for the `0x5FF`
+collection, unwraps each record, and checks record slot `+0x24` at
+`0x0011D50C`. Already-valid (nonzero) records are skipped. The other records
+supply metadata `+0x10` at `0x0011D54C`, inserted sorted and unique.
 
 When an update license is activatable, Synctool extracts another 32-bit metadata value and binary-searches this vector:
 
@@ -275,62 +308,126 @@ When an update license is activatable, Synctool extracts another 32-bit metadata
 
 **[CONFIRMED]** This incompatibility set is therefore built dynamically from existing device-side license metadata. It is not a hard-coded MY13/MY14/MY15 blacklist.
 
-**[UNKNOWN]** The exact semantic name of the 32-bit value stored in that vector is not yet proved. `application_skuid` and `license_model` are both confirmed named fields elsewhere in the object model, but neither has yet been connected by data-flow proof to this vector.
+**[CONFIRMED]** Both record metadata accessors resolve through vtable
+`0x00311740`: slot `+0x10 -> 0x002627CC` and slot `+0x14 -> 0x002627E4`
+return record `+0x54`. App SKU is metadata `+8` (record `+0x5C`), whereas
+the scanner key is metadata `+0x10` (record `+0x64`).
 
-## 14. App SKU routine: current stopping point
+**[CONFIRMED]** The key's construction is now traced: source-identity map
+insertion increments manager `+0x208` at `0x0026F938-0x0026F948`; an entry
+retains that count at `0x00257D38-0x00257D40`; it is passed to container
+constructor `0x002577B8` and stored at container `+0x34` (`0x002578B8`).
+Loader `0x002544F0-0x00254508` transfers it to temporary metadata `+0x10`,
+and record constructor `0x00245134-0x0024513C` copies it to record `+0x64`.
+
+**[HIGH]** Its appropriate descriptive name is **runtime source-container
+identity ordinal**, not application SKU, model-year ID, or module ID. The map
+uses a 16-byte key derived from provider slot `+0x40` and container segment
+offset/length. The provider metadata's exact meaning and the original vendor
+field name remain unknown; matching keys do not by themselves prove matching
+filenames or every file byte. See the focused report for the full chain.
+
+## 14. App SKU routine: caller and implementation resolved
 
 **[CONFIRMED]** The App-SKU routine logs `Loading licenses from device folder <%s>` and later `App SKU ID %d`.
 
-Immediately before logging the SKU, it invokes a virtual method with selector `0x284`, stores the returned integer at object offset `+0x24`, and logs that value as the App SKU ID.
+**[CONFIRMED]** Caller function `0x0011A9B4-0x0011AF68` sets `r4` from its
+incoming context pointer at `0x0011A9C0`. At `0x0011A9D4-0x0011A9DC`, it
+loads its seventh argument as a byte and saves it at `[fp-0xA0]`. That argument
+is a flag, not a device/SWID pointer. Call `0x0011ACD0` passes the context and
+flag to App-SKU handling. Parent call `0x00123794` obtains the context from
+parent `+0x154` and forwards its own third argument as this flag.
 
-This is the strongest current hook for the next session.
+**[CONFIRMED]** App-SKU handling supplies query selector `0x284` at
+`0x00110FB8` and calls manager **vtable slot `+0x58`** at `0x00110FC8`.
+It stores the return at context `+0x24` (`0x00110FD8`) and logs it at
+`0x00110FF4`. The constructor-installed manager table is `0x00312780`;
+slot `+0x58` resolves to `0x002466BC`.
+
+That implementation queries Application distributor slot `+0x2C`, resolved
+through secondary table `0x0031284C` to thunk `0x0026414C`. The adapter
+encodes `0x284 -> 0x42000284` and uses lookup `0x00263F50`. Module/feature
+membership helper `0x0023A590` tests `0x0284` in a halfword vector. Matching
+records are ranked by metadata `+8` (unsigned minimum SKU), preferring records
+outside configured `online_skus` intervals, then falling back to those inside.
+Wrapper getter `0x00262C30` returns this metadata word.
+
+**[HIGH]** `0x284` is a module/feature selector. Its exact vendor module name
+is still unknown. It is neither the App SKU itself nor proof of a MY14 selector.
 
 ## 15. Working model
 
-The current evidence supports the following legitimate flow:
+The previous model incorrectly drew a direct SWID-input-to-App-SKU arrow.
+The now-proved flows are separate:
 
 ```text
-device.nng / SWID information
-        |
-        +--> device_swid
-        +--> application_skuid
-        +--> App SKU lookup (selector 0x284 -> object +0x24)
-        |
-        v
-existing device-side license records
-        |
-        +--> build sorted 32-bit compatibility/incompatibility vector
-        |
-        v
-update-media .lyc records
-        |
-        +--> already valid
-        +--> activatable
-        |      +--> metadata present in incompatibility vector -> incompatible activatable
-        |      `--> metadata absent -> activatable
-        `--> invalid
-                |
-                v
-classifier result
-        |
-        +--> all valid
-        +--> activation needed
-        `--> invalid
-                |
-                v
-separate activation/request-code path only when required
+device.nng -> compact identity / appcid / validity information
+                  (not proved to be the logged App SKU)
+
+device-side application-license records
+  +-> query 0x284 -> encoded module 0x42000284 -> ranked matching record
+  |                                             -> metadata +8
+  |                                             -> context +0x24 -> App SKU log
+  +-> query 0 -> substituted 6/7 -> ranked matching record -> metadata +8
+  |                                             -> application_skuid property
+  `-> collection 0x5FF -> skip already-valid records -> metadata +0x10
+                                                -> sorted container-ordinal set
+
+media records -> already valid / activatable / invalid
+  activatable + container ordinal present in set -> incompatible
+  activatable + container ordinal absent from set -> activatable
+       -> result lists and enum 0/1/2 -> caller-specific handling
+       -> activation/request-code handling separately, when required
 ```
 
-The recovered successful runtime log proves that this process ultimately selected the MY14 REVA update license for the MY14 VP4 unit and completed the update successfully.
+**[CONFIRMED]** Discard implementation `0x0012445C`, reached through adapter
+`0x00124D4C` and tail branch `0x00124D70`, uses the same container ordinal
+to prune all related entries from result lists `+4/+8/+0xC/+0x10`. It also
+collects source names from record `+0x28` through `0x00240C18`, retains them
+at context `+0x44/+0x48/+0x4C`, and passes derived names to manager slot
+`+0x28` at `0x001249F8`. It registers callback `0x00113160`, which compares
+planned filenames against the discard-name vector (`0x0011321C`) and clears
+matching plan entries' associated objects (`0x00113338-0x00113344`). The
+callback first checks path and entry category; it is not an unconditional
+filesystem deletion operation.
+
+First scanner caller discards the invalid list at `0x001253B0` when result
+policy byte `+0` is set; the second has the analogous call at `0x00126848`.
+This establishes record-group-to-file-plan filtering without a MY14 switch.
+The separate observed consumer of context App SKU `+0x24` at `0x00125A44`
+passes it to the existing request-code routine after classification, not to
+the container-key comparison.
+
+The recovered runtime log proves the MY14 REVA file was copied successfully.
+It does not identify the internal numeric SKU or individual record states.
+The observed filename therefore anchors the outcome, not an inferred numeric
+mapping from model year to license.
 
 ## 16. Open questions / next work
 
-Highest-value next steps:
+The caller, virtual implementation, SKU metadata offset, SWID-property output
+direction, and scanner-key construction have been resolved. The next evidence
+targets needed to tie this mechanism to the exact successful file are:
 
-1. Trace selector `0x284` in the App-SKU routine and determine the exact source of the logged App SKU ID.
-2. Prove whether the scanner's sorted 32-bit compatibility vector stores `application_skuid`, `license_model`, or another named NNG identifier.
-3. Trace the two callers of the license scanner far enough to document how device identity and media-license collections are supplied.
-4. Preserve the boundary between compatibility research and activation-secret derivation.
+1. Correlate the now-resolved record-group pruning and filename-exclusion
+   callback with the exact MY14 file's runtime record values. Static code
+   establishes the mechanism, not that run's internal numeric mapping.
+2. Locate an existing Synctool diagnostic log from the successful run that
+   includes `App SKU ID`, per-file record classifications, and the final plan.
+   The recovered outer SWDL log currently supplies only the filename/outcome.
+3. Recover the original name of module selector `0x284`, and the meaning of
+   source provider slot `+0x40`, if needed to refine the descriptive names.
+4. Keep protected license contents, activation secrets, and bypass construction
+   outside this investigation. A numeric MY14/REVA mapping must come from
+   legitimate non-secret inventory/diagnostic evidence, not a guessed label.
+
+**[CONFIRMED]** A reusable read-only marker probe scanned all 16,034,824,192
+bytes of the original image, not just recovered filenames. It found only nine
+embedded format/prefix strings and no runtime-looking instances of the selected
+App-SKU/device/classification markers. That closes the intact-plain-text
+recovery route for these markers; compressed, fragmented, corrupted,
+differently worded, or radio-only logs are not excluded. See the focused
+report for offsets and reproduction commands.
 
 ## 17. Safety and handling notes
 

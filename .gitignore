@@ -14,6 +14,10 @@ ifs-cmc.bin
 # Local firmware analysis trees
 /analysis_ra4_18.45.01/
 /analysis_uas_21.9/
+/analysis_work/
+/uconnectmapimage.img
+/recovered_md5deep.exe
+/recovered_root_helpers/
 
 # Local firmware/handoff corpora containing vendor material
 /RA4_av_handoff/

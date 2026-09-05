@@ -64,6 +64,15 @@ These findings do **not** imply that a hidden switch alone enables CarPlay or An
 
 Detailed navigation-update findings: [`reports/map_update_2017q2_reverse_engineering.md`](reports/map_update_2017q2_reverse_engineering.md).
 
+The focused [Synctool device/license-selection report](reports/synctool_device_license_selection.md)
+traces the App-SKU virtual query, corrects the SWID-property data-flow direction,
+identifies the scanner key as a runtime source-container ordinal, and follows
+record-group pruning into filename exclusion from the copy plan.
+[Reusable analysis tools](analysis_tools/README.md) include hash-gated static
+evidence checks and a read-only diagnostic-marker probe. The exact numerical
+MY14 REVA record mapping remains unobserved; the successful filename and the
+generic selection mechanism are established separately.
+
 ## Safety / scope
 
 This project is analysis-first.
