@@ -1,0 +1,64 @@
+# 08 - Projection completion matrix
+
+Updated 2026-09-06. This is the completion audit for the OEM-style projection
+goal. It distinguishes recovered stock behavior, host-model conformance and
+actual RA4 target proof. A host test or string reference never substitutes for
+target behavior.
+
+Status vocabulary:
+
+- **STATIC_PROVED**: direct read-only artifact/control-flow evidence.
+- **MODEL_PROVED**: original host implementation exercises the required policy.
+- **TARGET_UNPROVED**: architecture exists, but no legitimate RA4 build/run proves it.
+- **EXTERNAL_EVIDENCE_REQUIRED**: completion needs an artifact, supported interface
+  or authorized spare-hardware observation not currently accessible.
+
+| Requirement | Current evidence | Status | Evidence still required for production |
+| --- | --- | --- | --- |
+| Preserve stock Radio/Media/Climate/Controls/Phone/Messaging/Settings | Product contract and current prototype render no replacement factory screens | MODEL_PROVED / TARGET_UNPROVED | Supported stock application/screen loading boundary and target observation |
+| Full 640x480 projection while selected | Stock display is 640x480; `DEVICE_PROJECTION` branch and `DeviceProjection.swf` references exist | STATIC_PROVED / TARGET_UNPROVED | Legitimate backend video surface, buffer ownership and measured rendering |
+| Return to Uconnect without ending session | `sessionActive` is independent of current branch at FWS `0x002588C5-0x0025892C`; host model preserves session | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Complete `PROJECTION_BACKTO_CAR` consumer and supported stock navigation action |
+| Return to active projection without reconnect | `startProjection` at `0x002B5177` is distinct from `goto(DEVICE_PROJECTION)`; model changes foreground only | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Exact return control and target session continuity measurement |
+| Factory camera priority and return | DisplayManager `0x002BA764`; LayerManager preemption/stack unwind `0x002D4D6F-0x002D4EF8` | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Spare-bench latency, every camera variant and projection restoration |
+| Temporary comfort overlay | HVAC popup path `0x0026DA68-0x0026DAB9` proves branch-independent popup layering; model preserves owner/session | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Heated-seat/wheel event-to-popup consumers and target overlay dismissal |
+| Projection owns ordinary call presentation while active | Projection call event `0x002B4E18-0x002B4EBC`; native HFP presentation starts `0x00257983` | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Supported policy/API that gates only native goto/popup, not HFP ingestion |
+| Projection owns ordinary message presentation and audio | Native SMS popup `0x002B6C35-0x002B6C96` and TTS `0x002B85C2-0x002B8750` isolated | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Supported popup plus TTS gate while preserving MAP/message ingestion |
+| Emergency/eCall remains stock-owned | Emergency branch precedes ordinary BT processing; critical owner is explicit in both reference models | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Configuration-specific target behavior and audio-priority confirmation |
+| Inactive/disconnected/invalid/stale restores stock presentation | Host models invalidate state, retain sequence watermark and reject delayed replay | MODEL_PROVED / TARGET_UNPROVED | Real service epoch/sequence contract and failure/restart observation |
+| Projection/HFP audio and microphone arbitration | Projection audio/navigation events are present, but ownership path is not closed | EXTERNAL_EVIDENCE_REQUIRED | Static audio-focus XREF plus legitimate backend and spare-bench call tests |
+| Tiny resident arbitration implementation | JavaScript model plus C99 no-heap candidate; C source is 16,750 bytes across four files | MODEL_PROVED / TARGET_UNPROVED | C compile/tests, target ABI, linked map, allocated package bytes |
+| Protected 77 MB envelope | Caps are 15 MB installed, 4 MB writable, 8 MB extra peak, 45 MB protected, 5 MB residual | MODEL_PROVED / TARGET_UNPROVED | Mount-specific boot/use/update measurements and target package accounting |
+| Authorized lifecycle and stock fallback | Stock AIR launch and application foreground machinery are recovered; arbitrary app acceptance is not | EXTERNAL_EVIDENCE_REQUIRED | Legitimate loader/package/signing boundary and crash-isolation test |
+| Complete CarPlay/Android Auto engine | HMI-facing names exist; complete compatible backend has not been found or sized | EXTERNAL_EVIDENCE_REQUIRED | Legitimate engine candidate, authentication, USB/video/touch/audio contract, CPU/RAM/storage measurements |
+| No signing, license or activation bypass | Repository/PR path audit contains no vendor payload, license, key, certificate or activation material | STATIC_PROVED | Re-audit every future package and deployment design |
+
+## Current implementation evidence
+
+The browser-based bench in `prototype/resident_hmi` is development-host only.
+Its committed modules parse in an isolated V8 runtime and its transition logic
+has passed focused semantic assertions for return/resume, camera, critical
+takeover, comfort overlay, disconnect, stale/invalid fallback and replay
+rejection. It installs zero radio bytes.
+
+The C99 candidate in `prototype/projection_arbiter_c` carries the same policy
+without heap or I/O and enforces `sizeof(PA_Arbiter) <= 128` at compile time.
+It has not yet been compiled because local command execution is unavailable.
+Its test is evidence of intended coverage, not a passing target or host build.
+
+## Closest completion path
+
+1. Recover local command execution and run both host suites plus the ignored
+   `MainSupplement.swf` consumer XREFs.
+2. Resolve `PROJECTION_BACKTO_CAR`, heated comfort popup consumers and
+   projection/HFP audio focus from the hash-identified firmware.
+3. Establish a legitimate app/screen lifecycle and compile the transport-free
+   arbiter with a compatible toolchain.
+4. Select and size a legitimate projection backend. Keep it local only if it
+   passes storage, RAM and CPU gates; otherwise mark only that engine
+   `EXTERNAL_COMPUTE_REQUIRED`.
+5. Under separate authorization, use spare hardware to measure camera/overlay/
+   call/message/fallback behavior and all storage peaks.
+
+The project goal is not complete until every TARGET_UNPROVED row has direct
+target evidence. No step here authorizes a radio write, modified firmware,
+credential derivation or safety-feature bypass.

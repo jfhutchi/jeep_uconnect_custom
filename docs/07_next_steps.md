@@ -14,6 +14,8 @@ ownership, adapter boundaries and failure policy.
 4. Trace projection/HFP audio focus separately from visual foreground ownership.
 
 Current evidence: [projection foreground ownership](../reports/projection_foreground_ownership.md).
+The [completion matrix](08_projection_completion_matrix.md) separates static,
+host-model and target proof so these tasks cannot be closed by a narrow test.
 
 Continue the [driver-temperature trace](../reports/ra4_driver_temperature_contract.md)
 independently: close units-change/service-restart quality and stale-cache behavior

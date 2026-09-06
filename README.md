@@ -110,4 +110,5 @@ vendor API or install path.
 4. Prove camera, popup, phone/message arbitration, fallback and resource headroom.
 5. Continue read-only temperature-quality research independently.
 
-See `docs/` and the GitHub issue tracker for the detailed plan.
+See the [completion matrix](docs/08_projection_completion_matrix.md) for
+requirement-by-requirement proof and the exact target evidence still required.
