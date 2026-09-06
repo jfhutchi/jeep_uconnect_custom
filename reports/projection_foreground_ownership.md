@@ -227,10 +227,10 @@ Return behavior:
 
 Best next static targets:
 
-1. add property/multiname consumer-XREF support to `swf_abc_inspect`, then query
-   `PROJECTION_BACKTO_CAR`, `DEVICE_PROJECTION`,
-   `mPrevScreenBeforeActiveCall`, and `SMS_INCOMING_MESSAGE`;
-2. trace the projection screen's Return-to-Uconnect control;
+1. run the bounded `swf_abc_inspect --xref` mode added in commit
+   `b4cc616` on `PROJECTION_BACKTO_CAR`, `DEVICE_PROJECTION`,
+   `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE`, and HVAC popup names;
+2. trace the projection screen's Return-to-Uconnect control from those consumers;
 3. trace heated-seat/heated-wheel ICS events into the popup manager;
 4. trace audio focus separately before proposing runtime integration.
 

@@ -6,9 +6,10 @@ adapter, legibility and failure-policy tests.
 
 ## Next highest-value static task
 
-1. Add reusable property/multiname consumer XREFs to `swf_abc_inspect`.
-2. Trace `PROJECTION_BACKTO_CAR`, `DEVICE_PROJECTION` and the projection
-   screen's Return-to-Uconnect control.
+1. Run the new bounded `swf_abc_inspect --xref` mode on
+   `PROJECTION_BACKTO_CAR`, `DEVICE_PROJECTION`,
+   `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE` and HVAC popup names.
+2. Trace the projection screen's Return-to-Uconnect control from those consumers.
 3. Trace heated-seat/heated-wheel popup events.
 4. Trace projection/HFP audio focus separately from visual foreground ownership.
 
