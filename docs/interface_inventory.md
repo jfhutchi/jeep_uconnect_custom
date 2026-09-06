@@ -5,7 +5,10 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | Area | Interface / artifact | Confidence | Notes |
 |---|---|---:|---|
 | Projection | `IPhoneProjection` | VERIFIED | Referenced by factory HMI |
-| Projection | `PhoneProjectionEvent` | VERIFIED | Referenced by factory HMI |
+| Projection | `sessionActive` | VERIFIED | Session exists independently of visible `DEVICE_PROJECTION` branch |
+| Projection | `startProjection(ppId)` | VERIFIED | Distinct session-start command; not the active-session resume operation |
+| Projection | `projectionCallState` | VERIFIED | Projection call/caller state feeds stock status bar |
+| Projection | `PhoneProjectionEvent` | VERIFIED | Status, status-bar and back-to-car event family |
 | Projection | `phoneProjectionService` | VERIFIED reference / UNKNOWN implementation | HMI expects this backend name; implementation not yet located |
 | Projection | `DeviceProjection.swf` | VERIFIED reference / UNKNOWN installed artifact | Projection screen referenced by main HMI |
 | Projection | `isSourceCarPlay` | VERIFIED | Media HMI source awareness |
@@ -40,17 +43,25 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | USB | `libusbdi` / usbd APIs | VERIFIED | Factory USB utility uses QNX USB API |
 | Apple accessory | `itun` | VERIFIED | iPhone tunnel adapter / accessory networking component |
 | Apple media | `libipod` / iPod integration | VERIFIED | Legacy Apple device integration |
-| Camera | factory camera HMI/resources | VERIFIED | Rear/front/cargo camera UI resources exist depending on product variants |
+| Foreground | `checkForegroundAvailability` / `onAppRequestForeground` | VERIFIED | Stock allow/deny reasons and pending retry |
+| Navigation | `IStructure.goto/back/removeFromStack` | VERIFIED | Stock screen transition and return primitives |
+| Popup | `IPopupManager.show/dequeue` | VERIFIED | Temporary popup layer independent of underlying branch |
+| Phone | `processBTCallState` | VERIFIED | Native call goto/popup and previous-screen return downstream of HFP |
+| SMS | `SMSManager` popup/TTS paths | VERIFIED | Native message foreground and audio presentation seams |
+| Camera | DisplayManager/LayerManager camera paths | VERIFIED | Rear/front/cargo resources, priority checks and stack return; variants differ |
 | Security | RA4 signed-update verification | VERIFIED | USB updater validates signed hashes/signatures |
 | Security | later UAS multi-layer signing/encryption | VERIFIED | Reference architecture only; not intended as porting source |
 
 ## Next items to resolve
 
-The [MVP adapter contract](resident_hmi_contract.md) narrows the immediate work
-to a resident shell. VERIFIED above means the named reference/facility was
-observed, not that its complete interface is available to a new application.
+The production contract is projection inside stock Uconnect. The six-screen PC
+artifact is only a technical scaffold. A VERIFIED name proves observed stock code,
+not access permission or a complete backend.
 
-- First: one read-only driver-temperature subscription, units and validity.
-- Then: supported screen loading, camera preemption and stock fallback ownership.
-- Later: per-control capability, permission and observed-state acknowledgment.
-- Projection and new audio-source registration are deferred beyond the MVP.
+1. Run bounded AVM2 consumer XREFs for `PROJECTION_BACKTO_CAR`,
+   `DEVICE_PROJECTION`, native call/SMS presentation and HVAC popup names.
+2. Recover Return-to-Uconnect and resume-existing-session control flow.
+3. Recover projection/HFP audio focus and microphone/speaker ownership.
+4. Recover heated-seat/heated-wheel popup triggers.
+5. Continue the independent temperature units/service-restart quality trace.
+6. Establish authorized app/screen loading, then measure a tiny resident trial.

@@ -1,5 +1,13 @@
 # Resident HMI feasibility implementation plan
 
+> **Historical completed scaffold plan.** The six-screen deliverable below remains
+> a valid PC state/adapter test artifact, but its product architecture is
+> superseded by the projection-in-stock-Uconnect contract adopted 2026-09-06.
+> Do not use this plan to implement replacement Radio, Media, Climate, Controls,
+> Phone, Messaging or Settings screens. Current work is tracked in
+> [../../07_next_steps.md](../../07_next_steps.md) and
+> [../../../reports/projection_foreground_ownership.md](../../../reports/projection_foreground_ownership.md).
+
 > For agentic workers: use executing-plans inline. User requests autonomous
 > implementation, a dedicated branch and an unmerged PR; no review pause or
 > additional worktree is required for this run.
