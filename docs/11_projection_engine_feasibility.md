@@ -100,6 +100,27 @@ SDP 7.x. The RA4 corpus proves 32-bit little-endian ARM/QNX but does not yet
 establish a supported QNX SDK release/ABI for this package. No cross-version
 binary compatibility may be assumed.
 
+A bounded search of QNX's public archive found Smartphone Connectivity 2.0
+documentation in the collection for SDP 7.x/8.0-compatible products, but no
+public 1.x or SDP 6.x Smartphone Connectivity package. This does not prove a
+licensed legacy build never existed; it means the public archive cannot close
+the compatibility gate:
+
+- https://www.qnx.com/download/group.html?programid=29183
+
+QNX 7's official `usblauncher_otg` documentation describes dedicated Android
+and Apple modules that support projection-related USB personality/role behavior
+and directs integrators to the Smartphone Connectivity Developer's Guide. This
+is further evidence that a legitimate engine includes platform USB integration,
+not only a small video decoder:
+
+- https://get.qnx.com/developers/docs/7.0.0/com.qnx.doc.dev_pub.ref_guide/topic/usblauncher_usage.html
+
+The tracked RA4 evidence confirms QNX USB infrastructure, `libusbdi`, `itun`
+and legacy Apple media integration, but does not confirm this launcher, its
+projection modules or an equivalent compatible contract. Absence from the
+tracked evidence is not a full firmware-corpus negative until local search runs.
+
 This produces three legitimate routes to evaluate:
 
 | Route | Current status | Required evidence |
@@ -128,7 +149,8 @@ QNX and the applicable Apple/Google program contacts:
 5. Writable configuration, pairing/authentication state, logs, cache, crash data
    and update/rollback staging requirements.
 6. Required Bluetooth, HFP, MAP, iAP2, USB, Wi-Fi, audio, microphone and
-   NowPlaying interfaces.
+   NowPlaying interfaces, including whether `usblauncher_otg` or an older
+   equivalent is mandatory.
 7. HMI/service API for foreground, Return to Car, session resume, calls,
    messaging, camera/overlay coexistence and owner-death fallback.
 8. MFi/CarPlay and Google Android Auto partner/certification steps for a retrofit
