@@ -23,7 +23,9 @@ class StreamTests(unittest.TestCase):
     def test_qnx_and_harman_integration_markers_are_case_insensitive(self):
         data = (
             b"X/pps/services/launcher/control HMI-Notification "
-            b"screen_create_window_group PhoneProjectionService ModuleLink"
+            b"screen_create_window_group PhoneProjectionService ModuleLink "
+            b"event-source-handsfree HFP_CALL_INCOMING "
+            b"/pps/services/bluetooth/handsfree/status"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -37,6 +39,9 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["screen_window_group"]["count"], 1)
         self.assertEqual(matches["phone_projection_service"]["count"], 1)
         self.assertEqual(matches["modulelink"]["count"], 1)
+        self.assertEqual(matches["hnm_handsfree_plugin"]["count"], 1)
+        self.assertEqual(matches["hnm_hfp_call_incoming"]["count"], 1)
+        self.assertEqual(matches["pps_bluetooth_handsfree"]["count"], 1)
 
     def test_offset_cap_preserves_full_count(self):
         data = b"h264--h264--h264"

@@ -32,7 +32,7 @@ next commands cannot execute in this session.
 | hvac.lua | 3ddadef2296acb475b307893b9a61fa8c7324dce336dcb3baaef1ff89a5b0b50 | PersonalConfig temperatureUnits/ready producer and restart paths | whether units/restart invalidates cached temperature |
 | hmiGateway | 8d7fe8789bb012a66fbebd1bd44eefa506c672a5d70c90fbf92b3a5a6f01ec82 | HVAC callback wrapping plus audio/service references | native delivery and service-loss ordering |
 | Synctool.elf | aa2e2c425d42a5f60427a89817f676b0d32b3ce73057d89355248acc24d4e330 | hash-gated evidence anchors and any newly bounded selector-name references | version-drift check and remaining static selector evidence |
-| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded filename/content census for media/codec markers plus QNX CAR reference `navigator`/Launcher/Authman/HNM/NowPlaying/mm services and Harman `ModuleLink`/servicebroker/phone-projection markers | whether a stock video path or a supported era-compatible app/notification lifecycle is present and boot-configured |
+| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded filename/content census for media/codec markers plus QNX CAR reference `navigator`/Launcher/Authman/HNM/HandsFreePhone-policy/NowPlaying/mm services and Harman `ModuleLink`/servicebroker/phone-projection markers | whether a stock video path or a supported era-compatible app/notification lifecycle is present and boot-configured |
 
 Required tools are already tracked:
 
@@ -101,7 +101,7 @@ or vendor/provider documentation:
 | stock app/screen lifecycle | accepted package identity, entry point, foreground request caller and deterministic unload/crash fallback |
 | QNX CAR reference services | whether `/pps/system/navigator`, Launcher/Authman, HNM, UI Core, QtQnxCar2, NowPlaying or mm services are actually installed/started in RA4; official QNX 6.6 reference names alone are not a stock contract |
 | Return to Uconnect | complete PROJECTION_BACKTO_CAR consumer and previous-stock-branch rule |
-| native presentation policy | supported volatile/default-open gate for ordinary call popup/goto, SMS popup and SMS TTS |
+| native presentation policy | supported volatile/default-open gate for ordinary call popup/goto, SMS popup and SMS TTS; if HNM exists, prove its HandsFreePhone policy/plugin relationship to the traced Harman SWF paths without editing the policy |
 | video surface | producer/consumer buffer format, QNX Screen ownership, dimensions, stride, lifecycle and teardown |
 | touch | focus ownership, coordinate transform, dispatch only to the selected projection surface |
 | audio | MME/AudioCtrlSvc source registration, media/prompt/call priority, mic/speaker ownership and stock restoration |

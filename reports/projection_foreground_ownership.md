@@ -190,6 +190,27 @@ projection. The heated-seat/heated-wheel event route itself is not yet proved;
 the temperature path proves the reusable popup-layer behavior, not every comfort
 control.
 
+### Era-compatible QNX HNM comparison
+
+**CONFIRMED REFERENCE / UNKNOWN ON RA4.** QNX CAR 2.1 HNM documents
+a HandsFreePhone event-source that subscribes to Bluetooth HFP status and
+emits prioritized presentation events. `HFP_CALL_INCOMING` is a policy entry,
+and HNM display events support less-intrusive fallback window types plus
+restoration of the previously displayed event after a transient event ends.
+
+This proves that an era-compatible QNX design can keep HFP ingestion active
+while separately arbitrating its foreground presentation. It strengthens the
+product rule above, but it is not evidence that RA4 contains HNM or that its
+policy may be modified. The exact RA4 SWF still performs native call goto/popup
+actions downstream of HFP, and SMS TTS is a separate traced path. A recovered
+HNM hit would require import/startup/policy correlation before it could become
+a candidate seam; absent that, the Harman presentation paths remain the target.
+
+Official references:
+
+- https://www.qnx.com/download/download/26205/HMI_Notification_Manager.pdf
+- https://support7.qnx.com/download/download/26319/PPS_Objects_Reference.pdf
+
 ## Arbitration contract
 
 | Condition | Foreground | Projection session | Native Phone/SMS presentation |
@@ -232,7 +253,9 @@ Best next static targets:
    `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE`, and HVAC popup names;
 2. trace the projection screen's Return-to-Uconnect control from those consumers;
 3. trace heated-seat/heated-wheel ICS events into the popup manager;
-4. trace audio focus separately before proposing runtime integration.
+4. scan recovered roots for HNM/HandsFreePhone policy and plugin markers, then
+   correlate any hits with startup configuration and the SWF call graph;
+5. trace audio focus separately before proposing runtime integration.
 
 ## Resource effect
 

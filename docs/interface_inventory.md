@@ -25,7 +25,7 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | Service discovery | servicebroker | VERIFIED role / UNKNOWN registration schema | Harman/QNX discovery role observed; projection binding, versioning and owner-death behavior not recovered |
 | QNX CAR reference | `/pps/system/navigator/*` | CONFIRMED REFERENCE / UNKNOWN ON RA4 | QNX CAR 2.1 application/window manager contract; not yet found in the RA4 corpus |
 | QNX CAR reference | `/pps/services/launcher/control` + Authman | CONFIRMED REFERENCE / UNKNOWN ON RA4 | QNX CAR 2.1 authorized application-lifecycle path; do not use its manual command example on RA4 without stock-contract evidence |
-| QNX CAR reference | HMI Notification Manager | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Priority-based multimodal event arbitration using `/pps/services/hmi-notification/*`; conceptually matches overlays but is not the proved RA4 PopupManager path |
+| QNX CAR reference | HMI Notification Manager | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Priority-based multimodal arbitration; HandsFreePhone wraps HFP state and exposes configurable incoming-call presentation priority plus fallback window types, but no HNM artifact or policy hook is proved on RA4 |
 | QNX CAR reference | QtQnxCar2 / UI Core / NowPlaying | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Era-compatible reference components only; no ABI, installed service, or permission claim |
 | Vehicle state | QNX PPS | VERIFIED | Used around vehicle/CAN data |
 | HVAC | `IHvac` | VERIFIED | Factory HMI references higher-level HVAC interface |

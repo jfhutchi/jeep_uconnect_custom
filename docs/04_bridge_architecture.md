@@ -238,6 +238,21 @@ stock popup/call/SMS paths unless the component and caller contract are first
 proved in the RA4 image. The updated recovered-tree probe performs the bounded
 name census needed to decide whether these reference services exist locally.
 
+The HNM reference is more specific than a generic overlay analogy. Its
+HandsFreePhone event-source subscribes to the Bluetooth HFP status object and
+turns HFP state into prioritized presentation events. The documented
+`HFP_CALL_INCOMING` priority is configurable. HNM can choose a fallback window
+type when a requested type cannot preempt the current application, and its
+status returns to the previously displayed event when the higher-priority
+event ends. Thus the reference platform demonstrates that HFP ingestion and
+native foreground presentation can be separated.
+
+That is **CONFIRMED REFERENCE / UNKNOWN ON RA4**. It does not prove that RA4
+uses HNM, that changing an HNM policy is supported, or that SMS visual and TTS
+paths share the same arbiter. If HNM artifacts are found, inspect the existing
+policy and HandsFreePhone plugin read-only; do not modify priorities. Otherwise
+the exact Harman call/SMS presentation seams remain the only supported target.
+
 ## Display, touch and audio boundaries
 
 | Path | Stock evidence | Resident responsibility | Remaining gate |

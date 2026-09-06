@@ -51,12 +51,46 @@ Primary sources:
 - https://www.qnx.com/developers/docs/6.6.0.update/com.qnx.doc.car.arch/topic/app_support.html
 - https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.am.system_services/topic/applauncher.html
 - https://www.qnx.com/download/download/26205/HMI_Notification_Manager.pdf
+- https://support7.qnx.com/download/download/26319/PPS_Objects_Reference.pdf
 
 The QNX reference includes HTML5 and Qt5 HMI implementations. That does not make
 either suitable for this project: adding a browser or Qt runtime would conflict
 with the tiny-footprint rule unless the exact stock runtime, ABI, permissions
 and incremental bytes were proved. RA4's evidenced AIR/SWF HMI remains the
 preferred reuse boundary for the initial stock-facing surface.
+
+## HNM call-presentation result
+
+**CONFIRMED REFERENCE:** HNM does more than rank generic popups. Its
+HandsFreePhone plugin subscribes to the Bluetooth HFP PPS status object and
+converts pending HFP state into HNM events. The guide gives
+`HFP_CALL_INCOMING` a default policy entry and shows that its priority can be
+configured. Event processing compares priorities before activation.
+
+The display-event API also allows ordered fallback window types. If the
+preferred type cannot take the display, HNM may select a less intrusive type
+so the current application retains control. The official PPS object example
+shows HNM restoring the previously displayed event after a temporary event
+ends.
+
+This directly supports one architectural principle: preserving HFP state and
+changing native visual presentation are separable operations. It does **not**
+prove the required RA4 control point:
+
+- no HNM binary, policy, plugin, PPS object, or startup entry is yet confirmed
+  on RA4;
+- a reference `HFP_CALL_INCOMING` priority is not permission to edit a stock
+  policy file;
+- the RA4 native call actions already traced in `processBTCallState` may be
+  Harman HMI logic outside HNM;
+- no reference result proves that RA4 SMS popup and TTS use HNM;
+- emergency/eCall priority must never be inferred from ordinary HFP policy.
+
+If the census finds HNM, the next read-only targets are
+`event-source-handsfree`, `HFP_CALL_INCOMING`, `event-priorities`, `libhnm`,
+the installed HFP PPS path, and the service startup line. Correlate those with
+the SWF `processBTCallState` caller graph before treating HNM as a candidate
+presentation-policy seam.
 
 ## Reference-to-RA4 comparison
 
@@ -78,7 +112,7 @@ content disclosure, for both sides of the comparison:
 | Marker family | Controlled markers | What a positive result would justify |
 | --- | --- | --- |
 | QNX lifecycle | `/pps/services/launcher`, `/pps/services/app-launcher`, `/pps/system/navigator`, `authman`, `qtqnxcar2` | candidate file/config for startup, import, and ABI follow-up only |
-| QNX notifications/audio | `hmi-notification`, `nowplaying`, `mm-control`, `mm-player`, `mm-renderer`, multimedia renderer PPS path | candidate generic QNX service or client reference only |
+| QNX notifications/audio | `hmi-notification`, `libhnm`, `event-source-handsfree`, `HFP_CALL_INCOMING`, `event-priorities`, both documented HFP PPS path variants, `nowplaying`, `mm-control`, `mm-player`, `mm-renderer`, multimedia renderer PPS path | candidate generic QNX service, existing policy, plugin or client reference only |
 | QNX display | `screen_create_window_group` plus existing Screen/GLES markers | candidate window-group owner/client; not permission |
 | Harman RA4 | `servicebroker`, `modulelink`, `phoneprojectionservice`, `iphoneprojection` | candidate stock-specific integration implementation/client |
 | codec/graphics | existing Codec Engine, DSPLink/CMEM, H.264/OpenMAX/GStreamer, SGX/GLES markers | candidate decoder/render path |
