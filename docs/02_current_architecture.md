@@ -2,6 +2,17 @@
 
 This document records the current evidence from static analysis of RA4 18.45.01.
 
+## Mandatory resource constraint
+
+The owner reports approximately 77 MB free writable storage, shared with stock
+operation. The [resource budget](ra4_resource_budget.md) protects 45 MB, with
+provisional app caps of 15 MB installed, 4 MB writable growth and 8 MB additional
+peak staging/rollback. Sizes and runtime peaks remain unmeasured. Architecture
+must prioritize a tiny resident native HMI/integration layer, reuse stock assets
+and services, and justify any `EXTERNAL_COMPUTE_REQUIRED` feature individually.
+The presence of stock facilities below does not yet prove their APIs/ABIs are
+usable by a new app, nor that a complete projection backend fits locally.
+
 ## VERIFIED
 
 ### Platform

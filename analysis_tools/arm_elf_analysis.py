@@ -142,6 +142,76 @@ class ArmElfAnalyzer:
             raise ElfFormatError(f"ELF machine {image.machine} is not ARM")
         self.image = image
 
+    def plt_imports(self) -> dict[int, tuple[int, str]]:
+        """Resolve classic ARM ADD/ADD/LDR PLT candidates via ELF32 REL entries.
+
+        Requires section headers. Supports R_ARM_JUMP_SLOT only, not Thumb,
+        RELA or arbitrary linker stubs. No target execution or broad decoding.
+        A matching stub is not proof that a caller reaches it at runtime.
+        """
+        data = self.image.data
+        section_offset = struct.unpack_from('<I', data, 32)[0]
+        entry_size, count = struct.unpack_from('<HH', data, 46)
+        if not count:
+            if section_offset:
+                raise ElfFormatError('extended section numbering is unsupported')
+            return {}
+        if entry_size < 40 or section_offset + entry_size * count > len(data):
+            raise ElfFormatError('invalid section header table')
+        sections = [struct.unpack_from('<10I', data, section_offset + i * entry_size)
+                    for i in range(count)]
+
+        def section_bytes(index: int, kind: int) -> tuple[tuple[int, ...], bytes]:
+            if not 0 <= index < count or sections[index][1] != kind:
+                raise ElfFormatError('invalid linked section')
+            section = sections[index]
+            offset, size = section[4:6]
+            if offset + size > len(data):
+                raise ElfFormatError('truncated section')
+            return section, data[offset:offset + size]
+
+        imports: dict[int, str] = {}
+        for index, section in enumerate(sections):
+            if section[1] != 9:  # SHT_REL
+                continue
+            rel, records = section_bytes(index, 9)
+            symbols, symbol_data = section_bytes(rel[6], 11)  # SHT_DYNSYM
+            _, names = section_bytes(symbols[6], 3)  # SHT_STRTAB
+            if rel[9] != 8 or len(records) % 8 or symbols[9] != 16 or len(symbol_data) % 16:
+                raise ElfFormatError('unsupported relocation/symbol entry size')
+            for offset, info in struct.iter_unpack('<II', records):
+                if info & 255 != 22:  # R_ARM_JUMP_SLOT
+                    continue
+                symbol_offset = (info >> 8) * 16
+                if symbol_offset + 16 > len(symbol_data):
+                    raise ElfFormatError('invalid relocation symbol index')
+                name_offset = struct.unpack_from('<I', symbol_data, symbol_offset)[0]
+                end = names.find(b'\0', name_offset)
+                if name_offset >= len(names) or end < 0:
+                    raise ElfFormatError('invalid symbol name')
+                imports[offset] = names[name_offset:end].decode('ascii', errors='backslashreplace')
+
+        def arm_immediate(word: int) -> int:
+            rotate = ((word >> 8) & 15) * 2
+            byte = word & 255
+            return ((byte >> rotate) | (byte << (32 - rotate))) & 0xFFFFFFFF
+
+        result: dict[int, tuple[int, str]] = {}
+        for address, first in self.arm_words():
+            if first & 0xFFFFF000 != 0xE28FC000:
+                continue
+            segment = self.image.segment_for_vaddr(address)
+            if address + 12 > segment.file_end_vaddr:
+                continue
+            second, third = struct.unpack('<II', self.image.read_vaddr(address + 4, 8))
+            if second & 0xFFFFF000 != 0xE28CC000 or third & 0xFFFFF000 != 0xE5BCF000:
+                continue
+            slot = (address + 8 + arm_immediate(first) + arm_immediate(second)
+                    + (third & 0xFFF)) & 0xFFFFFFFF
+            if slot in imports:
+                result[address] = (slot, imports[slot])
+        return result
+
     def arm_words(self) -> Iterable[tuple[int, int]]:
         """Enumerate aligned candidate words; data words can be false positives."""
         for segment in self.image.load_segments:
@@ -363,6 +433,9 @@ def main() -> int:
     metadata = subparsers.add_parser("metadata")
     metadata.add_argument("image", type=Path)
 
+    imports = subparsers.add_parser("imports", help="classic ARM PLT candidates from REL symbols")
+    imports.add_argument("image", type=Path)
+
     disassembly = subparsers.add_parser("disasm")
     disassembly.add_argument("image", type=Path)
     disassembly.add_argument("--start", required=True, type=_number)
@@ -429,6 +502,9 @@ def main() -> int:
                 f"vaddr=0x{segment.vaddr:08X} filesz=0x{segment.file_size:X} "
                 f"memsz=0x{segment.memory_size:X} flags=0x{segment.flags:X}"
             )
+    elif args.command == "imports":
+        for address, (slot, name) in analyzer.plt_imports().items():
+            print(f"plt=0x{address:08X} slot=0x{slot:08X} symbol={name}")
     elif args.command == "disasm":
         decoded_end = args.start
         for instruction in analyzer.disassemble(args.start, args.end, thumb=args.thumb):

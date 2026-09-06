@@ -22,29 +22,29 @@ Target experience:
 
 ## Architecture direction
 
-The working architecture is **integration, not firmware replacement**:
+The working architecture is **RA4-resident first, integration rather than
+firmware replacement**. Approximately 77 MB observed free space is shared with
+the stock system, not an app allocation. The mandatory
+[resource budget](docs/ra4_resource_budget.md) protects 45 MB and provisionally
+caps installed app size at 15 MB, runtime growth at 4 MB and additional peak
+update/rollback overhead at 8 MB. These are planning caps, not measured artifacts.
 
 ```text
-Phone(s)
-  |-- Android Auto
-  `-- Apple CarPlay
-        |
-        v
-Hidden projection / modern-HMI compute layer
-        |
-        |-- video --> factory display path
-        |-- touch <-- factory QNX Screen / mtouch path
-        |-- audio --> factory multimedia/audio path
-        `-- vehicle controls <--> stock RA4 services
-                                  |
-                                  v
-                           PPS / Harman middleware
-                                  |
-                                  v
-                                 CAN
+Tiny RA4-native HMI / integration process (feasibility target)
+  |-- existing display / touch / assets
+  |-- existing audio / media services
+  |-- existing Harman / PPS vehicle services --> CAN
+  `-- optional external capabilities only when local limits require them
 ```
 
 The original RA4 remains responsible for vehicle-specific logic. New code should consume high-level existing services where possible rather than reimplementing raw CAN behavior.
+
+This supersedes the earlier external-renderer-first proposal. First determine
+the largest credible software-only HMI; do not add external hardware solely for
+development convenience. Projection-engine feasibility and size are unresolved.
+Capabilities that cannot fit or execute locally must be explicitly classified
+`EXTERNAL_COMPUTE_REQUIRED`, not deferred to hypothetical optimization. PC mocks
+and analysis tooling must remain outside the deployable package.
 
 ## Verified research findings
 
@@ -89,7 +89,7 @@ This project is analysis-first.
 1. Reconstruct the projection-facing HMI contract.
 2. Document RA4 display, touch, audio and vehicle-service interfaces.
 3. Design a modern Uconnect-inspired 640x480 HMI.
-4. Define the hidden-compute bridge architecture.
+4. Validate the resident-first resource budget and isolate any capabilities that genuinely require external compute.
 5. Build bench-test tooling around a spare RA4.
 6. Prototype display/touch/audio integration.
 7. Integrate a legitimate Android Auto / CarPlay projection engine.
