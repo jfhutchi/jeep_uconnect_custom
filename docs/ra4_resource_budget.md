@@ -128,10 +128,18 @@ metadata. This is a source-tree count, not an RA4 installed-size measurement.
 It replaces the earlier six-screen source count; browser/Node/Python remain host
 tools and are not deployment dependencies.
 
+The transport-free C99 arbiter candidate adds **16,516
+logical source bytes** across four files, approximately **24,576
+bytes** at 4,096-byte allocation units. Its compiled-code planning ceiling is
+64 KiB, state-object compile-time ceiling is 128 bytes, and it requests no heap,
+persistent storage, log/cache storage or standalone update space. All target
+figures remain unmeasured until a compatible compiler and legitimate loading
+boundary exist; adapters and a projection engine are not included.
+
 All measured RA4 installed, writable and temporary bytes remain UNKNOWN because
 no target artifact exists. This work installs zero bytes on the radio and makes
 no radio writes. Re-run `hmi_size_report` locally when command execution is
-available to independently verify the Git-blob count.
+available to independently verify the Git-blob counts.
 
 For a future complete staging directory, the reporter's `--kind target-package`
 requires explicit `--writable-bytes` and `--temporary-bytes`, then checks the

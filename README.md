@@ -100,6 +100,9 @@ The resident product slice is a tiny projection integration layer inside stock
 Uconnect. The refocused [PC prototype](prototype/resident_hmi/README.md) is an
 executable projection-ownership and failure-policy bench; it contains no
 replacement Radio, Media, Climate, Controls, Phone, Messaging or Settings UI.
+A [transport-free C99 arbiter](prototype/projection_arbiter_c/README.md) provides
+the same policy in a tiny, no-heap target candidate without claiming a recovered
+vendor API or install path.
 
 1. Complete projection foreground and Return-to-Uconnect contract recovery.
 2. Trace projection-back, comfort-popup and audio-focus XREFs.

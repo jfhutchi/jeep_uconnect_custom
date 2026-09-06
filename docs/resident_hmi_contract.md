@@ -1,8 +1,11 @@
 # Resident projection integration contract v2
 
 This contract governs the executable PC reference model in
-`prototype/resident_hmi`. Field names are original application names, not
-recovered Harman/PPS/ModuleLink wire keys. There is no radio transport.
+`prototype/resident_hmi`. The transport-free C99 candidate in
+`prototype/projection_arbiter_c` mirrors the same ownership semantics for a
+small target implementation. Field names are original application names, not
+recovered Harman/PPS/ModuleLink wire keys. Neither implementation has radio
+transport.
 
 ## Product boundary
 
