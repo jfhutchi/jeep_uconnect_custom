@@ -119,3 +119,6 @@ contracts and measurements still required. The
 [engine feasibility screen](docs/11_projection_engine_feasibility.md) identifies
 QNX Smartphone Connectivity as the first legitimate resident candidate family
 while keeping compatibility, licensing and resource fit explicitly unproved.
+The [hardware/codec feasibility report](docs/12_ra4_projection_hardware_feasibility.md)
+confirms relevant OMAP3730 display/acceleration blocks but keeps the installed
+video-decoder path and RA4 resource fit explicitly UNKNOWN.

@@ -132,6 +132,18 @@ This produces three legitimate routes to evaluate:
 An end-of-life page is not proof that licensed legacy support is impossible.
 Conversely, an advertised QNX product is not proof of RA4 compatibility.
 
+## Hardware and media-runtime boundary
+
+The [RA4 hardware/codec feasibility report](12_ra4_projection_hardware_feasibility.md)
+now separates silicon capability from installed runtime availability. Exact RA4
+configuration and TI documentation make 640x480 accelerated projection
+plausible, but no stock H.264/DSP decoder ABI is yet proved. QNX's public
+QNX 6.4-era OMAP Codec Engine example confirms an integration family existed,
+but its prebuilt MME filter was audio-only and its example reserved 40 MiB of
+RAM for codec-engine/DSPLink regions. That reference is neither an RA4 footprint
+nor a reason to reject local execution; it makes the recovered codec/startup
+census and actual RAM measurement mandatory.
+
 ## Information request for candidate qualification
 
 Before obtaining binaries or beginning integration, request written answers from
@@ -181,7 +193,8 @@ stock facilities count as zero new installed bytes only after ABI and permitted
 reuse are proved; their attributable runtime state/cache still counts.
 
 The QNX product brief indicates modularity and stock-service integration, which
-is favorable but supplies no sizes. The candidate is rejected locally if any
+is favorable but supplies no sizes. TI codec download-package sizes are also not
+target installed sizes and receive no budget credit or charge. The candidate is rejected locally if any
 mandatory component forces the complete package above the caps or if RAM/CPU/GPU
 and latency fail on spare hardware. Do not reduce the stock reserve to make it
 fit.

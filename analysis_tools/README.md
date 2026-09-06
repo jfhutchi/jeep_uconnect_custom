@@ -133,3 +133,20 @@ suite also requires `cryptography` for its separate developer-token probe
 tests; that dependency is not needed for the Synctool tools. Existing
 `jamaica_rom_strings.py` and `qnx_ifs_inventory.py` have their own CLI help
 and tests and are unchanged by this investigation.
+
+
+## qnx_media_runtime_probe.py
+
+Performs a read-only, constant-memory marker census across recovered QNX
+filesystem trees for projection media-runtime candidates. It emits controlled
+marker names, relative paths, file sizes, SHA-256 hashes, counts and bounded
+offsets only; it does not emit file contents or execute a target artifact.
+
+```text
+python -m analysis_tools.qnx_media_runtime_probe RECOVERED_ROOT [RECOVERED_ROOT ...] --pretty
+```
+
+The default per-file scan ceiling is 128 MiB and every skipped file is explicit
+in the JSON report. Raise the ceiling only for a known recovered artifact.
+Review metadata before committing it, and never commit recovered codecs,
+libraries, DSP images or firmware.

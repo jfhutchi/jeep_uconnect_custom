@@ -74,7 +74,11 @@ A PC prototype may use mocks and development tooling, but those dependencies
 must be outside the deployable package and replaceable through small explicit
 interfaces. No PC-only renderer may silently become the required production HMI.
 Storage fit alone does not prove RAM, CPU, graphics or latency feasibility;
-measure those separately before committing to the resident feature set.
+measure those separately before committing to the resident feature set. The
+historical QNX OMAP3530 Codec Engine example reserved 40 MiB of RAM for its
+codec-engine and DSPLink regions; that audio-oriented reference is not an RA4
+estimate, but it proves DSP reuse can require material BSP-level memory
+reservation. See [hardware/codec feasibility](12_ra4_projection_hardware_feasibility.md).
 
 ## External capability ledger
 
@@ -84,6 +88,7 @@ measure those separately before committing to the resident feature set.
 | Bundled map/media databases or speech/AI models | `EXTERNAL_COMPUTE_REQUIRED` if a feature requires bundling these large datasets locally | Excluded from this app footprint; prefer existing stock/phone services before adding external hardware. This label covers separation from the radio, not a requirement to buy a separate box. |
 | New CarPlay / Android Auto projection engine | QNX Smartphone Connectivity candidate family identified; local feasibility **UNKNOWN** and not budget-approved | Official QNX material confirms an integrated projection-manager product family, but no RA4-compatible licensed build or target sizes are public. Obtain QNX/Apple/Google access and measure storage, RAM, CPU and required facilities; classify `EXTERNAL_COMPUTE_REQUIRED` only if compatibility or measured limits fail. |
 | PC development tools / firmware analyzers | Development host only | Not part of the deployable app or its footprint. |
+| Stock OMAP3730 acceleration | Hardware candidate only; installed video path **UNKNOWN** | Exact RA4 graphics configuration and TI silicon data support 640x480 plausibility, but no usable stock H.264/DSP client ABI is yet proved. Do not count an assumed decoder as zero installed bytes. |
 
 Do not introduce external compute as the default renderer merely because it is
 easier. First establish the largest supported local feature set. Every feature

@@ -32,6 +32,7 @@ next commands cannot execute in this session.
 | hvac.lua | 3ddadef2296acb475b307893b9a61fa8c7324dce336dcb3baaef1ff89a5b0b50 | PersonalConfig temperatureUnits/ready producer and restart paths | whether units/restart invalidates cached temperature |
 | hmiGateway | 8d7fe8789bb012a66fbebd1bd44eefa506c672a5d70c90fbf92b3a5a6f01ec82 | HVAC callback wrapping plus audio/service references | native delivery and service-loss ordering |
 | Synctool.elf | aa2e2c425d42a5f60427a89817f676b0d32b3ce73057d89355248acc24d4e330 | hash-gated evidence anchors and any newly bounded selector-name references | version-drift check and remaining static selector evidence |
+| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded filename/content census for `libcodecengine`, DSPLink/CMEM, DSP images, H.264/OpenMAX/GStreamer filters, SGX/GLES and startup memory reservations | whether a stock video-decoder path is present and boot-configured |
 
 Required tools are already tracked:
 
@@ -39,6 +40,7 @@ Required tools are already tracked:
 - analysis_tools/lua51_inspect.py
 - analysis_tools/arm_elf_analysis.py
 - analysis_tools/synctool_evidence.py
+- analysis_tools/qnx_media_runtime_probe.py
 
 A valid result must include the input hash, bounded method/function/address range
 and tool version/commit. A string hit alone is not a consumer or ABI proof.
@@ -104,6 +106,7 @@ or vendor/provider documentation:
 | audio | MME/AudioCtrlSvc source registration, media/prompt/call priority, mic/speaker ownership and stock restoration |
 | USB/authentication | legitimate CarPlay/Android Auto device/session/authentication interface; QNX 7 documents projection-aware Android/Apple `usblauncher_otg` modules, but RA4 equivalence is unknown |
 | projection engine | authorized ARM32/QNX-compatible implementation and redistribution/runtime requirements; QNX Smartphone Connectivity is the identified candidate family, not yet a compatible build |
+| hardware video decode | installed decoder/DSP server and supported client ABI, boot reservation, licensing, buffer contract and measured CPU/RAM; OMAP3730 silicon capability alone is insufficient |
 
 No direct localhost socket, SWF/native address call, guessed ModuleLink field,
 persistent disable preference or unsigned package is an acceptable substitute.
@@ -160,6 +163,7 @@ remains required.
 | Evidence acquired | Decision it unlocks |
 | --- | --- |
 | Gate A projection XREFs | exact return/resume and popup/audio static contract |
+| Gate A media-runtime census | installed decoder/DSP candidates or a bounded exact-tree negative |
 | Gate A temperature trace | safe read-only quality model; still no replacement Climate screen |
 | Gate B historical log | actual App SKU and MY14 record/container/copy-plan relationship |
 | Gate C lifecycle/policy | legitimate read-only adapter and no-engine screen build |
