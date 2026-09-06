@@ -120,6 +120,12 @@ full scan or counting. No matches cannot exclude compressed, fragmented, damaged
 differently spelled messages. Even a runtime-looking hit is a candidate, not
 authenticated execution evidence.
 
+The probe also recognizes distinct NNG device-ID/SWID, device-code,
+content-code, platform-ID, `Using IDs`, and Application-record-count messages.
+Identity values are never printed: complete line or angle-bracket values become
+SHA-256 equality tokens, while the non-secret record count remains numeric.
+This permits cross-message identity correlation without disclosing a unit ID.
+
 ## Tests
 
 ```powershell

@@ -1,6 +1,6 @@
 # 2017Q2 VP4 Navigation Map Update Reverse-Engineering Findings
 
-Updated: 2026-09-05
+Updated: 2026-09-06
 
 This report records owner-authorized, read-only analysis of an original Uconnect navigation update image recovered as `uconnectmapimage.img`. The goal is to understand the legitimate update architecture, media layout, compatibility logic, and runtime behavior without deriving activation secrets, forging licenses, bypassing signing, or modifying the original image.
 
@@ -412,7 +412,26 @@ It does not identify the internal numeric SKU or individual record states.
 The observed filename therefore anchors the outcome, not an inferred numeric
 mapping from model year to license.
 
-## 16. Open questions / next work
+## 16. Public analogous identity-plane evidence
+
+**[CONFIRMED CORROBORATIVE, NOT RA4]** A publicly indexed third-party upload of
+an unrelated NNG Synctool 9.12.42 runtime log independently separates device
+ID/SWID, device and content codes, platform ID, and Application license-record
+enumeration. It also names the Application and GUI license distributors as
+separate registered services. Its Application record count is zero, so it
+does not identify selector `0x284`, an App SKU, or the MY14 REVA relationship.
+
+This supports the local data-flow separation: a device/platform identity pair
+feeds Synctool operation, while the logged App SKU is selected from an
+Application record. It does not turn product labels into a numeric lookup rule.
+The repository registration number shown in that trace is not a module selector.
+
+The log probe now fingerprints these identity values without disclosure and
+records the numeric Application-record count. Equality of tokens can correlate
+the same SWID/platform value across messages; it cannot establish semantic
+meaning by itself. See the focused report for the source and limitations.
+
+## 17. Open questions / next work
 
 The caller, virtual implementation, SKU metadata offset, SWID-property output
 direction, and scanner-key construction have been resolved. The next evidence
@@ -447,7 +466,7 @@ marker supplies its classification/exclusion context. Per-marker target totals
 cover the complete scan even when individual hit display is capped. See the
 focused report for offsets and reproduction commands.
 
-## 17. Safety and handling notes
+## 18. Safety and handling notes
 
 ### Continued diagnostic evidence
 

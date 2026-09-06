@@ -1,6 +1,6 @@
 # Synctool device and license-selection pipeline
 
-Updated: 2026-09-05. Read-only, owner-authorized static analysis.
+Updated: 2026-09-06. Read-only, owner-authorized static analysis.
 
 ## Result and scope
 
@@ -575,6 +575,37 @@ The Application distributor registers `has_module_license` at
 query and halfword membership lookup, this supports the **[HIGH]** module/feature
 interpretation and Application subsystem ownership. The vendor feature name,
 and any claimed meaning such as MY14, remain **[UNKNOWN]**. No name is invented.
+
+### Public analogous NNG runtime corroboration
+
+**[CONFIRMED CORROBORATIVE, NOT RA4]:** a publicly indexed, user-uploaded
+Synctool 9.12.42 runtime log from an unrelated Renault build independently
+shows `ILICENSE_DISTRIBUTOR_APPLICATION` and `ILICENSE_DISTRIBUTOR_GUI`
+registered as separate services. It then reports a query for the Application
+license type and separately logs a device ID/SWID, device code, content code,
+platform ID, and a final pair of IDs used by Synctool. The log has zero
+Application records, so it cannot reveal an App SKU or map selector `0x284`.
+
+This is useful for boundaries, not for transplanting values:
+
+- the repository registration ordinal for the Application distributor is a
+  service-registration sequence, not selector `0x284`;
+- device SWID, platform/content identity, and Application license records are
+  distinct runtime identity planes;
+- Application is a record-bearing license type, consistent with the local
+  Application-distributor selection path;
+- the public trace contains no numeric App SKU, module name, MY14 mapping, or
+  Harman/FCA record outcome.
+
+Source provenance is weaker than the local hash-identified artifacts because
+the page is a third-party user upload. It is therefore corroboration only:
+https://www.scribd.com/document/373539260/Synctool-Log
+
+The privacy-preserving log probe now recognizes these identity-plane messages.
+It outputs only SHA-256 equality tokens for line or angle-bracket values and a
+numeric Application-record count; it never prints the underlying device IDs,
+SWIDs, platform IDs, record names, or filenames. Repeated tokens can prove that
+the same byte string reappears across messages without disclosing it.
 
 ## 12. Result class and read-only evidence plan
 
