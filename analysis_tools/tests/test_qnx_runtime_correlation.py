@@ -249,6 +249,9 @@ class CorrelationTests(unittest.TestCase):
                         "content_markers": {
                             "io_usb_dcd": {"count": 1},
                             "ulink_ctrl": {"count": 1},
+                            "omap3530_mg": {"count": 1},
+                            "pmic_tw4030_cfg": {"count": 1},
+                            "omap_otg_base": {"count": 1},
                         },
                     }
                 ]

@@ -131,6 +131,10 @@ FAMILY_MARKERS: dict[str, frozenset[str]] = {
             "libipod",
             "devu_dcd",
             "ulink_ctrl",
+            "omap3530_mg",
+            "ehci_omap3",
+            "pmic_tw4030_cfg",
+            "omap_otg_base",
         }
     ),
     "codec_runtime": frozenset(
@@ -163,6 +167,9 @@ HIGH_SIGNAL_MARKERS = frozenset(
         "devu_dcd",
         "graphics_config",
         "io_usb_dcd",
+        "omap3530_mg",
+        "omap_otg_base",
+        "pmic_tw4030_cfg",
         "modulelink_config",
         "phone_projection_service",
         "process_starter",

@@ -121,6 +121,11 @@ MARKERS: dict[str, bytes] = {
     "libipod": b"libipod",
     "devu_dcd": b"devu-dcd",
     "ulink_ctrl": b"ulink_ctrl",
+    # Exact OMAP3 host/OTG startup anchors from QNX's public OMAP3730 BSP.
+    "omap3530_mg": b"omap3530-mg",
+    "ehci_omap3": b"ehci-omap3",
+    "pmic_tw4030_cfg": b"pmic_tw4030_cfg",
+    "omap_otg_base": b"0x480ab000",
 }
 
 _MAX_MARKER_BYTES = max(map(len, MARKERS.values()))

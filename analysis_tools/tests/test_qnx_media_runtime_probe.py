@@ -44,7 +44,8 @@ class StreamTests(unittest.TestCase):
             b"AppManager_JavaApps /fs/mmc1/xletsdir xlet.properties "
             b"usblauncher io-usb-dcd RoleSwap_DigitaliPodOut "
             b"RoleSwap_AppleDevice iAP2 mm-ipod io-fs-media itun libipod "
-            b"devu-dcd-omap3.so ulink_ctrl"
+            b"devu-dcd-omap3.so ulink_ctrl omap3530-mg ehci-omap3 "
+            b"pmic_tw4030_cfg 0x480ab000"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -97,6 +98,10 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["libipod"]["count"], 1)
         self.assertEqual(matches["devu_dcd"]["count"], 1)
         self.assertEqual(matches["ulink_ctrl"]["count"], 1)
+        self.assertEqual(matches["omap3530_mg"]["count"], 1)
+        self.assertEqual(matches["ehci_omap3"]["count"], 1)
+        self.assertEqual(matches["pmic_tw4030_cfg"]["count"], 1)
+        self.assertEqual(matches["omap_otg_base"]["count"], 1)
         self.assertEqual(matches["pps_audio_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_status"]["count"], 1)
