@@ -7,9 +7,16 @@ compatibility, or authorize installation.
 
 ## Decision
 
-**CANDIDATE FAMILY IDENTIFIED:** QNX SDK for Smartphone Connectivity is the only
-currently identified first-party product family whose public description matches
-the required resident projection boundary closely enough to advance.
+**VENDOR-CONTACT CANDIDATE FAMILY:** QNX SDK for Smartphone Connectivity is the
+only identified first-party family whose architecture matches the required
+resident projection boundary closely enough to pursue with QNX.
+
+**PUBLIC 2.0 DIRECT-BINARY PATH REJECTED FOR RA4:** the official documentation
+collection places Smartphone Connectivity 2.0 with QNX SDP 7.x-compatible
+products, and its license supplement explicitly requires QNX SDP 7.x developer
+licenses. RA4 is QNX 6.6/ARM32; no cross-version ABI compatibility may be assumed.
+Version 2.0 can advance only if QNX supplies a supported RA4-compatible build or
+an authorized source-port path. Public 2.0 binaries are not a deployable candidate.
 
 **NOT BUDGET-APPROVED / TARGET COMPATIBILITY UNKNOWN:** No public source supplies
 a compatible RA4 build, exact target ABI/OS support, installed/runtime size, RAM,

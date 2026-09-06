@@ -117,8 +117,10 @@ stock-facing implementation path, and the
 [evidence-gate manifest](docs/10_evidence_gates.md) for the exact artifacts,
 contracts and measurements still required. The
 [engine feasibility screen](docs/11_projection_engine_feasibility.md) identifies
-QNX Smartphone Connectivity as the first legitimate resident candidate family
-while keeping compatibility, licensing and resource fit explicitly unproved.
+QNX Smartphone Connectivity as the leading vendor-contact architecture. Its
+public 2.0 package is tied to QNX SDP 7.x and is not a direct RA4/QNX 6.6 binary
+candidate; a supported legacy build or authorized port, licensing and resource
+fit remain unproved.
 The [hardware/codec feasibility report](docs/12_ra4_projection_hardware_feasibility.md)
 confirms relevant OMAP3730 display/acceleration blocks but keeps the installed
 video-decoder path and RA4 resource fit explicitly UNKNOWN. The
