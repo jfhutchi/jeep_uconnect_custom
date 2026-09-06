@@ -144,8 +144,10 @@ The [QNX 6.6 CarPlay transport reference](docs/17_qnx6_carplay_transport_referen
 proves that legacy QNX documented host-to-device USB role swap for CarPlay while
 keeping the receiver, RA4 driver presence, licensing and resource fit unproved.
 The [OMAP3730 USB-role report](docs/18_omap3730_usb_role_feasibility.md)
-confirms dual-role silicon, identifies the exact FCC platform as Harman BE2800
-CMC VP4 NA/CA, and proves that the 2014 Grand Cherokee cabin USB is a remote
-Mopar media hub plus jumper. QNX's public OMAP3730 BSP advertises OTG host only;
-the custom radio DCD, harness pinout and controller/PHY route remain target
-evidence.
+confirms dual-role silicon and identifies the exact FCC platform as Harman
+BE2800 CMC VP4 NA/CA. The focused
+[media-hub USB-path report](docs/19_ra4_media_hub_usb_path.md) separates the
+SD/USB/AUX data hub from charging-only ports and maps the UCI cable at Radio C2
+to power, D-, D+, and ground. The remaining hardware gate is now the active
+hub/controller or mux role behavior, VBUS switching, BE2800 internal route and
+custom OMAP DCD--not an unspecified cabin harness.

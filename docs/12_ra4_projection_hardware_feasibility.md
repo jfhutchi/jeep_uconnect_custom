@@ -115,7 +115,10 @@ and directs integrators to QNX support for automotive iOS drivers. It supplies
 no receiver binary, H.264 decoder identity, RA4 controller/BSP claim, RAM usage,
 or installed size. TI's OMAP36xx/37xx TRM confirms the OTG block can operate in
 host/peripheral modes, but QNX's public OMAP3730 BSP feature table lists OTG only
-as host. The custom RA4 DCD and physical port route remain unknown.
+as host. The UCI cable is now mapped at Radio C2 D2784B to one USB power/D-/D+/
+ground path. Because the combined SD-reader/user-USB module shares that one
+upstream pair, active hub/controller or mux logic is required; its reversibility,
+VBUS behavior, the BE2800 internal route and custom RA4 DCD remain unknown.
 
 The recovered-tree census therefore includes exact legacy Apple transport
 markers alongside Codec Engine/OpenMAX/GStreamer/DSP and projection-service

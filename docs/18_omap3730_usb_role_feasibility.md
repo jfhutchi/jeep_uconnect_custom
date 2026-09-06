@@ -19,12 +19,15 @@ does not list an OMAP3730 USB device-controller driver. This is a bounded
 negative for that public BSP feature table, not proof that Harman's customized
 RA4 BSP lacks a private DCD.
 
-**RA4 PORT ROUTE/BSP UNKNOWN:** the exact Harman BE2800 platform and remote
-Mopar media hub/cable are now identified, but the hub-to-radio nets must still
-reach the dual-role controller through a suitable PHY/VBUS/ID path. The installed
+**RA4 EXTERNAL USB CIRCUITS HIGH / INTERNAL ROUTE UNKNOWN:** the exact Harman
+BE2800 platform and remote Mopar data hub/cable are identified. A Chrysler-
+attributed connector-end view maps the cable to Radio C2 `D2784B`: `X455`
+power, `X458` D-, `X457` D+, and `X456` ground on two cavities. The combined
+SD-reader/USB module exposes only this one upstream pair, so active hub,
+multifunction-controller, or multiplexer logic is required. Its role behavior,
+D2784B-to-OMAP nets, PHY/VBUS switching and installed DCD remain unknown. The
 runtime must include an OMAP-compatible `io-usb-dcd` controller DLL plus the
-CarPlay function/descriptor path. Existing tracked evidence proves only host
-USB infrastructure and legacy Apple media components.
+CarPlay function/descriptor path.
 
 The local CarPlay transport path remains plausible but now has a precise stop
 condition: no board-wired device role or no supported OMAP DCD means QNX 6.6
@@ -38,11 +41,13 @@ CarPlay cannot run locally without an authorized BSP/driver addition.
 | stock QNX capability | QNX 6.6 `io-usb-dcd` is the generic device-side server and loads hardware-specific DCD DLLs | CONFIRMED REFERENCE |
 | public OMAP3730 BSP | feature list names USB EHCI Host and USB OTG Host only | CONFIRMED BOUNDED TABLE / device support absent from list |
 | RA4 platform | FCC exhibit 1790035 identifies Harman BE2800, type CMC, models VP4 NA/CA | CONFIRMED |
-| cabin media port | Mopar lists the 2014 Grand Cherokee SD/USB/aux hub and separate UCI USB jumper | CONFIRMED remote hub/cable topology |
+| cabin media port | Mopar lists the 2014 Grand Cherokee SD/USB/aux hub and separate UCI USB jumper; separately lists 68145567AA/AB as dual charging ports | CONFIRMED product/topology distinction |
+| radio cable endpoint | Chrysler-attributed connector view maps Radio C2 D2784B to X455 power, X458 D-, X457 D+, X456 ground | HIGH exact external circuit map |
+| media-hub internals | SD reader and user USB share one upstream D+/D- pair, requiring active hub/controller/mux logic | HIGH architecture inference / silicon UNKNOWN |
 | RA4 host path | `io-usb`, `libusbdi`/usbd APIs and factory USB utility evidence | CONFIRMED |
 | RA4 Apple-adjacent path | `itun`, `libipod`, iPod/media integration and CarPlay HMI vocabulary | CONFIRMED adjacent capability |
 | RA4 device stack | `io-usb-dcd`, controller DLL, function driver, descriptors, startup and port mapping | UNKNOWN |
-| physical role route | hub silicon, cable/harness pinout, BE2800 nets, SoC controller, PHY and ID/VBUS switching | EXTERNAL_EVIDENCE_REQUIRED |
+| physical role route | hub silicon/role behavior, D2784B-to-BE2800 nets, SoC controller, PHY and VBUS switching | EXTERNAL_EVIDENCE_REQUIRED |
 | CarPlay receiver | licensed driver/receiver/manager, MFi authentication and service ABI | EXTERNAL_EVIDENCE_REQUIRED |
 
 Primary sources:
@@ -62,6 +67,14 @@ Primary sources:
   https://store.mopar.ca/v-2014-jeep-grand-cherokee--limited--5-7l-v8-gas/electrical--wiring-instrument-panel
 - Official Mopar USB cable 68141323AA:
   https://store.mopar.com/oem-parts/mopar-usb-cable-68141323aa
+- Official Mopar dual charging-port 68145567AB page:
+  https://store.mopar.com/oem-parts/mopar-media-hub-usb-port-68145567ab
+- Official 2014 Grand Cherokee user guide, including the functional-versus-
+  charging USB table:
+  https://vehicleinfo.mopar.com/assets/publications/en-us/Jeep/2014/Grand_Cherokee/100303_14_WK_UG_EN_USC_E11_V1_DIGITAL.pdf
+- Chrysler-attributed Radio C2 D2784B connector-end view (service-manual
+  mirror; supporting rather than primary authority):
+  https://lemon-manuals.org.ua/Jeep/2014/Grand%20Cherokee%20Limited%2C%205.7L%20Eng%20VIN%20T%2C%20RWD/Repair%20and%20Diagnosis%20%28Single%20Page%29/Electrical/Body%20Electrical/Connector%20End%20Views%20%26%20Electrical%20Component%20Locations%20%288%20Of%2011%29/Radio%20C2%20%28D2784B%29/
 
 ## Exact RA4 board and cabin-port evidence
 
@@ -81,27 +94,36 @@ Universal Consumer Interface USB jumper. The separate official part page calls
 part of a remote media hub connected by a cable, not a USB-A receptacle mounted
 directly on the BE2800 chassis.
 
-**HIGH TOPOLOGY EVIDENCE, NOT A PINOUT:** the FCC rear-board photograph shows
-the large vehicle harness connector but does not label its USB pins. The main-
-and rear-board photographs are too coarse to follow D+/D-, VBUS, ground, an
-ID pin, or a switched role path. No published exhibit or catalog page found in
-this pass maps the remote hub through the harness to a specific OMAP controller,
-PHY or role-switch circuit.
+**HIGH EXTERNAL CIRCUIT MAP:** the Chrysler-attributed D2784B connector view
+maps the UCI cable at the radio to one USB power circuit, D-, D+, and duplicate
+USB ground cavities. The official user guide and Mopar catalog separately
+identify the functional SD/USB/AUX data hub and the optional charging-only USB
+modules. Therefore 68145567AA/AB is not a second RA4 data path.
 
-Therefore the board-level unknown is narrower but still decisive:
+**HIGH ACTIVE-MODULE INFERENCE:** the stock module presents both an SD reader
+and a user USB port over the single upstream D+/D- pair. It therefore cannot be
+a passive receptacle assembly; active hub, multifunction-controller, or
+multiplexer logic is required. Its exact silicon and ability to reverse or
+bypass the path remain unknown.
+
+The board-level unknown is now narrower but still decisive:
 
 ```text
 cabin media hub 68141322AA / 68289895AA
+  -> unknown active hub/reader or mux behavior
   -> USB jumper 68141323AA
-  -> unproved vehicle-harness pins
+  -> Radio C2 D2784B: X455 power, X458 D-, X457 D+, X456 ground
   -> unproved BE2800 rear-board/main-board route
-  -> unproved OMAP3730 OTG controller and PHY/VBUS/ID switching
+  -> unproved OMAP3730 OTG controller and PHY/VBUS switching
 ```
 
-A remote hub is not automatically a blocker: it may be a passive connector
-assembly or a compatible switching design. It also is not proof of device
-role. The exact hub silicon, cable pinout, harness connector pins and board
-net names remain required.
+The absence of a separate ID circuit at D2784B is not by itself a blocker:
+QNX's documented CarPlay transition is a protocol-requested role swap followed
+by host-stack shutdown and device-stack startup. The active media hub is the
+stronger concern. It must be role-aware, bypassable, or transparent after the
+phone becomes host; an ordinary fixed-direction hub would not establish that
+path. Exact hub silicon, VBUS behavior and board net names remain required.
+See [RA4 media-hub USB data path](19_ra4_media_hub_usb_path.md).
 
 ## Why SoC capability is insufficient
 

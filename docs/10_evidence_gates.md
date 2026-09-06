@@ -118,7 +118,7 @@ or vendor/provider documentation:
 | USB/authentication | legitimate CarPlay/Android Auto device/session/authentication interface; QNX 7 documents projection-aware Android/Apple `usblauncher_otg` modules, but RA4 equivalence is unknown |
 | projection engine | authorized ARM32/QNX-compatible implementation and redistribution/runtime requirements; QNX Smartphone Connectivity is the identified candidate family, not yet a compatible build |
 | hardware video decode | installed decoder/DSP server and supported client ABI, boot reservation, licensing, buffer contract and measured CPU/RAM; OMAP3730 silicon capability alone is insufficient |
-| USB device role | Exact Harman BE2800 platform and remote Mopar hub/cable are identified; still require hub silicon, cable/harness pinout, BE2800 route to the OMAP3730 dual-role controller, compatible DCD/function driver, startup and host/device transition |
+| USB device role | Exact Harman BE2800 platform, data-hub versus charging-port distinction, UCI cable and HIGH Radio C2 D2784B power/D-/D+/ground mapping are identified; still require active hub/controller or mux identity and role behavior, VBUS control, D2784B-to-OMAP route, compatible DCD/function driver, startup and host/device transition |
 
 No direct localhost socket, SWF/native address call, guessed ModuleLink field,
 generic QNX CAR PPS write copied from a reference manual, monolithic Full
