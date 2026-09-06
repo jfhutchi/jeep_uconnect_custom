@@ -22,9 +22,10 @@ an authorized source-port path. Public 2.0 binaries are not a deployable candida
 Device Publishers guide explicitly documents `usblauncher`,
 `RoleSwap_DigitaliPodOut`, host-to-device stack transition, and
 `io-usb-dcd` for Apple CarPlay, and directs integrators to QNX support for the
-automotive iOS drivers. This proves a supported legacy transport family existed;
-it does not identify the receiver binary, establish RA4 BSP/controller support,
-or supply licensed components.
+automotive iOS drivers. This proves a supported legacy transport family existed. TI confirms the SoC
+has a dual-role OTG controller, but QNX's public OMAP3730 BSP feature table lists
+OTG only as host; it does not identify the receiver binary, establish the custom
+RA4 DCD/port route, or supply licensed components.
 
 **NOT BUDGET-APPROVED / TARGET COMPATIBILITY UNKNOWN:** No public source supplies
 a compatible RA4 build, exact target ABI/OS support, installed/runtime size, RAM,

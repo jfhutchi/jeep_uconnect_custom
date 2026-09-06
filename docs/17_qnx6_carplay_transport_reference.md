@@ -14,6 +14,11 @@ The documented sequence starts the USB host stack to identify the iPhone, sends
 `io-usb-dcd` device stack. QNX directs automotive integrators to their Project
 Manager or QNX support for the required iOS drivers.
 
+**CONFIRMED SILICON / UNKNOWN BOARD+BSP:** TI's OMAP36xx/37xx documentation
+confirms that the SoC USB OTG block supports host/peripheral operation. QNX's
+public OMAP3730 BSP table lists USB OTG only as host, so the installed custom
+DCD and physical port wiring remain decisive.
+
 **UNKNOWN ON RA4:** tracked RA4 evidence establishes QNX USB infrastructure,
 `libusbdi`/usbd use, `itun`, legacy `libipod`, and stock HMI CarPlay
 references. It does not yet establish `usblauncher`, `io-usb-dcd`, the role
@@ -110,6 +115,8 @@ The recovered-tree probe now searches exact controlled markers:
 - `io-fs-media`
 - `itun`
 - `libipod`
+- `devu-dcd`
+- `ulink_ctrl`
 
 Pass the redacted probe JSON to `qnx_runtime_correlation.py`. Highest-value
 positive files are startup scripts, usblauncher rules/descriptors, binaries or
@@ -121,6 +128,9 @@ licensed caller contract are established.
 A complete exact-tree negative would narrow RA4 18.45.01 to the HMI stubs plus
 legacy media components, making a QNX-supplied add-on or port necessary. It
 would not prove that no compatible licensed package exists externally.
+
+See [OMAP3730 USB role feasibility](18_omap3730_usb_role_feasibility.md) for the
+silicon, public-BSP, board-wiring and DCD distinction.
 
 ## Resource and safety effect
 

@@ -113,14 +113,17 @@ CarPlay USB role swap through `usblauncher`,
 plausibility but does not establish video decode: the page describes transport
 and directs integrators to QNX support for automotive iOS drivers. It supplies
 no receiver binary, H.264 decoder identity, RA4 controller/BSP claim, RAM usage,
-or installed size.
+or installed size. TI's OMAP36xx/37xx TRM confirms the OTG block can operate in
+host/peripheral modes, but QNX's public OMAP3730 BSP feature table lists OTG only
+as host. The custom RA4 DCD and physical port route remain unknown.
 
 The recovered-tree census therefore includes exact legacy Apple transport
 markers alongside Codec Engine/OpenMAX/GStreamer/DSP and projection-service
 markers. A transport hit cannot close the decoder gate; a decoder hit cannot
 close authentication or UI/audio integration.
 
-See [QNX 6.6 CarPlay transport reference](17_qnx6_carplay_transport_reference.md).
+See [QNX 6.6 CarPlay transport reference](17_qnx6_carplay_transport_reference.md)
+and [OMAP3730 USB role feasibility](18_omap3730_usb_role_feasibility.md).
 
 ## Acceptance path
 

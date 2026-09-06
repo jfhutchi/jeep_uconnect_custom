@@ -145,7 +145,8 @@ services) from Harman-specific ModuleLink/servicebroker/projection names and the
 proved RA4 AMS/AppManager/Xlet lifecycle. Exact screen and return anchors include
 `DeviceProjection.swf`, `PROJECTION_BACKTO_CAR`, and `PhoneProjectionEvent`.
 The Apple transport family adds QNX 6.6 `usblauncher`, host/device-stack role
-swap, iAP2/iPod driver, and RA4-adjacent `itun`/`libipod` anchors. These prove
+swap, iAP2/iPod driver, device-controller/function-driver (`devu-dcd`,
+`ulink_ctrl`), and RA4-adjacent `itun`/`libipod` anchors. These prove
 only a candidate transport layer, never the licensed CarPlay receiver. It emits only
 controlled marker names, relative paths, file sizes, SHA-256 hashes, counts and
 bounded offsets; it does not emit file contents or execute a target artifact.

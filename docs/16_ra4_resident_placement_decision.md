@@ -151,7 +151,7 @@ A full duplicate installation is not assumed.
 | target behavior | separately authorized spare-hardware observation of launch, camera, popup, calls/messages, crash fallback and storage peaks |
 
 The read-only `qnx_media_runtime_probe.py` now includes exact stock projection,
-RA4 secure-lifecycle, and QNX 6.6 Apple role-swap/device-stack anchors. Its redacted JSON flows into
+RA4 secure-lifecycle, and QNX 6.6 Apple role-swap/device-stack/DCD anchors. Its redacted JSON flows into
 `qnx_runtime_correlation.py`, which provides only an inspection order.
 A positive tier still needs imports, XREFs, startup evidence, and an authorized
 interface contract.
@@ -166,7 +166,10 @@ authorization, the projection service schema, the physical projection screen,
 and a compatible licensed engine remain external evidence requirements.
 
 No current evidence forces the adapter or control shell to external compute.
-The [QNX 6.6 CarPlay transport reference](17_qnx6_carplay_transport_reference.md)
+The [OMAP3730 USB role feasibility](18_omap3730_usb_role_feasibility.md)
+separates capable dual-role silicon from the public host-only BSP feature list
+and the still-unknown customized RA4 DCD/phone-port route. The
+[QNX 6.6 CarPlay transport reference](17_qnx6_carplay_transport_reference.md)
 proves that a legacy host/device role-swap family existed, strengthening local
 CarPlay plausibility without claiming the receiver or installed drivers.
 

@@ -129,6 +129,8 @@ FAMILY_MARKERS: dict[str, frozenset[str]] = {
             "io_fs_media",
             "itun",
             "libipod",
+            "devu_dcd",
+            "ulink_ctrl",
         }
     ),
     "codec_runtime": frozenset(
@@ -158,6 +160,7 @@ HIGH_SIGNAL_MARKERS = frozenset(
         "appmanager_javaapps",
         "boot_script",
         "device_projection_swf",
+        "devu_dcd",
         "graphics_config",
         "io_usb_dcd",
         "modulelink_config",

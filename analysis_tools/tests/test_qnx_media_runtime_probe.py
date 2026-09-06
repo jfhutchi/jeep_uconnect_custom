@@ -43,7 +43,8 @@ class StreamTests(unittest.TestCase):
             b"com.aicas.xlet.manager.AMS com.harman.service.AppManager "
             b"AppManager_JavaApps /fs/mmc1/xletsdir xlet.properties "
             b"usblauncher io-usb-dcd RoleSwap_DigitaliPodOut "
-            b"RoleSwap_AppleDevice iAP2 mm-ipod io-fs-media itun libipod"
+            b"RoleSwap_AppleDevice iAP2 mm-ipod io-fs-media itun libipod "
+            b"devu-dcd-omap3.so ulink_ctrl"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -94,6 +95,8 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["io_fs_media"]["count"], 1)
         self.assertEqual(matches["itun"]["count"], 1)
         self.assertEqual(matches["libipod"]["count"], 1)
+        self.assertEqual(matches["devu_dcd"]["count"], 1)
+        self.assertEqual(matches["ulink_ctrl"]["count"], 1)
         self.assertEqual(matches["pps_audio_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_status"]["count"], 1)

@@ -143,3 +143,6 @@ registration contract, and the separately qualified licensed projection engine.
 The [QNX 6.6 CarPlay transport reference](docs/17_qnx6_carplay_transport_reference.md)
 proves that legacy QNX documented host-to-device USB role swap for CarPlay while
 keeping the receiver, RA4 driver presence, licensing and resource fit unproved.
+The [OMAP3730 USB-role report](docs/18_omap3730_usb_role_feasibility.md)
+confirms dual-role silicon but notes that QNX's public OMAP3730 BSP advertises
+OTG host only; the custom radio DCD and phone-port wiring are target evidence.

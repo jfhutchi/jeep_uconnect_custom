@@ -55,6 +55,7 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | USB | QNX `io-usb` stack | VERIFIED | Core USB infrastructure |
 | USB | `libusbdi` / usbd APIs | VERIFIED | Factory USB utility uses QNX USB API |
 | QNX 6.6 CarPlay transport | `usblauncher` + `RoleSwap_DigitaliPodOut` + `io-usb-dcd` | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Official legacy host-to-device role swap; required automotive iOS drivers supplied through QNX support |
+| USB hardware role | OMAP3730 high-speed USB OTG | CONFIRMED silicon / board+BSP UNKNOWN | TI documents host/peripheral modes; public QNX OMAP3730 BSP table lists OTG Host only; custom DCD and port wiring unproved |
 | QNX 6.6 Android transport | Android Accessory Protocol | CONFIRMED REFERENCE / Android Auto receiver UNKNOWN | Accessory transport must not be promoted to a receiver claim |
 | Apple accessory | `itun` | VERIFIED | iPhone tunnel adapter / accessory networking component |
 | Apple media | `libipod` / iPod integration | VERIFIED | Legacy Apple device integration |
@@ -82,7 +83,7 @@ or a complete backend.
    ducking, pause/resume, microphone and speaker ownership.
 4. Recover heated-seat/heated-wheel popup triggers.
 5. Continue the independent temperature units/service-restart quality trace.
-6. Run the 92-marker recovered-tree census and schema-validating correlator for
+6. Run the 94-marker recovered-tree census and schema-validating correlator for
    exact projection-screen, RA4 AMS/AppManager/Xlet, QNX CAR reference, Harman
    service, audio and Screen names; close ranked candidates with imports/XREFs
    and startup configuration.

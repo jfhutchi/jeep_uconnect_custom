@@ -119,6 +119,8 @@ MARKERS: dict[str, bytes] = {
     "io_fs_media": b"io-fs-media",
     "itun": b"itun",
     "libipod": b"libipod",
+    "devu_dcd": b"devu-dcd",
+    "ulink_ctrl": b"ulink_ctrl",
 }
 
 _MAX_MARKER_BYTES = max(map(len, MARKERS.values()))

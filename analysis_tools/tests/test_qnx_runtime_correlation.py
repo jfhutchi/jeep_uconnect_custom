@@ -237,5 +237,27 @@ class CorrelationTests(unittest.TestCase):
         )
 
 
+    def test_prioritizes_device_controller_runtime_candidate(self):
+        result = correlate_report(
+            report_with(
+                [
+                    {
+                        "path": "lib/dll/devu-dcd-omap3.so",
+                        "size": 50,
+                        "sha256": DIGEST_C,
+                        "filename_tags": ["devu_dcd"],
+                        "content_markers": {
+                            "io_usb_dcd": {"count": 1},
+                            "ulink_ctrl": {"count": 1},
+                        },
+                    }
+                ]
+            )
+        )
+        candidate = result["candidates"][0]
+        self.assertEqual(candidate["priority_tier"], 1)
+        self.assertEqual(candidate["families"], ["legacy_apple_transport"])
+
+
 if __name__ == "__main__":
     unittest.main()
