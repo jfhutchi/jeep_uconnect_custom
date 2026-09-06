@@ -115,4 +115,7 @@ requirement-by-requirement proof, the
 [adapter boundary](docs/09_projection_adapter_boundary.md) for the smallest
 stock-facing implementation path, and the
 [evidence-gate manifest](docs/10_evidence_gates.md) for the exact artifacts,
-contracts and measurements still required.
+contracts and measurements still required. The
+[engine feasibility screen](docs/11_projection_engine_feasibility.md) identifies
+QNX Smartphone Connectivity as the first legitimate resident candidate family
+while keeping compatibility, licensing and resource fit explicitly unproved.

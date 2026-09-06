@@ -29,7 +29,7 @@ Status vocabulary:
 | Tiny resident arbitration implementation | JavaScript model plus C99 no-heap candidate; C source is 19,404 bytes across four files | MODEL_PROVED / TARGET_UNPROVED | C compile/tests, target ABI, linked map, allocated package bytes |
 | Protected 77 MB envelope | Caps are 15 MB installed, 4 MB writable, 8 MB extra peak, 45 MB protected, 5 MB residual | MODEL_PROVED / TARGET_UNPROVED | Mount-specific boot/use/update measurements and target package accounting |
 | Authorized lifecycle and stock fallback | Stock AIR launch and application foreground machinery are recovered; arbitrary app acceptance is not | EXTERNAL_EVIDENCE_REQUIRED | Legitimate loader/package/signing boundary and crash-isolation test |
-| Complete CarPlay/Android Auto engine | HMI-facing names exist; complete compatible backend has not been found or sized | EXTERNAL_EVIDENCE_REQUIRED | Legitimate engine candidate, authentication, USB/video/touch/audio contract, CPU/RAM/storage measurements |
+| Complete CarPlay/Android Auto engine | QNX Smartphone Connectivity is a legitimate candidate family; RA4-compatible licensed build and sizes are unknown | EXTERNAL_EVIDENCE_REQUIRED | QNX/Apple/Google access, exact target ABI, authentication, USB/video/touch/audio contract, CPU/RAM/storage measurements |
 | No signing, license or activation bypass | Repository/PR path audit contains no vendor payload, license, key, certificate or activation material | STATIC_PROVED | Re-audit every future package and deployment design |
 
 ## Current implementation evidence

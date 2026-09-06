@@ -45,7 +45,13 @@ behavior while inactive; verify crash fallback.
 
 ## Engine feasibility
 
-Evaluate a legitimate engine against local storage, RAM, CPU, video, touch, USB
+The [official-source candidate screen](11_projection_engine_feasibility.md)
+identifies QNX SDK for Smartphone Connectivity as the first legitimate resident
+candidate family. Obtain exact RA4/QNX/ARM compatibility, Apple/Google program
+access and component-level target sizes before requesting binaries or assuming
+integration.
+
+Evaluate that legitimate engine against local storage, RAM, CPU, video, touch, USB
 and audio contracts. Do not choose external hardware merely for convenience. Mark
 the engine `EXTERNAL_COMPUTE_REQUIRED` only if resident feasibility fails while
 keeping the RA4 integration layer tiny.

@@ -103,7 +103,7 @@ or vendor/provider documentation:
 | touch | focus ownership, coordinate transform, dispatch only to the selected projection surface |
 | audio | MME/AudioCtrlSvc source registration, media/prompt/call priority, mic/speaker ownership and stock restoration |
 | USB/authentication | legitimate CarPlay/Android Auto device/session/authentication interface |
-| projection engine | authorized ARM32/QNX-compatible implementation and redistribution/runtime requirements |
+| projection engine | authorized ARM32/QNX-compatible implementation and redistribution/runtime requirements; QNX Smartphone Connectivity is the identified candidate family, not yet a compatible build |
 
 No direct localhost socket, SWF/native address call, guessed ModuleLink field,
 persistent disable preference or unsigned package is an acceptable substitute.

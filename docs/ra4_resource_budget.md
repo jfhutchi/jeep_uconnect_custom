@@ -82,7 +82,7 @@ measure those separately before committing to the resident feature set.
 | --- | --- | --- |
 | Tiny stock-facing projection integration | RA4-resident feasibility target | Reuse stock screens, arbitration, popup/camera layers and services; ABI/performance/access remain unverified. |
 | Bundled map/media databases or speech/AI models | `EXTERNAL_COMPUTE_REQUIRED` if a feature requires bundling these large datasets locally | Excluded from this app footprint; prefer existing stock/phone services before adding external hardware. This label covers separation from the radio, not a requirement to buy a separate box. |
-| New CarPlay / Android Auto projection engine | Local feasibility **UNKNOWN**; not budget-approved | No sized, legitimate compatible engine/build has been identified. Existing HMI references are not a complete backend. Measure storage, RAM, CPU and required facilities; classify `EXTERNAL_COMPUTE_REQUIRED` if they exceed limits, never promise future optimization. |
+| New CarPlay / Android Auto projection engine | QNX Smartphone Connectivity candidate family identified; local feasibility **UNKNOWN** and not budget-approved | Official QNX material confirms an integrated projection-manager product family, but no RA4-compatible licensed build or target sizes are public. Obtain QNX/Apple/Google access and measure storage, RAM, CPU and required facilities; classify `EXTERNAL_COMPUTE_REQUIRED` only if compatibility or measured limits fail. |
 | PC development tools / firmware analyzers | Development host only | Not part of the deployable app or its footprint. |
 
 Do not introduce external compute as the default renderer merely because it is
