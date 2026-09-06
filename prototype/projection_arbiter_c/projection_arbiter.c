@@ -28,17 +28,27 @@ static void pa_fallback(PA_Arbiter *arbiter, PA_Notice notice,
     arbiter->notice = notice;
 }
 
+static bool pa_valid_session(PA_Session session)
+{
+    return session == PA_SESSION_DISCONNECTED ||
+           session == PA_SESSION_CONNECTED ||
+           session == PA_SESSION_ACTIVE;
+}
+
+static bool pa_valid_platform(PA_Platform platform)
+{
+    return platform == PA_PLATFORM_NONE ||
+           platform == PA_PLATFORM_CARPLAY ||
+           platform == PA_PLATFORM_ANDROID_AUTO;
+}
+
 static bool pa_valid_snapshot(const PA_Snapshot *snapshot)
 {
     if (snapshot == 0 || snapshot->version != PA_SNAPSHOT_VERSION) {
         return false;
     }
-    if (snapshot->projection_session < PA_SESSION_DISCONNECTED ||
-        snapshot->projection_session > PA_SESSION_ACTIVE) {
-        return false;
-    }
-    if (snapshot->platform < PA_PLATFORM_NONE ||
-        snapshot->platform > PA_PLATFORM_ANDROID_AUTO) {
+    if (!pa_valid_session(snapshot->projection_session) ||
+        !pa_valid_platform(snapshot->platform)) {
         return false;
     }
     if (snapshot->projection_session == PA_SESSION_DISCONNECTED &&

@@ -128,7 +128,7 @@ metadata. This is a source-tree count, not an RA4 installed-size measurement.
 It replaces the earlier six-screen source count; browser/Node/Python remain host
 tools and are not deployment dependencies.
 
-The transport-free C99 arbiter candidate adds **16,516
+The transport-free C99 arbiter candidate adds **16,750
 logical source bytes** across four files, approximately **24,576
 bytes** at 4,096-byte allocation units. Its compiled-code planning ceiling is
 64 KiB, state-object compile-time ceiling is 128 bytes, and it requests no heap,
