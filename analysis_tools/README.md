@@ -12,6 +12,7 @@ load segments itself; pyelftools is not required.
 
 ```powershell
 python -m analysis_tools.arm_elf_analysis metadata analysis_work/Synctool.elf
+python -m analysis_tools.arm_elf_analysis imports analysis_work/Synctool.elf
 python -m analysis_tools.arm_elf_analysis disasm analysis_work/Synctool.elf --start 0x11A9B4 --end 0x11A9DC --literals
 python -m analysis_tools.arm_elf_analysis callers analysis_work/Synctool.elf --target 0x110E6C
 python -m analysis_tools.arm_elf_analysis words analysis_work/Synctool.elf --start 0x3127D8 --count 1
@@ -24,6 +25,14 @@ All disassembly ends are exclusive. `disasm --thumb` explicitly chooses Thumb;
 there is no automatic instruction-set detection. Disassembly returns exit 2 if
 it stops before the requested end, for example on a literal pool. Revisit the
 range instead of treating a truncated listing as a complete function.
+
+`imports` resolves classic ARM ADD/ADD/LDR PLT candidates using section-linked
+ELF32 REL `R_ARM_JUMP_SLOT` symbols. It uses raw ARM-word filtering, not full
+Capstone decoding or assumed PLT order. Section headers are required; Thumb,
+RELA and other linker stub forms are unsupported. An empty result is not proof
+that another binary has no imports. Synthetic tests cover symbol links, bounds,
+rotated immediates, stub shape and invalid entries. Fixed-address Synctool
+conclusions must also pass the SHA-gated evidence verifier.
 
 Whole-segment caller, prologue, immediate, field-access and PC-literal scans
 are **candidates**: executable load segments can contain headers and data.
@@ -68,6 +77,7 @@ authenticated execution evidence.
 
 ```powershell
 python -m unittest analysis_tools.tests.test_arm_elf_analysis analysis_tools.tests.test_synctool_evidence analysis_tools.tests.test_synctool_log_probe -v
+python -m unittest analysis_tools.tests.test_elf32_imports -v
 python -m unittest discover -s analysis_tools/tests -v
 ```
 
