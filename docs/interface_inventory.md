@@ -23,6 +23,10 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | HMI | ModuleLink API classes | VERIFIED | High-level Harman service abstraction |
 | HMI backend | localhost ModuleLink endpoint | VERIFIED | Existing HMI config references local service communication |
 | Service discovery | servicebroker | VERIFIED role / UNKNOWN registration schema | Harman/QNX discovery role observed; projection binding, versioning and owner-death behavior not recovered |
+| QNX CAR reference | `/pps/system/navigator/*` | CONFIRMED REFERENCE / UNKNOWN ON RA4 | QNX CAR 2.1 application/window manager contract; not yet found in the RA4 corpus |
+| QNX CAR reference | `/pps/services/launcher/control` + Authman | CONFIRMED REFERENCE / UNKNOWN ON RA4 | QNX CAR 2.1 authorized application-lifecycle path; do not use its manual command example on RA4 without stock-contract evidence |
+| QNX CAR reference | HMI Notification Manager | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Priority-based multimodal event arbitration using `/pps/services/hmi-notification/*`; conceptually matches overlays but is not the proved RA4 PopupManager path |
+| QNX CAR reference | QtQnxCar2 / UI Core / NowPlaying | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Era-compatible reference components only; no ABI, installed service, or permission claim |
 | Vehicle state | QNX PPS | VERIFIED | Used around vehicle/CAN data |
 | HVAC | `IHvac` | VERIFIED | Factory HMI references higher-level HVAC interface |
 | HVAC | `hasHeatedSeat` | VERIFIED | Capability API in factory HMI |
@@ -66,4 +70,7 @@ or a complete backend.
 3. Recover projection/HFP audio focus and microphone/speaker ownership.
 4. Recover heated-seat/heated-wheel popup triggers.
 5. Continue the independent temperature units/service-restart quality trace.
-6. Establish authorized app/screen loading, then measure a tiny resident trial.
+6. Run the bounded recovered-tree census for both QNX CAR reference names and
+   Harman-specific service names, then correlate positive files with imports
+   and startup configuration.
+7. Establish authorized app/screen loading, then measure a tiny resident trial.

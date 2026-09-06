@@ -138,15 +138,21 @@ and tests and are unchanged by this investigation.
 ## qnx_media_runtime_probe.py
 
 Performs a read-only, constant-memory marker census across recovered QNX
-filesystem trees for projection media-runtime candidates. It emits controlled
-marker names, relative paths, file sizes, SHA-256 hashes, counts and bounded
-offsets only; it does not emit file contents or execute a target artifact.
+filesystem trees. In addition to media/graphics candidates, it distinguishes
+QNX CAR 2.1 reference integration names (PPS Navigator, Launcher/Authman, HNM,
+NowPlaying and multimedia services) from the Harman-specific ModuleLink,
+servicebroker and phone-projection family already observed in RA4. It emits only
+controlled marker names, relative paths, file sizes, SHA-256 hashes, counts and
+bounded offsets; it does not emit file contents or execute a target artifact.
 
 ```text
 python -m analysis_tools.qnx_media_runtime_probe RECOVERED_ROOT [RECOVERED_ROOT ...] --pretty
 ```
 
 The default per-file scan ceiling is 128 MiB and every skipped file is explicit
-in the JSON report. Raise the ceiling only for a known recovered artifact.
+in the JSON report. Raise the ceiling only for a known recovered artifact. A
+marker hit proves only that controlled bytes occur in that file; it does not
+prove a running service, supported ABI, authorized caller contract, or that a
+standard QNX CAR reference component is present in the customized RA4 product.
 Review metadata before committing it, and never commit recovered codecs,
 libraries, DSP images or firmware.

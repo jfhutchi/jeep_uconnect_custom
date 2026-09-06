@@ -121,4 +121,8 @@ QNX Smartphone Connectivity as the first legitimate resident candidate family
 while keeping compatibility, licensing and resource fit explicitly unproved.
 The [hardware/codec feasibility report](docs/12_ra4_projection_hardware_feasibility.md)
 confirms relevant OMAP3730 display/acceleration blocks but keeps the installed
-video-decoder path and RA4 resource fit explicitly UNKNOWN.
+video-decoder path and RA4 resource fit explicitly UNKNOWN. The
+[QNX 6.6 OEM integration reference](docs/13_qnx6_oem_integration_reference.md)
+separates era-compatible Navigator/Launcher/Authman/HNM semantics from the
+Harman-specific stack actually evidenced in RA4 and defines the read-only
+census needed before any standard QNX CAR interface can be considered.

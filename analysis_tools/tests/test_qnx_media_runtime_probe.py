@@ -20,6 +20,24 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["libcodecengine"]["offsets"], [4])
         self.assertEqual(matches["h264"]["count"], 1)
 
+    def test_qnx_and_harman_integration_markers_are_case_insensitive(self):
+        data = (
+            b"X/pps/services/launcher/control HMI-Notification "
+            b"screen_create_window_group PhoneProjectionService ModuleLink"
+        )
+        _, matches, _ = _scan_stream(
+            io.BytesIO(data), chunk_bytes=11, max_offsets=4
+        )
+        self.assertEqual(matches["pps_launcher"]["count"], 1)
+        self.assertEqual(
+            matches["pps_launcher"]["offsets"],
+            [data.lower().index(b"/pps/services/launcher")],
+        )
+        self.assertEqual(matches["hmi_notification"]["count"], 1)
+        self.assertEqual(matches["screen_window_group"]["count"], 1)
+        self.assertEqual(matches["phone_projection_service"]["count"], 1)
+        self.assertEqual(matches["modulelink"]["count"], 1)
+
     def test_offset_cap_preserves_full_count(self):
         data = b"h264--h264--h264"
         _, matches, _ = _scan_stream(io.BytesIO(data), chunk_bytes=5, max_offsets=1)

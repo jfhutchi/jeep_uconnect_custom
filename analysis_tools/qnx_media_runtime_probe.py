@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
-"""Inventory recovered QNX trees for projection media-runtime evidence.
+"""Inventory recovered QNX trees for projection runtime evidence.
 
-The probe is read-only. It reports only controlled marker names, relative paths,
-sizes, SHA-256 hashes, counts, and offsets; it never emits file contents.
+The probe covers media/graphics candidates, era-compatible QNX CAR integration
+services, and the Harman-specific service family already observed in RA4. It is
+read-only and reports only controlled marker names, relative paths, sizes,
+SHA-256 hashes, counts, and offsets; it never emits file contents.
 """
 
 from __future__ import annotations
@@ -39,6 +41,24 @@ MARKERS: dict[str, bytes] = {
     "libscreen": b"libscreen",
     "screen_window_buffers": b"screen_create_window_buffers",
     "startup_omap": b"startup-omap",
+    # Era-compatible QNX CAR 2.1 / SDP 6.6 reference interfaces.
+    "pps_launcher": b"/pps/services/launcher",
+    "pps_app_launcher": b"/pps/services/app-launcher",
+    "pps_navigator": b"/pps/system/navigator",
+    "hmi_notification": b"hmi-notification",
+    "authman": b"authman",
+    "qtqnxcar2": b"qtqnxcar2",
+    "nowplaying": b"nowplaying",
+    "mm_control": b"mm-control",
+    "mm_player": b"mm-player",
+    "mm_renderer": b"mm-renderer",
+    "pps_multimedia_renderer": b"/pps/services/multimedia/renderer",
+    "screen_window_group": b"screen_create_window_group",
+    # Stock-specific comparison markers already evidenced in the RA4 corpus.
+    "servicebroker": b"servicebroker",
+    "modulelink": b"modulelink",
+    "phone_projection_service": b"phoneprojectionservice",
+    "iphone_projection": b"iphoneprojection",
 }
 
 _MAX_MARKER_BYTES = max(map(len, MARKERS.values()))

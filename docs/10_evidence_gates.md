@@ -32,7 +32,7 @@ next commands cannot execute in this session.
 | hvac.lua | 3ddadef2296acb475b307893b9a61fa8c7324dce336dcb3baaef1ff89a5b0b50 | PersonalConfig temperatureUnits/ready producer and restart paths | whether units/restart invalidates cached temperature |
 | hmiGateway | 8d7fe8789bb012a66fbebd1bd44eefa506c672a5d70c90fbf92b3a5a6f01ec82 | HVAC callback wrapping plus audio/service references | native delivery and service-loss ordering |
 | Synctool.elf | aa2e2c425d42a5f60427a89817f676b0d32b3ce73057d89355248acc24d4e330 | hash-gated evidence anchors and any newly bounded selector-name references | version-drift check and remaining static selector evidence |
-| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded filename/content census for `libcodecengine`, DSPLink/CMEM, DSP images, H.264/OpenMAX/GStreamer filters, SGX/GLES and startup memory reservations | whether a stock video-decoder path is present and boot-configured |
+| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded filename/content census for media/codec markers plus QNX CAR reference `navigator`/Launcher/Authman/HNM/NowPlaying/mm services and Harman `ModuleLink`/servicebroker/phone-projection markers | whether a stock video path or a supported era-compatible app/notification lifecycle is present and boot-configured |
 
 Required tools are already tracked:
 
@@ -99,6 +99,7 @@ or vendor/provider documentation:
 | --- | --- |
 | phoneProjectionService | registration name, interface/version, transport framing, owner-death and reconnect semantics |
 | stock app/screen lifecycle | accepted package identity, entry point, foreground request caller and deterministic unload/crash fallback |
+| QNX CAR reference services | whether `/pps/system/navigator`, Launcher/Authman, HNM, UI Core, QtQnxCar2, NowPlaying or mm services are actually installed/started in RA4; official QNX 6.6 reference names alone are not a stock contract |
 | Return to Uconnect | complete PROJECTION_BACKTO_CAR consumer and previous-stock-branch rule |
 | native presentation policy | supported volatile/default-open gate for ordinary call popup/goto, SMS popup and SMS TTS |
 | video surface | producer/consumer buffer format, QNX Screen ownership, dimensions, stride, lifecycle and teardown |
@@ -109,7 +110,8 @@ or vendor/provider documentation:
 | hardware video decode | installed decoder/DSP server and supported client ABI, boot reservation, licensing, buffer contract and measured CPU/RAM; OMAP3730 silicon capability alone is insufficient |
 
 No direct localhost socket, SWF/native address call, guessed ModuleLink field,
-persistent disable preference or unsigned package is an acceptable substitute.
+generic QNX CAR PPS write copied from a reference manual, persistent disable
+preference or unsigned package is an acceptable substitute.
 
 ## Gate D - spare-hardware proof
 
@@ -163,7 +165,7 @@ remains required.
 | Evidence acquired | Decision it unlocks |
 | --- | --- |
 | Gate A projection XREFs | exact return/resume and popup/audio static contract |
-| Gate A media-runtime census | installed decoder/DSP candidates or a bounded exact-tree negative |
+| Gate A media/runtime census | installed decoder/DSP candidates plus QNX-reference-versus-Harman integration candidates, or a bounded exact-tree negative |
 | Gate A temperature trace | safe read-only quality model; still no replacement Climate screen |
 | Gate B historical log | actual App SKU and MY14 record/container/copy-plan relationship |
 | Gate C lifecycle/policy | legitimate read-only adapter and no-engine screen build |

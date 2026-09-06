@@ -203,6 +203,41 @@ may normalize complete stock observations and exercise lease expiry in bounded
 host logs, but it must not connect to an inferred socket, claim the expected
 service name, or send guessed wire fields.
 
+## QNX CAR 2.1 reference boundary
+
+Official QNX SDP 6.6 / QNX CAR 2.1 documentation supplies an era-compatible
+reference architecture, not a recovered RA4 contract:
+
+- application/window management publishes and subscribes through PPS under
+  `/pps/system/navigator` and renders through QNX Screen;
+- the HMI asks Launcher to start an application through
+  `/pps/services/launcher/control`, and Launcher consults Authman;
+- HMI Notification Manager (HNM) arbitrates asynchronous multimodal events by
+  configured priority and publishes status/messaging results through PPS;
+- QNX's reference window layering places rear camera above all applications and
+  allows transient prompts/overlays above ordinary application content.
+
+Sources:
+
+- https://support7.qnx.com/download/download/26216/Application_and_Window_Management.pdf
+- https://www.qnx.com/developers/docs/6.6.0.update/com.qnx.doc.car.arch/topic/app_support.html
+- https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.am.system_services/topic/applauncher.html
+- https://www.qnx.com/download/download/26205/HMI_Notification_Manager.pdf
+
+These semantics are a useful cross-check for OEM-style integration, especially
+authorized launch, independent application processes, top-priority camera, and
+restorable transient notifications. They do **not** prove that stock RA4 ships
+the generic QNX CAR UI Core, Navigator, Launcher, Authman, HNM, QtQnxCar2,
+NowPlaying, or their documented PPS objects. The exact RA4 evidence instead
+shows a customized Adobe AIR/SWF HMI with Harman AppManager/AMS, ModuleLink,
+servicebroker, PopupManager, DisplayManager and LayerManager paths.
+
+Therefore an adapter must not issue the QNX manual-launch example, create or
+write a documented reference PPS object, or substitute HNM for the recovered
+stock popup/call/SMS paths unless the component and caller contract are first
+proved in the RA4 image. The updated recovered-tree probe performs the bounded
+name census needed to decide whether these reference services exist locally.
+
 ## Display, touch and audio boundaries
 
 | Path | Stock evidence | Resident responsibility | Remaining gate |
