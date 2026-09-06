@@ -360,6 +360,9 @@ angle-bracket record/file fields. This can correlate repeated runtime values
 across classification and file-exclusion events without emitting the value.
 Matching tokens are strong evidence of equal field bytes; they do not prove that
 a record name, container identity, or filename has a particular semantic role.
+A digest equal to the already documented successful MY14_REVA filename is
+reported as `target=my14_reva`, allowing a future capture to identify exact
+target participation without printing other values or reading a license payload.
 
 The new token path and synthetic boundary tests are committed but have not been
 executed under Python because the local command service is unavailable. The

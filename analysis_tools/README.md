@@ -111,7 +111,9 @@ record/file values inside the known angle-bracket fields it emits only a
 full SHA-256 correlation token. Matching tokens let separate
 classification and exclusion events be correlated without printing the value; a
 token is not proof that unlike record and filename namespaces have the same
-meaning. It never prints record names or surrounding arbitrary log contents.
+meaning. A field whose digest matches the already documented MY14_REVA
+filename is additionally labeled `target=my14_reva`; no other value is
+printed. It never prints record names or surrounding arbitrary log contents.
 The display cap does not stop the full scan. No matches cannot exclude compressed, fragmented, damaged or
 differently spelled messages. Even a runtime-looking hit is a candidate, not
 authenticated execution evidence.

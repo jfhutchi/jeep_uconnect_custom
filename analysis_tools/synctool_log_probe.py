@@ -18,6 +18,10 @@ from typing import BinaryIO, Iterator
 
 MAX_RUNTIME_FIELD_BYTES = 512
 TOKEN_HEX_CHARS = 64
+TARGET_LICENSE_FILENAME = (
+    b"Harman_CMC_VP4_NA_VP4_2017Q2_UPDATE_MY14_REVA.lyc"
+)
+TARGET_LICENSE_TOKEN = hashlib.sha256(TARGET_LICENSE_FILENAME).hexdigest()
 
 MARKERS = {
     "app_sku": b"App SKU ID ",
@@ -37,6 +41,7 @@ class MarkerHit:
     kind: str
     app_sku: int | None = None
     value_token: str | None = None
+    target_match: bool = False
 
 
 def runtime_value_token(suffix: bytes) -> str | None:
@@ -90,7 +95,14 @@ def scan_markers(stream: BinaryIO, *, chunk_size: int = 4 * 1024 * 1024) -> Iter
                         number = re.match(rb"-?[0-9]{1,10}(?![0-9])", suffix)
                         if number:
                             sku = int(number.group())
-                hits.append(MarkerHit(name, base + start, kind, sku, token))
+                hits.append(MarkerHit(
+                    name,
+                    base + start,
+                    kind,
+                    sku,
+                    token,
+                    token == TARGET_LICENSE_TOKEN,
+                ))
                 start = data.find(marker, start + 1)
         yield from sorted(hits, key=lambda hit: hit.offset)
         if not chunk:
@@ -116,9 +128,10 @@ def main() -> int:
                     f" value_token=sha256:{hit.value_token}"
                     if hit.value_token is not None else ""
                 )
+                target = " target=my14_reva" if hit.target_match else ""
                 print(
                     f"offset=0x{hit.offset:X} marker={hit.marker} "
-                    f"kind={hit.kind}{sku}{token}",
+                    f"kind={hit.kind}{sku}{token}{target}",
                     flush=True,
                 )
         print(f"bytes_scanned={stream.tell()}")

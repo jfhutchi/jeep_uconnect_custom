@@ -2,7 +2,11 @@ import hashlib
 import io
 import unittest
 
-from analysis_tools.synctool_log_probe import runtime_value_token, scan_markers
+from analysis_tools.synctool_log_probe import (
+    TARGET_LICENSE_FILENAME,
+    runtime_value_token,
+    scan_markers,
+)
 
 
 class LogProbeTests(unittest.TestCase):
@@ -56,6 +60,12 @@ class LogProbeTests(unittest.TestCase):
         self.assertEqual([hit.value_token for hit in hits], [expected, expected])
         self.assertNotIn(private_value.decode(), repr(hits))
         self.assertEqual(runtime_value_token(private_value + b">"), expected)
+
+    def test_known_my14_filename_is_flagged_without_printing_it(self) -> None:
+        data = b"Removing file from file copy: <" + TARGET_LICENSE_FILENAME + b">"
+        hit = list(scan_markers(io.BytesIO(data), chunk_size=11))[0]
+        self.assertTrue(hit.target_match)
+        self.assertNotIn(TARGET_LICENSE_FILENAME.decode(), repr(hit))
 
     def test_incomplete_or_oversized_runtime_value_is_not_tokenized(self) -> None:
         self.assertIsNone(runtime_value_token(b"incomplete"))
