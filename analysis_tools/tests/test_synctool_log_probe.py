@@ -1,7 +1,8 @@
+import hashlib
 import io
 import unittest
 
-from analysis_tools.synctool_log_probe import scan_markers
+from analysis_tools.synctool_log_probe import runtime_value_token, scan_markers
 
 
 class LogProbeTests(unittest.TestCase):
@@ -43,6 +44,23 @@ class LogProbeTests(unittest.TestCase):
         self.assertEqual(hit.marker, "excluded_file")
         self.assertEqual(hit.kind, "runtime_candidate")
         self.assertNotIn("private-name", str(hit))
+
+    def test_runtime_value_token_correlates_without_disclosing_value(self) -> None:
+        private_value = b"same-private-runtime-value"
+        data = (
+            b"Found incompatible activable license record <" + private_value + b">\n"
+            b"Removing file from file copy: <" + private_value + b">"
+        )
+        hits = list(scan_markers(io.BytesIO(data), chunk_size=9))
+        expected = hashlib.sha256(private_value).hexdigest()[:16]
+        self.assertEqual([hit.value_token for hit in hits], [expected, expected])
+        self.assertNotIn(private_value.decode(), repr(hits))
+        self.assertEqual(runtime_value_token(private_value + b">"), expected)
+
+    def test_incomplete_or_oversized_runtime_value_is_not_tokenized(self) -> None:
+        self.assertIsNone(runtime_value_token(b"incomplete"))
+        self.assertIsNone(runtime_value_token(b"x" * 513 + b">"))
+        self.assertIsNone(runtime_value_token(b"not\x00printable>"))
 
     def test_rejects_invalid_chunk_size(self) -> None:
         with self.assertRaises(ValueError):

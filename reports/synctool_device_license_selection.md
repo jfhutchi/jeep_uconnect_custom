@@ -354,7 +354,17 @@ This excludes intact plain-text diagnostic messages containing these exact
 markers in this image, not compression, fragmentation across a marker,
 corruption, different diagnostic spelling, or logs stored only on the radio.
 The probe prints offsets/categories and optional numeric SKU only; it does
-not dump surrounding log contents or protected material.
+not dump surrounding log contents or protected material. It now also computes
+a truncated SHA-256 token for a complete printable value in the known
+angle-bracket record/file fields. This can correlate repeated runtime values
+across classification and file-exclusion events without emitting the value.
+Equal tokens prove equal input bytes only; they do not prove that a record name,
+container identity, or filename has a particular semantic role.
+
+The new token path and synthetic boundary tests are committed but have not been
+executed under Python because the local command service is unavailable. The
+86-test result below records the last executable suite before this enhancement;
+it must not be read as verification of the new tests.
 
 The recovered outer `swdlLog_recovered.txt` was separately scanned in full:
 1,043,885 bytes, zero marker hits. The compiled installer Lua's printable

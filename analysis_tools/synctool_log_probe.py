@@ -9,11 +9,15 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
+import hashlib
 from dataclasses import dataclass
 from pathlib import Path
 import re
 from typing import BinaryIO, Iterator
 
+
+MAX_RUNTIME_FIELD_BYTES = 512
+TOKEN_HEX_CHARS = 16
 
 MARKERS = {
     "app_sku": b"App SKU ID ",
@@ -32,6 +36,18 @@ class MarkerHit:
     offset: int
     kind: str
     app_sku: int | None = None
+    value_token: str | None = None
+
+
+def runtime_value_token(suffix: bytes) -> str | None:
+    """Fingerprint one complete printable <...> value without disclosing it."""
+    end = suffix.find(b">")
+    if end <= 0 or end > MAX_RUNTIME_FIELD_BYTES:
+        return None
+    value = suffix[:end]
+    if any(byte < 32 or byte >= 127 for byte in value):
+        return None
+    return hashlib.sha256(value).hexdigest()[:TOKEN_HEX_CHARS]
 
 
 def scan_markers(stream: BinaryIO, *, chunk_size: int = 4 * 1024 * 1024) -> Iterator[MarkerHit]:
@@ -42,7 +58,7 @@ def scan_markers(stream: BinaryIO, *, chunk_size: int = 4 * 1024 * 1024) -> Iter
     """
     if chunk_size <= 0:
         raise ValueError("chunk_size must be positive")
-    overlap = max(map(len, MARKERS.values())) + 32
+    overlap = max(map(len, MARKERS.values())) + MAX_RUNTIME_FIELD_BYTES + 1
     tail = b""
     consumed = 0
     while True:
@@ -55,21 +71,26 @@ def scan_markers(stream: BinaryIO, *, chunk_size: int = 4 * 1024 * 1024) -> Iter
         for name, marker in MARKERS.items():
             start = data.find(marker)
             while 0 <= start < finalizable:
-                suffix = data[start + len(marker):start + len(marker) + 32]
+                suffix = data[
+                    start + len(marker):
+                    start + len(marker) + MAX_RUNTIME_FIELD_BYTES + 1
+                ]
                 kind = "unclassified"
                 sku = None
+                token = None
                 if suffix.startswith(b"%"):
                     kind = "format_string"
                 elif ((name.endswith("_record") or name == "excluded_file")
                       and suffix and 32 <= suffix[0] < 127):
                     kind = "runtime_candidate"
+                    token = runtime_value_token(suffix)
                 elif re.match(rb"-?[0-9]+(?:[^0-9]|$)", suffix):
                     kind = "runtime_candidate"
                     if name == "app_sku":
                         number = re.match(rb"-?[0-9]{1,10}(?![0-9])", suffix)
                         if number:
                             sku = int(number.group())
-                hits.append(MarkerHit(name, base + start, kind, sku))
+                hits.append(MarkerHit(name, base + start, kind, sku, token))
                 start = data.find(marker, start + 1)
         yield from sorted(hits, key=lambda hit: hit.offset)
         if not chunk:
@@ -91,8 +112,15 @@ def main() -> int:
             counts[(hit.marker, hit.kind)] += 1
             if index < args.max_hits:
                 sku = f" app_sku={hit.app_sku}" if hit.app_sku is not None else ""
-                print(f"offset=0x{hit.offset:X} marker={hit.marker} kind={hit.kind}{sku}",
-                      flush=True)
+                token = (
+                    f" value_token=sha256:{hit.value_token}"
+                    if hit.value_token is not None else ""
+                )
+                print(
+                    f"offset=0x{hit.offset:X} marker={hit.marker} "
+                    f"kind={hit.kind}{sku}{token}",
+                    flush=True,
+                )
         print(f"bytes_scanned={stream.tell()}")
     for (marker, kind), count in sorted(counts.items()):
         print(f"count={count} marker={marker} kind={kind}")
