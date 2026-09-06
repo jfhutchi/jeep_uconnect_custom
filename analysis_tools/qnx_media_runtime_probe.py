@@ -62,6 +62,9 @@ MARKERS: dict[str, bytes] = {
     # QNX CAR 2.1 reference audio, playback, and voice-path boundaries.
     "audio_manager": b"audio_manager",
     "audio_manager_get_handle": b"audio_manager_get_handle",
+    "audio_mgr_cmc_config": b"audiomgrcmc.conf",
+    "audio_ctrl_svc": b"audioctrlsvc",
+    "audio_app_source": b"audioapp",
     "pps_audio_control": b"/pps/services/audio/control",
     "pps_audio_router_control": b"/pps/services/audio/audio_router_control",
     "pps_audio_types": b"/pps/services/audio/types/",

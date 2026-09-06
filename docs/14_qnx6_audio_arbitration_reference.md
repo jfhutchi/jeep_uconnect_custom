@@ -30,6 +30,12 @@ Projection can therefore own ordinary call/message presentation while phone
 connectivity remains alive. Visual foreground, playback, voice routing, and
 microphone ownership must not be one broad boolean.
 
+**CONFIRMED RA4:** Existing hash/provenance documentation identifies ignored
+recovered plaintext `P/share/audioDSP/audioMgrCMC.conf:24-29`, where stock
+sources including `audioApp` map to MME. This proves configured logical-source
+mapping, not a registration, focus, or ownership API. AudioCtrlSvc is separately
+identified in the recovered corpus.
+
 **UNKNOWN ON RA4:** None of the generic services or PPS paths is yet proved
 installed, started, ABI-compatible, or authorized for a new client. The exact
 Harman AudioCtrlSvc, MME, ModuleLink, and HMI paths remain authoritative.
@@ -90,7 +96,7 @@ ordinary screen ownership.
 | projection interaction | projectionCallState 0x002B4E18-0x002B4EBC; status bar 0x0001CBA9-0x0001CBBF | phone state plus HNM | RA4 path CONFIRMED; binding UNKNOWN |
 | native call visual | processBTCallState 0x00257983 and Phone goto/popup/back | HFP -> HNM event | presentation seam CONFIRMED |
 | SMS visual/audio | popup 0x002B6C35-0x002B6C96; TTS 0x002B85C2-0x002B8750 | alert/texttospeech plus notification policy | seams CONFIRMED |
-| media source | AudioCtrlSvc, MME, audioApp -> MME | typed Audio Manager handle | names CONFIRMED; contract UNKNOWN |
+| media source | `P/share/audioDSP/audioMgrCMC.conf:24-29` maps stock `audioApp` to MME; AudioCtrlSvc is identified | typed Audio Manager handle | configuration CONFIRMED; registration/ownership UNKNOWN |
 | call/assistant mic | no exact API recovered | voice/recognition plus acoustic input | UNKNOWN |
 | camera | display/layer takeover and stack return | independent display priority | visual independence CONFIRMED; audio UNKNOWN |
 
@@ -111,7 +117,8 @@ audio follows proved stock policy. Emergency/eCall always takes stock ownership.
 
 ## Read-only census and decision gate
 
-The recovered-tree probe now searches for controlled Audio Manager/API names,
+The recovered-tree probe now also locates the exact stock `audioMgrCMC.conf`,
+`AudioCtrlSvc`, and `audioApp` names alongside controlled Audio Manager/API names,
 audio control/router/types/voice PPS paths, media-player phone/status, io-audio,
 io-acoustic, and pps-bluetooth.
 

@@ -222,7 +222,9 @@ This supports preserving HFP while projection owns ordinary call/message
 presentation. It also proves why the visual lease is insufficient: audio source,
 playback, and microphone/voice path need separate fail-open ownership.
 
-**CONFIRMED RA4:** AudioCtrlSvc, MME and audioApp -> MME names are present;
+**CONFIRMED RA4:** ignored recovered plaintext
+`P/share/audioDSP/audioMgrCMC.conf:24-29` maps stock sources including
+`audioApp` to MME; AudioCtrlSvc is separately identified in the corpus.
 projection call state reaches the status bar; native call and SMS/TTS
 presentation are separately traced. **UNKNOWN:** generic QNX service use,
 actual source types/priorities, playback callbacks, projected call/assistant

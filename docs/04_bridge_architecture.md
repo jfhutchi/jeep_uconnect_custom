@@ -292,7 +292,9 @@ actual call/assistant phase. Return to Uconnect changes display foreground only.
 Camera may preempt display while audio follows stock policy. Emergency/eCall
 takes unconditional stock ownership.
 
-**CONFIRMED RA4:** AudioCtrlSvc, MME and audioApp -> MME names exist;
+**CONFIRMED RA4:** ignored recovered plaintext
+`P/share/audioDSP/audioMgrCMC.conf:24-29` maps stock sources, including
+`audioApp`, to MME; AudioCtrlSvc is also identified in the corpus.
 projection call state reaches the status bar; native HFP and SMS presentation
 paths are address-traced. **UNKNOWN RA4:** source registration, stream classes,
 priority/ducking, pause/resume callbacks, PCM endpoints, acoustic service,
