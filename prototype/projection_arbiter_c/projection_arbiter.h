@@ -103,6 +103,8 @@ bool pa_projection_active(const PA_Arbiter *arbiter);
 bool pa_is_fresh(const PA_Arbiter *arbiter, uint64_t now_ms);
 PA_InteractionOwner pa_interaction_owner(const PA_Arbiter *arbiter);
 PA_Presentation pa_native_presentation(const PA_Arbiter *arbiter);
+PA_Status pa_native_presentation_at(PA_Arbiter *arbiter, uint64_t now_ms,
+                                    PA_Presentation *presentation);
 PA_Status pa_tick(PA_Arbiter *arbiter, uint64_t now_ms);
 PA_Status pa_receive(PA_Arbiter *arbiter, const PA_Snapshot *snapshot,
                      uint64_t now_ms);

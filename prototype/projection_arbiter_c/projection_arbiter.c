@@ -108,6 +108,22 @@ PA_Presentation pa_native_presentation(const PA_Arbiter *arbiter)
     return result;
 }
 
+PA_Status pa_native_presentation_at(PA_Arbiter *arbiter, uint64_t now_ms,
+                                    PA_Presentation *presentation)
+{
+    PA_Status status;
+
+    if (presentation == 0) {
+        return PA_STATUS_INVALID;
+    }
+    status = pa_tick(arbiter, now_ms);
+    if (status != PA_STATUS_OK) {
+        return status;
+    }
+    *presentation = pa_native_presentation(arbiter);
+    return PA_STATUS_OK;
+}
+
 PA_Status pa_tick(PA_Arbiter *arbiter, uint64_t now_ms)
 {
     PA_Status status = pa_advance_time(arbiter, now_ms);

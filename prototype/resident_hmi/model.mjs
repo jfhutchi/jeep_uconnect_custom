@@ -67,6 +67,11 @@ export class Shell {
     });
   }
 
+  nativePresentationAt(now) {
+    this.tick(now);
+    return this.nativePresentation();
+  }
+
   fallback(reason, invalidateState = false) {
     this.foreground = FOREGROUND.UCONNECT;
     this.overlay = OVERLAY.NONE;

@@ -6,9 +6,9 @@ const escape = value => String(value).replace(/[&<>"']/g, char =>
 const yesNo = value => value ? 'allowed' : 'suppressed';
 
 export function render(shell, now) {
+  const policy = shell.nativePresentationAt(now);
   const state = shell.state;
   const projection = state?.projection;
-  const policy = shell.nativePresentation();
   const platform = projection?.platform === PLATFORM.CARPLAY ? 'CarPlay'
     : projection?.platform === PLATFORM.ANDROID_AUTO ? 'Android Auto' : 'No device';
 

@@ -168,3 +168,16 @@ test('snapshot copies are isolated and time is monotonic', () => {
   assert.equal(shell.projectionActive(), true);
   assert.throws(() => shell.tick(9), /time/);
 });
+
+
+test('time-aware presentation query expires stale ownership fail-open', () => {
+  const { shell, adapter } = setup();
+  shell.receive(adapter.scenario('carplay'), 1);
+  assert.equal(shell.nativePresentationAt(1).owner, 'projection');
+  assert.deepEqual(shell.nativePresentationAt(2002), {
+    owner: 'uconnect', incomingCallForeground: true,
+    messageForeground: true, messageTts: true,
+  });
+  assert.equal(shell.state, null);
+  assert.equal(shell.foreground, FOREGROUND.UCONNECT);
+});

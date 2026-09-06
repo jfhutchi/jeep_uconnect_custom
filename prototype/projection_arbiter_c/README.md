@@ -19,7 +19,9 @@ cc -std=c99 -Wall -Wextra -Werror -pedantic projection_arbiter.c test_projection
 
 The implementation has a compile-time `sizeof(PA_Arbiter) <= 128` guard. It uses
 only C99 `stdbool.h` and `stdint.h`; the test alone uses `assert.h` and
-`stdio.h`. No target binary has been built or measured yet.
+`stdio.h`. Callers use `pa_native_presentation_at` for every external
+presentation decision so expiry is enforced at the point of use even if no new
+backend snapshot arrives. No target binary has been built or measured yet.
 
 Resource targets for this component:
 

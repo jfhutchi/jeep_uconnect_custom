@@ -21,6 +21,7 @@ int main(void)
     PA_Arbiter inactive_arbiter;
     PA_Arbiter offline_arbiter;
     PA_Arbiter background_arbiter;
+    PA_Arbiter lease_arbiter;
     PA_Snapshot snapshot;
     PA_Snapshot delayed;
     PA_Presentation presentation;
@@ -125,6 +126,22 @@ int main(void)
     assert(pa_native_presentation(&offline_arbiter).incoming_call_foreground);
     assert(pa_receive(&offline_arbiter, &delayed, 30) == PA_STATUS_IGNORED);
     assert(!offline_arbiter.has_state);
+
+    pa_init(&lease_arbiter);
+    snapshot = active(1);
+    assert(pa_receive(&lease_arbiter, &snapshot, 10) == PA_STATUS_OK);
+    assert(pa_native_presentation_at(
+               &lease_arbiter, 10 + PA_FRESH_MS + 1, &presentation) ==
+           PA_STATUS_OK);
+    assert(presentation.owner == PA_OWNER_UCONNECT);
+    assert(presentation.incoming_call_foreground);
+    assert(presentation.message_foreground);
+    assert(presentation.message_tts);
+    assert(!lease_arbiter.has_state);
+    assert(pa_native_presentation_at(&lease_arbiter, 10, &presentation) ==
+           PA_STATUS_NON_MONOTONIC_TIME);
+    assert(pa_native_presentation_at(&lease_arbiter, 10 + PA_FRESH_MS + 2, 0) ==
+           PA_STATUS_INVALID);
 
     pa_init(&inactive_arbiter);
     snapshot = active(1);

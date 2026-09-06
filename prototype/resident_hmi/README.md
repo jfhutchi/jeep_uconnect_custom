@@ -34,6 +34,8 @@ python -m analysis_tools.hmi_size_report prototype/resident_hmi
 - Restoration of native Phone/Messaging presentation after projection disconnect,
   invalid state or stale state.
 - Fail-to-stock behavior on invalid, stale or disconnected integration state.
+- Point-of-use freshness enforcement before every rendered presentation policy,
+  so a stalled heartbeat cannot leave native call/SMS UI suppressed.
 
 The "Factory Uconnect" surface deliberately does not reproduce Radio, Media,
 Climate, Controls, Phone, Messaging or Settings. Those remain stock product UI.

@@ -84,6 +84,13 @@ The 2,000 ms host-model timeout is a test constant, not a recovered production
 period. Select a target lease only after measuring service cadence and worst-case
 latency. The expiry path must not wait on the projection backend.
 
+Every external presentation decision must enforce freshness at the point of use;
+it must not assume that a periodic callback ran. The browser reference calls
+`nativePresentationAt(now)` before rendering policy, and the C candidate exposes
+`pa_native_presentation_at` for the same purpose. The stock-side implementation
+still needs a default-open owner-death/lease primitive so process death restores
+native presentation even if no adapter cleanup or timer executes.
+
 ## Navigation invariants
 
 - A visible projection screen with inactive session falls back through the stock

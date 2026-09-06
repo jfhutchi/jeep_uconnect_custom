@@ -56,3 +56,15 @@ test('projection disconnect restores native presentation labels', () => {
   assert.match(html, /CALL UI <strong>allowed/);
   assert.match(html, /SMS\/TTS <strong>allowed/);
 });
+
+
+test('render enforces lease freshness before displaying presentation policy', () => {
+  const { shell, adapter } = setup();
+  shell.receive(adapter.scenario('carplay'), 1);
+  const html = render(shell, 2002);
+  assert.match(html, /Factory Uconnect/);
+  assert.match(html, /CALL UI <strong>allowed/);
+  assert.match(html, /SMS\/TTS <strong>allowed/);
+  assert.doesNotMatch(html, /data-show-projection|data-return-uconnect/);
+  assert.equal(shell.state, null);
+});
