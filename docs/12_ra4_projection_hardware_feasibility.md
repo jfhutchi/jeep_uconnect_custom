@@ -105,6 +105,23 @@ caps, hashes, relative paths, non-disclosure of unrelated content, explicit
 oversize skips, and multi-root totals. They are not reported as executed because
 the local command service currently cannot start a trivial process.
 
+## Legacy QNX 6.6 CarPlay transport boundary
+
+Official QNX 6.6-era Device Publishers documentation explicitly supports Apple
+CarPlay USB role swap through `usblauncher`,
+`RoleSwap_DigitaliPodOut`, and `io-usb-dcd`. This improves platform-era
+plausibility but does not establish video decode: the page describes transport
+and directs integrators to QNX support for automotive iOS drivers. It supplies
+no receiver binary, H.264 decoder identity, RA4 controller/BSP claim, RAM usage,
+or installed size.
+
+The recovered-tree census therefore includes exact legacy Apple transport
+markers alongside Codec Engine/OpenMAX/GStreamer/DSP and projection-service
+markers. A transport hit cannot close the decoder gate; a decoder hit cannot
+close authentication or UI/audio integration.
+
+See [QNX 6.6 CarPlay transport reference](17_qnx6_carplay_transport_reference.md).
+
 ## Acceptance path
 
 A positive filename/string result is only a candidate. For each candidate:

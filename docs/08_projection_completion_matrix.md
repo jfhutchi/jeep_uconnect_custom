@@ -31,7 +31,7 @@ Status vocabulary:
 | Existing stock projection-screen reuse | `DeviceProjection.swf`, `PROJECTION_BACKTO_CAR` and service/session symbols are referenced by stock HMI | STATIC_PROVED (references) / TARGET_UNPROVED | Complete physical screen artifact, descriptor/loader and supported backend binding |
 | Stock lifecycle for an already authorized resident Xlet | Secure AMS startup, non-autostart install state, generic Apps tile, DRM-checked native `startApp` and later foreground arbitration are recovered | STATIC_PROVED / TARGET_UNPROVED | Legitimately authorized inert package returned by target `getAppList`, target launch/fallback observation |
 | Authorization of a new resident component | Detached signature/DRM/developer-token binding is recovered; no legitimate new-project issuer or credential is available | EXTERNAL_EVIDENCE_REQUIRED | Written supported package/DRM/developer route or legitimately issued inert signed sample; no bypass |
-| Complete CarPlay/Android Auto engine | QNX Smartphone Connectivity is a vendor-contact architecture lead; public 2.0 is tied to QNX SDP 7.x and is not a direct RA4/QNX 6.6 binary candidate | EXTERNAL_EVIDENCE_REQUIRED | Supported legacy build or authorized port, Apple/Google access, target ABI, authentication and measured CPU/RAM/storage |
+| Complete CarPlay/Android Auto engine | QNX 6.6-era docs prove a legacy CarPlay USB role-swap transport family; later Smartphone Connectivity is a modular vendor lead, but public 2.0 remains QNX 7.x | EXTERNAL_EVIDENCE_REQUIRED | Support-supplied legacy drivers plus compatible receiver or authorized port, Apple/Google access, target ABI and measured CPU/RAM/storage |
 | No signing, license or activation bypass | Repository/PR path audit contains no vendor payload, license, key, certificate or activation material | STATIC_PROVED | Re-audit every future package and deployment design |
 
 ## Current implementation evidence
@@ -59,7 +59,7 @@ passing target or host build.
 
 1. Recover local command execution and run both host suites plus the ignored
    `MainSupplement.swf` consumer XREFs.
-2. Run the 83-marker recovered-tree probe and schema-validating correlator;
+2. Run the 92-marker recovered-tree probe and schema-validating correlator;
    inspect exact `DeviceProjection.swf`, RA4 AMS/AppManager/Xlet lifecycle,
    service, startup, audio and Screen candidates in tier order.
 3. Resolve `PROJECTION_BACKTO_CAR` and heated comfort popup consumers from

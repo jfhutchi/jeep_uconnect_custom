@@ -212,5 +212,30 @@ class CorrelationTests(unittest.TestCase):
         )
 
 
+    def test_correlates_legacy_qnx_apple_transport_with_projection(self):
+        result = correlate_report(
+            report_with(
+                [
+                    {
+                        "path": "etc/usblauncher/rules.lua",
+                        "size": 40,
+                        "sha256": DIGEST_B,
+                        "filename_tags": ["usblauncher"],
+                        "content_markers": {
+                            "roleswap_digitalipodout": {"count": 1},
+                            "phone_projection_service": {"count": 1},
+                        },
+                    }
+                ]
+            )
+        )
+        candidate = result["candidates"][0]
+        self.assertEqual(candidate["priority_tier"], 1)
+        self.assertEqual(
+            candidate["families"],
+            ["legacy_apple_transport", "projection_service"],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

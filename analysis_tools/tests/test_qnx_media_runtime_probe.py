@@ -41,7 +41,9 @@ class StreamTests(unittest.TestCase):
             b"boot.sh graphics.conf ModuleLink.xml processStarter "
             b"DeviceProjection.swf PROJECTION_BACKTO_CAR PhoneProjectionEvent "
             b"com.aicas.xlet.manager.AMS com.harman.service.AppManager "
-            b"AppManager_JavaApps /fs/mmc1/xletsdir xlet.properties"
+            b"AppManager_JavaApps /fs/mmc1/xletsdir xlet.properties "
+            b"usblauncher io-usb-dcd RoleSwap_DigitaliPodOut "
+            b"RoleSwap_AppleDevice iAP2 mm-ipod io-fs-media itun libipod"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -83,6 +85,15 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["appmanager_javaapps"]["count"], 1)
         self.assertEqual(matches["xlets_directory"]["count"], 1)
         self.assertEqual(matches["xlet_properties"]["count"], 1)
+        self.assertEqual(matches["usblauncher"]["count"], 1)
+        self.assertEqual(matches["io_usb_dcd"]["count"], 1)
+        self.assertEqual(matches["roleswap_digitalipodout"]["count"], 1)
+        self.assertEqual(matches["roleswap_appledevice"]["count"], 1)
+        self.assertEqual(matches["iap2"]["count"], 1)
+        self.assertEqual(matches["mm_ipod"]["count"], 1)
+        self.assertEqual(matches["io_fs_media"]["count"], 1)
+        self.assertEqual(matches["itun"]["count"], 1)
+        self.assertEqual(matches["libipod"]["count"], 1)
         self.assertEqual(matches["pps_audio_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_status"]["count"], 1)

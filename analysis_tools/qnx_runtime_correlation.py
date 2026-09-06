@@ -118,6 +118,19 @@ FAMILY_MARKERS: dict[str, frozenset[str]] = {
             "xlet_properties",
         }
     ),
+    "legacy_apple_transport": frozenset(
+        {
+            "usblauncher",
+            "io_usb_dcd",
+            "roleswap_digitalipodout",
+            "roleswap_appledevice",
+            "iap2",
+            "mm_ipod",
+            "io_fs_media",
+            "itun",
+            "libipod",
+        }
+    ),
     "codec_runtime": frozenset(
         {
             "libcodecengine",
@@ -146,11 +159,14 @@ HIGH_SIGNAL_MARKERS = frozenset(
         "boot_script",
         "device_projection_swf",
         "graphics_config",
+        "io_usb_dcd",
         "modulelink_config",
         "phone_projection_service",
         "process_starter",
         "projection_back_to_car",
+        "roleswap_digitalipodout",
         "servicebroker",
+        "usblauncher",
         "video_hmi_class",
         "xlets_directory",
     }

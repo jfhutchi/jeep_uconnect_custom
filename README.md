@@ -140,3 +140,6 @@ The [resident component-placement decision](docs/16_ra4_resident_placement_decis
 separates the conditional stock projection-screen reuse path, the static-proved
 secure launch lane for an already authorized Xlet, the still-unproved backend
 registration contract, and the separately qualified licensed projection engine.
+The [QNX 6.6 CarPlay transport reference](docs/17_qnx6_carplay_transport_reference.md)
+proves that legacy QNX documented host-to-device USB role swap for CarPlay while
+keeping the receiver, RA4 driver presence, licensing and resource fit unproved.

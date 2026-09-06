@@ -11,12 +11,14 @@ ownership, adapter boundaries and failure policy.
    `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE` and HVAC popup names.
 2. Trace the projection screen's Return-to-Uconnect control from those consumers.
 3. Trace heated-seat/heated-wheel popup events.
-4. Run the 83-marker `qnx_media_runtime_probe.py` over each recovered root,
+4. Run the 92-marker `qnx_media_runtime_probe.py` over each recovered root,
    feed its redacted JSON to `qnx_runtime_correlation.py`, and inspect exact
    projection-screen plus RA4 app-lifecycle tier-1 candidates before lower tiers.
-5. Correlate controlled Audio Manager/Now Playing/io-acoustic plus Harman
+5. Correlate legacy QNX 6.6 CarPlay transport (`usblauncher`, role swap,
+   `io-usb-dcd`, iAP2/iPod) with RA4 USB/projection/startup evidence.
+6. Correlate controlled Audio Manager/Now Playing/io-acoustic plus Harman
    AudioCtrlSvc/audioMgrCMC hits with imports, XREFs and process startup.
-6. Recover the exact MME source registration, ducking/pause-resume callbacks,
+7. Recover the exact MME source registration, ducking/pause-resume callbacks,
    projected prompt/call route, and microphone owner-death behavior.
 
 Current evidence: [projection foreground ownership](../reports/projection_foreground_ownership.md).

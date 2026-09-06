@@ -109,6 +109,16 @@ MARKERS: dict[str, bytes] = {
     "appmanager_javaapps": b"appmanager_javaapps",
     "xlets_directory": b"/fs/mmc1/xletsdir",
     "xlet_properties": b"xlet.properties",
+    # QNX 6.6 reference and RA4-adjacent Apple projection transport.
+    "usblauncher": b"usblauncher",
+    "io_usb_dcd": b"io-usb-dcd",
+    "roleswap_digitalipodout": b"roleswap_digitalipodout",
+    "roleswap_appledevice": b"roleswap_appledevice",
+    "iap2": b"iap2",
+    "mm_ipod": b"mm-ipod",
+    "io_fs_media": b"io-fs-media",
+    "itun": b"itun",
+    "libipod": b"libipod",
 }
 
 _MAX_MARKER_BYTES = max(map(len, MARKERS.values()))

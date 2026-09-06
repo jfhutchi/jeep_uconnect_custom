@@ -18,6 +18,14 @@ licenses. RA4 is QNX 6.6/ARM32; no cross-version ABI compatibility may be assume
 Version 2.0 can advance only if QNX supplies a supported RA4-compatible build or
 an authorized source-port path. Public 2.0 binaries are not a deployable candidate.
 
+**LEGACY QNX 6.6 CARPLAY TRANSPORT CONFIRMED REFERENCE:** QNX's 6.6-era
+Device Publishers guide explicitly documents `usblauncher`,
+`RoleSwap_DigitaliPodOut`, host-to-device stack transition, and
+`io-usb-dcd` for Apple CarPlay, and directs integrators to QNX support for the
+automotive iOS drivers. This proves a supported legacy transport family existed;
+it does not identify the receiver binary, establish RA4 BSP/controller support,
+or supply licensed components.
+
 **NOT BUDGET-APPROVED / TARGET COMPATIBILITY UNKNOWN:** No public source supplies
 a compatible RA4 build, exact target ABI/OS support, installed/runtime size, RAM,
 CPU, GPU, USB/authentication requirements or redistribution permission.
@@ -107,13 +115,17 @@ SDP 7.x. The RA4 corpus proves 32-bit little-endian ARM/QNX but does not yet
 establish a supported QNX SDK release/ABI for this package. No cross-version
 binary compatibility may be assumed.
 
-A bounded search of QNX's public archive found Smartphone Connectivity 2.0
+A bounded search of QNX's product archive found Smartphone Connectivity 2.0
 documentation in the collection for SDP 7.x/8.0-compatible products, but no
-public 1.x or SDP 6.x Smartphone Connectivity package. This does not prove a
-licensed legacy build never existed; it means the public archive cannot close
-the compatibility gate:
+public 1.x Smartphone Connectivity package. Separately, QNX 6.6-era Device
+Publishers documentation explicitly supports the CarPlay USB transport/role-swap
+sequence and says the required automotive iOS drivers come through QNX support.
+Therefore the archive cannot close receiver availability, but legacy CarPlay
+transport is no longer merely hypothetical:
 
 - https://www.qnx.com/download/group.html?programid=29183
+- https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.dev_pub.ref_guide/topic/usblauncher_config_supported_applications.html
+- https://get.qnx.com/developers/docs/6.6.0.update/com.qnx.doc.dev_pub.ref_guide/topic/usblauncher.html
 
 QNX 7's official `usblauncher_otg` documentation describes dedicated Android
 and Apple modules that support projection-related USB personality/role behavior
@@ -124,15 +136,16 @@ not only a small video decoder:
 - https://get.qnx.com/developers/docs/7.0.0/com.qnx.doc.dev_pub.ref_guide/topic/usblauncher_usage.html
 
 The tracked RA4 evidence confirms QNX USB infrastructure, `libusbdi`, `itun`
-and legacy Apple media integration, but does not confirm this launcher, its
-projection modules or an equivalent compatible contract. Absence from the
+and legacy Apple media integration. The QNX 6.6 reference now identifies exact
+legacy candidates: `usblauncher`, `io-usb-dcd`, role-swap rules/descriptors and
+support-supplied automotive iOS drivers. None is yet confirmed in the RA4 tree. Absence from the
 tracked evidence is not a full firmware-corpus negative until local search runs.
 
 This produces three legitimate routes to evaluate:
 
 | Route | Current status | Required evidence |
 | --- | --- | --- |
-| QNX provides an older compatible licensed projection package for the RA4 generation | UNKNOWN | supported OS release, ARMv7/SoC/BSP, package manifest, dependencies, certification and redistribution terms |
+| QNX supplies the legacy QNX 6.6 CarPlay transport drivers plus a compatible licensed receiver for the RA4 generation | TRANSPORT FAMILY CONFIRMED REFERENCE / RECEIVER UNKNOWN | exact driver/receiver names, ARMv7/SoC/BSP/controller support, package manifest, dependencies, certification and redistribution terms |
 | QNX/provider ports the current projection manager to the authorized RA4 platform | UNKNOWN | written support scope, toolchain/BSP requirements, resource estimate and integration contract |
 | no supported local package exists or it exceeds measured limits | NOT YET PROVED | failed compatibility/resource gate; then classify only the engine EXTERNAL_COMPUTE_REQUIRED |
 
@@ -217,10 +230,10 @@ gate.
 
 ## Outcome
 
-The local-first architecture remains credible enough to investigate because a
-first-party QNX projection-manager product family exists and maps to the recovered
-platform services. The exact RA4 implementation is not currently obtainable from
-public material. The next technical decision depends on authorized QNX/Apple/
+The local-first architecture is strengthened by two first-party lines: a QNX
+6.6-era CarPlay USB transport contract and the later modular projection-manager
+product family. The exact RA4 receiver, driver bundle and supported integration
+remain unavailable from public material. The next technical decision depends on authorized QNX/Apple/
 Google compatibility and component-size data, followed by a spare-radio
 measurement. Until then:
 

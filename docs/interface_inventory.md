@@ -54,6 +54,8 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | QNX voice reference | `io-audio` + `io-acoustic` + `pps-bluetooth` | CONFIRMED REFERENCE / UNKNOWN ON RA4 | HFP transport, AEC, microphone and speaker path are separate from foreground UI |
 | USB | QNX `io-usb` stack | VERIFIED | Core USB infrastructure |
 | USB | `libusbdi` / usbd APIs | VERIFIED | Factory USB utility uses QNX USB API |
+| QNX 6.6 CarPlay transport | `usblauncher` + `RoleSwap_DigitaliPodOut` + `io-usb-dcd` | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Official legacy host-to-device role swap; required automotive iOS drivers supplied through QNX support |
+| QNX 6.6 Android transport | Android Accessory Protocol | CONFIRMED REFERENCE / Android Auto receiver UNKNOWN | Accessory transport must not be promoted to a receiver claim |
 | Apple accessory | `itun` | VERIFIED | iPhone tunnel adapter / accessory networking component |
 | Apple media | `libipod` / iPod integration | VERIFIED | Legacy Apple device integration |
 | Foreground | `checkForegroundAvailability` / `onAppRequestForeground` | VERIFIED | Stock allow/deny reasons and pending retry at `0x0025250E-0x002525D2`; retry at `0x002524C4-0x002524FD` |
@@ -80,7 +82,7 @@ or a complete backend.
    ducking, pause/resume, microphone and speaker ownership.
 4. Recover heated-seat/heated-wheel popup triggers.
 5. Continue the independent temperature units/service-restart quality trace.
-6. Run the 83-marker recovered-tree census and schema-validating correlator for
+6. Run the 92-marker recovered-tree census and schema-validating correlator for
    exact projection-screen, RA4 AMS/AppManager/Xlet, QNX CAR reference, Harman
    service, audio and Screen names; close ranked candidates with imports/XREFs
    and startup configuration.

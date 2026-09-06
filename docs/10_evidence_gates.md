@@ -32,7 +32,7 @@ next commands cannot execute in this session.
 | hvac.lua | 3ddadef2296acb475b307893b9a61fa8c7324dce336dcb3baaef1ff89a5b0b50 | PersonalConfig temperatureUnits/ready producer and restart paths | whether units/restart invalidates cached temperature |
 | hmiGateway | 8d7fe8789bb012a66fbebd1bd44eefa506c672a5d70c90fbf92b3a5a6f01ec82 | HVAC callback wrapping plus audio/service references | native delivery and service-loss ordering |
 | Synctool.elf | aa2e2c425d42a5f60427a89817f676b0d32b3ce73057d89355248acc24d4e330 | hash-gated evidence anchors and any newly bounded selector-name references | version-drift check and remaining static selector evidence |
-| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded 83-marker census for media/codec, exact `DeviceProjection.swf`/return events, RA4 AMS/AppManager/Xlet lifecycle, QNX CAR reference lifecycle/notification/audio, and Harman ModuleLink/servicebroker/projection names | whether the physical stock projection screen, backend/service path, authorized-app lifecycle components, audio/Screen runtime or codec path is present and boot-configured |
+| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded 92-marker census for media/codec, exact `DeviceProjection.swf`/return events, RA4 AMS/AppManager/Xlet lifecycle, QNX CAR reference lifecycle/notification/audio, legacy QNX 6.6 Apple USB role swap/device mode, and Harman ModuleLink/servicebroker/projection names | whether the physical stock projection screen, backend/service path, authorized-app lifecycle components, audio/Screen runtime or codec path is present and boot-configured |
 
 Required tools are already tracked:
 
