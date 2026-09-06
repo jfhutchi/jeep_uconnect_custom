@@ -2,6 +2,13 @@
 
 ## Design target
 
+The immediate [MVP contract](resident_hmi_contract.md) and
+[PC scaffold](../prototype/resident_hmi/README.md) implement Home, Media, Climate,
+Controls, Phone placeholder and Settings. This document remains the broader
+product backlog: projection, tuner/call handling and unverified vehicle actions
+below are not implemented by the MVP. All resident choices follow the
+[decision](resident_hmi_decision.md) and protected [resource budget](ra4_resource_budget.md).
+
 Create a 640x480 interface that feels like a later Jeep/Uconnect system while respecting the physical constraints of the original 8.4-inch RA4 display.
 
 The design should be familiar, automotive, touch-friendly and fast rather than a literal pixel-for-pixel clone of copyrighted production artwork.

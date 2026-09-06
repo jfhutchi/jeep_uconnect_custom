@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>TRAIL / RA4 resident HMI study</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="study-label">RESIDENT HMI STUDY <span>01 / SOFTWARE-ONLY</span></div>
+  <div id="hmi" aria-label="640 by 480 HMI prototype"></div>
+  <aside id="scenarios" aria-label="PC simulation controls">
+    <p>PC TEST BENCH <span>Outside the 640 x 480 application surface</span></p>
+    <div class="scenario-buttons">
+      <button data-scenario="normal">Normal state</button>
+      <button data-scenario="camera">Camera takeover</button>
+      <button data-scenario="offline">Disconnect</button>
+      <button data-scenario="stale">Stop updates</button>
+    </div>
+    <label>Mock command response <select id="response-mode">
+      <option value="apply">Apply after 300 ms</option>
+      <option value="reject">Reject</option>
+      <option value="timeout">No response / timeout</option>
+    </select></label>
+    <p class="disclaimer">No radio connection, audio output or persistent storage. No camera video is simulated.</p>
+  </aside>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>
