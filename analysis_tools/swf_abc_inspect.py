@@ -285,12 +285,28 @@ def disassemble(abc, method):
         yield offset, f'{offset:08X} {name:18} {args} {note}'
 
 
+def find_references(abc, pattern, limit=150):
+    """Return bounded instruction XREFs matching a case-insensitive regex."""
+    if not 1 <= limit <= 1000:
+        raise ValueError('reference result cap must be 1..1000')
+    matcher = re.compile(pattern, re.I) if isinstance(pattern, str) else pattern
+    matches = []
+    for method in sorted(abc['bodies']):
+        for offset, line in disassemble(abc, method):
+            if matcher.search(line):
+                matches.append((method, offset, line))
+                if len(matches) == limit:
+                    return matches, True
+    return matches, False
+
+
 def main():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('path', type=Path)
     cli.add_argument('--match', default='IHvac|Hvac')
     cli.add_argument('--abc', type=int, default=0)
     cli.add_argument('--method', type=int)
+    cli.add_argument('--xref', help='regex over decoded instructions across all method bodies')
     cli.add_argument('--start', type=lambda s: int(s, 0), default=0)
     cli.add_argument('--count', type=int, default=150)
     args = cli.parse_args()
@@ -303,7 +319,22 @@ def main():
     base, data_abc = tags[args.abc]
     abc = parse_abc(data_abc, base)
     print(f'SHA256 {hashlib.sha256(data).hexdigest()} ABC={args.abc} FWS_base={base:#x} methods={len(abc["methods"])}')
-    if args.method is None:
+    if args.xref is not None:
+        if args.method is not None:
+            cli.error('--method and --xref are mutually exclusive')
+        try:
+            references, truncated = find_references(abc, args.xref, args.count)
+        except re.error as exc:
+            cli.error(f'invalid --xref regex: {exc}')
+        current = None
+        for method, _, line in references:
+            if method != current:
+                print(f'method {method}', abc['methods'][method])
+                current = method
+            print(line)
+        if truncated:
+            print(f'XREF output capped at {args.count} matches')
+    elif args.method is None:
         pattern = re.compile(args.match, re.I)
         for i, m in enumerate(abc['methods']):
             if pattern.search(str(m)):

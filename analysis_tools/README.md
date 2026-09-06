@@ -16,6 +16,7 @@ python -m analysis_tools.lua51_inspect PATH --match 'FT_DRV_ATC_TEMP|US_METRIC'
 python -m analysis_tools.lua51_inspect PATH --function 23 --start 200 --count 60
 python -m analysis_tools.swf_abc_inspect PATH --match 'IHvac.*zoneTemp'
 python -m analysis_tools.swf_abc_inspect PATH --method 2598 --start 0x276BE0 --count 160
+python -m analysis_tools.swf_abc_inspect PATH --xref 'PROJECTION_BACKTO_CAR|DEVICE_PROJECTION' --count 200
 python -m unittest analysis_tools.tests.test_lua51_inspect analysis_tools.tests.test_swf_abc_inspect
 ```
 
@@ -33,7 +34,10 @@ length or verify VM stack/control-flow safety. `--start` is a FWS byte offset;
 decoding still begins at the method start. Entire selected method is decoded
 even if output is capped, so unsupported opcodes beyond the printed range fail.
 Pool names omit namespace-set detail for ordinary multinames; runtime names are
-explicitly labeled. Neither tool is a general untrusted-input sandbox/VM verifier.
+explicitly labeled. `--xref` decodes every method body and reports bounded
+instruction-line regex matches, so it finds consumers rather than only method
+names; it fails closed if any scanned method contains an unsupported opcode.
+Neither tool is a general untrusted-input sandbox/VM verifier.
 
 Fixtures in `fixtures/ra4_driver_temperature_cases.json` are original examples,
 not captures or a deployable decoder. No payload or vendor asset is bundled.

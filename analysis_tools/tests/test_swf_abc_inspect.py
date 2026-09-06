@@ -1,7 +1,8 @@
 import struct
 import unittest
 import zlib
-from analysis_tools.swf_abc_inspect import Reader, abc_tags, parse_abc, disassemble
+from analysis_tools.swf_abc_inspect import (Reader, abc_tags, parse_abc, disassemble,
+                                                 find_references)
 
 
 def synthetic_abc():
@@ -84,6 +85,19 @@ class AbcTests(unittest.TestCase):
         self.assertEqual(abc['methods'][3]['params'], ['pkg::String'])
         self.assertEqual(abc['methods'][3]['returns'], 'pkg::String')
         self.assertIn("'String'", list(disassemble(abc, 1))[0][1])
+        references, truncated = find_references(abc, "'string'", 10)
+        self.assertFalse(truncated)
+        self.assertEqual([(method, offset) for method, offset, _ in references],
+                         [(1, abc['bodies'][1]['offset'])])
+
+    def test_reference_cap_and_invalid_cap(self):
+        abc = parse_abc(synthetic_abc())
+        references, truncated = find_references(abc, 'returnvoid', 1)
+        self.assertTrue(truncated)
+        self.assertEqual(references[0][0], 0)
+        for limit in (0, 1001):
+            with self.assertRaisesRegex(ValueError, 'result cap'):
+                find_references(abc, 'returnvoid', limit)
 
 
 if __name__ == '__main__':
