@@ -26,7 +26,7 @@ Status vocabulary:
 | Emergency/eCall remains stock-owned | Emergency branch precedes ordinary BT processing; critical owner is explicit in both reference models | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Configuration-specific target behavior and audio-priority confirmation |
 | Inactive/disconnected/invalid/stale restores stock presentation | Host models invalidate state, retain sequence watermark and reject delayed replay | MODEL_PROVED / TARGET_UNPROVED | Real service epoch/sequence contract and failure/restart observation |
 | Projection/HFP audio and microphone arbitration | Projection audio/navigation events are present, but ownership path is not closed | EXTERNAL_EVIDENCE_REQUIRED | Static audio-focus XREF plus legitimate backend and spare-bench call tests |
-| Tiny resident arbitration implementation | JavaScript model plus C99 no-heap candidate; C source is 17,934 bytes across four files | MODEL_PROVED / TARGET_UNPROVED | C compile/tests, target ABI, linked map, allocated package bytes |
+| Tiny resident arbitration implementation | JavaScript model plus C99 no-heap candidate; C source is 19,404 bytes across four files | MODEL_PROVED / TARGET_UNPROVED | C compile/tests, target ABI, linked map, allocated package bytes |
 | Protected 77 MB envelope | Caps are 15 MB installed, 4 MB writable, 8 MB extra peak, 45 MB protected, 5 MB residual | MODEL_PROVED / TARGET_UNPROVED | Mount-specific boot/use/update measurements and target package accounting |
 | Authorized lifecycle and stock fallback | Stock AIR launch and application foreground machinery are recovered; arbitrary app acceptance is not | EXTERNAL_EVIDENCE_REQUIRED | Legitimate loader/package/signing boundary and crash-isolation test |
 | Complete CarPlay/Android Auto engine | HMI-facing names exist; complete compatible backend has not been found or sized | EXTERNAL_EVIDENCE_REQUIRED | Legitimate engine candidate, authentication, USB/video/touch/audio contract, CPU/RAM/storage measurements |
@@ -35,14 +35,17 @@ Status vocabulary:
 ## Current implementation evidence
 
 The browser-based bench in `prototype/resident_hmi` is development-host only.
-Its committed modules parse in an isolated V8 runtime and its transition logic
-has passed focused semantic assertions for return/resume, camera, critical
-takeover, comfort overlay, disconnect, stale/invalid fallback and replay
-rejection. It installs zero radio bytes.
+At exact head `94791f6`, all eight modules parse and all 20 committed test bodies
+execute in the isolated V8 fallback harness; 89 assertions pass. Coverage includes
+return/resume, camera, critical takeover, comfort overlay, disconnect,
+stale/invalid fallback, replay rejection and point-of-use lease expiry. This is
+not the unavailable Node runner. The bench installs zero radio bytes.
 
 The C99 candidate in `prototype/projection_arbiter_c` carries the same policy
 without heap or I/O and enforces `sizeof(PA_Arbiter) <= 128` at compile time.
-It has not yet been compiled. Local command execution is unavailable. GitHub
+Its time-aware presentation accessor is designed to expire stale ownership at
+the point of use. Structural inspection finds ten matched public functions and
+70 assertions, but it has not yet been compiled. Local command execution is unavailable. GitHub
 Actions runs `34038125932` and `34038125990` each created the conformance job
 but terminated before runner allocation: `runner_id` was 0 and the step list was
 empty. No checkout, compiler or test command ran. The workflow is manual-only

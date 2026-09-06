@@ -22,7 +22,7 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | HMI | `main.swf` | VERIFIED | Main HMI artifact |
 | HMI | ModuleLink API classes | VERIFIED | High-level Harman service abstraction |
 | HMI backend | localhost ModuleLink endpoint | VERIFIED | Existing HMI config references local service communication |
-| Service discovery | servicebroker | VERIFIED | Harman/QNX service discovery/IPC role |
+| Service discovery | servicebroker | VERIFIED role / UNKNOWN registration schema | Harman/QNX discovery role observed; projection binding, versioning and owner-death behavior not recovered |
 | Vehicle state | QNX PPS | VERIFIED | Used around vehicle/CAN data |
 | HVAC | `IHvac` | VERIFIED | Factory HMI references higher-level HVAC interface |
 | HVAC | `hasHeatedSeat` | VERIFIED | Capability API in factory HMI |
@@ -43,12 +43,13 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | USB | `libusbdi` / usbd APIs | VERIFIED | Factory USB utility uses QNX USB API |
 | Apple accessory | `itun` | VERIFIED | iPhone tunnel adapter / accessory networking component |
 | Apple media | `libipod` / iPod integration | VERIFIED | Legacy Apple device integration |
-| Foreground | `checkForegroundAvailability` / `onAppRequestForeground` | VERIFIED | Stock allow/deny reasons and pending retry |
+| Foreground | `checkForegroundAvailability` / `onAppRequestForeground` | VERIFIED | Stock allow/deny reasons and pending retry at `0x0025250E-0x002525D2`; retry at `0x002524C4-0x002524FD` |
+| Presentation | volatile default-open lease | MODEL_PROVED / TARGET_UNPROVED | Point-of-use freshness prevents stale suppression in both reference models; supported stock policy hook is unknown |
 | Navigation | `IStructure.goto/back/removeFromStack` | VERIFIED | Stock screen transition and return primitives |
 | Popup | `IPopupManager.show/dequeue` | VERIFIED | Temporary popup layer independent of underlying branch |
 | Phone | `processBTCallState` | VERIFIED | Native call goto/popup and previous-screen return downstream of HFP |
 | SMS | `SMSManager` popup/TTS paths | VERIFIED | Native message foreground and audio presentation seams |
-| Camera | DisplayManager/LayerManager camera paths | VERIFIED | Rear/front/cargo resources, priority checks and stack return; variants differ |
+| Camera | DisplayManager/LayerManager camera paths | VERIFIED | Observation/takeover at `0x002BA764-0x002BA89F`; stack return at `0x002D4D6F-0x002D4EF8`; variants differ |
 | Security | RA4 signed-update verification | VERIFIED | USB updater validates signed hashes/signatures |
 | Security | later UAS multi-layer signing/encryption | VERIFIED | Reference architecture only; not intended as porting source |
 
