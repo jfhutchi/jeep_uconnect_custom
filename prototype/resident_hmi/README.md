@@ -29,8 +29,10 @@ python -m analysis_tools.hmi_size_report prototype/resident_hmi
 - Camera/critical stock takeover and restoration of the preempted owner.
 - A permitted stock comfort overlay without changing the underlying owner.
 - Projection-owned call, message and SMS/TTS presentation while active, including
-  while ordinary Uconnect is foreground.
-- Restoration of native Phone/Messaging presentation after projection disconnect.
+  while ordinary Uconnect or the factory camera is foreground.
+- Stock-owned interaction presentation during critical/eCall takeover.
+- Restoration of native Phone/Messaging presentation after projection disconnect,
+  invalid state or stale state.
 - Fail-to-stock behavior on invalid, stale or disconnected integration state.
 
 The "Factory Uconnect" surface deliberately does not reproduce Radio, Media,

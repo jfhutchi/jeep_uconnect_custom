@@ -69,13 +69,15 @@ takeover suppresses that overlay.
 
 ## Phone and message ownership
 
-While `projection.session == active`, interaction presentation owner is
-`projection` regardless of whether projection or ordinary Uconnect is visible.
-The model reports native incoming-call foreground, message foreground and SMS TTS
-as suppressed.
+While `projection.session == active` and no critical/eCall takeover is present,
+interaction presentation owner is `projection` regardless of whether projection,
+ordinary Uconnect, or the factory camera is visible. The model reports native
+incoming-call foreground, message foreground and SMS TTS as suppressed.
 
-When projection is connected-but-inactive or disconnected, presentation owner is
-`uconnect` and normal native behavior is allowed.
+Critical/eCall takeover transfers interaction presentation authority to `uconnect`;
+camera takeover alone does not. When projection is connected-but-inactive,
+disconnected, invalid, or stale, presentation owner is also `uconnect` and normal
+native behavior is allowed.
 
 These are policy outputs only. The model does not disable Bluetooth, HFP, MAP,
 message ingestion, microphones, speakers or audio focus.

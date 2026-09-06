@@ -19,6 +19,8 @@ Target experience:
 - During an active projection session, projection owns call/message presentation;
   duplicate stock Phone/Messaging foreground UI and audio are suppressed without
   globally disabling Bluetooth/HFP/MAP.
+- Emergency/eCall and critical stock presentation remain stock-owned; an ordinary
+  camera takeover preserves projection interaction ownership.
 - Normal stock phone/message behavior returns when projection is inactive.
 
 ## Architecture direction

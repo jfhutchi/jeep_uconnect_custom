@@ -25,9 +25,10 @@ ordinary stock HMI.
 
 - Factory camera remains latency-neutral and returns through the stock stack.
 - HVAC/comfort popups may overlay projection and dismiss back to it.
-- Emergency/eCall may preempt.
-- Active projection owns projected call/message presentation even if temporarily
-  backgrounded behind an ordinary stock screen.
+- Emergency/eCall preempts and retains stock interaction-presentation authority.
+- Absent that critical takeover, active projection owns projected call/message
+  presentation even if temporarily backgrounded behind ordinary stock or camera
+  presentation.
 - Suppress duplicate native call goto/popup and SMS popup/TTS.
 - Restore native behavior on inactive/disconnected projection.
 - Do not globally disable Bluetooth, HFP, MAP or message ingestion.
