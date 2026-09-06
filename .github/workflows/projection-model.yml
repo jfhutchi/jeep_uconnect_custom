@@ -1,0 +1,42 @@
+name: Projection model checks
+
+on:
+  push:
+    branches:
+      - codex/ra4-driver-temperature
+    paths:
+      - "prototype/resident_hmi/**"
+      - "prototype/projection_arbiter_c/**"
+      - "analysis_tools/swf_abc_inspect.py"
+      - "analysis_tools/tests/test_swf_abc_inspect.py"
+      - ".github/workflows/projection-model.yml"
+  pull_request:
+    paths:
+      - "prototype/resident_hmi/**"
+      - "prototype/projection_arbiter_c/**"
+      - "analysis_tools/swf_abc_inspect.py"
+      - "analysis_tools/tests/test_swf_abc_inspect.py"
+      - ".github/workflows/projection-model.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Run JavaScript ownership tests
+        run: node --test prototype/resident_hmi/tests/*.test.mjs
+
+      - name: Compile portable C99 arbiter
+        working-directory: prototype/projection_arbiter_c
+        run: |
+          cc -std=c99 -Wall -Wextra -Werror -pedantic             projection_arbiter.c test_projection_arbiter.c             -o projection_arbiter_test
+          ./projection_arbiter_test
+
+      - name: Run synthetic SWF inspector tests
+        run: python -m unittest analysis_tools.tests.test_swf_abc_inspect -v
