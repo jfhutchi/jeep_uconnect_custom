@@ -262,5 +262,30 @@ class CorrelationTests(unittest.TestCase):
         self.assertEqual(candidate["families"], ["legacy_apple_transport"])
 
 
+    def test_prioritizes_qnx6_profile_named_device_controller_candidate(self):
+        result = correlate_report(
+            report_with(
+                [
+                    {
+                        "path": "lib/dll/devu-usbumass-omap3.so",
+                        "size": 60,
+                        "sha256": DIGEST_A,
+                        "filename_tags": ["devu_usbumass_hw"],
+                        "content_markers": {
+                            "io_usb_dcd": {"count": 1},
+                            "libusbdci": {"count": 1},
+                            "usb_device_stack_rule": {"count": 1},
+                            "usb_ctrl_pps": {"count": 1},
+                            "start_stack_device": {"count": 1},
+                        },
+                    }
+                ]
+            )
+        )
+        candidate = result["candidates"][0]
+        self.assertEqual(candidate["priority_tier"], 1)
+        self.assertEqual(candidate["families"], ["legacy_apple_transport"])
+
+
 if __name__ == "__main__":
     unittest.main()

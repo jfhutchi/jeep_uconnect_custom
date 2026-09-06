@@ -14,10 +14,13 @@ host/peripheral programming modes. OMAP3730 therefore does not fail the
 CarPlay device-role requirement at the SoC block level.
 
 **PUBLIC QNX BSP DEVICE ROLE UNPROVED:** QNX's public OMAP3730 EVM support page
-lists `USB EHCI Host` and `USB OTG Host` as completed binary features. It
-does not list an OMAP3730 USB device-controller driver. This is a bounded
-negative for that public BSP feature table, not proof that Harman's customized
-RA4 BSP lacks a private DCD.
+lists `USB EHCI Host` and `USB OTG Host` as completed binary features. QNX's
+public 6.4.1 OMAP3530 BSP release notes make the nearby generation concrete:
+`devu-omap3530-mg.so` runs the MUSB OTG block in host mode at `0x480ab000`,
+IRQ 92, while `devu-ehci-omap3.so` is the separate EHCI host driver at
+`0x48064800`, IRQ 77. Its complete driver summary has no OMAP3 device-side
+entry. These are bounded public-BSP negatives, not proof that Harman's
+customized RA4 BSP lacks a private DCD.
 
 **RA4 EXTERNAL USB CIRCUITS HIGH / INTERNAL ROUTE UNKNOWN:** the exact Harman
 BE2800 platform and remote Mopar data hub/cable are identified. A Chrysler-
@@ -40,6 +43,7 @@ CarPlay cannot run locally without an authorized BSP/driver addition.
 | SoC | TI OMAP36xx/37xx high-speed USB OTG block; TRM includes host, peripheral and combined programming modes | CONFIRMED REFERENCE |
 | stock QNX capability | QNX 6.6 `io-usb-dcd` is the generic device-side server and loads hardware-specific DCD DLLs | CONFIRMED REFERENCE |
 | public OMAP3730 BSP | feature list names USB EHCI Host and USB OTG Host only | CONFIRMED BOUNDED TABLE / device support absent from list |
+| public OMAP3530 BSP | `devu-omap3530-mg.so` at `0x480ab000`/IRQ 92 and `devu-ehci-omap3.so` at `0x48064800`/IRQ 77; no device-side entry in complete driver summary | CONFIRMED BOUNDED TABLE / host implementation only |
 | RA4 platform | FCC exhibit 1790035 identifies Harman BE2800, type CMC, models VP4 NA/CA | CONFIRMED |
 | cabin media port | Mopar lists the 2014 Grand Cherokee SD/USB/aux hub and separate UCI USB jumper; separately lists 68145567AA/AB as dual charging ports | CONFIRMED product/topology distinction |
 | radio cable endpoint | Chrysler-attributed connector view maps Radio C2 D2784B to X455 power, X458 D-, X457 D+, X456 ground | HIGH exact external circuit map |
@@ -58,6 +62,8 @@ Primary sources:
   https://qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.neutrino.utilities/topic/i/io-usb-dcd.html
 - QNX TI OMAP3730 EVM support package feature table:
   https://community.qnx.com/sf/wiki/do/viewPdf/projects.bsp/wiki/Bspdown_ti_omap_3730_mistral
+- QNX Neutrino 6.4.1 OMAP3530 BSP release notes and driver summary:
+  https://community.qnx.com/sf/wiki/do/viewPdf/projects.bsp/wiki/Nto641TiOmap3530MistralTrunkReleasenotes
 - QNX 6.6 CarPlay transport reference:
   https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.dev_pub.ref_guide/topic/usblauncher_config_supported_applications.html
 - FCC exhibit 1790035, Harman BE2800 VP4 NA/CA internal photos (mirror
@@ -145,9 +151,25 @@ breaks the chain even though the silicon supports peripheral mode. Likewise,
 finding `io-usb-dcd` without its controller DLL/port configuration is not
 proof that the RA4 phone connector can switch roles.
 
+## QNX 6.x DCD naming correction
+
+QNX 6.6's generic `io-usb-dcd` documentation does not require the controller
+DLL to contain `dcd` in its filename. Its example loads
+`usbumass-$(HW_VARIANT)`; QNX BSP examples expose corresponding files such as
+`devu-usbumass-<variant>.so`, with sibling serial, NCM, or RNDIS profiles. The
+controller DLL and exposed USB function can therefore be coupled in the DLL
+name. The earlier `devu-dcd`-only census could miss a valid QNX 6.x DCD.
+
+The probe now covers the profile families `devu-usbumass-*`,
+`devu-usbser-*`, `devu-usbncm-*`, and `devu-usbrndis-*`, plus `libusbdci`,
+`Device_Stack`, `/pps/qnx/device/usb_ctrl`, and `start_stack::device`. A
+profile-name hit still proves only a candidate. It must be tied to an actual
+`io-usb-dcd` startup command, controller address/IRQ, role-swap rule, external
+port, and licensed function path.
+
 ## Exact static closure
 
-The 98-marker recovered-tree probe now includes:
+The 106-marker recovered-tree probe now includes:
 
 - `io-usb-dcd`
 - `devu-dcd`

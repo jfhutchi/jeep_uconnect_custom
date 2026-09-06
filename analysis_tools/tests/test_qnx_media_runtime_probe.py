@@ -44,8 +44,11 @@ class StreamTests(unittest.TestCase):
             b"AppManager_JavaApps /fs/mmc1/xletsdir xlet.properties "
             b"usblauncher io-usb-dcd RoleSwap_DigitaliPodOut "
             b"RoleSwap_AppleDevice iAP2 mm-ipod io-fs-media itun libipod "
-            b"devu-dcd-omap3.so ulink_ctrl omap3530-mg ehci-omap3 "
-            b"pmic_tw4030_cfg 0x480ab000"
+            b"devu-dcd-omap3.so devu-usbumass-omap3.so "
+            b"devu-usbser-omap3.so devu-usbncm-omap3.so "
+            b"devu-usbrndis-omap3.so libusbdci.so Device_Stack "
+            b"/pps/qnx/device/usb_ctrl start_stack::device ulink_ctrl "
+            b"omap3530-mg ehci-omap3 pmic_tw4030_cfg 0x480ab000"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -97,6 +100,14 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["itun"]["count"], 1)
         self.assertEqual(matches["libipod"]["count"], 1)
         self.assertEqual(matches["devu_dcd"]["count"], 1)
+        self.assertEqual(matches["devu_usbumass_hw"]["count"], 1)
+        self.assertEqual(matches["devu_usbser_hw"]["count"], 1)
+        self.assertEqual(matches["devu_usbncm_hw"]["count"], 1)
+        self.assertEqual(matches["devu_usbrndis_hw"]["count"], 1)
+        self.assertEqual(matches["libusbdci"]["count"], 1)
+        self.assertEqual(matches["usb_device_stack_rule"]["count"], 1)
+        self.assertEqual(matches["usb_ctrl_pps"]["count"], 1)
+        self.assertEqual(matches["start_stack_device"]["count"], 1)
         self.assertEqual(matches["ulink_ctrl"]["count"], 1)
         self.assertEqual(matches["omap3530_mg"]["count"], 1)
         self.assertEqual(matches["ehci_omap3"]["count"], 1)

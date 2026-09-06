@@ -60,7 +60,7 @@ passing target or host build.
 
 1. Recover local command execution and run both host suites plus the ignored
    `MainSupplement.swf` consumer XREFs.
-2. Run the 98-marker recovered-tree probe and schema-validating correlator;
+2. Run the 106-marker recovered-tree probe and schema-validating correlator;
    inspect exact `DeviceProjection.swf`, RA4 AMS/AppManager/Xlet lifecycle,
    service, startup, audio and Screen candidates in tier order.
 3. Resolve `PROJECTION_BACKTO_CAR` and heated comfort popup consumers from

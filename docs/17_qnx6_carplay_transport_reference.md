@@ -116,10 +116,17 @@ The recovered-tree probe now searches exact controlled markers:
 - `itun`
 - `libipod`
 - `devu-dcd`
+- QNX 6.x profile-named DCDs: `devu-usbumass-*`, `devu-usbser-*`,
+  `devu-usbncm-*`, and `devu-usbrndis-*`
+- `libusbdci`
+- `Device_Stack`, `/pps/qnx/device/usb_ctrl`, and `start_stack::device`
 - `ulink_ctrl`
 
-Pass the redacted probe JSON to `qnx_runtime_correlation.py`. Highest-value
-positive files are startup scripts, usblauncher rules/descriptors, binaries or
+Pass the redacted probe JSON to `qnx_runtime_correlation.py`. This naming matters: the QNX 6.6 `io-usb-dcd` example selects
+`usbumass-$(HW_VARIANT)`, whose on-disk DLL is conventionally
+`devu-usbumass-<variant>.so`; a search limited to `devu-dcd` can miss the
+actual device controller. Highest-value positive files are startup scripts,
+usblauncher rules/descriptors, binaries or
 libraries where legacy Apple transport co-occurs with projection-service,
 Screen or audio markers. A hit remains a candidate until file provenance,
 imports/XREFs, process startup, controller/BSP applicability, permission and

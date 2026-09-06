@@ -120,6 +120,16 @@ MARKERS: dict[str, bytes] = {
     "itun": b"itun",
     "libipod": b"libipod",
     "devu_dcd": b"devu-dcd",
+    # QNX 6.6 DCDs may be named for the exposed function plus hardware
+    # variant (for example devu-usbumass-<HW_VARIANT>.so), not devu-dcd-*.
+    "devu_usbumass_hw": b"devu-usbumass-",
+    "devu_usbser_hw": b"devu-usbser-",
+    "devu_usbncm_hw": b"devu-usbncm-",
+    "devu_usbrndis_hw": b"devu-usbrndis-",
+    "libusbdci": b"libusbdci",
+    "usb_device_stack_rule": b"device_stack",
+    "usb_ctrl_pps": b"/pps/qnx/device/usb_ctrl",
+    "start_stack_device": b"start_stack::device",
     "ulink_ctrl": b"ulink_ctrl",
     # Exact OMAP3 host/OTG startup anchors from QNX's public OMAP3730 BSP.
     "omap3530_mg": b"omap3530-mg",
