@@ -32,7 +32,7 @@ Status vocabulary:
 | Stock lifecycle for an already authorized resident Xlet | Secure AMS startup, non-autostart install state, generic Apps tile, DRM-checked native `startApp` and later foreground arbitration are recovered | STATIC_PROVED / TARGET_UNPROVED | Legitimately authorized inert package returned by target `getAppList`, target launch/fallback observation |
 | Authorization of a new resident component | Detached signature/DRM/developer-token binding is recovered; no legitimate new-project issuer or credential is available | EXTERNAL_EVIDENCE_REQUIRED | Written supported package/DRM/developer route or legitimately issued inert signed sample; no bypass |
 | Complete CarPlay/Android Auto engine | QNX 6.6-era docs prove a legacy CarPlay USB role-swap transport family; later Smartphone Connectivity is a modular vendor lead, but public 2.0 remains QNX 7.x | EXTERNAL_EVIDENCE_REQUIRED | Support-supplied legacy drivers plus compatible receiver or authorized port, Apple/Google access, target ABI and measured CPU/RAM/storage |
-| USB device-role path | OMAP3730 supports OTG host/peripheral; FCC identifies BE2800; Mopar distinguishes the SD/USB/AUX data hub from charging-only ports; Chrysler-attributed D2784B data maps one power/D-/D+/ground path to Radio C2; QNX 6.6 has generic `io-usb-dcd`, but the public OMAP3730 BSP lists OTG Host only | STATIC_PROVED (silicon/platform/products); HIGH external circuit map / TARGET_UNPROVED | Active hub/controller or mux identity and reversibility, VBUS behavior, D2784B-to-OMAP route, installed DCD/function driver, startup and role-switch proof |
+| USB device-role path | OMAP3730 supports OTG host/peripheral; FCC identifies BE2800; Mopar distinguishes the SD/USB/AUX data hub from charging-only ports; Chrysler-attributed D2784B data maps one power/D-/D+/ground path to Radio C2; QNX 6.6 has generic `io-usb-dcd`, but the public OMAP3730 BSP lists OTG Host only | STATIC_PROVED (silicon/platform/products); HIGH external circuit map / TARGET_UNPROVED | Active hub/controller or mux identity and reversibility, VBUS behavior, D2784B-to-rear-board-to-main-board/OMAP route, installed DCD/function driver, startup and role-switch proof; FCC block diagram/schematics are permanently confidential |
 | No signing, license or activation bypass | Repository/PR path audit contains no vendor payload, license, key, certificate or activation material | STATIC_PROVED | Re-audit every future package and deployment design |
 
 ## Current implementation evidence
@@ -60,7 +60,7 @@ passing target or host build.
 
 1. Recover local command execution and run both host suites plus the ignored
    `MainSupplement.swf` consumer XREFs.
-2. Run the 106-marker recovered-tree probe and schema-validating correlator;
+2. Run the 122-marker recovered-tree probe and schema-validating correlator;
    inspect exact `DeviceProjection.swf`, RA4 AMS/AppManager/Xlet lifecycle,
    service, startup, audio and Screen candidates in tier order.
 3. Resolve `PROJECTION_BACKTO_CAR` and heated comfort popup consumers from

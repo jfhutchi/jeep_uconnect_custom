@@ -69,6 +69,9 @@ Primary sources:
 - FCC exhibit 1790035, Harman BE2800 VP4 NA/CA internal photos (mirror
   preserving the filing metadata and FCC source link):
   https://fccid.io/QNG-BE2800/Internal-Photos/VP4-NA-and-VP4-CA-Internal-Photos-1790035
+- Harman permanent-confidentiality request for BE2800 block diagram,
+  schematics, parts list, tune-up procedure and operational description:
+  https://fcc.report/FCC-ID/QNGBE2800/1790067.pdf
 - Official Mopar 2014 Grand Cherokee instrument-panel parts catalog:
   https://store.mopar.ca/v-2014-jeep-grand-cherokee--limited--5-7l-v8-gas/electrical--wiring-instrument-panel
 - Official Mopar USB cable 68141323AA:
@@ -91,6 +94,17 @@ rear I/O board. The exhibit metadata reports 20 pages, 1,021,760 bytes and
 SHA-256
 `5ace25dafa22c606f239bccdadba8705cc277ebb9cec4ed94467eabc61d2056a`.
 This closes the previously missing public board-family identifier.
+
+**CONFIRMED PUBLIC BOARD BOUNDARY / PRIVATE NET:** visual inspection of the
+official FCC internal photographs shows separate main-board and back-board
+assemblies with board-to-board connectors; the vehicle-facing connector field
+is on the back board. The pages do not label D2784B, expose inner-layer nets,
+or resolve a USB controller/PHY marking well enough for a part-number claim.
+Harman's 15 July 2012 FCC confidentiality request explicitly and permanently
+withholds the BE2800 block diagram, schematics, parts list, tune-up procedure,
+and operational description. The public filing therefore cannot close the
+back-board-to-OMAP route; that evidence must come from an authorized schematic,
+higher-resolution passive board work, or the recovered BSP/startup corpus.
 
 **CONFIRMED REMOTE MEDIA HUB:** the official Mopar catalog for a 2014 Jeep
 Grand Cherokee lists media-center hub `68141322AA` (superseded by
@@ -119,7 +133,7 @@ cabin media hub 68141322AA / 68289895AA
   -> unknown active hub/reader or mux behavior
   -> USB jumper 68141323AA
   -> Radio C2 D2784B: X455 power, X458 D-, X457 D+, X456 ground
-  -> unproved BE2800 rear-board/main-board route
+  -> confirmed rear-board/main-board assembly boundary; USB net unproved
   -> unproved OMAP3730 OTG controller and PHY/VBUS switching
 ```
 
@@ -169,7 +183,7 @@ port, and licensed function path.
 
 ## Exact static closure
 
-The 106-marker recovered-tree probe now includes:
+The 122-marker recovered-tree probe now includes:
 
 - `io-usb-dcd`
 - `devu-dcd`

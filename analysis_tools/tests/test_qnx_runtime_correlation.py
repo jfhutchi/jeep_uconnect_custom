@@ -287,5 +287,34 @@ class CorrelationTests(unittest.TestCase):
         self.assertEqual(candidate["families"], ["legacy_apple_transport"])
 
 
+    def test_correlates_stock_foreground_policy_with_projection(self):
+        result = correlate_report(
+            report_with(
+                [
+                    {
+                        "path": "share/hmi/MainSupplement.swf",
+                        "size": 70,
+                        "sha256": DIGEST_B,
+                        "filename_tags": [],
+                        "content_markers": {
+                            "phone_projection_event": {"count": 1},
+                            "foreground_availability": {"count": 1},
+                            "phone_incoming_call": {"count": 1},
+                            "sms_incoming_message": {"count": 1},
+                            "rear_camera_status": {"count": 1},
+                            "hvac_popup": {"count": 1},
+                        },
+                    }
+                ]
+            )
+        )
+        candidate = result["candidates"][0]
+        self.assertEqual(candidate["priority_tier"], 1)
+        self.assertEqual(
+            candidate["families"],
+            ["projection_service", "ra4_foreground_policy"],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

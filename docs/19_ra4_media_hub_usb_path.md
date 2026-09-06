@@ -70,7 +70,8 @@ phone / storage device
        cavity 2 X458 D-
        cavity 3 X457 D+
        cavities 4/5 X456 ground
-  -> BE2800 rear/main-board route (unknown)
+  -> BE2800 back-board connector field and board-to-board boundary (confirmed)
+  -> exact D+/D- pins/nets through the boundary (unknown)
   -> OMAP3730 controller/PHY/VBUS switch (unknown)
 ```
 
@@ -106,6 +107,32 @@ Supporting service evidence:
 Third-party product photographs are useful only for locating the module and
 connector shells. They are not used as proof of circuit function or silicon
 identity.
+
+## Official BE2800 board-photo boundary
+
+**CONFIRMED:** pages 13/14 and 17/18 of the official internal-photo exhibit
+separately show the main-board and back-board assemblies. The back-board rear
+view contains the vehicle-facing connector field, and both assemblies expose
+large board-to-board connectors. This establishes an internal rear-I/O to main-
+board boundary behind the external D2784B circuit.
+
+**NOT PROVED BY THE PHOTOS:** the exhibit does not label D2784B on the PCB,
+show inner-layer copper, identify which board-to-board pins carry D+/D-, or
+resolve a USB controller/PHY marking at sufficient quality. Package shape and
+proximity are not used as chip identification.
+
+**EXTERNAL_EVIDENCE_REQUIRED:** Harman's FCC confidentiality letter expressly
+requests permanent withholding of the BE2800 block diagram, schematics, parts
+list, tune-up procedure and operational description. The FCC exhibit index
+lists the VP4 NA/CA schematic and block diagram as unavailable. Consequently,
+the public FCC record has been exhausted for this net; exact closure now needs
+authorized schematic access, macro photographs plus passive continuity on a
+spare board, or recovered controller/startup configuration.
+
+Primary filing references:
+
+- internal photographs: https://fccid.io/QNG-BE2800/Internal-Photos/VP4-NA-and-VP4-CA-Internal-Photos-1790035
+- permanent-confidentiality request: https://fcc.report/FCC-ID/QNGBE2800/1790067.pdf
 
 ## What this proves and does not prove
 

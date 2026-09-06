@@ -109,6 +109,26 @@ FAMILY_MARKERS: dict[str, frozenset[str]] = {
             "phone_projection_event",
         }
     ),
+    "ra4_foreground_policy": frozenset(
+        {
+            "projection_call_state",
+            "projection_status_bar",
+            "projection_session_active",
+            "projection_start",
+            "projection_auto_show",
+            "foreground_availability",
+            "foreground_request",
+            "phone_incoming_call",
+            "sms_incoming_message",
+            "sms_announce",
+            "previous_call_screen",
+            "rear_camera_status",
+            "short_term_camera_layer",
+            "camera_popup",
+            "camera_screen",
+            "hvac_popup",
+        }
+    ),
     "ra4_app_lifecycle": frozenset(
         {
             "ams_service",
@@ -172,6 +192,12 @@ HIGH_SIGNAL_MARKERS = frozenset(
         "appmanager_javaapps",
         "boot_script",
         "device_projection_swf",
+        "foreground_availability",
+        "phone_incoming_call",
+        "projection_call_state",
+        "rear_camera_status",
+        "short_term_camera_layer",
+        "sms_incoming_message",
         "devu_dcd",
         "devu_usbumass_hw",
         "devu_usbser_hw",

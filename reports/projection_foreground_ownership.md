@@ -232,8 +232,12 @@ microphone handoff, speaker routing, and owner-death cleanup.
 
 The recovered-tree probe now includes exact reference audio PPS paths, Audio
 Manager symbols, media-player phone/status, io-audio, io-acoustic, and
-pps-bluetooth. A hit remains a candidate until architecture, imports, startup,
-and client/server role are correlated.
+pps-bluetooth. It also groups the exact recovered RA4 projection-session,
+projection-call, foreground-request, native call/SMS/TTS, previous-screen,
+camera-layer and HVAC-popup strings as `ra4_foreground_policy`. Co-occurrence
+with projection-service markers is a tier-1 manual-XREF target, not permission to
+change the stock policy. A hit remains a candidate until architecture, imports,
+startup, and client/server role are correlated.
 
 Official references:
 
@@ -286,8 +290,9 @@ Best next static targets:
    `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE`, and HVAC popup names;
 2. trace the projection screen's Return-to-Uconnect control from those consumers;
 3. trace heated-seat/heated-wheel ICS events into the popup manager;
-4. scan recovered roots for HNM/HandsFreePhone policy and plugin markers, then
-   correlate any hits with startup configuration and the SWF call graph;
+4. run the 122-marker recovered-tree census, prioritizing files where
+   `ra4_foreground_policy` and `projection_service` co-occur, then correlate HNM/
+   HandsFreePhone candidates with startup configuration and the SWF call graph;
 5. trace audio focus separately before proposing runtime integration.
 
 ## Resource effect

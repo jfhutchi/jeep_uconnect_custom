@@ -103,6 +103,25 @@ MARKERS: dict[str, bytes] = {
     "device_projection_swf": b"deviceprojection.swf",
     "projection_back_to_car": b"projection_backto_car",
     "phone_projection_event": b"phoneprojectionevent",
+    # Exact stock HMI foreground/presentation anchors recovered from the
+    # hash-identified MainSupplement.swf. These locate the narrow OEM
+    # arbitration seams; they do not authorize changing stock policy.
+    "projection_call_state": b"projectioncallstate",
+    "projection_status_bar": b"projection_status_bar",
+    "projection_session_active": b"sessionactive",
+    "projection_start": b"startprojection",
+    "projection_auto_show": b"key_projection_auto_show",
+    "foreground_availability": b"checkforegroundavailability",
+    "foreground_request": b"onapprequestforeground",
+    "phone_incoming_call": b"phone_incoming_call",
+    "sms_incoming_message": b"sms_incoming_message",
+    "sms_announce": b"announcesmsmessage",
+    "previous_call_screen": b"mprevscreenbeforeactivecall",
+    "rear_camera_status": b"rearcamerastatus",
+    "short_term_camera_layer": b"short_term_cam_full",
+    "camera_popup": b"popup_cameras",
+    "camera_screen": b"screen_camera",
+    "hvac_popup": b"popup_hvac",
     # Exact RA4 secure application-lifecycle anchors.
     "ams_service": b"com.aicas.xlet.manager.ams",
     "app_manager_service": b"com.harman.service.appmanager",

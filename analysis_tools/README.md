@@ -150,6 +150,10 @@ Audio Manager, Now Playing, voice-path, Screen group/focus/touch, and multimedia
 services) from Harman-specific ModuleLink/servicebroker/projection names and the
 proved RA4 AMS/AppManager/Xlet lifecycle. Exact screen and return anchors include
 `DeviceProjection.swf`, `PROJECTION_BACKTO_CAR`, and `PhoneProjectionEvent`.
+The RA4 foreground-policy family adds the recovered session/start, projection-call,
+foreground-request, native call/SMS/TTS, previous-call-screen, camera-layer and
+HVAC-popup strings. This makes a stock HMI artifact containing both projection
+and presentation-control evidence a first-tier manual inspection target.
 The Apple transport family adds QNX 6.6 `usblauncher`, host/device-stack role
 swap, iAP2/iPod driver, device-controller/function-driver (`devu-dcd`, QNX 6.x profile names such as
 `devu-usbumass-*`, `libusbdci`, `Device_Stack`, the USB-control PPS path,

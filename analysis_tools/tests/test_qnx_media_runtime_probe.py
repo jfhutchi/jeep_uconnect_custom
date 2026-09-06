@@ -40,6 +40,11 @@ class StreamTests(unittest.TestCase):
             b"SCREEN_PROPERTY_SENSITIVITY SCREEN_EVENT_MTOUCH_TOUCH video_hmi "
             b"boot.sh graphics.conf ModuleLink.xml processStarter "
             b"DeviceProjection.swf PROJECTION_BACKTO_CAR PhoneProjectionEvent "
+            b"projectionCallState PROJECTION_STATUS_BAR sessionActive startProjection "
+            b"KEY_PROJECTION_AUTO_SHOW checkForegroundAvailability "
+            b"onAppRequestForeground PHONE_INCOMING_CALL SMS_INCOMING_MESSAGE "
+            b"announceSMSMessage mPrevScreenBeforeActiveCall rearCameraStatus "
+            b"short_term_cam_full POPUP_CAMERAS SCREEN_CAMERA POPUP_HVAC "
             b"com.aicas.xlet.manager.AMS com.harman.service.AppManager "
             b"AppManager_JavaApps /fs/mmc1/xletsdir xlet.properties "
             b"usblauncher io-usb-dcd RoleSwap_DigitaliPodOut "
@@ -85,6 +90,22 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["device_projection_swf"]["count"], 1)
         self.assertEqual(matches["projection_back_to_car"]["count"], 1)
         self.assertEqual(matches["phone_projection_event"]["count"], 1)
+        self.assertEqual(matches["projection_call_state"]["count"], 1)
+        self.assertEqual(matches["projection_status_bar"]["count"], 1)
+        self.assertEqual(matches["projection_session_active"]["count"], 1)
+        self.assertEqual(matches["projection_start"]["count"], 1)
+        self.assertEqual(matches["projection_auto_show"]["count"], 1)
+        self.assertEqual(matches["foreground_availability"]["count"], 1)
+        self.assertEqual(matches["foreground_request"]["count"], 1)
+        self.assertEqual(matches["phone_incoming_call"]["count"], 1)
+        self.assertEqual(matches["sms_incoming_message"]["count"], 1)
+        self.assertEqual(matches["sms_announce"]["count"], 1)
+        self.assertEqual(matches["previous_call_screen"]["count"], 1)
+        self.assertEqual(matches["rear_camera_status"]["count"], 1)
+        self.assertEqual(matches["short_term_camera_layer"]["count"], 1)
+        self.assertEqual(matches["camera_popup"]["count"], 1)
+        self.assertEqual(matches["camera_screen"]["count"], 1)
+        self.assertEqual(matches["hvac_popup"]["count"], 1)
         self.assertEqual(matches["ams_service"]["count"], 1)
         self.assertEqual(matches["app_manager_service"]["count"], 1)
         self.assertEqual(matches["appmanager_javaapps"]["count"], 1)
