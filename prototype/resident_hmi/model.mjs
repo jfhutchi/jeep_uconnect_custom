@@ -109,6 +109,7 @@ export class Shell {
 
     const priorActive = this.projectionActive();
     const wasTakeover = this.foreground === FOREGROUND.TAKEOVER;
+    const hadComfortOverlay = this.overlay === OVERLAY.COMFORT;
     this.state = JSON.parse(JSON.stringify(state));
     this.lastSequence = state.sequence;
     this.lastReceived = now;
@@ -143,6 +144,12 @@ export class Shell {
       this.notice = 'Projection session active and auto-shown';
     } else if (this.overlay === OVERLAY.COMFORT) {
       this.notice = 'Permitted stock comfort overlay';
+    } else if (hadComfortOverlay) {
+      this.notice = this.foreground === FOREGROUND.PROJECTION
+        ? 'Projection restored after comfort overlay'
+        : this.projectionActive()
+          ? 'Stock Uconnect foreground; projection session remains active'
+          : 'Stock Uconnect foreground';
     }
     return true;
   }

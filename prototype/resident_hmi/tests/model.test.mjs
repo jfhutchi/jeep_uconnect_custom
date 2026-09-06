@@ -70,6 +70,7 @@ test('comfort overlay preserves underlying foreground and session', () => {
   shell.receive(adapter.scenario('normal'), 3);
   assert.equal(shell.overlay, OVERLAY.NONE);
   assert.equal(shell.foreground, FOREGROUND.PROJECTION);
+  assert.match(shell.notice, /restored after comfort overlay/);
 });
 
 test('projection disconnect restores native phone and message presentation', () => {
