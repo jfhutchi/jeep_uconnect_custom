@@ -1,40 +1,58 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { Shell, SCREENS } from '../model.mjs';
+import { Shell } from '../model.mjs';
 import { MockAdapter } from '../mock-adapter.mjs';
 import { render } from '../view.mjs';
 
-test('all six screens render navigation, mock label and fallback', () => {
-  const shell = new Shell(); const adapter = new MockAdapter();
-  shell.receive(adapter.snapshot(), 0); shell.resume(0);
-  for (const screen of SCREENS) {
-    shell.navigate(screen); const html = render(shell, 0);
-    assert.match(html, /PC MOCK/);
-    assert.match(html, /data-fallback/);
-    const navigation = html.slice(html.indexOf('<nav'));
-    assert.equal((navigation.match(/data-screen=/g) || []).length, 6);
-    assert.match(html, new RegExp(`aria-current="page">${screen}`));
-  }
-});
+function setup() {
+  const shell = new Shell();
+  const adapter = new MockAdapter();
+  shell.receive(adapter.snapshot(), 0);
+  return { shell, adapter };
+}
 
-test('camera and fallback replace custom actions, never imitate live video', () => {
-  const shell = new Shell(); const adapter = new MockAdapter();
-  shell.receive(adapter.scenario('camera'), 0);
-  const camera = render(shell, 0);
-  assert.match(camera, /Stock camera has priority/);
-  assert.doesNotMatch(camera, /data-command|data-resume|<video/);
-  shell.receive(adapter.scenario('normal'), 1);
-  assert.match(render(shell, 1), /data-resume/);
-  assert.doesNotMatch(render(shell, 1), /data-command/);
-});
-
-test('service text is escaped and unavailable controls disabled', () => {
-  const shell = new Shell(); const adapter = new MockAdapter();
-  const state = adapter.snapshot(); state.media.title = '<script>bad</script>';
-  state.capabilities.media = false;
-  shell.receive(state, 0); shell.resume(0); shell.navigate('Media');
+test('ordinary foreground is explicitly stock Uconnect, not replacement screens', () => {
+  const { shell } = setup();
   const html = render(shell, 0);
-  assert.doesNotMatch(html, /<script>/);
-  assert.match(html, /&lt;script&gt;/);
-  assert.match(html, /data-command="media.playing"[^>]*disabled/);
+  assert.match(html, /Factory Uconnect/);
+  assert.match(html, /Radio, Media, Climate, Controls, Phone, Messaging and Settings remain/);
+  assert.doesNotMatch(html, /data-show-projection|data-return-uconnect/);
+});
+
+test('projection has explicit return and active background has resume control', () => {
+  const { shell, adapter } = setup();
+  shell.receive(adapter.scenario('carplay'), 1);
+  let html = render(shell, 1);
+  assert.match(html, /CarPlay projection/);
+  assert.match(html, /data-return-uconnect/);
+  assert.match(html, /CALL UI <strong>suppressed/);
+  shell.returnToUconnect();
+  html = render(shell, 2);
+  assert.match(html, /Factory Uconnect/);
+  assert.match(html, /data-show-projection/);
+  assert.match(html, /Return to CarPlay/);
+  assert.match(html, /SMS\/TTS <strong>suppressed/);
+});
+
+test('camera hides projection and comfort overlay preserves it', () => {
+  const { shell, adapter } = setup();
+  shell.receive(adapter.scenario('carplay'), 1);
+  shell.receive(adapter.scenario('comfort'), 2);
+  let html = render(shell, 2);
+  assert.match(html, /Stock comfort overlay/);
+  assert.match(html, /data-return-uconnect/);
+  shell.receive(adapter.scenario('camera'), 3);
+  html = render(shell, 3);
+  assert.match(html, /Factory camera takeover/);
+  assert.doesNotMatch(html, /Stock comfort overlay|data-show-projection|data-return-uconnect/);
+  assert.doesNotMatch(html, /<video/);
+});
+
+test('projection disconnect restores native presentation labels', () => {
+  const { shell, adapter } = setup();
+  shell.receive(adapter.scenario('android'), 1);
+  shell.receive(adapter.scenario('projection-off'), 2);
+  const html = render(shell, 2);
+  assert.match(html, /CALL UI <strong>allowed/);
+  assert.match(html, /SMS\/TTS <strong>allowed/);
 });

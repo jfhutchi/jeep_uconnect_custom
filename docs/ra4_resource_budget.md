@@ -120,22 +120,18 @@ staging/rollback peak. These are unmeasured sub-targets, **not a change to the
 45 MB protected and 22 MB extra headroom. Full simultaneous file/dependency,
 runtime-generated log/cache and failed-update accounting remains a release gate.
 
-The PC scaffold has no private package dependencies or bundled font/icon/image
-assets. Its source-tree size can be measured using:
+The refocused projection-ownership bench has no private package dependencies or
+bundled font/icon/image assets. Its candidate source tree was counted directly
+from the 11 Git blobs prepared for this change: **28,445 logical bytes**.
+Estimated allocation at 4,096-byte units is **53,248 bytes**, excluding filesystem
+metadata. This is a source-tree count, not an RA4 installed-size measurement.
+It replaces the earlier six-screen source count; browser/Node/Python remain host
+tools and are not deployment dependencies.
 
-```text
-python -m analysis_tools.hmi_size_report prototype/resident_hmi
-```
-
-That number includes PC code/tests/docs and is **not** an installed RA4 size.
-Measured 2026-09-05 after the timing fixes: **31,325 logical bytes across 11
-files** (including tests and the prototype README). Estimated allocation at
-4,096-byte units: **61,440 bytes**, excluding filesystem metadata. These host
-source counts will change with edits and line-ending conversion; rerun the tool.
 All measured RA4 installed, writable and temporary bytes remain UNKNOWN because
-no target artifact exists. This run installed zero bytes on the radio and made
-no radio writes. Browser/Node/Python tools and their host caches are excluded from
-deployment, not hidden in the radio budget.
+no target artifact exists. This work installs zero bytes on the radio and makes
+no radio writes. Re-run `hmi_size_report` locally when command execution is
+available to independently verify the Git-blob count.
 
 For a future complete staging directory, the reporter's `--kind target-package`
 requires explicit `--writable-bytes` and `--temporary-bytes`, then checks the

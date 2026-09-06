@@ -1,136 +1,105 @@
-# Resident HMI MVP contract v1
+# Resident projection integration contract v2
 
-Implementation-neutral semantics for the **PC technical scaffold**; field names
-are original application names, not recovered Harman/PPS/ModuleLink wire keys.
-Reference code lives in `prototype/resident_hmi/model.mjs`; the DOM renderer is
-replaceable.
+This contract governs the executable PC reference model in
+`prototype/resident_hmi`. Field names are original application names, not
+recovered Harman/PPS/ModuleLink wire keys. There is no radio transport.
 
-## Product-contract correction
+## Product boundary
 
-The six scaffold routes are not a production replacement HMI. Production keeps
-stock Radio, Media, Climate, Controls, Phone, Messaging and Settings and adds
-projection as a first-class stock application. This snapshot/intent model remains
-useful for tests, but its `stock/app/camera` demonstration is superseded by the
-session/foreground contract in
-[projection_foreground_ownership.md](../reports/projection_foreground_ownership.md).
+Production preserves stock Radio, Media, Climate, Controls, Phone, Messaging and
+Settings. The resident component integrates projection as a first-class stock
+application. The former six-screen contract is superseded; driver-temperature
+research remains independently documented and does not imply a replacement
+Climate screen.
 
-## Ownership and layers
+## Snapshot schema
 
-```text
-View (SWF/native later; HTML on PC today)
-  -> Shell state machine: route, pending intent, foreground policy
-  -> Adapter: snapshot / abstract intent / acknowledgment
-  -> Stock RA4 services (not implemented; MockAdapter only today)
-```
-
-Stock remains vehicle authority. A command is a request, never proof of a
-physical change. The UI updates actual values only from a valid newer snapshot.
-An acknowledgment must carry the observed snapshot; it may differ from the
-requested value. No raw CAN, guessed PPS writes, radio sockets or transport
-configuration exists in this scaffold. The web CSP prohibits `connect-src`.
-
-## Snapshot
-
-Schema version 1, one complete snapshot per adapter session:
+A complete version-2 mock snapshot contains:
 
 | Field | Contract |
 | --- | --- |
-| `version` | Exactly 1 |
-| `sequence` | Nonnegative increasing safe integer; stale/duplicate snapshots ignored. New service session requires a new Shell and explicit activation; sequence rollback is not auto-accepted. |
-| `connected`, `camera` | Strict booleans. Camera is a preemption observation, not an instruction to acquire video. |
-| `capabilities.climate/comfort/media` | Strict booleans; coarse MVP command availability. Real adapter must additionally validate each equipment/operation-specific capability; default all false until proved. |
-| `climate.driverC/passengerC` | Integer Celsius 16..30, **mock-only envelope**, not recovered factory limits or LO/HI encoding |
-| `climate.fan`, `climate.auto` | Integer 0..7 and boolean; mock encoding only |
-| `comfort.driverSeat/passengerSeat`, `comfort.wheel` | Integer 0..2 (off/low/high), boolean; mock encoding only |
-| `media.title/playing` | Text <=80 characters; boolean. Title escaped by renderer. No audio data. |
-| `phone.connection/projection` | `disconnected` or `connected`; projection always `unavailable` in v1 |
+| `version` | exactly 2 |
+| `sequence` | nonnegative increasing safe integer |
+| `serviceConnected` | integration-state availability, strict boolean |
+| `camera`, `critical` | mutually exclusive highest-priority stock takeover observations |
+| `comfortOverlay` | permitted temporary stock overlay observation |
+| `projection.session` | `disconnected`, `connected`, or `active` |
+| `projection.platform` | null only when disconnected; otherwise `carplay` or `android_auto` |
+| `projection.autoShow` | mock preference applied only on inactive-to-active transition |
+| `projection.callActive`, `messagePending` | synthetic projected interaction state |
 
-Invalid required data invalidates freshness, cancels pending intent, requests
-stock fallback and raises a visible error. No guessed default values. Real
-integration needs explicit unavailable/quality state and per-field freshness;
-the complete-snapshot mock deliberately does not pretend to have that contract.
-Adapters copy data; renderer has no authority to mutate observed values.
+Snapshots are copied. Invalid data fails to ordinary stock Uconnect. Duplicate or
+older sequence values are ignored. The 2,000 ms freshness threshold remains a PC
+test constant, not a recovered radio timing guarantee.
 
-## Intents and replies
+## Independent state dimensions
 
-Intent `{id, path, value}` uses the model's exact field allowlist: driver and
-passenger temperature, fan, auto, both heated-seat levels, wheel heat and media
-playing. Phone/projection and vehicle settings are read-only placeholders.
-No endpoints, message framing or numeric factory commands are defined here.
+Session:
 
-At most one outstanding intent, with a monotonically increasing local ID.
-`{id, status:'applied', snapshot}` carries observed state;
-`{id, status:'rejected'}` leaves values unchanged. Unknown reply statuses reject.
-Replies without the pending ID are ignored. Validation is repeated in the mock
-adapter. A real adapter must enforce bounds, permission and current capability
-at dispatch, not just trust the view.
+```text
+disconnected -> connected -> active
+```
 
-The 1,000 ms command timeout and 2,000 ms freshness limit are PC design constants,
-not radio service timings. Use a monotonic local clock. The PC polls at 500 ms,
-so visible idle timeout detection can lag by one poll; request dispatch checks
-freshness synchronously. No automatic command retry or replay after reconnect.
-Already-dispatched physical actions cannot generally be cancelled: cancelling
-the UI intent does not undo a stock action. Reconcile later observed state.
+Foreground:
 
-## Foreground and fallback
+```text
+stock camera/critical takeover > projection > ordinary stock Uconnect
+```
 
-Production separates projection session state from foreground ownership.
+A permitted comfort overlay is orthogonal: it can cover projection or ordinary
+Uconnect without changing the underlying foreground owner. Camera/critical
+takeover suppresses that overlay.
 
-Foreground priority: camera/critical stock takeover, permitted temporary stock
-overlay, active projection, ordinary stock HMI. An active projection session may
-be visible or backgrounded.
+## Required transitions
 
-- Return to Uconnect changes the foreground branch without ending projection.
-- Return to projection navigates to the existing active session.
-- Camera uses factory takeover and navigation-stack return.
-- Permitted comfort popups overlay the branch and dismiss back to it.
-- Active projection owns projected call/message presentation even while the user
-  temporarily views an ordinary stock screen.
-- Native call goto/popup and SMS popup/TTS are suppressed only for that ownership
-  interval; Bluetooth/HFP/MAP ingestion remains available.
-- Inactive/disconnected projection restores normal stock Phone/Messaging.
-- Emergency/eCall remains stock-owned.
+- Inactive-to-active with mock auto-show selects projection.
+- Return to Uconnect changes foreground only; session remains active.
+- Return to Projection requires fresh active state and changes no session field or
+  sequence number. It is therefore a resume, not a reconnect.
+- Camera/critical takeover remembers whether projection or Uconnect was underneath.
+- Clearing takeover restores projection only if it was underneath and remains
+  active; otherwise it restores Uconnect.
+- Projection disconnect while visible returns to Uconnect.
+- Integration disconnect, invalid state or stale state fails to Uconnect.
+- Fresh state alone does not foreground an already-active session after a user
+  explicitly returned to Uconnect.
+- Emergency/critical stock takeover cannot be overridden by a projection request.
 
-The PC scaffold's old `stock/app/camera` panels only test fail-closed transitions.
-They are not a recovered lifecycle or the product navigation model.
+## Phone and message ownership
 
-## Minimum real adapter seams
+While `projection.session == active`, interaction presentation owner is
+`projection` regardless of whether projection or ordinary Uconnect is visible.
+The model reports native incoming-call foreground, message foreground and SMS TTS
+as suppressed.
 
-| Seam | Evidence level | What can replace a mock next / missing proof |
-| --- | --- | --- |
-| Climate state | CONFIRMED string-valued temperature, zone events, units gates and gateway service mapping; HIGH endpoint linkage | See the [driver-temperature trace](../reports/ra4_driver_temperature_contract.md). Silent `127` suppression and `SNA` cache retention prevent treating events/getters as fresh physical samples. Resolve quality/units ordering before replacing mocks; no live subscription. |
-| Climate/comfort actions | CONFIRMED capability/action vocabulary; UNKNOWN complete command contract | Keep disabled. Per-zone/seat/wheel availability, units, ranges, permission, acknowledgment and failure semantics needed. |
-| Heated-seat state | CONFIRMED `HeatedSeatFL/FR`, `FL_HS_STAT/FR_HS_STAT` mapping in existing inventory | HIGH adapter route, but raw PPS value encoding, subscription and equipment variability not closed. |
-| Media | CONFIRMED source mapping to MME | State/title subscription and playback intent ownership UNKNOWN; do not open audio devices or decode media. |
-| Vehicle settings | CONFIRMED stock settings screens/services; UNKNOWN per-setting API | Read-only/unavailable. No custom persistent vehicle state or mutations. |
-| Camera/preemption | CONFIRMED DisplayManager/LayerManager layers, foreground rejection and stack return | Reuse stock priority; configuration-specific behavior and runtime latency remain UNKNOWN. PC panel is not camera video. |
-| Phone/projection | CONFIRMED session/branch separation, projection call status and native call/SMS presentation seams | Backend, supported presentation policy and audio focus remain UNKNOWN; no pairing, call or projection action is implemented. |
-| Stock fallback | CONFIRMED stock lifecycle/foreground code exists; UNKNOWN independent app handover | Prove release, process death and restart behavior before any resident trial. |
+When projection is connected-but-inactive or disconnected, presentation owner is
+`uconnect` and normal native behavior is allowed.
 
-The [decision report](resident_hmi_decision.md) links primary local evidence and
-the existing launch/interface reports. No confidence label for a *name's presence*
-should be read as proof that the full adapter is implemented or safe to call.
+These are policy outputs only. The model does not disable Bluetooth, HFP, MAP,
+message ingestion, microphones, speakers or audio focus.
 
-The recovered read-only seam requires numeric/LO/HI/unavailable states, fractional
-values, separate units and verified physical-to-driver mapping. The original
-fixture in `analysis_tools/fixtures/ra4_driver_temperature_cases.json` records this
-without changing v1's mock schema. Never feed stock string events straight into
-`driverC`, and never reset the complete-snapshot freshness timer merely because
-a stock generic temperature event or cached getter response arrived.
+## Static evidence mapping
 
-## Portability and UI
+- Session/branch separation: `AppStateManager.onPhoneProjectionStatus`,
+  reconstructed FWS `0x002588C5`.
+- Start command: `PhoneProjection.startProjection`, `0x002B5177`.
+- Projection call status: message handler `0x002B4E18-0x002B4EBC`.
+- Native call presentation: `processBTCallState`, starting `0x00257983`.
+- Native SMS popup/TTS: `0x002B6C35` and `0x002B85C2`.
+- Foreground availability: `0x0025250E`.
+- Camera stack return: `LayerManager.onLayerChange`, `0x002D4D6F`.
+- HVAC popup layering: left-temperature path `0x0026DA68-0x0026DAB9`.
 
-640x480 logical pixels; header 56, content 330, status 26, navigation 68.
-Six PC-only routes, original text/rectangles and minimum 48px-high action controls.
-They are a technical scaffold, not production replacement screens. No animations,
-video, fonts, vendor icons or heavy assets. PC can horizontally
-scroll on narrower viewports; it never reflows into a misleading radio layout.
-Implement snapshots, intents and state tests in the eventual resident language;
-HTML, CSS and JavaScript syntax are not the RA4 API contract.
+See [the focused report](../reports/projection_foreground_ownership.md) for exact
+confidence labels and unknowns.
 
-## Out of scope for the current PC scaffold
+## Resource and safety effect
 
-Live projection backend, radio transport, screen registration, audio registration,
-call/SMS handling, boot modification, installation/update media, security bypasses
-and vehicle writes. These implementation exclusions do not change the product
-goal: projection integrates inside stock Uconnect rather than replacing it.
+The reference model is development-host only. It installs 0 radio bytes, writes
+0 radio bytes and needs 0 radio staging bytes. No browser, Node, Python, test
+runner or mock asset belongs in deployment.
+
+Production caps remain 15 MB installed, 4 MB runtime growth, 8 MB additional
+update peak, 45 MB protected stock reserve and 5 MB planned-peak margin. A
+complete legitimate engine is `EXTERNAL_COMPUTE_REQUIRED` only if measured local
+storage/CPU/RAM/platform feasibility fails.

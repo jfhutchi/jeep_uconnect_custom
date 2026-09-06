@@ -1,15 +1,22 @@
-import { validValue } from './model.mjs';
+import { PLATFORM, SESSION } from './model.mjs';
 
-// Entirely in-memory simulation. These paths are NOT Harman or PPS wire names.
+// In-memory projection/arbitration simulation; no Harman/PPS wire implementation.
 export class MockAdapter {
   constructor() {
     this.state = {
-      version: 1, sequence: 0, connected: true, camera: false,
-      capabilities: { climate: true, comfort: true, media: true },
-      climate: { driverC: 21, passengerC: 22, fan: 3, auto: true },
-      comfort: { driverSeat: 0, passengerSeat: 0, wheel: false },
-      media: { title: 'Mountain roads / Demo playlist', playing: false },
-      phone: { connection: 'connected', projection: 'unavailable' },
+      version: 2,
+      sequence: 0,
+      serviceConnected: true,
+      camera: false,
+      critical: false,
+      comfortOverlay: false,
+      projection: {
+        session: SESSION.DISCONNECTED,
+        platform: null,
+        autoShow: true,
+        callActive: false,
+        messagePending: false,
+      },
     };
   }
 
@@ -18,22 +25,57 @@ export class MockAdapter {
     return JSON.parse(JSON.stringify(this.state));
   }
 
-  send(intent) {
-    if (!intent || !Number.isSafeInteger(intent.id) || !validValue(intent.path, intent.value)) {
-      throw new Error('Invalid mock intent');
-    }
-    const [group, field] = intent.path.split('.');
-    if (!this.state.connected || this.state.camera || !this.state.capabilities[group]) {
-      return { id: intent.id, status: 'rejected' };
-    }
-    this.state[group][field] = intent.value;
-    return { id: intent.id, status: 'applied', snapshot: this.snapshot() };
-  }
-
   scenario(name) {
-    if (!['normal', 'camera', 'offline'].includes(name)) throw new Error('Unknown mock scenario');
-    this.state.camera = name === 'camera';
-    this.state.connected = name !== 'offline';
+    const projection = this.state.projection;
+    if (name === 'normal') {
+      this.state.serviceConnected = true;
+      this.state.camera = false;
+      this.state.critical = false;
+      this.state.comfortOverlay = false;
+    } else if (name === 'carplay' || name === 'android') {
+      this.state.serviceConnected = true;
+      projection.session = SESSION.ACTIVE;
+      projection.platform = name === 'carplay' ? PLATFORM.CARPLAY : PLATFORM.ANDROID_AUTO;
+    } else if (name === 'connected') {
+      projection.session = SESSION.CONNECTED;
+      projection.platform = PLATFORM.CARPLAY;
+      projection.callActive = false;
+      projection.messagePending = false;
+    } else if (name === 'camera') {
+      this.state.camera = true;
+      this.state.critical = false;
+      this.state.comfortOverlay = false;
+    } else if (name === 'critical') {
+      this.state.critical = true;
+      this.state.camera = false;
+      this.state.comfortOverlay = false;
+    } else if (name === 'comfort') {
+      this.state.camera = false;
+      this.state.critical = false;
+      this.state.comfortOverlay = true;
+    } else if (name === 'call' || name === 'message') {
+      projection.session = SESSION.ACTIVE;
+      projection.platform ??= PLATFORM.CARPLAY;
+      projection.callActive = name === 'call';
+      projection.messagePending = name === 'message';
+    } else if (name === 'projection-off') {
+      projection.session = SESSION.DISCONNECTED;
+      projection.platform = null;
+      projection.callActive = false;
+      projection.messagePending = false;
+      this.state.comfortOverlay = false;
+    } else if (name === 'offline') {
+      this.state.serviceConnected = false;
+      this.state.camera = false;
+      this.state.critical = false;
+      this.state.comfortOverlay = false;
+      projection.session = SESSION.DISCONNECTED;
+      projection.platform = null;
+      projection.callActive = false;
+      projection.messagePending = false;
+    } else {
+      throw new Error('Unknown mock scenario');
+    }
     return this.snapshot();
   }
 }

@@ -1,36 +1,40 @@
-// Reference semantics only: no browser, filesystem, network or RA4 transport.
-export const SCREENS = Object.freeze(['Home', 'Media', 'Climate', 'Controls', 'Phone', 'Settings']);
+// PC reference semantics only: no network, filesystem, radio or vehicle transport.
 export const FRESH_MS = 2000;
-export const COMMAND_MS = 1000;
-const integer = (low, high) => value => Number.isInteger(value) && value >= low && value <= high;
-const boolean = value => typeof value === 'boolean';
-export const FIELDS = Object.freeze({
-  'climate.driverC': integer(16, 30), 'climate.passengerC': integer(16, 30),
-  'climate.fan': integer(0, 7), 'climate.auto': boolean,
-  'comfort.driverSeat': integer(0, 2), 'comfort.passengerSeat': integer(0, 2),
-  'comfort.wheel': boolean, 'media.playing': boolean,
+export const SESSION = Object.freeze({
+  DISCONNECTED: 'disconnected', CONNECTED: 'connected', ACTIVE: 'active',
 });
+export const FOREGROUND = Object.freeze({
+  UCONNECT: 'uconnect', PROJECTION: 'projection', TAKEOVER: 'takeover',
+});
+export const OVERLAY = Object.freeze({ NONE: 'none', COMFORT: 'comfort' });
+export const PLATFORM = Object.freeze({ CARPLAY: 'carplay', ANDROID_AUTO: 'android_auto' });
 
-export function validValue(path, value) {
-  return Object.hasOwn(FIELDS, path) && FIELDS[path](value);
-}
+const bool = value => typeof value === 'boolean';
+const platform = value => value === null || Object.values(PLATFORM).includes(value);
 
 function validSnapshot(state) {
-  return state && state.version === 1 && Number.isSafeInteger(state.sequence) && state.sequence >= 0
-    && boolean(state.connected) && boolean(state.camera)
-    && ['climate', 'comfort', 'media'].every(key => boolean(state.capabilities?.[key]))
-    && Object.entries(FIELDS).every(([path, valid]) => {
-      const [group, field] = path.split('.'); return valid(state[group]?.[field]);
-    }) && typeof state.media.title === 'string' && state.media.title.length <= 80
-    && ['disconnected', 'connected'].includes(state.phone?.connection)
-    && state.phone.projection === 'unavailable';
+  if (!state || state.version !== 2 || !Number.isSafeInteger(state.sequence)
+      || state.sequence < 0 || !bool(state.serviceConnected)
+      || !bool(state.camera) || !bool(state.critical)
+      || !bool(state.comfortOverlay)) return false;
+  const projection = state.projection;
+  if (!projection || !Object.values(SESSION).includes(projection.session)
+      || !platform(projection.platform) || !bool(projection.autoShow)
+      || !bool(projection.callActive) || !bool(projection.messagePending)) return false;
+  if (projection.session === SESSION.DISCONNECTED && projection.platform !== null) return false;
+  if (projection.session !== SESSION.DISCONNECTED && projection.platform === null) return false;
+  return !(state.camera && state.critical);
 }
 
 export class Shell {
   constructor() {
-    this.screen = 'Home'; this.mode = 'stock'; this.state = null;
-    this.pending = null; this.notice = 'Waiting for service state';
-    this.lastReceived = -Infinity; this.lastNow = -Infinity; this.nextId = 1;
+    this.foreground = FOREGROUND.UCONNECT;
+    this.overlay = OVERLAY.NONE;
+    this.preemptedForeground = FOREGROUND.UCONNECT;
+    this.state = null;
+    this.notice = 'Stock Uconnect foreground; projection disconnected';
+    this.lastReceived = -Infinity;
+    this.lastNow = -Infinity;
   }
 
   time(now) {
@@ -39,32 +43,57 @@ export class Shell {
   }
 
   fresh(now) {
-    return Boolean(this.state?.connected && now >= this.lastReceived && now - this.lastReceived <= FRESH_MS);
+    return Boolean(this.state?.serviceConnected && now >= this.lastReceived
+      && now - this.lastReceived <= FRESH_MS);
   }
 
-  available(group, now) {
-    return this.mode === 'app' && this.fresh(now) && !this.state.camera
-      && this.state.capabilities[group] === true;
+  projectionActive() {
+    return this.state?.projection.session === SESSION.ACTIVE;
   }
 
-  navigate(screen) {
-    if (!SCREENS.includes(screen)) throw new Error('Unknown screen');
-    this.screen = screen;
+  interactionOwner() {
+    return this.projectionActive() ? 'projection' : 'uconnect';
   }
 
-  fallback(reason = 'manual') {
-    this.mode = this.state?.camera ? 'camera' : 'stock';
-    this.pending = null; this.notice = `Stock UI requested: ${reason}`;
+  nativePresentation() {
+    const allowed = !this.projectionActive();
+    return Object.freeze({
+      owner: allowed ? 'uconnect' : 'projection',
+      incomingCallForeground: allowed,
+      messageForeground: allowed,
+      messageTts: allowed,
+    });
   }
 
-  resume(now) {
+  fallback(reason) {
+    this.foreground = FOREGROUND.UCONNECT;
+    this.overlay = OVERLAY.NONE;
+    this.preemptedForeground = FOREGROUND.UCONNECT;
+    this.notice = `Stock Uconnect foreground: ${reason}`;
+  }
+
+  returnToUconnect() {
+    if (this.foreground === FOREGROUND.TAKEOVER) {
+      throw new Error('Critical stock takeover owns foreground');
+    }
+    this.foreground = FOREGROUND.UCONNECT;
+    this.notice = this.projectionActive()
+      ? 'Stock Uconnect foreground; projection session remains active'
+      : 'Stock Uconnect foreground';
+  }
+
+  showProjection(now) {
     this.time(now);
-    if (!this.fresh(now) || this.state.camera) throw new Error('Custom UI unavailable');
-    this.mode = 'app'; this.notice = 'Mock services ready';
+    if (!this.fresh(now)) throw new Error('Projection state unavailable');
+    if (this.foreground === FOREGROUND.TAKEOVER) {
+      throw new Error('Critical stock takeover owns foreground');
+    }
+    if (!this.projectionActive()) throw new Error('No active projection session');
+    this.foreground = FOREGROUND.PROJECTION;
+    this.notice = 'Existing projection session foregrounded; no reconnect';
   }
 
   receive(state, now) {
-    // Expire the previous observation before a fresh arrival can hide a gap.
     this.tick(now);
     if (!validSnapshot(state)) {
       this.lastReceived = -Infinity;
@@ -72,40 +101,48 @@ export class Shell {
       throw new Error('Invalid snapshot');
     }
     if (this.state && state.sequence <= this.state.sequence) return false;
-    const wasCamera = this.mode === 'camera';
-    this.state = JSON.parse(JSON.stringify(state)); this.lastReceived = now;
-    if (state.camera) this.fallback('camera preemption');
-    else if (!state.connected) this.fallback('service disconnected');
-    else if (wasCamera) this.fallback('camera ended; explicit return required');
-    return true;
-  }
 
-  request(path, value, now) {
-    this.tick(now);
-    if (!validValue(path, value)) throw new Error('Unsupported command or value');
-    if (!this.available(path.split('.')[0], now)) throw new Error('Service unavailable');
-    if (this.pending) throw new Error('One command already pending');
-    const intent = { id: this.nextId++, path, value };
-    this.pending = { ...intent, deadline: now + COMMAND_MS };
-    this.notice = 'Waiting for observed service state';
-    return intent;
-  }
+    const priorActive = this.projectionActive();
+    const wasTakeover = this.foreground === FOREGROUND.TAKEOVER;
+    this.state = JSON.parse(JSON.stringify(state));
+    this.lastReceived = now;
 
-  reply(reply, now) {
-    this.tick(now);
-    if (!this.pending || reply?.id !== this.pending.id) return false;
-    this.pending = null;
-    if (reply.status !== 'applied') { this.notice = 'Service rejected command'; return false; }
-    if (!this.receive(reply.snapshot, now)) { this.notice = 'Out-of-order response ignored'; return false; }
-    this.notice = this.mode === 'app' ? 'Observed state updated (mock)' : this.notice;
+    if (!state.serviceConnected) {
+      this.fallback('integration service disconnected');
+      return true;
+    }
+
+    const takeover = state.camera || state.critical;
+    if (takeover) {
+      if (!wasTakeover) this.preemptedForeground = this.foreground;
+      this.foreground = FOREGROUND.TAKEOVER;
+      this.overlay = OVERLAY.NONE;
+      this.notice = state.camera ? 'Factory camera takeover' : 'Critical stock takeover';
+      return true;
+    }
+
+    this.overlay = state.comfortOverlay ? OVERLAY.COMFORT : OVERLAY.NONE;
+    if (wasTakeover) {
+      const resumeProjection = this.preemptedForeground === FOREGROUND.PROJECTION
+        && this.projectionActive();
+      this.foreground = resumeProjection ? FOREGROUND.PROJECTION : FOREGROUND.UCONNECT;
+      this.preemptedForeground = FOREGROUND.UCONNECT;
+      this.notice = resumeProjection
+        ? 'Projection restored after stock takeover'
+        : 'Stock Uconnect restored after takeover';
+    } else if (this.foreground === FOREGROUND.PROJECTION && !this.projectionActive()) {
+      this.fallback('projection session ended');
+    } else if (!priorActive && this.projectionActive() && state.projection.autoShow) {
+      this.foreground = FOREGROUND.PROJECTION;
+      this.notice = 'Projection session active and auto-shown';
+    } else if (this.overlay === OVERLAY.COMFORT) {
+      this.notice = 'Permitted stock comfort overlay';
+    }
     return true;
   }
 
   tick(now) {
     this.time(now);
-    if (this.mode === 'app' && !this.fresh(now)) this.fallback('stale service state');
-    if (this.pending && now >= this.pending.deadline) {
-      this.pending = null; this.notice = 'Command timed out; no automatic retry';
-    }
+    if (this.state && !this.fresh(now)) this.fallback('stale integration state');
   }
 }
