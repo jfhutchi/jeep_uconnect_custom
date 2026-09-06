@@ -39,7 +39,7 @@ standard-library size accounting. Browser and Node are development tools only.
   read-only interface target. Do not broaden to projection/license archaeology.
 - [x] Run Node/Python tests, syntax checks, size report, browser checks and
   `git diff --check`. Inspect named staged files for vendor content.
-- [ ] Commit/push only this branch; open a draft PR against main explicitly
+- [x] Commit/push only this branch; open a draft PR against main explicitly
   depending on #12. Verify clean tree, unchanged main and unmerged PR.
 
 ## Acceptance examples
@@ -65,3 +65,11 @@ resume flows. No app console errors. Temporary tab/server closed after checks.
 The optional Playwright CLI encountered a Windows libuv assertion while exiting
 its help command; browser verification used the available browser tool instead.
 No target executable was built or run, no deployment performed.
+
+Delivery: implementation commit `69fac37` pushed on
+`astra/resident-hmi-feasibility`; draft PR
+[13](https://github.com/jfhutchi/jeep_uconnect_custom/pull/13) targets main and
+explicitly depends on unmerged PR #12. Neither PR merged. Main remains
+`6c898a1e09a861ba0973ce0ae6d7cb29d94e0623`. No pending implementation tasks;
+target deployment/integration gates are documented future work, not omissions
+from the PC-scaffold deliverable.
