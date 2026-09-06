@@ -213,3 +213,30 @@ exports a supported ABI, grants an authorized caller contract, or is safe to
 invoke. Keep the intermediate and output reports outside Git unless their
 controlled metadata has been reviewed.
 
+## qnx_usb_inventory.py
+
+Structured, host-only follow-up to the raw census. Requires Python 3.12+ and
+`pyelftools` (validated with 0.33 in the ignored analysis venv). Reads regular
+file headers, ELF program/section dynamic tables, dependency and symbol
+metadata, and ZIP/JAR central-directory member names. It hashes selected ELF
+candidates without executing them or extracting archive payloads.
+
+```text
+python -m analysis_tools.qnx_usb_inventory RECOVERED_ROOT [RECOVERED_ROOT ...] > analysis_work/usb-inventory.json
+python -m unittest analysis_tools.tests.test_qnx_usb_inventory -v
+```
+
+Supply distinct, non-overlapping materialized roots. Input root labels preserve
+argument order. Missing roots, read errors and malformed metadata fail loudly;
+symlinks/junctions are not followed and skipped links are counted. Output records
+the boundary and files lacking dynamic symbols. Program-header parsing matters:
+recovered QNX images can retain loadable dynamic tables while lacking their
+ordinary ELF sections. Absence from a symbol/name census is not absence from
+all statically linked, compressed, renamed or optional runtime code.
+
+The broad USB/DCD/accessory candidate vocabulary can match unrelated names.
+Review it; never promote names, dependency edges or docs within an archive to
+runtime support. Output contains relative filenames/member names and selected
+symbols, which may still be sensitive; keep it ignored and review before any
+publication. [Executed RA4 census and limits](../reports/ra4_usb_stack_backend_census.md).
+
