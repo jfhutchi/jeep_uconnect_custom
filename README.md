@@ -2,6 +2,12 @@
 
 Modernize a 2014 Jeep Grand Cherokee WK2 RA4 infotainment experience while preserving factory vehicle functionality.
 
+Current decision artifacts: [transport gate matrix](docs/20_projection_transport_gate_matrix.md),
+[USB and projection backend evidence](reports/ra4_usb_stack_backend_census.md),
+and [first future resident proof](docs/21_first_resident_runtime_proof.md).
+The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
+canonical draft PR status. No radio deployment is authorized by these reports.
+
 ## Product goal
 
 Integrate native Android Auto and Apple CarPlay as first-class projection

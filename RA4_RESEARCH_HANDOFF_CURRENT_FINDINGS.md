@@ -8,7 +8,83 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 startup PHY identity
+### Current checkpoint: 2026-09-06 transport, backend and provider gates
+
+Canonical branch remains `codex/ra4-driver-temperature`, draft PR #14. This
+continuation began with a clean checkout on main `6c898a1`, fetched origin and
+switched to the already-current canonical head `174d721`. No local-only work
+needed a fast-forward or preservation move. PR #15 at `93747c8` was reviewed
+selectively; its branch/history was not merged.
+
+Primary decision artifacts:
+
+- [PC-versus-RA4 transport gate matrix](docs/20_projection_transport_gate_matrix.md).
+- [Original PR #15 reference contract and provenance](reports/android_auto_reference_contract.md).
+- [Structured USB census, topology boundary and projection backend contract](reports/ra4_usb_stack_backend_census.md).
+- [Qualified engine/provider paths](docs/11_projection_engine_feasibility.md).
+- [First future no-engine resident proof and prerequisites](docs/21_first_resident_runtime_proof.md).
+
+**PROVED, inherited PC observation:** Android Auto protocol 1.7/TLS/render/input
+and a repeat session succeeded over an ADB development tunnel. Direct USB
+separately reached AOA v2 and real `04E8:6860 -> 18D1:2D01` accessory
+re-enumeration with interface 0 bulk IN `0x81` / OUT `0x01`, then failed
+transport access. There is no successful direct USB projection reference.
+The Windows library/MTP-driver result is not an RA4 blocker.
+
+**STATIC_PROVED:** AOA's relevant RA4 host APIs are materialized:
+`libusbdi.so.2` exposes 62 `usbd_*` symbols including vendor control, bulk I/O,
+descriptor/configuration and pipe lifecycle. Stock clients import them. The
+new structured census covered 4,110 files, 578 ELF images and 91,086 member
+names in 321 ZIP/JARs, with zero parse failures/skipped links. Program-header
+parsing avoids false negatives from stripped QNX ELF sections. No matching
+named DCD/function bundle, usblauncher or projection backend was identified;
+compressed payloads, static/private/renamed/optional implementations are not
+universally excluded. Actual loading and new-app permissions remain UNKNOWN.
+
+**STATIC_PROVED:** HMI `startProjection(ppId)` sends through shared ModuleLink
+`span` to logical destination `phoneProjectionService`. It separately observes
+`DeviceConnectionManager`; the wrapper subscribes to session/back-to-car,
+now-playing/navigation/call/device state. Cinemo CarPlay error constants
+1000/1001 and GAL timeout 2501 supply a concrete **INFERRED provider lead**.
+The service's executable/package, native bridge registration and matching
+`DeviceProjection.swf` are still UNKNOWN. No supported socket/PPS ABI is invented.
+
+**UNKNOWN topology:** selected owner update logs contain image-build HCD rows,
+not a cabin attach trace. The stock hub monitor has topology/status APIs but
+can restore hub power; it is not a passive tool to run. C2 remains unmapped to
+Mentor or EHCI. The decisive passive evidence is one documented unpowered
+C2 D+/D- net trace through the rear-I/O/board boundary to an identified PHY and
+its OMAP USB interface on authorized spare hardware.
+
+**Architecture correction:** AOA keeps RA4 as USB host. Missing device-role
+software alone cannot reject wired Android Auto; a reachable EHCI path would
+not inherently fail AOA. QNX 6.6 CarPlay role-swap/DCD requirements remain a
+separate reference. The actual recovered RA4 generation is **QNX 6.5/ARM32**;
+stale 6.6 target claims in engine/placement qualification were corrected.
+
+**EXTERNAL_PROVIDER_GATE:** QNX, Cinemo and Harman/OEM matching-component routes
+are qualified inquiry targets, with separate Android Auto/CarPlay authorization,
+exact ABI, target bytes and resource measurements still required. None was
+contacted. No measured local gate has failed; external compute is not selected.
+The first resident trial is a legitimately packaged, manual, non-autostart
+original Xlet control surface, <=3 MB installed, conditional on supported view,
+arbitration, failure containment and rollback. No target package was created.
+
+Fresh host verification: 140 Python tests pass, including five new structured
+inventory tests and the sectionless-dynamic regression observed failing before
+the fix. Python compileall passed; 44 candidate ELF hashes were recomputed,
+24 published SWF anchors were checked and 98 local Markdown links resolved.
+Host API exports and selected SWF method/offset relationships were inspected.
+No JavaScript/C99 code changed; their historical
+results below are not represented as newly executed.
+
+Resource envelope unchanged: ~77 MB historical free space, >=45 MB protected
+reserve, <=15 MB installed product, <=4 MB normal growth, <=8 MB additional
+staging, >=5 MB residual. All work adds zero installed radio bytes. No vehicle
+connection, target command, firmware change, service/USB/vehicle-state mutation,
+credential bypass or protected payload publication occurred.
+
+### Preceding checkpoint: 2026-09-06 startup PHY identity
 
 The [startup PHY report](reports/ra4_startup_usb_phy_identity.md) completes the
 startup/I2C/PMIC follow-up. The board-specific startup code names `USB83340C`
@@ -136,6 +212,12 @@ separately authorized application package
 The first chain is substantially proved. In the second, native ingress, AMS developer-token branch, exact Base64/SunJCE `RSA/ECB/PKCS1Padding`/ID predicate, two-stage security-configuration key promotion, stopped-install launch behavior, and per-app uninstall orchestration are now proved. The missing live runtime developer-ID provider and legitimate issuer, detached signer/principal policy, exact live-package schema, and complete rollback contract remain stop gates.
 
 ## 2. Evidence notation and offset conventions
+
+Current continuation vocabulary is PROVED (observed result, with platform and
+provenance), STATIC_PROVED (direct static relationship), HIGH (corroborated
+but incomplete), INFERRED (interpretation), UNKNOWN and EXTERNAL_PROVIDER_GATE
+(requires legitimate issuer/provider evidence). Historical CONFIRMED findings
+below retain their original scope and do not imply new target execution.
 
 - **CONFIRMED** means a direct operation, data edge, file access, digest, signature, or control-flow edge was reproduced from the named RA4 artifact.
 - **HIGH** means multiple direct artifacts support the conclusion, but one executing endpoint or runtime behavior remains hidden.

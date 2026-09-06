@@ -7,14 +7,18 @@ compatibility, or authorize installation.
 
 ## Decision
 
-**VENDOR-CONTACT CANDIDATE FAMILY:** QNX SDK for Smartphone Connectivity is the
-only identified first-party family whose architecture matches the required
-resident projection boundary closely enough to pursue with QNX.
+**CURRENT QUALIFICATION:** QNX SDK for Smartphone Connectivity and Cinemo CORE
+Projection are legitimate provider-contact candidates. The stock HMI's Cinemo
+error constants now give the latter a specific RA4 research connection. Neither
+provider has confirmed an available, authorized QNX 6.5/RA4 build. No provider
+was contacted and no proprietary binary was obtained in this run.
 
 **PUBLIC 2.0 DIRECT-BINARY PATH REJECTED FOR RA4:** the official documentation
 collection places Smartphone Connectivity 2.0 with QNX SDP 7.x-compatible
 products, and its license supplement explicitly requires QNX SDP 7.x developer
-licenses. RA4 is QNX 6.6/ARM32; no cross-version ABI compatibility may be assumed.
+licenses. Recovered RA4 startup identifies QNX 6.5 (`qnx650`), ARM32;
+the previous QNX 6.6 target assertion was incorrect. No cross-version ABI
+compatibility may be assumed, including between the 6.6 references and RA4.
 Version 2.0 can advance only if QNX supplies a supported RA4-compatible build or
 an authorized source-port path. Public 2.0 binaries are not a deployable candidate.
 
@@ -34,7 +38,64 @@ Therefore the engine remains an evidence gate. It is not yet classified
 EXTERNAL_COMPUTE_REQUIRED because local feasibility has not been tested with a
 legitimate compatible build.
 
-## Why this candidate matches
+## Current provider qualification matrix
+
+Checked 2026-09-06 against primary provider/program sources. Every candidate
+must preserve the existing Uconnect HMI and independent camera/critical paths;
+CarPlay Ultra or a replacement digital cockpit is outside this project's scope.
+
+| Provider/path | Engine | OS / ARM evidence | Transport / hardware-video assumptions | Authorization / availability | Installed bytes, RAM, CPU / <=15 MB cap |
+| --- | --- | --- | --- | --- | --- |
+| QNX Smartphone Connectivity supported legacy build or authorized port | Android Auto | Product family names ARM; public 2.0 license is SDP 7.x; exact QNX 6.5 ARM32 build UNKNOWN | Projection-manager USB/media integration; exact RA4 codec/Screen ABI and 640x480 support UNKNOWN | EXTERNAL_PROVIDER_GATE: QNX supply/support and Google receiver/program qualification; no public app SDK substitutes | All target measurements UNKNOWN; not budget-approved |
+| QNX legacy Apple transport plus supported receiver | CarPlay | QNX 6.6 transport documented; RA4 6.5 DCD/receiver compatibility UNKNOWN | Documented host-to-device transition; automotive iOS drivers, DCD, reversible hub/PHY path and decoder required for that route | EXTERNAL_PROVIDER_GATE: QNX support and Apple MFi; no installed receiver identified | All target measurements UNKNOWN; every added driver/dependency counts |
+| Cinemo CORE Projection authorized QNX 6.5 port/build | Android Auto | Current SDK advertises cross-platform OS/SoC support; exact 6.5/ARMv7 ABI support UNKNOWN | Provider advertises USB and wireless; exact decoder/GPU/memory contract and minimum hardware UNKNOWN | EXTERNAL_PROVIDER_GATE: commercial provider and Google qualification; project eligibility/legacy support unconfirmed | Marketing says low CPU/memory; no numeric installed/RAM/CPU figures; cap UNKNOWN |
+| Cinemo CORE Projection authorized legacy integration | CarPlay | Current family supports QNX; local HMI names Cinemo CarPlay errors, but no engine binary/version | USB/wireless advertised; RA4 transport/authentication hardware/video requirements UNKNOWN | EXTERNAL_PROVIDER_GATE: Cinemo/Harman integration contract plus Apple MFi, permitted distribution and package authorization | No numeric target figures; all added runtime dependencies count; cap UNKNOWN |
+| Harman/OEM supplies the matching optional service + screen package | Android Auto and CarPlay, separately qualified | Exact `phoneProjectionService` client contract STATIC_PROVED; native package identity/OS build UNKNOWN | Must disclose `DeviceConnectionManager`, service registration, screen loader, codec/audio/USB interfaces | EXTERNAL_PROVIDER_GATE: matching release manifest and legitimate package issuer; current Harman engineering services do not prove an RA4 retrofit offer | Package manifest, per-engine bytes and measurements UNKNOWN |
+
+The [Cinemo CORE Projection page](https://automotive.cinemo.com/products-and-services/cinemo-core/core-projection/)
+offers an integration SDK for Android Auto and CarPlay with USB/wireless
+transports. Its platform and footprint claims provide no minimum RAM/CPU,
+installed-size figure or QNX release/ABI guarantee. Cinemo's
+[QNX platform statement](https://automotive.cinemo.com/carplay-ultra-integration-for-oems/)
+concerns its current product family, including Ultra; it is not evidence that
+this RA4 can run that package or a reason to adopt Ultra.
+
+The original [local backend census](../reports/ra4_usb_stack_backend_census.md)
+links HMI constants `CARPLAY_CINEMO_START_ERROR=1000` and
+`CARPLAY_CINEMO_STOP_ERROR=1001` to the wrapper that sends `startProjection`.
+**INFERRED:** Cinemo/Harman can be asked a much more specific legacy-component
+question. **UNKNOWN:** the intended provider version, whether code was ever
+shipped for this hardware and whether an individual owner can license it.
+
+[Harman's engineering-services page](https://car.harman.com/solutions/automotive-engineering-services/software-integrator-services/digital-cockpit-engineering-services)
+lists QNX platform work and Android Auto/CarPlay integration. This supports an
+engineering/provider inquiry, not an available RA4 product. The decisive request
+is the signed component manifest and API contract for the named stock services,
+not a generic promise of smartphone integration.
+
+For every row, request separate Android Auto and CarPlay bills of materials,
+exact QNX 6.5/ARM little-endian toolchain/ABI support, incremental installed and
+peak writable bytes, RAM/CPU, hardware decode assumptions, 640x480 modes,
+transport interfaces, authorization/certification responsibilities, maintenance
+and redistribution terms. Apple's [vehicle-system guidance](https://developer.apple.com/carplay/)
+routes CarPlay implementers to MFi. Google's [Android for Cars material](https://developers.google.com/cars/)
+does not establish public head-unit receiver redistribution rights; confirm the
+actual receiver/program route with the provider and Google. Public AOA transport
+documentation alone supplies no Android Auto engine authorization.
+
+The QNX [2.0 license supplement](https://www.qnx.com/download/download/40452/QNX_Smartphone2.0_LicenseSupplement_v1.0.pdf)
+still explicitly refers to commercial SDP 7.x licenses and Apple-license/MFi
+status for its CarPlay components. Its dependencies and source-port rights must
+be qualified for this project; a license document is not a binary ABI test.
+The older product-brief URL now redirected to the QNX homepage when opened;
+the indexed brief and current connectivity page establish a family, not access
+to a supported legacy download.
+
+No measured local storage, RAM, CPU or transport failure has selected external
+compute. Lack of a provider response is an external gate, not such a failure.
+The PC DHU remains a development reference, not a redistributable RA4 engine.
+
+## Why the QNX candidate matches
 
 The current QNX connectivity page states that QNX Multimedia Suite is designed
 to work with QNX SDK for Smartphone Connectivity and names Apple CarPlay and
@@ -139,8 +200,11 @@ not only a small video decoder:
 The tracked RA4 evidence confirms QNX USB infrastructure, `libusbdi`, `itun`
 and legacy Apple media integration. The QNX 6.6 reference now identifies exact
 legacy candidates: `usblauncher`, `io-usb-dcd`, role-swap rules/descriptors and
-support-supplied automotive iOS drivers. None is yet confirmed in the RA4 tree. Absence from the
-tracked evidence is not a full firmware-corpus negative until local search runs.
+support-supplied automotive iOS drivers. The current
+[structured census](../reports/ra4_usb_stack_backend_census.md) found no matching
+named bundle across materialized files, dynamic metadata and ZIP/JAR member
+names. This bounded negative does not exclude private/renamed or unmaterialized
+code and does not establish that a compatible external provider package exists.
 
 This produces three legitimate routes to evaluate:
 

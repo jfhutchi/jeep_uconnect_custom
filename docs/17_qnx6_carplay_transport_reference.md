@@ -7,6 +7,13 @@ descriptor, PPS object, radio service, or target file was read or changed.
 
 ## Result
 
+Current target distinction: RA4's recovered startup identifies QNX 6.5/ARM32.
+This document's QNX 6.6 components remain reference material. The
+[structured census](../reports/ra4_usb_stack_backend_census.md) now records the
+bounded device-stack negative and actual host API exports. The
+[transport matrix](20_projection_transport_gate_matrix.md) separates AOA's
+host-only prerequisite from this CarPlay role-swap path.
+
 **CONFIRMED REFERENCE:** the QNX SDP 6.6 / Apps and Media device-publisher
 documentation explicitly includes Apple CarPlay support in `usblauncher`.
 The documented sequence starts the USB host stack to identify the iPhone, sends

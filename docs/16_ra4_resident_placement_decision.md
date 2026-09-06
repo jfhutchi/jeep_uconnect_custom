@@ -9,6 +9,12 @@ any signature/authentication workaround.
 
 ## Decision
 
+The [first no-engine runtime proof](21_first_resident_runtime_proof.md) now
+defines the <=3 MB non-autostart control-shell candidate and its authorization,
+view, stock-arbitration, failure-containment and rollback prerequisites. The
+[transport matrix](20_projection_transport_gate_matrix.md) separates its gates
+from phone transport and engine readiness. No target package is authorized.
+
 The smallest credible resident-first product has this placement order:
 
 1. Reuse the existing stock projection branch and its assets if the complete
@@ -148,7 +154,7 @@ A full duplicate installation is not assumed.
 | backend registration | servicebroker/ModuleLink provider/client schema, version, permissions, reconnect and owner-death semantics |
 | Screen/touch | exact group/class, buffers, z-order, focus/sensitivity, transform, cancellation and teardown |
 | audio/voice | exact source registration, priorities, duck/pause callbacks, call route, microphone acquisition and owner-death |
-| engine | RA4/QNX 6.6 ARM32 support, program authorization, component bytes, RAM/CPU/video/USB/audio requirements |
+| engine | RA4/QNX 6.5 ARM32 support, program authorization, component bytes, RAM/CPU/video/USB/audio requirements |
 | target behavior | separately authorized spare-hardware observation of launch, camera, popup, calls/messages, crash fallback and storage peaks |
 
 The read-only `qnx_media_runtime_probe.py` now includes exact stock projection,

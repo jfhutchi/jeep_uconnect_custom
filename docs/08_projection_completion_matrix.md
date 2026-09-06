@@ -5,6 +5,11 @@ goal. It distinguishes recovered stock behavior, host-model conformance and
 actual RA4 target proof. A host test or string reference never substitutes for
 target behavior.
 
+For the current phone-versus-radio transport decision, use the
+[PC reference / RA4 gate matrix](20_projection_transport_gate_matrix.md), which
+separates accessory enumeration, protocol/TLS and visible projection and links
+the structured runtime census and first no-engine resident proof.
+
 Status vocabulary:
 
 - **STATIC_PROVED**: direct read-only artifact/control-flow evidence.

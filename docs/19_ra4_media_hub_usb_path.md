@@ -9,6 +9,22 @@ connector, USB role, or software configuration was changed.
 
 ## Decision
 
+**2026-09-06 continuation:** the [structured census and targeted owner-log review](../reports/ra4_usb_stack_backend_census.md)
+did not close C2-to-controller routing. Available HCD log hits are image-build
+entries, and the stock overcurrent monitor has no named C2 relationship. The
+single decisive passive observation is a documented unpowered C2 D+/D- net
+trace through the rear-I/O and board-to-board boundary to an identified PHY
+and its OMAP USB interface on authorized spare hardware. No such operation
+was performed. The previous multi-part suggestions below are historical options.
+
+**ANDROID AUTO DISTINCTION:** the [PC bench reference](../reports/android_auto_reference_contract.md)
+proves phone accessory re-enumeration while the computer remains USB host.
+AOA does not require RA4 device mode, hub role reversal or a DCD. Either
+reachable stock host controller remains a candidate; a fixed downstream hub
+alone does not reject Android Auto. Data/power compatibility and a legitimate
+host client/receiver remain unproved. Keep that path separate from this report's
+CarPlay role-swap discussion.
+
 **CONFIRMED PRODUCT DISTINCTION:** Mopar lists two different cabin components.
 `68141322AA` (superseded by `68289895AA`) is the SD/USB/AUX media-center
 hub. `68145567AA` (superseded by `68145567AB`) is a dual USB charging
