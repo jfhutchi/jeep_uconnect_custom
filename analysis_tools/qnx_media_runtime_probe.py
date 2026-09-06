@@ -80,6 +80,11 @@ MARKERS: dict[str, bytes] = {
     "mm_renderer": b"mm-renderer",
     "pps_multimedia_renderer": b"/pps/services/multimedia/renderer",
     "screen_window_group": b"screen_create_window_group",
+    "screen_join_window_group": b"screen_join_window_group",
+    "screen_property_focus": b"screen_property_focus",
+    "screen_property_sensitivity": b"screen_property_sensitivity",
+    "screen_event_mtouch": b"screen_event_mtouch_touch",
+    "video_hmi_class": b"video_hmi",
     # Stock-specific comparison markers already evidenced in the RA4 corpus.
     "servicebroker": b"servicebroker",
     "modulelink": b"modulelink",

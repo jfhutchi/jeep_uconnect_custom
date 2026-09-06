@@ -254,6 +254,32 @@ paths share the same arbiter. If HNM artifacts are found, inspect the existing
 policy and HandsFreePhone plugin read-only; do not modify priorities. Otherwise
 the exact Harman call/SMS presentation seams remain the only supported target.
 
+## Screen, touch, and camera ownership boundary
+
+The official QNX 6.6 Screen model confirms that a projection renderer should be
+managed as one stock-owned window surface, not as an independent top-level HMI.
+Screen composites separate rendering technologies. A window joining a parent
+group becomes managed by that parent and inherits visibility and transparency.
+Group ownership and display focus are privileged manager responsibilities.
+
+**CONFIRMED RA4:** recovered graphics.conf identifies OMAP3730/SGX530 at
+640x480, CMC mtouch/scaling, and a video_hmi class. Factory tools use Screen
+window/buffer APIs and screen_get_event. Harman HMI evidence separately proves
+foreground admission, camera takeover/return, and popup layering.
+
+**HIGH:** the adapter may submit frames and receive normalized touch only through
+a proved stock-managed surface. It must not claim display focus, synthesize
+input, create an unparented always-on-top window, or hide camera/critical layers.
+Session state remains independent of visibility. When stock preempts the
+surface, touch stops without ending the session.
+
+**UNKNOWN:** exact RA4 group owner/name, video_hmi behavior, buffer
+format/stride/count, synchronization, z-order, sensitivity/focus handoff,
+coordinate transform, owner-death, and window type.
+
+See docs/15_qnx6_screen_touch_camera_reference.md. Public Screen calls are
+reference markers only until an installed stock caller contract is recovered.
+
 ## Display, touch and audio boundaries
 
 | Path | Stock evidence | Resident responsibility | Remaining gate |

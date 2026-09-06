@@ -128,4 +128,7 @@ Harman-specific stack actually evidenced in RA4 and defines the read-only
 census needed before any standard QNX CAR interface can be considered. The
 [QNX 6.6 audio arbitration reference](docs/14_qnx6_audio_arbitration_reference.md)
 separates HFP state, visual notification, audio routing/ducking, playback
-pause/resume and microphone/acoustic ownership.
+pause/resume and microphone/acoustic ownership. The
+[QNX 6.6 Screen/touch/camera reference](docs/15_qnx6_screen_touch_camera_reference.md)
+requires one stock-managed surface, privileged focus ownership, touch only
+while selected, and autonomous camera restoration.

@@ -38,8 +38,11 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | Display | QNX Screen | VERIFIED | Core graphics/windowing stack |
 | Display | `libscreen.so` | VERIFIED | Used by factory utilities |
 | Display | Screen window/buffer APIs | VERIFIED | Factory utilities create windows/buffers and inspect display state |
+| Display config | `video_hmi` class | VERIFIED configuration / UNKNOWN contract | Recovered graphics.conf names it; ownership, z-order and buffers unproved |
+| QNX Screen reference | window group + focus/sensitivity | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Parent manages joined child visibility; display/group focus is privileged |
 | Touch | mtouch infrastructure | VERIFIED | Factory calibration tooling consumes QNX Screen touch events |
 | Touch | `screen_get_event` | VERIFIED | Used by factory tooling |
+| Touch config | CMC mtouch/scaling | VERIFIED configuration / UNKNOWN projection route | Focus, sensitivity, transform and preemption cancellation unproved |
 | Audio | AudioCtrlSvc | VERIFIED | Factory audio service |
 | Audio | MME | VERIFIED | Multimedia engine / logical source path |
 | Audio | `audioApp -> MME` | VERIFIED | Application audio source mapping observed |

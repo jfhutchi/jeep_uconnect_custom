@@ -16,7 +16,7 @@ Status vocabulary:
 | Requirement | Current evidence | Status | Evidence still required for production |
 | --- | --- | --- | --- |
 | Preserve stock Radio/Media/Climate/Controls/Phone/Messaging/Settings | Product contract and current prototype render no replacement factory screens | MODEL_PROVED / TARGET_UNPROVED | Supported stock application/screen loading boundary and target observation |
-| Full 640x480 projection while selected | Stock display is 640x480; `DEVICE_PROJECTION` branch and `DeviceProjection.swf` references exist | STATIC_PROVED / TARGET_UNPROVED | Legitimate backend video surface, buffer ownership and measured rendering |
+| Full 640x480 projection while selected | `DEVICE_PROJECTION`; graphics.conf has OMAP3730/SGX530, CMC mtouch and `video_hmi`; QNX reference proves managed groups/focus | STATIC_PROVED / TARGET_UNPROVED | Exact stock group/class, buffer, z-order, focus/sensitivity, owner-death and render proof |
 | Return to Uconnect without ending session | `sessionActive` is independent of current branch at FWS `0x002588C5-0x0025892C`; host model preserves session | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Complete `PROJECTION_BACKTO_CAR` consumer and supported stock navigation action |
 | Return to active projection without reconnect | `startProjection` at `0x002B5177` is distinct from `goto(DEVICE_PROJECTION)`; model changes foreground only | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Exact return control and target session continuity measurement |
 | Factory camera priority and return | DisplayManager `0x002BA764`; LayerManager preemption/stack unwind `0x002D4D6F-0x002D4EF8` | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Spare-bench latency, every camera variant and projection restoration |

@@ -31,7 +31,9 @@ class StreamTests(unittest.TestCase):
             b"/pps/services/audio/types/voice /pps/services/audio/voice_status "
             b"/pps/services/multimedia/mediaplayer/phone "
             b"/pps/services/multimedia/mediaplayer/status io-audio io-acoustic pps-bluetooth "
-            b"audioMgrCMC.conf AudioCtrlSvc audioApp"
+            b"audioMgrCMC.conf AudioCtrlSvc audioApp "
+            b"screen_join_window_group SCREEN_PROPERTY_FOCUS "
+            b"SCREEN_PROPERTY_SENSITIVITY SCREEN_EVENT_MTOUCH_TOUCH video_hmi"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -56,6 +58,11 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["audio_mgr_cmc_config"]["count"], 1)
         self.assertEqual(matches["audio_ctrl_svc"]["count"], 1)
         self.assertEqual(matches["audio_app_source"]["count"], 1)
+        self.assertEqual(matches["screen_join_window_group"]["count"], 1)
+        self.assertEqual(matches["screen_property_focus"]["count"], 1)
+        self.assertEqual(matches["screen_property_sensitivity"]["count"], 1)
+        self.assertEqual(matches["screen_event_mtouch"]["count"], 1)
+        self.assertEqual(matches["video_hmi_class"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_types"]["count"], 1)
         self.assertEqual(matches["pps_audio_voice_status"]["count"], 1)
