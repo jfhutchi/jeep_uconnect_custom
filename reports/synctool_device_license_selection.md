@@ -363,6 +363,8 @@ a record name, container identity, or filename has a particular semantic role.
 A digest equal to the already documented successful MY14_REVA filename is
 reported as `target=my14_reva`, allowing a future capture to identify exact
 target participation without printing other values or reading a license payload.
+The CLI retains only per-marker target counts, so target detection covers the
+entire input even when individual hit display is capped.
 
 The new token path and synthetic boundary tests are committed but have not been
 executed under Python because the local command service is unavailable. The
@@ -548,6 +550,15 @@ backpointer**, not an inline filename or a bare C string. Name helper
 the missing provenance link to section 5's discard-name vector and copy-plan
 filename comparison. It does not identify a historical runtime container
 address or ordinal for MY14_REVA.
+
+### Repository-wide selector-name audit
+
+**[CONFIRMED NEGATIVE]** At branch head `835db76`, all 83 tracked text/source
+files were searched for `0x284`, `0284`, module/name combinations,
+`application_skuid`, and the MY14 filename. Every selector hit was the already
+documented numeric relationship or its tests/plans; no older report contains a
+recovered vendor module name or numeric MY14 mapping. This closes a
+handoff-document omission route, not the ignored-binary or historical-log route.
 
 ## 11. Selector 0x284: bounded follow-up result
 

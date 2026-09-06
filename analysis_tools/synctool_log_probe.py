@@ -119,9 +119,12 @@ def main() -> int:
     if args.max_hits < 0:
         parser.error("--max-hits must be nonnegative")
     counts: Counter[tuple[str, str]] = Counter()
+    target_counts: Counter[str] = Counter()
     with args.image.open("rb") as stream:
         for index, hit in enumerate(scan_markers(stream)):
             counts[(hit.marker, hit.kind)] += 1
+            if hit.target_match:
+                target_counts[hit.marker] += 1
             if index < args.max_hits:
                 sku = f" app_sku={hit.app_sku}" if hit.app_sku is not None else ""
                 token = (
@@ -137,6 +140,9 @@ def main() -> int:
         print(f"bytes_scanned={stream.tell()}")
     for (marker, kind), count in sorted(counts.items()):
         print(f"count={count} marker={marker} kind={kind}")
+    for marker, count in sorted(target_counts.items()):
+        print(f"target_count={count} target=my14_reva marker={marker}")
+    print(f"target_total={sum(target_counts.values())} target=my14_reva")
     print(f"total_hits={sum(counts.values())}")
     return 0
 
