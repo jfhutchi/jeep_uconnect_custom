@@ -68,5 +68,7 @@ passing target or host build.
    call/message/fallback behavior and all storage peaks.
 
 The project goal is not complete until every TARGET_UNPROVED row has direct
-target evidence. No step here authorizes a radio write, modified firmware,
-credential derivation or safety-feature bypass.
+target evidence. The [evidence-gate manifest](10_evidence_gates.md) identifies
+the exact artifact, interface or measurement that closes each row. No step here
+authorizes a radio write, modified firmware, credential derivation or
+safety-feature bypass.

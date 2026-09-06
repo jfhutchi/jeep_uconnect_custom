@@ -16,6 +16,8 @@ ownership, adapter boundaries and failure policy.
 Current evidence: [projection foreground ownership](../reports/projection_foreground_ownership.md).
 The [completion matrix](08_projection_completion_matrix.md) separates static,
 host-model and target proof so these tasks cannot be closed by a narrow test.
+The [evidence-gate manifest](10_evidence_gates.md) names the exact local artifacts,
+historical log fields, legitimate contracts and spare-bench measurements needed.
 
 Continue the [driver-temperature trace](../reports/ra4_driver_temperature_contract.md)
 independently: close units-change/service-restart quality and stale-cache behavior

@@ -111,5 +111,8 @@ vendor API or install path.
 5. Continue read-only temperature-quality research independently.
 
 See the [completion matrix](docs/08_projection_completion_matrix.md) for
-requirement-by-requirement proof and the [adapter boundary](docs/09_projection_adapter_boundary.md)
-for the smallest stock-facing implementation path.
+requirement-by-requirement proof, the
+[adapter boundary](docs/09_projection_adapter_boundary.md) for the smallest
+stock-facing implementation path, and the
+[evidence-gate manifest](docs/10_evidence_gates.md) for the exact artifacts,
+contracts and measurements still required.
