@@ -25,7 +25,7 @@ Status vocabulary:
 | Projection owns ordinary message presentation and audio | Native SMS popup `0x002B6C35-0x002B6C96` and TTS `0x002B85C2-0x002B8750` isolated | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Supported popup plus TTS gate while preserving MAP/message ingestion |
 | Emergency/eCall remains stock-owned | Emergency branch precedes ordinary BT processing; critical owner is explicit in both reference models | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Configuration-specific target behavior and audio-priority confirmation |
 | Inactive/disconnected/invalid/stale restores stock presentation | Host models invalidate state, retain sequence watermark and reject delayed replay | MODEL_PROVED / TARGET_UNPROVED | Real service epoch/sequence contract and failure/restart observation |
-| Projection/HFP audio and microphone arbitration | Projection audio/navigation events are present, but ownership path is not closed | EXTERNAL_EVIDENCE_REQUIRED | Static audio-focus XREF plus legitimate backend and spare-bench call tests |
+| Projection/HFP audio and microphone arbitration | `P/share/audioDSP/audioMgrCMC.conf:24-29` maps stock `audioApp` to MME; QNX reference separates HFP, visual, routing/ducking, playback and acoustic input | STATIC_PROVED (configuration/reference) / TARGET_UNPROVED | Recovered service census; exact source registration, priority, callbacks, mic owner-death; spare-bench tests |
 | Tiny resident arbitration implementation | JavaScript model plus C99 no-heap candidate; C source is 19,404 bytes across four files | MODEL_PROVED / TARGET_UNPROVED | C compile/tests, target ABI, linked map, allocated package bytes |
 | Protected 77 MB envelope | Caps are 15 MB installed, 4 MB writable, 8 MB extra peak, 45 MB protected, 5 MB residual | MODEL_PROVED / TARGET_UNPROVED | Mount-specific boot/use/update measurements and target package accounting |
 | Authorized lifecycle and stock fallback | Stock AIR launch and application foreground machinery are recovered; arbitrary app acceptance is not | EXTERNAL_EVIDENCE_REQUIRED | Legitimate loader/package/signing boundary and crash-isolation test |
@@ -57,8 +57,9 @@ passing target or host build.
 
 1. Recover local command execution and run both host suites plus the ignored
    `MainSupplement.swf` consumer XREFs.
-2. Resolve `PROJECTION_BACKTO_CAR`, heated comfort popup consumers and
-   projection/HFP audio focus from the hash-identified firmware.
+2. Resolve `PROJECTION_BACKTO_CAR` and heated comfort popup consumers from
+   the hash-identified firmware; run the audio service/config census and recover
+   source registration, ducking/playback callbacks, call route and microphone ownership.
 3. Establish a legitimate app/screen lifecycle and compile the transport-free
    arbiter with a compatible toolchain.
 4. Select and size a legitimate projection backend. Keep it local only if it

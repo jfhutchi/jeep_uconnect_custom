@@ -99,12 +99,12 @@ or vendor/provider documentation:
 | --- | --- |
 | phoneProjectionService | registration name, interface/version, transport framing, owner-death and reconnect semantics |
 | stock app/screen lifecycle | accepted package identity, descriptor/entry point, foreground request caller and deterministic unload/crash fallback; census `bar-descriptor.xml`, `Qnx/Elf`, `run_native`, app-installer and service-start markers, but do not assume QNX reference BAR acceptance |
-| QNX CAR reference services | whether `/pps/system/navigator`, Launcher/Authman, HNM, UI Core, QtQnxCar2, NowPlaying or mm services are actually installed/started in RA4; official QNX 6.6 reference names alone are not a stock contract |
+| QNX CAR reference services | whether `/pps/system/navigator`, Launcher/Authman, HNM, UI Core, QtQnxCar2, Audio Manager, Now Playing, `io-acoustic` or mm services are installed/started; official names alone are not a stock contract |
 | Return to Uconnect | complete PROJECTION_BACKTO_CAR consumer and previous-stock-branch rule |
 | native presentation policy | supported volatile/default-open gate for ordinary call popup/goto, SMS popup and SMS TTS; if HNM exists, prove its HandsFreePhone policy/plugin relationship to the traced Harman SWF paths without editing the policy |
 | video surface | producer/consumer buffer format, QNX Screen ownership, dimensions, stride, lifecycle and teardown |
 | touch | focus ownership, coordinate transform, dispatch only to the selected projection surface |
-| audio | MME/AudioCtrlSvc source registration, media/prompt/call priority, mic/speaker ownership and stock restoration |
+| audio | start from confirmed `P/share/audioDSP/audioMgrCMC.conf:24-29` `audioApp` -> MME mapping; prove AudioCtrlSvc/MME registration, source types, media/prompt/call priority, ducking versus pause/resume callbacks, mic/speaker ownership, owner-death and stock restoration |
 | USB/authentication | legitimate CarPlay/Android Auto device/session/authentication interface; QNX 7 documents projection-aware Android/Apple `usblauncher_otg` modules, but RA4 equivalence is unknown |
 | projection engine | authorized ARM32/QNX-compatible implementation and redistribution/runtime requirements; QNX Smartphone Connectivity is the identified candidate family, not yet a compatible build |
 | hardware video decode | installed decoder/DSP server and supported client ABI, boot reservation, licensing, buffer contract and measured CPU/RAM; OMAP3730 silicon capability alone is insufficient |
@@ -166,7 +166,8 @@ remains required.
 | Evidence acquired | Decision it unlocks |
 | --- | --- |
 | Gate A projection XREFs | exact return/resume and popup/audio static contract |
-| Gate A media/runtime census | installed decoder/DSP candidates plus QNX-reference-versus-Harman integration candidates, or a bounded exact-tree negative |
+| Gate A media/runtime census | installed decoder/DSP plus QNX Audio Manager/Now Playing/acoustic and Harman AudioCtrlSvc/audioMgrCMC candidates, or a bounded exact-tree negative |
+| Gate C audio contract | exact stock logical-source, playback, call-route and microphone owner-death boundary without disabling HFP/MAP |
 | Gate A temperature trace | safe read-only quality model; still no replacement Climate screen |
 | Gate B historical log | actual App SKU and MY14 record/container/copy-plan relationship |
 | Gate C lifecycle/policy | legitimate read-only adapter and no-engine screen build |

@@ -58,6 +58,9 @@ the current screen or from a persisted preference.
 | suppress native call presentation | presentation actions inside `processBTCallState`, beginning `0x00257983` | Gate ordinary `MAIN_PHONE` goto and incoming-call popup only | Supported policy hook; preserve HFP state/audio and emergency path |
 | suppress native message presentation | SMS popup path `0x002B6C35-0x002B6C96` | Gate incoming/full-message foreground only | Supported policy hook; preserve MAP ingestion |
 | suppress duplicate SMS audio | TTS path `0x002B85C2-0x002B8750` | Gate announcement with the visual gate | Supported policy hook and audio-focus trace |
+| projection media source | `P/share/audioDSP/audioMgrCMC.conf:24-29` maps stock `audioApp` to MME | Acquire only a proved stock logical source; follow stock pause/resume | Registration/lifecycle, priority and restoration contract |
+| projection prompt/call audio | projection audio/navigation/call events plus stock HFP coexist | Use separately proved prompt and voice routes | Ducking/mixing, call route and emergency priority |
+| projection microphone | no exact RA4 acquire/release API recovered | Short exclusive lease only for active call/assistant phase | Owner-death, timeout, acoustic path and stock restoration |
 | stock presentation restored | same native call/SMS paths | Default behavior when inactive, disconnected, invalid, stale or crashed | Must be the no-lease/default state |
 | camera/critical/comfort | no adapter command | Observe for model/status only; stock managers retain control | Never interpose on factory safety path |
 
@@ -77,8 +80,10 @@ Duplicate-UI suppression must be volatile and session-scoped:
 5. Camera alone does not release the lease because projection still owns ordinary
    call/message presentation behind the camera.
 6. Critical/eCall bypasses the lease immediately.
-7. The lease is never persisted across boot and never disables Bluetooth, HFP,
-   MAP, message ingestion, microphone or speaker services.
+7. The visual lease is never persisted and never disables Bluetooth, HFP, MAP,
+   message ingestion, microphone or speaker services.
+8. Media, prompt, call-audio and microphone ownership are separate shorter leases;
+   no visual state alone may grant an audio route or microphone.
 
 The 2,000 ms host-model timeout is a test constant, not a recovered production
 period. Select a target lease only after measuring service cadence and worst-case
