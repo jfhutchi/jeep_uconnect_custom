@@ -125,4 +125,7 @@ video-decoder path and RA4 resource fit explicitly UNKNOWN. The
 [QNX 6.6 OEM integration reference](docs/13_qnx6_oem_integration_reference.md)
 separates era-compatible Navigator/Launcher/Authman/HNM semantics from the
 Harman-specific stack actually evidenced in RA4 and defines the read-only
-census needed before any standard QNX CAR interface can be considered.
+census needed before any standard QNX CAR interface can be considered. The
+[QNX 6.6 audio arbitration reference](docs/14_qnx6_audio_arbitration_reference.md)
+separates HFP state, visual notification, audio routing/ducking, playback
+pause/resume and microphone/acoustic ownership.

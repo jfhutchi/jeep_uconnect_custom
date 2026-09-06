@@ -26,7 +26,11 @@ class StreamTests(unittest.TestCase):
             b"screen_create_window_group PhoneProjectionService ModuleLink "
             b"event-source-handsfree HFP_CALL_INCOMING "
             b"/pps/services/bluetooth/handsfree/status bar-descriptor.xml "
-            b'<asset type="Qnx/Elf" entry="true"> run_native'
+            b'<asset type="Qnx/Elf" entry="true"> run_native '
+            b"audio_manager_get_handle /pps/services/audio/audio_router_control "
+            b"/pps/services/audio/types/voice /pps/services/audio/voice_status "
+            b"/pps/services/multimedia/mediaplayer/phone "
+            b"/pps/services/multimedia/mediaplayer/status io-audio io-acoustic pps-bluetooth"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -46,6 +50,16 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["bar_descriptor"]["count"], 1)
         self.assertEqual(matches["qnx_elf_asset"]["count"], 1)
         self.assertEqual(matches["run_native"]["count"], 1)
+        self.assertEqual(matches["audio_manager"]["count"], 1)
+        self.assertEqual(matches["audio_manager_get_handle"]["count"], 1)
+        self.assertEqual(matches["pps_audio_router_control"]["count"], 1)
+        self.assertEqual(matches["pps_audio_types"]["count"], 1)
+        self.assertEqual(matches["pps_audio_voice_status"]["count"], 1)
+        self.assertEqual(matches["pps_mediaplayer_phone"]["count"], 1)
+        self.assertEqual(matches["pps_mediaplayer_status"]["count"], 1)
+        self.assertEqual(matches["io_audio"]["count"], 1)
+        self.assertEqual(matches["io_acoustic"]["count"], 1)
+        self.assertEqual(matches["pps_bluetooth"]["count"], 1)
 
     def test_offset_cap_preserves_full_count(self):
         data = b"h264--h264--h264"

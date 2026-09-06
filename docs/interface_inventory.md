@@ -43,6 +43,9 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | Audio | AudioCtrlSvc | VERIFIED | Factory audio service |
 | Audio | MME | VERIFIED | Multimedia engine / logical source path |
 | Audio | `audioApp -> MME` | VERIFIED | Application audio source mapping observed |
+| QNX audio reference | Audio Manager typed handles/concurrency | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Routing/ducking is separate from player pause/resume |
+| QNX audio reference | Now Playing phone/status PPS | CONFIRMED REFERENCE / UNKNOWN ON RA4 | Publishes concurrency; each player decides pause/resume |
+| QNX voice reference | `io-audio` + `io-acoustic` + `pps-bluetooth` | CONFIRMED REFERENCE / UNKNOWN ON RA4 | HFP transport, AEC, microphone and speaker path are separate from foreground UI |
 | USB | QNX `io-usb` stack | VERIFIED | Core USB infrastructure |
 | USB | `libusbdi` / usbd APIs | VERIFIED | Factory USB utility uses QNX USB API |
 | Apple accessory | `itun` | VERIFIED | iPhone tunnel adapter / accessory networking component |
@@ -67,7 +70,8 @@ or a complete backend.
 1. Run bounded AVM2 consumer XREFs for `PROJECTION_BACKTO_CAR`,
    `DEVICE_PROJECTION`, native call/SMS presentation and HVAC popup names.
 2. Recover Return-to-Uconnect and resume-existing-session control flow.
-3. Recover projection/HFP audio focus and microphone/speaker ownership.
+3. Run the audio/Now-Playing/acoustic marker census, then recover RA4 source,
+   ducking, pause/resume, microphone and speaker ownership.
 4. Recover heated-seat/heated-wheel popup triggers.
 5. Continue the independent temperature units/service-restart quality trace.
 6. Run the bounded recovered-tree census for both QNX CAR reference names and

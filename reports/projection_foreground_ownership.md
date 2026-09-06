@@ -211,6 +211,35 @@ Official references:
 - https://www.qnx.com/download/download/26205/HMI_Notification_Manager.pdf
 - https://support7.qnx.com/download/download/26319/PPS_Objects_Reference.pdf
 
+### Reference audio separation and RA4 consequence
+
+**CONFIRMED REFERENCE / UNKNOWN ON RA4.** Official QNX CAR 2.1 keeps HFP
+command/status, HNM visual events, Audio Manager routing/ducking, Now Playing
+pause/resume coordination, and the io-bluetooth/io-acoustic/io-audio handsfree
+speech path separate.
+
+This supports preserving HFP while projection owns ordinary call/message
+presentation. It also proves why the visual lease is insufficient: audio source,
+playback, and microphone/voice path need separate fail-open ownership.
+
+**CONFIRMED RA4:** AudioCtrlSvc, MME and audioApp -> MME names are present;
+projection call state reaches the status bar; native call and SMS/TTS
+presentation are separately traced. **UNKNOWN:** generic QNX service use,
+actual source types/priorities, playback callbacks, projected call/assistant
+microphone handoff, speaker routing, and owner-death cleanup.
+
+The recovered-tree probe now includes exact reference audio PPS paths, Audio
+Manager symbols, media-player phone/status, io-audio, io-acoustic, and
+pps-bluetooth. A hit remains a candidate until architecture, imports, startup,
+and client/server role are correlated.
+
+Official references:
+
+- https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.am.system_services/topic/audio_management.html
+- https://support7.qnx.com/download/download/26213/System_Services_Reference.pdf
+- https://www.qnx.com/download/download/26838/PPS_Objects_Reference.pdf
+- https://support7.qnx.com/download/download/26201/Bluetooth_Architectural_Overview_and_Configuration_Guide.pdf
+
 ## Arbitration contract
 
 | Condition | Foreground | Projection session | Native Phone/SMS presentation |
@@ -241,7 +270,9 @@ Return behavior:
   Return-to-Uconnect screen transition.
 - **UNKNOWN:** a supported stock policy bit/API for suppressing native call/SMS
   presentation. Presentation seams are proved; sanctioned configuration is not.
-- **UNKNOWN:** HFP-versus-projection audio-focus and microphone ownership.
+- **UNKNOWN:** exact RA4 logical audio sources, ducking/pause-resume callbacks,
+  speaker route, and microphone ownership. Reference separation is known; the
+  Harman contract is not.
 - **UNKNOWN:** heated-seat/heated-wheel event-to-popup chain.
 - **UNKNOWN:** exact return behavior for every camera variant/configuration;
   backup/cargo use popup layers while front/side explicitly enters a screen here.

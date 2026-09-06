@@ -140,7 +140,7 @@ and tests and are unchanged by this investigation.
 Performs a read-only, constant-memory marker census across recovered QNX
 filesystem trees. In addition to media/graphics candidates, it distinguishes
 QNX CAR 2.1 reference integration names (PPS Navigator, Launcher/Authman, HNM,
-NowPlaying and multimedia services) from the Harman-specific ModuleLink,
+Audio Manager, Now Playing, voice-path and multimedia services) from the Harman-specific ModuleLink,
 servicebroker and phone-projection family already observed in RA4. It emits only
 controlled marker names, relative paths, file sizes, SHA-256 hashes, counts and
 bounded offsets; it does not emit file contents or execute a target artifact.

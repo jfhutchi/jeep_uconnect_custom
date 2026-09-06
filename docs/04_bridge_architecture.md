@@ -87,7 +87,8 @@ not authorize direct invocation or patching.
 - Complete consumers of `PROJECTION_BACKTO_CAR` and the exact stock
   Return-to-Uconnect previous-branch rule.
 - A supported default-open policy hook for ordinary call/SMS presentation.
-- Projection/HFP media, prompt, call, microphone and speaker focus ownership.
+- Projection/HFP media, prompt, call, microphone and speaker ownership; the
+  reference planes are mapped, but every RA4 source name and API remains unproved.
 - The projection video-buffer producer, QNX Screen consumer and touch-routing
   contract.
 - Heated-seat/heated-wheel event-to-popup consumers.
@@ -266,6 +267,40 @@ the exact Harman call/SMS presentation seams remain the only supported target.
 
 String or import presence does not prove access permission, ABI compatibility or
 runtime behavior.
+
+## Audio and microphone arbitration boundary
+
+The official QNX 6.6/QNX CAR 2.1 reference narrows the conceptual split but does
+not establish the RA4 wire contract. In that reference, Audio Manager owns
+typed-stream routing and ducking, Now Playing informs players of concurrency,
+players perform pause/resume, HNM owns visual event policy, and the handsfree
+speech path uses io-bluetooth, io-acoustic, and io-audio.
+
+The adapter must expose separate planes rather than one broad "projection
+active" audio switch:
+
+| Plane | Observation | Output only after stock API proof | Fail-open result |
+| --- | --- | --- | --- |
+| media | projection media phase, stock source, concurrency | activate proved media source; obey pause/resume | restore stock source |
+| prompt | navigation/assistant prompt start/end | request proved prompt/TTS class | end ducking; restore audio |
+| call | projected call phase and critical state | request proved call/voice class | stock HFP/call behavior |
+| microphone | assistant/call request, mic owner, voice health | exclusive proved acquire/release | release to stock |
+| visual | session-based interaction ownership | renew ordinary presentation lease | native Phone/SMS UI/TTS |
+
+The microphone lease must be shorter than the session lease and tied to an
+actual call/assistant phase. Return to Uconnect changes display foreground only.
+Camera may preempt display while audio follows stock policy. Emergency/eCall
+takes unconditional stock ownership.
+
+**CONFIRMED RA4:** AudioCtrlSvc, MME and audioApp -> MME names exist;
+projection call state reaches the status bar; native HFP and SMS presentation
+paths are address-traced. **UNKNOWN RA4:** source registration, stream classes,
+priority/ducking, pause/resume callbacks, PCM endpoints, acoustic service,
+microphone transaction, speaker route, crash cleanup, and whether generic QNX
+reference services are present.
+
+See docs/14_qnx6_audio_arbitration_reference.md. No PPS write, audio open,
+source registration, Bluetooth change, or microphone access is authorized.
 
 ## Resource contract
 

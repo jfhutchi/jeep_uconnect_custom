@@ -128,6 +128,40 @@ the installed HFP PPS path, and the service startup line. Correlate those with
 the SWF `processBTCallState` caller graph before treating HNM as a candidate
 presentation-policy seam.
 
+## Audio, playback, and voice-path result
+
+**CONFIRMED REFERENCE:** QNX CAR 2.1 separates Bluetooth HFP state, HNM visual
+presentation, Audio Manager routing/ducking, Now Playing pause/resume
+coordination, and the io-bluetooth/io-acoustic/io-audio voice path.
+
+Audio Manager assigns typed handles to PCM streams. Reference types include
+multimedia, ringtone, texttospeech, voice, voicerecognition, voicerecording,
+voicetones, videochat, alert, and others. Its PPS surface exposes routing,
+concurrency, device/input state, voice mode, and output routes. Now Playing
+informs players of state changes, but each player owns stop/pause/resume.
+
+The handsfree reference keeps acoustic echo cancellation between the vehicle
+microphone/speakers and Bluetooth PCM separate from visual call presentation.
+This is strong evidence against disabling HFP merely to suppress duplicate UI.
+
+**HIGH:** Projection needs separate fail-open visual-presentation,
+audio-source/playback, and microphone/voice-path ownership. An active session
+may own visuals without holding the microphone. Camera display priority need
+not terminate audio. Emergency/eCall bypasses ordinary projection ownership.
+
+**UNKNOWN ON RA4:** AudioCtrlSvc, MME, audioApp -> MME, native HFP UI, SMS TTS,
+and projection call status are observed. Generic QNX Audio Manager, Now Playing,
+io-acoustic, stock source names/priorities, PCM/voice APIs, microphone handoff,
+and owner-death behavior are not proved. Reference PPS examples are not RA4
+implementation instructions.
+
+Official sources:
+
+- https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.am.system_services/topic/audio_management.html
+- https://support7.qnx.com/download/download/26213/System_Services_Reference.pdf
+- https://www.qnx.com/download/download/26838/PPS_Objects_Reference.pdf
+- https://support7.qnx.com/download/download/26201/Bluetooth_Architectural_Overview_and_Configuration_Guide.pdf
+
 ## Reference-to-RA4 comparison
 
 | Required behavior | QNX CAR 2.1 reference | Exact RA4 evidence | Current decision |
@@ -137,6 +171,8 @@ presentation-policy seam.
 | temporary notification | HNM priority policy and transparent/overlay window concepts | PopupManager; HVAC popup at `0x0026DA68-0x0026DAB9` | preserve exact stock popup path; HNM is only a candidate mechanism |
 | camera priority/return | rear camera is top reference HMI layer | DisplayManager `0x002BA764-0x002BA89F`; LayerManager `0x002D4D6F-0x002D4EF8` | reuse RA4 autonomous camera stack |
 | call/message arbitration | HNM includes multimodal sources/plugins in the reference design | native call path `0x00257983`; SMS popup/TTS `0x002B6C35-0x002B6C96` / `0x002B85C2-0x002B8750` | keep volatile default-open presentation lease; no HNM hook assumed |
+| audio concurrency | typed Audio Manager handles route/duck; Now Playing informs pause/resume | `AudioCtrlSvc`, MME and `audioApp -> MME` names | recover Harman logical-source contract before output |
+| voice path | HFP state is separate from `io-audio`/`io-acoustic` and AEC | projection call state plus native HFP UI; no mic API | keep HFP alive; mic ownership is separate gate |
 | projection session | no RA4-specific contract in these generic docs | `IPhoneProjection.sessionActive` at `0x002588DF`; start at `0x002B5177` | session remains independent of visible branch |
 | service discovery | PPS service objects | ModuleLink + localhost servicebroker; projection schema unknown | recover Harman registration/version/owner-death contract first |
 
@@ -148,7 +184,7 @@ content disclosure, for both sides of the comparison:
 | Marker family | Controlled markers | What a positive result would justify |
 | --- | --- | --- |
 | QNX lifecycle | `/pps/services/launcher`, `/pps/services/app-launcher`, `/pps/system/navigator`, `authman`, `qtqnxcar2`, `bar-descriptor.xml`, `Qnx/Elf`, `run_native`, app-installer PPS path, `QTHOMESCREEN` | candidate file/config/package identity for startup, import, and ABI follow-up only |
-| QNX notifications/audio | `hmi-notification`, `libhnm`, `event-source-handsfree`, `HFP_CALL_INCOMING`, `event-priorities`, both documented HFP PPS path variants, `nowplaying`, `mm-control`, `mm-player`, `mm-renderer`, multimedia renderer PPS path | candidate generic QNX service, existing policy, plugin or client reference only |
+| QNX notifications/audio | `hmi-notification`, `libhnm`, `event-source-handsfree`, `HFP_CALL_INCOMING`, `event-priorities`, both HFP PPS variants, Audio Manager/PPS, `io-audio`, `io-acoustic`, `pps-bluetooth`, `nowplaying`, media-player phone/status, `mm-control`, `mm-player`, `mm-renderer`, multimedia renderer PPS path | candidate generic QNX service, existing policy, plugin or client reference only |
 | QNX display | `screen_create_window_group` plus existing Screen/GLES markers | candidate window-group owner/client; not permission |
 | Harman RA4 | `servicebroker`, `modulelink`, `phoneprojectionservice`, `iphoneprojection` | candidate stock-specific integration implementation/client |
 | codec/graphics | existing Codec Engine, DSPLink/CMEM, H.264/OpenMAX/GStreamer, SGX/GLES markers | candidate decoder/render path |
