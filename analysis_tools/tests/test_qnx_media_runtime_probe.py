@@ -66,7 +66,10 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["hmi_notification"]["count"], 1)
         self.assertEqual(matches["screen_window_group"]["count"], 1)
         self.assertEqual(matches["phone_projection_service"]["count"], 1)
-        self.assertEqual(matches["modulelink"]["count"], 1)
+        self.assertEqual(matches["modulelink"]["count"], 2)
+        self.assertEqual(matches["modulelink"]["offsets"],
+                         [data.lower().index(b"modulelink"),
+                          data.lower().index(b"modulelink.xml")])
         self.assertEqual(matches["hnm_handsfree_plugin"]["count"], 1)
         self.assertEqual(matches["hnm_hfp_call_incoming"]["count"], 1)
         self.assertEqual(matches["pps_bluetooth_handsfree"]["count"], 1)

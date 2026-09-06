@@ -233,7 +233,8 @@ ONE = {0x04:'getsuper', 0x05:'setsuper', 0x06:'dxns', 0x08:'kill', 0x25:'pushsho
        0x2c:'pushstring', 0x2d:'pushint', 0x2e:'pushuint', 0x2f:'pushdouble',
        0x31:'pushnamespace', 0x40:'newfunction', 0x41:'call', 0x42:'construct',
        0x49:'constructsuper', 0x53:'applytype', 0x55:'newobject', 0x56:'newarray',
-       0x58:'newclass', 0x59:'getdescendants', 0x5d:'findpropstrict', 0x5e:'findproperty',
+       0x58:'newclass', 0x59:'getdescendants', 0x5a:'newcatch',
+       0x5d:'findpropstrict', 0x5e:'findproperty',
        0x5f:'finddef', 0x60:'getlex', 0x61:'setproperty', 0x62:'getlocal', 0x63:'setlocal',
        0x66:'getproperty', 0x67:'getouterscope', 0x68:'initproperty', 0x6a:'deleteproperty',
        0x6c:'getslot', 0x6d:'setslot', 0x6e:'getglobalslot', 0x6f:'setglobalslot',
@@ -255,6 +256,11 @@ def disassemble(abc, method):
         args, note = [], ''
         if op in NO_ARGS:
             name = NO_ARGS[op]
+        elif op == 0x25:
+            # AVM2 truncates pushshort to signed 16 bits; stock ABC also uses
+            # sign-extended encoded-u32 operands. Pool indexes stay strict u30.
+            value = r.uint() & 0xffff
+            name, args = 'pushshort', [value - 0x10000 if value & 0x8000 else value]
         elif op in ONE:
             name, args = ONE[op], [r.u30()]
         elif op in TWO:
@@ -291,13 +297,15 @@ def find_references(abc, pattern, limit=150):
         raise ValueError('reference result cap must be 1..1000')
     matcher = re.compile(pattern, re.I) if isinstance(pattern, str) else pattern
     matches = []
+    truncated = False
     for method in sorted(abc['bodies']):
         for offset, line in disassemble(abc, method):
             if matcher.search(line):
-                matches.append((method, offset, line))
-                if len(matches) == limit:
-                    return matches, True
-    return matches, False
+                if len(matches) < limit:
+                    matches.append((method, offset, line))
+                else:
+                    truncated = True
+    return matches, truncated
 
 
 def main():

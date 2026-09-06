@@ -156,6 +156,7 @@ class CorrelationTests(unittest.TestCase):
             correlate_report(
                 {
                     "format": "qnx-media-runtime-evidence-v1",
+                    "markers": sorted(MARKERS),
                     "roots": [{"root_label": "../root", "findings": []}],
                 }
             )

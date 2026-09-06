@@ -93,11 +93,51 @@ class AbcTests(unittest.TestCase):
     def test_reference_cap_and_invalid_cap(self):
         abc = parse_abc(synthetic_abc())
         references, truncated = find_references(abc, 'returnvoid', 1)
-        self.assertTrue(truncated)
+        self.assertFalse(truncated)
         self.assertEqual(references[0][0], 0)
+        abc['bodies'][1] = {'offset': 200, 'code': b'\x47'}
+        references, truncated = find_references(abc, 'returnvoid', 1)
+        self.assertTrue(truncated)
+        self.assertEqual(len(references), 1)
         for limit in (0, 1001):
             with self.assertRaisesRegex(ValueError, 'result cap'):
                 find_references(abc, 'returnvoid', limit)
+
+    def test_reference_cap_still_validates_remaining_instructions_and_methods(self):
+        for same_method in (True, False):
+            abc = parse_abc(synthetic_abc())
+            if same_method:
+                abc['bodies'][0]['code'] = b'\x47\xff'
+            else:
+                abc['bodies'][1] = {'offset': 200, 'code': b'\xff'}
+            with self.subTest(same_method=same_method):
+                with self.assertRaisesRegex(ValueError, 'unsupported opcode'):
+                    find_references(abc, 'returnvoid', 1)
+
+    def test_newcatch_u30_operand_alignment_and_truncation(self):
+        abc = parse_abc(synthetic_abc())
+        abc['bodies'][0] = {'offset': 100, 'code': b'\x5a\x81\x01\x47'}
+        lines = list(disassemble(abc, 0))
+        self.assertEqual([offset for offset, _ in lines], [100, 103])
+        self.assertIn('newcatch', lines[0][1])
+        self.assertIn('[129]', lines[0][1])
+        abc['bodies'][0]['code'] = b'\x5a\x81'
+        with self.assertRaises(ValueError):
+            list(disassemble(abc, 0))
+
+    def test_pushshort_signed_encodings_preserve_alignment(self):
+        for operand, expected in ((b'\x98\xf8\xff\xff\x0f', -1000),
+                                  (b'\xff\xff\x03', -1),
+                                  (b'\xff\xff\x01', 32767)):
+            abc = parse_abc(synthetic_abc())
+            abc['bodies'][0] = {'offset': 100, 'code': b'\x25' + operand + b'\x47'}
+            lines = list(disassemble(abc, 0))
+            self.assertIn(f'[{expected}]', lines[0][1])
+            self.assertEqual(lines[1][0], 101 + len(operand))
+        for operand in (b'\x80', b'\xff\xff\xff\xff\x10'):
+            abc['bodies'][0]['code'] = b'\x25' + operand
+            with self.assertRaises(ValueError):
+                list(disassemble(abc, 0))
 
 
 if __name__ == '__main__':
