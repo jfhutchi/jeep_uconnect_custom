@@ -59,6 +59,36 @@ Provenance hashes (SHA-256; derived metadata only):
 | ROV `main.xml` | 5,069 | `d020a5b5049e87907b3deddff8c17cbf56fac24fa5dd235d4392a39e9ba23806` |
 | ROV `ModuleLink.xml` | 115 | `46cacc8e084ba4b3024cdf68191da1b7165754cc2bedbc2bf44949a9ab59e533` |
 
+## Era-compatible QNX package comparison
+
+Official QNX Apps and Media / QNX CAR 2.1 documentation provides two distinct
+patterns:
+
+1. packaged native applications with `bar-descriptor.xml`, declared native
+   entry assets and Launcher/Authman lifecycle; and
+2. a monolithic Full Screen HMI sample that bypasses Launcher/Authman and
+   replaces the ordinary HMI.
+
+The second pattern is **REJECTED** for this project because it conflicts with
+the stock-preserving product contract. The first is a **REFERENCE CANDIDATE /
+UNKNOWN ON RA4**: it would provide process isolation and explicit identity if
+the stock radio actually contains and authorizes that lifecycle. Public
+development-mode unsigned packaging is not evidence that RA4 accepts an
+unsigned BAR and must not be used as a workaround.
+
+The initial resident search now includes descriptor, native-entry, app-installer,
+Launcher/Authman and service-start markers. Even if a BAR path exists, prefer a
+small native C/Screen surface over Qt or HTML5 unless every required runtime is
+already stock, ABI-compatible, permissioned, and measured. QNX notes that Qt
+apps link their own required Qt libraries; that cost cannot silently enter the
+15 MB product cap.
+
+Reference details:
+
+- https://support7.qnx.com/download/download/26192/Application_and_Window_Management.pdf
+- https://support7.qnx.com/download/download/26211/Qt_Development_Environment.pdf
+- https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.am.user/topic/full_hmi_screen.html
+
 ## Decision matrix
 
 All numeric ranges below are engineering targets, not artifact measurements.
@@ -78,7 +108,7 @@ bytes are zero only if existing files and compatible APIs can genuinely be reuse
 | Fonts/icons/assets | Stock assets potentially reusable in-place; loader/licensing compatibility UNKNOWN | In-place font APIs and resource formats UNKNOWN | Reuses A | UNKNOWN |
 | Maintainability | Legacy runtime/toolchain, strong vendor coupling; keep independent source | Small explicit code, but new bindings and rendering work | More IPC/versioning/failure cases; avoid until needed | More lifecycle/security work before useful UI proof |
 | PC prototype | Modern AIR may prototype visuals but not prove old QNX compatibility; neutral model works now | Host renderer can share model/contract, not QNX window ABI | Mock bridge can share contract | Host VM does not establish Kona/platform compatibility |
-| Update/deployment | Authorized loading/package path UNKNOWN; do not overwrite stock HMI | Authorized process/package path UNKNOWN | Must authorize/update both parts | Signed package/permission gates documented and unresolved |
+| Update/deployment | Authorized loading/package path UNKNOWN; do not overwrite stock HMI | QNX reference BAR/descriptor lifecycle exists, but RA4 installer, identity acceptance and signature policy are UNKNOWN | Must authorize/update both parts | Signed package/permission gates documented and unresolved |
 | Stock fallback | Shared process makes independent fallback harder; must prove stock controller still owns priority | Separate window/process may isolate crashes; arbitration UNKNOWN | UI and bridge failure must independently yield | Existing lifecycle useful but camera guarantees UNKNOWN |
 | Toolchain/licensing | Compatible compiler/API stubs and permitted reuse UNKNOWN; no `mxmlc` or host `adl` on PATH in this check | Compatible licensed QNX SDK/headers UNKNOWN; no `qcc` on PATH | Both sets of gates | Legitimate app signer, tooling and APIs unresolved |
 | Disposition | **Preferred first feasibility target** | **Retain as alternative** | **Conditional, not initial requirement** | **Defer; no evidence it is a smaller UI route** |

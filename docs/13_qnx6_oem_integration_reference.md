@@ -59,6 +59,42 @@ with the tiny-footprint rule unless the exact stock runtime, ABI, permissions
 and incremental bytes were proved. RA4's evidenced AIR/SWF HMI remains the
 preferred reuse boundary for the initial stock-facing surface.
 
+## Application identity and packaging result
+
+**CONFIRMED REFERENCE:** QNX Apps and Media / QNX CAR 2.1 documents a
+packaged native-application lifecycle. A native C/C++ BAR contains an app
+descriptor (`bar-descriptor.xml`) plus declared assets. The Qt-oriented
+descriptor reference requires an app ID, build ID, version, native entry asset,
+display dimensions, and `run_native` action. Launcher uses the application ID
+and display parameters only after the platform's installation/authorization
+machinery recognizes the package.
+
+This is a better semantic match than an ad-hoc boot script, but remains
+**UNKNOWN ON RA4**. The recovered radio has its own signed-update verification,
+Harman AppManager/AMS and Xlet paths. No evidence yet shows a BAR installer,
+descriptor database, accepted capability set, or Launcher/Authman instance on
+the product.
+
+The same reference documentation describes a development-mode packager that
+does not sign its reference-target package. That statement is not evidence
+that RA4 accepts unsigned code and is not a route this project will use.
+Likewise, QNX's separate Full Screen HMI sample bypasses Launcher/Authman and
+replaces the ordinary Home HMI. It is explicitly rejected because the product
+must preserve stock Uconnect and its arbitration.
+
+The recovered-tree census therefore adds these controlled markers:
+`bar-descriptor.xml`, `Qnx/Elf`, `run_native`,
+`/pps/services/appinst-mgr`, and `QTHOMESCREEN`. A hit authorizes only
+read-only provenance/startup/import analysis. A native package path is viable
+only if stock acceptance, permissions, deterministic removal/fallback, ABI,
+and installed/staging bytes are proved without a signature bypass.
+
+Official sources:
+
+- https://support7.qnx.com/download/download/26192/Application_and_Window_Management.pdf
+- https://support7.qnx.com/download/download/26211/Qt_Development_Environment.pdf
+- https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.am.user/topic/full_hmi_screen.html
+
 ## HNM call-presentation result
 
 **CONFIRMED REFERENCE:** HNM does more than rank generic popups. Its
@@ -96,7 +132,7 @@ presentation-policy seam.
 
 | Required behavior | QNX CAR 2.1 reference | Exact RA4 evidence | Current decision |
 | --- | --- | --- | --- |
-| authorized app start/stop | Launcher + Authman through PPS | Harman AppManager/AMS names and foreground paths | use no generic launcher until recovered startup/import evidence proves it |
+| authorized app start/stop | packaged BAR identity -> installer -> Launcher + Authman through PPS; separate Full Screen HMI bypasses this path | Harman AppManager/AMS/Xlet names, signed-update verification and foreground paths | search for reference package metadata, reject monolithic replacement, and use no generic launcher until stock acceptance is proved |
 | foreground/window ownership | Navigator/UI Core + Screen | `checkForegroundAvailability`, `onAppRequestForeground`, `IStructure.goto/back` | RA4 stock arbiter remains authoritative |
 | temporary notification | HNM priority policy and transparent/overlay window concepts | PopupManager; HVAC popup at `0x0026DA68-0x0026DAB9` | preserve exact stock popup path; HNM is only a candidate mechanism |
 | camera priority/return | rear camera is top reference HMI layer | DisplayManager `0x002BA764-0x002BA89F`; LayerManager `0x002D4D6F-0x002D4EF8` | reuse RA4 autonomous camera stack |
@@ -111,7 +147,7 @@ content disclosure, for both sides of the comparison:
 
 | Marker family | Controlled markers | What a positive result would justify |
 | --- | --- | --- |
-| QNX lifecycle | `/pps/services/launcher`, `/pps/services/app-launcher`, `/pps/system/navigator`, `authman`, `qtqnxcar2` | candidate file/config for startup, import, and ABI follow-up only |
+| QNX lifecycle | `/pps/services/launcher`, `/pps/services/app-launcher`, `/pps/system/navigator`, `authman`, `qtqnxcar2`, `bar-descriptor.xml`, `Qnx/Elf`, `run_native`, app-installer PPS path, `QTHOMESCREEN` | candidate file/config/package identity for startup, import, and ABI follow-up only |
 | QNX notifications/audio | `hmi-notification`, `libhnm`, `event-source-handsfree`, `HFP_CALL_INCOMING`, `event-priorities`, both documented HFP PPS path variants, `nowplaying`, `mm-control`, `mm-player`, `mm-renderer`, multimedia renderer PPS path | candidate generic QNX service, existing policy, plugin or client reference only |
 | QNX display | `screen_create_window_group` plus existing Screen/GLES markers | candidate window-group owner/client; not permission |
 | Harman RA4 | `servicebroker`, `modulelink`, `phoneprojectionservice`, `iphoneprojection` | candidate stock-specific integration implementation/client |

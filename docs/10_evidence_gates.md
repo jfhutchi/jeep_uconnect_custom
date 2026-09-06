@@ -98,7 +98,7 @@ or vendor/provider documentation:
 | Contract | Exact missing evidence |
 | --- | --- |
 | phoneProjectionService | registration name, interface/version, transport framing, owner-death and reconnect semantics |
-| stock app/screen lifecycle | accepted package identity, entry point, foreground request caller and deterministic unload/crash fallback |
+| stock app/screen lifecycle | accepted package identity, descriptor/entry point, foreground request caller and deterministic unload/crash fallback; census `bar-descriptor.xml`, `Qnx/Elf`, `run_native`, app-installer and service-start markers, but do not assume QNX reference BAR acceptance |
 | QNX CAR reference services | whether `/pps/system/navigator`, Launcher/Authman, HNM, UI Core, QtQnxCar2, NowPlaying or mm services are actually installed/started in RA4; official QNX 6.6 reference names alone are not a stock contract |
 | Return to Uconnect | complete PROJECTION_BACKTO_CAR consumer and previous-stock-branch rule |
 | native presentation policy | supported volatile/default-open gate for ordinary call popup/goto, SMS popup and SMS TTS; if HNM exists, prove its HandsFreePhone policy/plugin relationship to the traced Harman SWF paths without editing the policy |
@@ -110,8 +110,9 @@ or vendor/provider documentation:
 | hardware video decode | installed decoder/DSP server and supported client ABI, boot reservation, licensing, buffer contract and measured CPU/RAM; OMAP3730 silicon capability alone is insufficient |
 
 No direct localhost socket, SWF/native address call, guessed ModuleLink field,
-generic QNX CAR PPS write copied from a reference manual, persistent disable
-preference or unsigned package is an acceptable substitute.
+generic QNX CAR PPS write copied from a reference manual, monolithic Full
+Screen HMI replacement, persistent disable preference or unsigned/development
+package is an acceptable substitute.
 
 ## Gate D - spare-hardware proof
 
