@@ -32,6 +32,7 @@ export class Shell {
     this.overlay = OVERLAY.NONE;
     this.preemptedForeground = FOREGROUND.UCONNECT;
     this.state = null;
+    this.lastSequence = -1;
     this.notice = 'Stock Uconnect foreground; projection disconnected';
     this.lastReceived = -Infinity;
     this.lastNow = -Infinity;
@@ -104,11 +105,12 @@ export class Shell {
       this.fallback('invalid service snapshot', true);
       throw new Error('Invalid snapshot');
     }
-    if (this.state && state.sequence <= this.state.sequence) return false;
+    if (state.sequence <= this.lastSequence) return false;
 
     const priorActive = this.projectionActive();
     const wasTakeover = this.foreground === FOREGROUND.TAKEOVER;
     this.state = JSON.parse(JSON.stringify(state));
+    this.lastSequence = state.sequence;
     this.lastReceived = now;
 
     if (!state.serviceConnected) {

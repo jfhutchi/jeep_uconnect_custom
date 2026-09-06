@@ -122,12 +122,15 @@ test('invalid, duplicate and stale state fail toward stock Uconnect', () => {
   assert.equal(shell.nativePresentation().messageTts, true);
 
   shell.receive(adapter.scenario('carplay'), 4);
+  const delayedPreStaleSnapshot = JSON.parse(JSON.stringify(shell.state));
   shell.tick(2005);
   assert.equal(shell.foreground, FOREGROUND.UCONNECT);
   assert.equal(shell.state, null);
   assert.equal(shell.interactionOwner(), 'uconnect');
   assert.equal(shell.nativePresentation().incomingCallForeground, true);
-  assert.throws(() => shell.showProjection(2005), /unavailable/);
+  assert.equal(shell.receive(delayedPreStaleSnapshot, 2006), false);
+  assert.equal(shell.state, null);
+  assert.throws(() => shell.showProjection(2006), /unavailable/);
 });
 
 test('snapshot copies are isolated and time is monotonic', () => {

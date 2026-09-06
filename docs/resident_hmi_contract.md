@@ -28,9 +28,11 @@ A complete version-2 mock snapshot contains:
 | `projection.autoShow` | mock preference applied only on inactive-to-active transition |
 | `projection.callActive`, `messagePending` | synthetic projected interaction state |
 
-Snapshots are copied. Invalid data fails to ordinary stock Uconnect. Duplicate or
-older sequence values are ignored. The 2,000 ms freshness threshold remains a PC
-test constant, not a recovered radio timing guarantee.
+Snapshots are copied. Invalid data fails to ordinary stock Uconnect. A monotonic
+sequence high-water mark survives stale/invalid fallback, so delayed, duplicate,
+or older snapshots cannot recreate an active session. A genuinely restarted
+adapter requires a new Shell/epoch. The 2,000 ms freshness threshold remains a
+PC test constant, not a recovered radio timing guarantee.
 
 ## Independent state dimensions
 
