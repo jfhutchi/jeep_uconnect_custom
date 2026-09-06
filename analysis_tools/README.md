@@ -160,11 +160,12 @@ libraries, DSP images or firmware.
 ## qnx_runtime_correlation.py
 
 Consumes only the redacted JSON produced by `qnx_media_runtime_probe.py`,
-validates its schema and controlled-marker boundary, groups matching files by
+validates its complete marker inventory and controlled-marker boundary, assigns
+unique labels when input roots share a basename, groups matching files by
 integration family, and emits a deterministic candidate order. It never opens a
 recovered vendor artifact, preserves no marker offsets or arbitrary source
-fields, and rejects unknown markers, unsafe paths, invalid hashes and malformed
-counts.
+fields, and rejects unknown markers, stale marker inventories, duplicate roots/paths,
+unsafe paths, invalid hashes and malformed counts.
 
 ```text
 python -m analysis_tools.qnx_media_runtime_probe RECOVERED_ROOT [RECOVERED_ROOT ...] --pretty > qnx-runtime-report.json

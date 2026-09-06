@@ -241,11 +241,15 @@ def _candidate(root_label: str, finding: dict[str, Any]) -> dict[str, Any]:
 def correlate_report(report: Any) -> dict[str, Any]:
     if not isinstance(report, dict) or report.get("format") != SOURCE_FORMAT:
         raise ValueError(f"input format must be {SOURCE_FORMAT}")
+    marker_inventory = report.get("markers")
+    if marker_inventory != sorted(MARKERS):
+        raise ValueError("input marker inventory does not match this correlator")
     roots = report.get("roots")
     if not isinstance(roots, list):
         raise ValueError("roots must be a list")
 
     candidates: list[dict[str, Any]] = []
+    seen_root_labels: set[str] = set()
     for root in roots:
         if not isinstance(root, dict):
             raise ValueError("each root must be an object")
@@ -257,13 +261,22 @@ def correlate_report(report: Any) -> dict[str, Any]:
             or "\\" in root_label
         ):
             raise ValueError("root_label must be a nonempty basename")
+        if root_label in seen_root_labels:
+            raise ValueError(f"duplicate root_label: {root_label}")
+        seen_root_labels.add(root_label)
         findings = root.get("findings")
         if not isinstance(findings, list):
             raise ValueError(f"findings must be a list for root {root_label}")
+        seen_paths: set[str] = set()
         for finding in findings:
             if not isinstance(finding, dict):
                 raise ValueError(f"finding must be an object for root {root_label}")
-            candidates.append(_candidate(root_label, finding))
+            candidate = _candidate(root_label, finding)
+            path = str(candidate["path"])
+            if path in seen_paths:
+                raise ValueError(f"duplicate finding path in {root_label}: {path}")
+            seen_paths.add(path)
+            candidates.append(candidate)
 
     candidates.sort(
         key=lambda item: (

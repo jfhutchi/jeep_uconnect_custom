@@ -153,5 +153,19 @@ class RootTests(unittest.TestCase):
             self.assertEqual(report["totals"]["findings"], 2)
 
 
+    def test_build_report_disambiguates_duplicate_root_basenames(self):
+        with tempfile.TemporaryDirectory() as temp:
+            base = Path(temp)
+            roots = [base / "one" / "files", base / "two" / "files"]
+            for root in roots:
+                root.mkdir(parents=True)
+                (root / "boot.sh").write_bytes(b"startup")
+            report = build_report(roots)
+            self.assertEqual(
+                [root["root_label"] for root in report["roots"]],
+                ["files#1", "files#2"],
+            )
+
+
 if __name__ == "__main__":
     unittest.main()

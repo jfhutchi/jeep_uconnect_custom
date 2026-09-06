@@ -1,6 +1,7 @@
 import json
 import unittest
 
+from analysis_tools.qnx_media_runtime_probe import MARKERS
 from analysis_tools.qnx_runtime_correlation import correlate_report
 
 
@@ -12,6 +13,7 @@ DIGEST_C = "c" * 64
 def report_with(findings):
     return {
         "format": "qnx-media-runtime-evidence-v1",
+        "markers": sorted(MARKERS),
         "roots": [{"root_label": "hidden_hbc", "findings": findings}],
     }
 
@@ -157,6 +159,32 @@ class CorrelationTests(unittest.TestCase):
                     "roots": [{"root_label": "../root", "findings": []}],
                 }
             )
+
+
+    def test_rejects_marker_inventory_drift(self):
+        report = report_with([])
+        report["markers"] = sorted(MARKERS)[:-1]
+        with self.assertRaisesRegex(ValueError, "marker inventory"):
+            correlate_report(report)
+
+    def test_rejects_duplicate_root_label_and_finding_path(self):
+        duplicate_root = report_with([])
+        duplicate_root["roots"].append(
+            {"root_label": "hidden_hbc", "findings": []}
+        )
+        with self.assertRaisesRegex(ValueError, "duplicate root_label"):
+            correlate_report(duplicate_root)
+
+        finding = {
+            "path": "usr/bin/servicebroker",
+            "size": 1,
+            "sha256": DIGEST_A,
+            "filename_tags": ["servicebroker"],
+            "content_markers": {},
+        }
+        duplicate_path = report_with([finding, dict(finding)])
+        with self.assertRaisesRegex(ValueError, "duplicate finding path"):
+            correlate_report(duplicate_path)
 
 
 if __name__ == "__main__":

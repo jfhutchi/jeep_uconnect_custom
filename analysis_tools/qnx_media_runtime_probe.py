@@ -248,6 +248,17 @@ def build_report(
         )
         for root in roots
     ]
+    label_counts: dict[str, int] = {}
+    for report in reports:
+        label = str(report["root_label"])
+        label_counts[label] = label_counts.get(label, 0) + 1
+    label_ordinals: dict[str, int] = {}
+    for report in reports:
+        label = str(report["root_label"])
+        if label_counts[label] > 1:
+            ordinal = label_ordinals.get(label, 0) + 1
+            label_ordinals[label] = ordinal
+            report["root_label"] = f"{label}#{ordinal}"
     return {
         "format": "qnx-media-runtime-evidence-v1",
         "markers": sorted(MARKERS),
