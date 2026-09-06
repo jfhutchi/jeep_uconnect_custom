@@ -42,8 +42,13 @@ rejection. It installs zero radio bytes.
 
 The C99 candidate in `prototype/projection_arbiter_c` carries the same policy
 without heap or I/O and enforces `sizeof(PA_Arbiter) <= 128` at compile time.
-It has not yet been compiled because local command execution is unavailable.
-Its test is evidence of intended coverage, not a passing target or host build.
+It has not yet been compiled. Local command execution is unavailable. GitHub
+Actions runs `34038125932` and `34038125990` each created the conformance job
+but terminated before runner allocation: `runner_id` was 0 and the step list was
+empty. No checkout, compiler or test command ran. The workflow is manual-only
+until hosted runners are available, preventing infrastructure failures from
+masquerading as code failures. The C test remains intended coverage, not a
+passing target or host build.
 
 ## Closest completion path
 

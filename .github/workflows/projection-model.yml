@@ -1,22 +1,8 @@
 name: Projection model checks
 
+# Manual-only until the repository can allocate a hosted runner.
 on:
-  push:
-    branches:
-      - codex/ra4-driver-temperature
-    paths:
-      - "prototype/resident_hmi/**"
-      - "prototype/projection_arbiter_c/**"
-      - "analysis_tools/swf_abc_inspect.py"
-      - "analysis_tools/tests/test_swf_abc_inspect.py"
-      - ".github/workflows/projection-model.yml"
-  pull_request:
-    paths:
-      - "prototype/resident_hmi/**"
-      - "prototype/projection_arbiter_c/**"
-      - "analysis_tools/swf_abc_inspect.py"
-      - "analysis_tools/tests/test_swf_abc_inspect.py"
-      - ".github/workflows/projection-model.yml"
+  workflow_dispatch:
 
 permissions:
   contents: read
