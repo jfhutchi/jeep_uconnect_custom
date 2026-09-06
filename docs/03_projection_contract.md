@@ -3,7 +3,8 @@
 Status: **foreground ownership reconstructed in part; backend incomplete**.
 
 Production treats projection as an application inside stock Uconnect. See the
-address-level [foreground report](../reports/projection_foreground_ownership.md).
+address-level [foreground report](../reports/projection_foreground_ownership.md)
+and the fail-safe [adapter boundary](09_projection_adapter_boundary.md).
 
 ## Verified names and semantics
 
