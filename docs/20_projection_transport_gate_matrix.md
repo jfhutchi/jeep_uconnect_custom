@@ -1,0 +1,50 @@
+# PC reference versus RA4 projection gates
+
+Date: 2026-09-06. Decision artifact for canonical draft PR #14. Status explicitly
+separates reference observations from the RA4's static and runtime evidence.
+The [bench contract](../reports/android_auto_reference_contract.md) preserves
+PR #15's provenance and limits; the [RA4 census](../reports/ra4_usb_stack_backend_census.md)
+provides hashes, boundaries and the expected backend interface.
+
+| Gate | PC/DHU reference | RA4 evidence | Status | Missing proof |
+| --- | --- | --- | --- | --- |
+| Cabin path / host detection | PC detects Samsung phone | C2 external pair HIGH; two host HCDs configured | UNKNOWN cabin-to-controller; STATIC_PROVED host configuration | Identified C2-to-PHY/controller net or existing correlated live topology record |
+| Host API primitives | DHU performs accessory negotiation | Installed `libusbdi.so.2` exports vendor, descriptor, config, pipe and bulk APIs; stock clients import them | STATIC_PROVED API presence; HIGH usable stock host stack | Authorized client access, ABI/link/load check and exclusive device ownership |
+| AOA request | AOA v2 reported after PC library change | Host primitives present; no identified installed AOA negotiator | PROVED PC; UNKNOWN RA4 | Selected phone accepts requests through stock cabin path |
+| Accessory re-enumeration | `04E8:6860 -> 18D1:2D01`; Windows and Android corroborate | No RA4 observation | PROVED PC; UNKNOWN RA4 | Fresh accessory enumeration on the same physical path |
+| Bulk endpoint availability | Interface 0, IN `0x81`, OUT `0x01` discovered | Descriptor/pipe/bulk API surface present | PROVED PC descriptors; STATIC_PROVED RA4 APIs | Actual descriptors, claim and endpoint availability on RA4 |
+| Bulk transport establishment | Direct USB failed after enumeration; ADB tunnel worked | No receiver/client or transfer trial | UNKNOWN RA4; direct PC gate not passed | Sustained bidirectional transfers with detach handling; no stock-device interference |
+| Android Auto negotiation | Protocol 1.7 over ADB only | HMI `GAL` vocabulary; engine absent under searched names | PROVED PC/ADB; UNKNOWN RA4 | Authorized receiver reaches protocol agreement over RA4 transport |
+| TLS/session setup | TLS 1.2 passed over ADB only | No executable receiver contract | PROVED PC/ADB; EXTERNAL_PROVIDER_GATE RA4 | Compatible authorized engine and legitimate session setup |
+| Video path / visible projection | Dashboard rendered over ADB | Stock 640x480 display; decoder/interface/resource gates open | PROVED PC/ADB; UNKNOWN RA4 | Decoder output, composition, frame timing and memory on exact ABI |
+| Touch/input | Dashboard-to-launcher tap over ADB | Stock touch infrastructure and host ownership model | PROVED PC/ADB; UNKNOWN RA4 | Input delivery to authorized app/engine, focus release and no stolen stock input |
+| Audio / microphone | Audio quality not independently validated | Stock audio services and HMI status contracts | UNKNOWN | Supported audio focus, call/voice paths, latency and restoration |
+| Foreground ownership | PC window offers no vehicle-arbiter proof | HMI AppStateManager checks and host model | STATIC_PROVED stock branches; UNKNOWN custom app | Supported foreground identity with camera/critical/comfort priority |
+| Disconnect/recovery | Clean ADB session exits; second session after tunnel recreation; normal USB after owner reconnect | Host leases/fail-open model only | PROVED limited PC behavior; UNKNOWN RA4 | No stale ownership, bounded cleanup and automatic stock restoration |
+| Return to Uconnect | Not tested by PC/DHU | HMI `projectionBackToCar` consumer and `BacktoCar` branch; may call start-named API before navigation | STATIC_PROVED HMI contract; UNKNOWN engine continuity | Return hides projection without ending a healthy session; resume semantics from provider |
+| Camera takeover | No vehicle in bench | Stock HMI camera priority and host arbiter model | STATIC_PROVED stock paths; UNKNOWN custom coexistence | Camera remains independent through app launch, hang, exit and removal |
+| Critical/eCall and HVAC | No vehicle in bench | Existing priority/overlay model and stock evidence | UNKNOWN custom coexistence | Authorized integration yields correctly; no emergency-call trial improvised |
+| USB device/function stack | Not required for host-side AOA | No named DCD/function bundle in bounded census | UNKNOWN complete board/device capability; EXTERNAL_PROVIDER_GATE for missing components | Exact QNX 6.5 OMAP DCD, descriptors and reversible cabin route if chosen CarPlay transport needs them |
+| Stock projection backend | Google DHU services the PC session | ModuleLink destination `phoneProjectionService`, separate `DeviceConnectionManager`; no matching provider artifact | STATIC_PROVED expected client contract; EXTERNAL_PROVIDER_GATE implementation | Provider/package identity, service registration, matching screen and permitted API |
+| Resident launch and authorization | Windows DHU proves none | Secure AMS/AppManager/Xlet manual launch chain | STATIC_PROVED stock lifecycle; EXTERNAL_PROVIDER_GATE app | Legitimate package identity/schema/permissions and supported surface lifecycle |
+| Resource fit | PC RAM/CPU/storage is inapplicable | Approx. 77 MB historical free space; budget unchanged | UNKNOWN measured product fit | <=15 MB installed, <=4 MB growth, <=8 MB extra staging, >=45 MB reserve and >=5 MB residual |
+| Rollback | PC/phone returned to ordinary USB state | Stock per-app lifecycle traced; no custom package trial | UNKNOWN RA4 runtime rollback | Package-local uninstall, registry reconciliation, clean reboot and stock baseline |
+
+## Decision rules
+
+1. Host-side AOA can proceed architecturally with either proved reachable host
+   controller. EHCI is not disqualified because it lacks peripheral mode. A
+   conventional downstream hub does not inherently prevent host-side AOA;
+   routing, compatibility, power and device ownership still need proof.
+2. The documented QNX 6.6 CarPlay role-swap route is a separate reference. Do
+   not transfer its DCD prerequisite to Android Auto or assume QNX 6.6 binaries
+   are compatible with the recovered QNX 6.5 image.
+3. Enumeration, protocol/TLS and visible projection each need their own
+   observation. HMI labels and host tests cannot advance target runtime gates.
+4. Do not deploy before the [no-engine resident milestone](21_first_resident_runtime_proof.md)
+   prerequisites are met. A provider or missing-evidence gate is not a measured
+   local failure and does not select external compute.
+
+This run advances the host API evidence, expected backend contract, provider
+qualification and experiment definition. It does not establish working Android
+Auto at the stock Jeep USB port.
