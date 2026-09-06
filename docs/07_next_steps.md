@@ -4,19 +4,19 @@ Updated 2026-09-06. Production is projection inside stock Uconnect, not a
 replacement shell. The refocused PC prototype exercises only projection
 ownership, adapter boundaries and failure policy.
 
-## Next highest-value static task
+## Next highest-value evidence
 
 The [post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md) executed
 135 Python tests, 20 JS tests, the strict C99 build/run, the seven-root 122-marker
 census and bounded foreground XREFs. Do not repeat those acquisitions without
 new evidence or code changes.
 
-1. Follow the completed [USB PHY/power trace](../reports/ra4_usb_phy_power_control.md):
-   Mentor requests PHY reset; `usbPowerSwitch` changes ULPI VBUS-drive bits
-   under stock onoff lifecycle control. Inspect recovered startup/I2C/PMIC
-   configuration for explicit PHY identity and power-switch linkage to
-   `0x480ab000`; no target execution or role change. Utility success is not
-   electrical proof because its exhausted-poll path can return zero.
+1. Correlate existing owner-supplied topology/boot captures or authorized
+   passive board/net evidence to Radio C2. The completed
+   [startup PHY trace](../reports/ra4_startup_usb_phy_identity.md) identifies
+   intended USB83340-family EHCI support and GPIO-38 reset, separately from
+   Mentor's ULPI power configuration. Mentor PHY and physical port mapping
+   remain unproved; neither generic PMIC names nor utility success close them.
 2. Obtain a matching owner-supplied `DeviceProjection.swf`/backend or legitimate
    provider contract. The seven-root filename census and 610-SWF exact-name
    census did not locate the screen or a back-to-car event listener.

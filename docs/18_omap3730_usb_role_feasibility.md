@@ -33,6 +33,9 @@ and installed DCD remain unknown. The stock software control path is now
 recovered: Mentor requests ULPI PHY reset, and onoff uses `usbPowerSwitch` to
 change VBUS-drive bits through `0x480ab000`. See the
 [static power-control trace](../reports/ra4_usb_phy_power_control.md). The
+[startup follow-up](../reports/ra4_startup_usb_phy_identity.md) also identifies
+intended USB83340-family support on the separate EHCI path and its GPIO-38
+reset sequence; this does not identify Mentor's PHY or the Radio C2 route. The
 runtime must include an OMAP-compatible `io-usb-dcd` controller DLL plus the
 CarPlay function/descriptor path.
 
@@ -56,6 +59,7 @@ CarPlay cannot run locally without an authorized BSP/driver addition.
 | RA4 Apple-adjacent path | `itun`, `libipod`, iPod/media integration and CarPlay HMI vocabulary | CONFIRMED adjacent capability |
 | RA4 device stack | `io-usb-dcd`, controller DLL, function driver, descriptors, startup and port mapping | UNKNOWN |
 | stock PHY/power request | Mentor ULPI reset; onoff calls `usbPowerSwitch`, which writes OTG Control `0x86`/`0xe6` through `0x480ab000` | CONFIRMED STATIC / electrical result UNKNOWN |
+| EHCI PHY startup | Board startup names USB83340C, uses EHCI ULPI selector 2, pulses GPIO bank 2 bit 6 and reads ID bytes; compares only vendor low byte | CONFIRMED STATIC / HIGH intended family; fitted silicon and port nets UNKNOWN |
 | physical role route | hub silicon/role behavior, D2784B-to-BE2800/controller nets, PHY/power-switch identity and electrical VBUS behavior | EXTERNAL_EVIDENCE_REQUIRED |
 | CarPlay receiver | licensed driver/receiver/manager, MFi authentication and service ABI | EXTERNAL_EVIDENCE_REQUIRED |
 

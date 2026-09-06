@@ -2,6 +2,9 @@
 
 Date: 2026-09-06. Analyzed with repository revision `52546ed8a8e993402143daa1b26f2a78c68cd089`.
 This follows the [post-reboot checkpoint](ra4_post_reboot_checkpoint.md).
+Subsequent [startup PHY identification](ra4_startup_usb_phy_identity.md) completes
+this report's next target: it identifies intended USB83340-family support on
+the separate EHCI path while leaving Mentor identity and physical nets open.
 It records original static analysis, artifact metadata and reproducible host
 commands. No recovered executable, Lua program or target service was run.
 

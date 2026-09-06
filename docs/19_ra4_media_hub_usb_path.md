@@ -157,7 +157,8 @@ UNKNOWN:
   bidirectionally during CarPlay role swap;
 - whether physical VBUS can be removed or reversed safely (the stock software
   VBUS-drive request is now [statically proved](../reports/ra4_usb_phy_power_control.md));
-- D2784B-to-OMAP PCB nets, PHY, power switch and controller instance;
+- D2784B-to-OMAP PCB nets, Mentor PHY, power switch and controller instance
+  (startup separately names an intended USB83340-family EHCI PHY);
 - installed OMAP-compatible DCD, descriptors, function driver and startup rule.
 
 ## Exact next evidence
@@ -173,8 +174,12 @@ OTG controller. The utility's exhausted-poll path can report success without
 completion; its Lua callers discard results. This narrows software ownership
 without proving electrical behavior. Radio C2 controller routing, physical
 PHY/power-switch identity, hub reversibility and device role remain UNKNOWN.
-The next local static target is startup/I2C/PMIC configuration for an explicit
-PHY/power-switch link; external hub/net evidence remains necessary.
+The completed [startup follow-up](../reports/ra4_startup_usb_phy_identity.md)
+now names intended USB83340-family EHCI support, encoded ULPI selector 2 and a
+GPIO-38 reset sequence. It separately configures Mentor's unnamed PHY. The
+EHCI ID check compares only vendor low byte `0x24`; no observed chip identity
+or Radio C2 mapping follows. Existing topology captures or authorized passive
+hub/net evidence are now the decisive correlation targets.
 
 The most efficient closure is passive identification of the stock data hub:
 

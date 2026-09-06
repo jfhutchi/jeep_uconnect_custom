@@ -8,7 +8,29 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 USB PHY and power-control trace
+### Current checkpoint: 2026-09-06 startup PHY identity
+
+The [startup PHY report](reports/ra4_startup_usb_phy_identity.md) completes the
+startup/I2C/PMIC follow-up. The board-specific startup code names `USB83340C`
+on its EHCI path, accesses `0x480648a4` with encoded port selector 2, and pulses
+GPIO bank 2 bit 6 (GPIO 38) in the reset/identity routine. It reads four PHY ID
+bytes but compares only the vendor low byte `0x24`; intended USB83340-family
+support is HIGH, while fitted silicon and physical wiring remain unproved.
+
+The same startup routine separately writes Mentor Interface Control `0x40` and
+OTG Control `0x86` at the `0x480ab000` controller. The EHCI chip name cannot be
+assigned to Mentor. Generic TWL4030 I2C/audio/graphics strings do not establish
+a USB PMIC or power-switch connection; recovered graphics config sets
+`tw4030 = 0`. Fresh validation checked source/prefix hashes and startup bounds,
+eight ARM ranges (310 instructions), seven instruction anchors and three
+configuration/driver hashes. No new implementation or target execution.
+
+The next hardware evidence is an existing owner-supplied topology/boot capture
+or authorized passive net/board evidence linking Radio C2 to one controller.
+Mentor PHY identity, external VBUS switch, hub reversibility and DCD/function
+support remain open. Keep the two controller paths separate in further work.
+
+### Preceding checkpoint: 2026-09-06 USB PHY and power-control trace
 
 The [USB PHY/power-control report](reports/ra4_usb_phy_power_control.md) closes
 the previous Mentor board-init/ULPI task. It is current for USB static findings:
@@ -26,9 +48,8 @@ the previous Mentor board-init/ULPI task. It is current for USB static findings:
   ARM ranges (1,022 instructions), parsed 70 Lua prototypes and checked the four
   zero-result CALLs. No implementation/tool changes or new host-suite runs.
 
-Next bounded static target: recovered startup/I2C/PMIC configuration for an
-explicit PHY identity and power-switch link to this ULPI controller. Radio C2
-nets, active hub reversibility and a compatible DCD/function stack remain open.
+The subsequent startup report above completes this checkpoint's next target
+and identifies the EHCI-family lead without closing Mentor or Radio C2 wiring.
 
 ### Preceding checkpoint: 2026-09-06 after reboot
 

@@ -37,6 +37,11 @@ Status vocabulary:
 
 ## Current implementation evidence
 
+The [startup PHY follow-up](../reports/ra4_startup_usb_phy_identity.md) now
+identifies intended USB83340-family support and a GPIO-38 reset sequence on
+EHCI, separately from Mentor's ULPI configuration. Its vendor-low-byte check
+does not establish fitted silicon; the physical port and DCD gates stay open.
+
 The development-host bench now passes all 20 committed tests under Node 24.15.0;
 all eight mjs modules pass `node --check`. The earlier isolated V8 fallback was
 historical verification. The post-reboot Python discovery passes 135 tests.
@@ -56,9 +61,10 @@ remains manual-only. Exact local commands/results are in the
 1. Follow the [post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md):
    host tests, strict C99 execution, 122-marker census and foreground XREFs are
    complete. Raw markers do not inspect compressed SWF contents.
-2. Use the [completed Mentor/power trace](../reports/ra4_usb_phy_power_control.md)
-   to pursue explicit PHY identity and power-switch linkage in startup/I2C/PMIC
-   configuration; correlate to authorized BE2800 port nets and the DCD lane.
+2. Use the [completed startup PHY trace](../reports/ra4_startup_usb_phy_identity.md)
+   to correlate the named EHCI USB83340-family/GPIO-38 path and separate Mentor
+   ULPI path to existing topology captures or authorized BE2800 port nets;
+   close the physical hub and DCD gates independently.
 3. Acquire the matching projection screen/backend contract and prove the
    BacktoCar/start path's session continuity, then close comfort/audio seams.
 4. Use the proved Xlet lane only with legitimate package authorization.

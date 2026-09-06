@@ -87,8 +87,10 @@ or a complete backend.
 6. Follow the completed 122-marker census with imports/XREFs and startup
    configuration. Inspect compressed SWFs separately; raw negatives do not
    exclude their names. The [Mentor/stock power trace](../reports/ra4_usb_phy_power_control.md)
-   now proves reset and VBUS-drive requests; follow startup/I2C/PMIC evidence
-   for PHY identity and power-switch linkage, then correlate physical port nets.
+   now proves reset and VBUS-drive requests. The completed
+   [startup follow-up](../reports/ra4_startup_usb_phy_identity.md) identifies
+   intended USB83340-family EHCI support, separately from Mentor; correlate
+   existing topology captures or authorized physical port nets next.
 7. Use the static-proved Xlet launch lane only after a legitimate package
    authorization route is supplied; establish screen/service loading separately,
    then measure a tiny resident trial.
