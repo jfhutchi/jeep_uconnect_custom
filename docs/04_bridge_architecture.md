@@ -12,7 +12,10 @@ entire modern HMI on hidden external compute is superseded. Follow the mandatory
 15 MB provisional installed allowance, 4 MB runtime growth and 8 MB additional
 peak update/rollback overhead. Expected remaining space is 58 MB steady / 50 MB
 peak from an approximately 77 MB baseline; actual sizes and peaks are unmeasured.
-The deployable core should be tiny native code reusing stock services and assets.
+The deployable core should be small code reusing stock services and assets.
+The [resident decision](resident_hmi_decision.md) now prefers existing AIR/SWF
+reuse conditionally, with native QNX as an alternative and a bridge only for a
+demonstrated service gap. This supersedes the initial native-only wording.
 No complete projection engine has yet been sized or proved runnable locally.
 
 ```text
@@ -28,7 +31,7 @@ Tiny RA4-resident HMI / integration process
 
 ### RA4-resident core: feasibility targets
 
-- Render a minimal modern Uconnect-inspired UI using lightweight native facilities.
+- Render a minimal modern Uconnect-inspired UI using the smallest supported stock-runtime or native path.
 - Translate high-level user actions into supported RA4 service calls.
 - Maintain a watchdog/fallback policy.
 - Reuse stock fonts, icons, codecs, media services and platform libraries after ABI/access verification; do not package duplicates.

@@ -30,7 +30,7 @@ caps installed app size at 15 MB, runtime growth at 4 MB and additional peak
 update/rollback overhead at 8 MB. These are planning caps, not measured artifacts.
 
 ```text
-Tiny RA4-native HMI / integration process (feasibility target)
+Small RA4-resident HMI (stock AIR/SWF reuse preferred, feasibility target)
   |-- existing display / touch / assets
   |-- existing audio / media services
   |-- existing Harman / PPS vehicle services --> CAN
@@ -86,13 +86,21 @@ This project is analysis-first.
 
 ## Current milestones
 
-1. Reconstruct the projection-facing HMI contract.
-2. Document RA4 display, touch, audio and vehicle-service interfaces.
-3. Design a modern Uconnect-inspired 640x480 HMI.
-4. Validate the resident-first resource budget and isolate any capabilities that genuinely require external compute.
-5. Build bench-test tooling around a spare RA4.
-6. Prototype display/touch/audio integration.
-7. Integrate a legitimate Android Auto / CarPlay projection engine.
-8. Validate vehicle controls and fallback behavior.
+The current product slice is a useful resident application shell, **not projection
+or custom hardware**. The [resident decision](docs/resident_hmi_decision.md)
+compares AIR/SWF, native QNX and hybrid options without assuming native code is
+required. Stock-runtime reuse is preferred conditionally; loading, compatible
+toolchain and independent fallback remain unproved.
+
+The [PC prototype](prototype/resident_hmi/README.md) implements six 640x480 screens,
+mock services and fail-closed state handling without a framework or bundled assets.
+Its browser is development-only, not an RA4 runtime dependency. The
+[application contract](docs/resident_hmi_contract.md) keeps those layers separate.
+
+1. Trace one read-only driver-temperature subscription end-to-end.
+2. Establish supported app/screen loading and stock display/touch/camera ownership.
+3. Build a tiny target trial with a compatible authorized toolchain; measure it.
+4. Prove stock fallback and resource headroom before replacing any mock adapter.
+5. Consider additional media/comfort functions, then projection only after the shell.
 
 See `docs/` and the GitHub issue tracker for the detailed plan.

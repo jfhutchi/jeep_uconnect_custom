@@ -1,11 +1,33 @@
-# 07 - Next Steps
+# 07 - Product-first next steps
+
+Updated 2026-09-05. The current slice is a small resident shell, not projection,
+external hardware or unrelated Synctool research. The completed
+[PC prototype](../prototype/resident_hmi/README.md),
+[resident decision](resident_hmi_decision.md) and
+[adapter contract](resident_hmi_contract.md) move software prototyping ahead of
+bench integration. Historical phase numbers below are backlog categories, not a
+requirement to acquire hardware before building the UI.
+
+## Next single highest-value task
+
+Trace one **read-only driver-temperature subscription** from the ROV
+`IHvac`/MainSupplement client through ModuleLink into `vehicle/hvac.lua`.
+Record exact type, units, capability/validity and change-event fields with
+bytecode offsets. No radio calls, commands or raw CAN writes. Exit: a concrete
+adapter field contract and fixture independent of guessed mock encodings.
+
+Before any resident trial, independently close authorized screen/app loading,
+compatible toolchain, stock camera/display/touch ownership and crash fallback.
+Measure the complete target package, RAM/CPU/startup and storage peaks; never
+borrow the protected 45 MB stock reserve. This roadmap authorizes no deployment
+or bench/radio mutation by itself.
 
 ## Phase 1 - Finish the contract map
 
-1. Reconstruct `IPhoneProjection` properties, methods and events from SWF bytecode and related artifacts.
-2. Trace how the HMI discovers `phoneProjectionService` through ModuleLink/servicebroker.
-3. Trace display, touch and audio dependencies for a projection-active session.
-4. Document stock comfort/HVAC interfaces needed by the modern HMI.
+1. Start with the single read-only temperature subscription above.
+2. Document capability/validity semantics before replacing further state mocks.
+3. Establish supported app/screen loading and stock foreground/fallback contracts.
+4. Defer projection and new audio-source registration until the shell is useful.
 
 ### Exit criterion
 
@@ -41,7 +63,8 @@ Display, touch and audio integration paths are demonstrated without modifying si
 
 ## Phase 4 - Modern HMI prototype
 
-Build a 640x480 desktop/embedded prototype with mocked RA4 state.
+The minimal PC slice now exists. Remaining items below are later expansion,
+not claims of resident deployment or projection support.
 
 Screens:
 
@@ -70,11 +93,15 @@ Start read-only:
 - media state
 - phone/projection state
 
-Then enable low-risk comfort commands through the same high-level factory service paths.
+Only under a separately authorized plan, enable individual comfort commands
+after units, equipment capabilities, permissions, acknowledgment and failure
+semantics are established. Do not use raw CAN control.
 
 ## Phase 6 - Projection integration
 
-Integrate a legitimate CarPlay/Android Auto projection engine/module with the hidden compute layer.
+Deferred: evaluate a legitimate CarPlay/Android Auto engine only after the shell.
+There is no assumed hidden compute layer. Require external compute only for a
+capability demonstrated infeasible within stock storage/CPU/RAM and service limits.
 
 Required:
 

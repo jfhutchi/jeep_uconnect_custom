@@ -19,7 +19,7 @@ fill: initial design uses **15 MB total installed**, including private libraries
 
 | Resource | Planning allowance / cap (MB) | Measured size |
 | --- | ---: | --- |
-| Core native application / integration executable | 5 | Not built |
+| Core application / integration code (resident technology conditional) | 5 | Not built |
 | Minimal custom UI assets | 3 | Not built |
 | New private native dependencies | 2 | Not selected/built |
 | Small support files and packaged configuration defaults | 1 | Not built |
@@ -51,7 +51,7 @@ installation or radio-state changes are authorized by this budget document.
 
 ## Resident-first deployable architecture
 
-Tiny RA4-native HMI/integration process -> existing RA4 display, touch, media and
+Tiny RA4-resident HMI/integration layer -> existing RA4 display, touch, media and
 vehicle services -> optional external capabilities only where local feasibility
 is disproved or exceeds the conservative storage/compute envelope.
 
@@ -108,3 +108,36 @@ Synctool research currently installs **0 bytes on the radio** and causes **0
 bytes of radio writable growth**. Potential historical diagnostic captures can
 be much larger than this budget; collect existing artifacts off-radio without
 creating an internal staging archive or enabling high-volume logging.
+
+## Application-shell slice, 2026-09-05
+
+The [resident decision](resident_hmi_decision.md) now compares stock AIR/SWF,
+native QNX and hybrid before committing to a language. The preferred stock-AIR
+trial targets <=3 MB installed, <=1 MB normal writes and <=6 MB additional
+staging/rollback peak. These are unmeasured sub-targets, **not a change to the
+45/15/4/8/5 MB envelope**. Estimated peak remainder is about 67 MB, including
+45 MB protected and 22 MB extra headroom. Full simultaneous file/dependency,
+runtime-generated log/cache and failed-update accounting remains a release gate.
+
+The PC scaffold has no private package dependencies or bundled font/icon/image
+assets. Its source-tree size can be measured using:
+
+```text
+python -m analysis_tools.hmi_size_report prototype/resident_hmi
+```
+
+That number includes PC code/tests/docs and is **not** an installed RA4 size.
+Measured 2026-09-05 after the timing fixes: **31,325 logical bytes across 11
+files** (including tests and the prototype README). Estimated allocation at
+4,096-byte units: **61,440 bytes**, excluding filesystem metadata. These host
+source counts will change with edits and line-ending conversion; rerun the tool.
+All measured RA4 installed, writable and temporary bytes remain UNKNOWN because
+no target artifact exists. This run installed zero bytes on the radio and made
+no radio writes. Browser/Node/Python tools and their host caches are excluded from
+deployment, not hidden in the radio budget.
+
+For a future complete staging directory, the reporter's `--kind target-package`
+requires explicit `--writable-bytes` and `--temporary-bytes`, then checks the
+existing caps and reserve. It counts host logical bytes and estimates allocation
+with `--allocation-unit`; actual target allocated bytes, filesystem metadata,
+shared service growth and stock free-space behavior must still be measured.

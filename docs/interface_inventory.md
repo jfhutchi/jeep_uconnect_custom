@@ -46,9 +46,11 @@ This is the working index of interfaces, services and artifacts relevant to the 
 
 ## Next items to resolve
 
-- Complete `IPhoneProjection` method/property/event list.
-- ModuleLink/servicebroker discovery and message contract for projection.
-- QNX Screen ownership and z-order behavior during projection and camera takeover.
-- Touch-event ownership/routing during a projection session.
-- Audio source registration and lifecycle for `audioApp` or an equivalent projection source.
-- High-level write paths for heated seats, heated steering wheel and HVAC commands.
+The [MVP adapter contract](resident_hmi_contract.md) narrows the immediate work
+to a resident shell. VERIFIED above means the named reference/facility was
+observed, not that its complete interface is available to a new application.
+
+- First: one read-only driver-temperature subscription, units and validity.
+- Then: supported screen loading, camera preemption and stock fallback ownership.
+- Later: per-control capability, permission and observed-state acknowledgment.
+- Projection and new audio-source registration are deferred beyond the MVP.
