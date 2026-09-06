@@ -71,12 +71,18 @@ there is no automatic instruction-set detection. Disassembly returns exit 2 if
 it stops before the requested end, for example on a literal pool. Revisit the
 range instead of treating a truncated listing as a complete function.
 
-`imports` resolves classic ARM ADD/ADD/LDR PLT candidates using section-linked
-ELF32 REL `R_ARM_JUMP_SLOT` symbols. It uses raw ARM-word filtering, not full
-Capstone decoding or assumed PLT order. Section headers are required; Thumb,
-RELA and other linker stub forms are unsupported. An empty result is not proof
-that another binary has no imports. Synthetic tests cover symbol links, bounds,
-rotated immediates, stub shape and invalid entries. Fixed-address Synctool
+`imports` resolves classic ARM ADD/ADD/LDR PLT candidates using ELF32 REL
+`R_ARM_JUMP_SLOT` symbols. It prefers `PT_DYNAMIC` metadata and uses section-linked
+tables when no dynamic segment exists. This handles stripped QNX binaries whose
+remaining sections contain no relocation/symbol information. Malformed dynamic
+metadata raises an error instead of silently falling back. Dynamic symbol reads
+are bounded by file-backed load segments; this is not a full linker or hash-table
+symbol-count verifier. It uses raw ARM-word filtering, not full Capstone decoding
+or assumed PLT order. Thumb, RELA and other linker stub forms are unsupported.
+An empty result is not proof that another binary has no imports. Synthetic tests
+cover both metadata paths, bounds, rotated immediates, stub shape and invalid
+entries. The [projection gateway report](../reports/ra4_projection_gateway_dispatch.md)
+cross-checks 181 real import slots independently. Fixed-address Synctool
 conclusions must also pass the SHA-gated evidence verifier.
 
 Whole-segment caller, prologue, immediate, field-access and PC-literal scans

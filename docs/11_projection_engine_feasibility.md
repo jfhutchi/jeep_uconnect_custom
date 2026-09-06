@@ -50,7 +50,7 @@ CarPlay Ultra or a replacement digital cockpit is outside this project's scope.
 | QNX legacy Apple transport plus supported receiver | CarPlay | QNX 6.6 transport documented; RA4 6.5 DCD/receiver compatibility UNKNOWN | Documented host-to-device transition; automotive iOS drivers, DCD, reversible hub/PHY path and decoder required for that route | EXTERNAL_PROVIDER_GATE: QNX support and Apple MFi; no installed receiver identified | All target measurements UNKNOWN; every added driver/dependency counts |
 | Cinemo CORE Projection authorized QNX 6.5 port/build | Android Auto | Current SDK advertises cross-platform OS/SoC support; exact 6.5/ARMv7 ABI support UNKNOWN | Provider advertises USB and wireless; exact decoder/GPU/memory contract and minimum hardware UNKNOWN | EXTERNAL_PROVIDER_GATE: commercial provider and Google qualification; project eligibility/legacy support unconfirmed | Marketing says low CPU/memory; no numeric installed/RAM/CPU figures; cap UNKNOWN |
 | Cinemo CORE Projection authorized legacy integration | CarPlay | Current family supports QNX; local HMI names Cinemo CarPlay errors, but no engine binary/version | USB/wireless advertised; RA4 transport/authentication hardware/video requirements UNKNOWN | EXTERNAL_PROVIDER_GATE: Cinemo/Harman integration contract plus Apple MFi, permitted distribution and package authorization | No numeric target figures; all added runtime dependencies count; cap UNKNOWN |
-| Harman/OEM supplies the matching optional service + screen package | Android Auto and CarPlay, separately qualified | Exact `phoneProjectionService` client contract STATIC_PROVED; native package identity/OS build UNKNOWN | Must disclose `DeviceConnectionManager`, service registration, screen loader, codec/audio/USB interfaces | EXTERNAL_PROVIDER_GATE: matching release manifest and legitimate package issuer; current Harman engineering services do not prove an RA4 retrofit offer | Package manifest, per-engine bytes and measurements UNKNOWN |
+| Harman/OEM supplies matching bridge, service and screen components | Android Auto and CarPlay, separately qualified | Exact client contract and recovered gateway routing gap STATIC_PROVED; compatible component build UNKNOWN | Must supply supported destination routing or a separate permitted API, device manager, screen loader and codec/audio/USB interfaces | EXTERNAL_PROVIDER_GATE: matching release manifest and legitimate package issuer; current Harman engineering services do not prove an RA4 retrofit offer | Package manifest, per-engine bytes and measurements UNKNOWN |
 
 The [Cinemo CORE Projection page](https://automotive.cinemo.com/products-and-services/cinemo-core/core-projection/)
 offers an integration SDK for Android Auto and CarPlay with USB/wireless
@@ -66,6 +66,14 @@ links HMI constants `CARPLAY_CINEMO_START_ERROR=1000` and
 **INFERRED:** Cinemo/Harman can be asked a much more specific legacy-component
 question. **UNKNOWN:** the intended provider version, whether code was ever
 shipped for this hardware and whether an individual owner can license it.
+
+The subsequent [native gateway trace](../reports/ra4_projection_gateway_dispatch.md)
+finds a concrete compatibility gap: recovered `hmiGateway` resolves neither
+`phoneProjectionService` nor `DeviceConnectionManager`. Unknown commands and
+owner-notification requests exit before the native service call. Qualification
+must therefore include a supported matching bridge/build or separate authorized
+app/engine API. A receiver plus service registration alone is insufficient for
+the inspected stock HMI route. No gateway patch or alias substitution is proposed.
 
 [Harman's engineering-services page](https://car.harman.com/solutions/automotive-engineering-services/software-integrator-services/digital-cockpit-engineering-services)
 lists QNX platform work and Android Auto/CarPlay integration. This supports an

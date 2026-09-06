@@ -8,7 +8,48 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 transport, backend and provider gates
+### Current checkpoint: 2026-09-06 native projection gateway routing
+
+Started clean at `1708c4f` on canonical `codex/ra4-driver-temperature`; fetched
+origin with no divergence. PR #14 remains open/draft. PR #15's independent
+phone/DHU evidence and branch were not changed or rerun.
+
+The new [native gateway trace](reports/ra4_projection_gateway_dispatch.md)
+establishes a **STATIC_PROVED routing gap**: recovered `hmiGateway` has a fixed
+service/object resolver that recognizes neither `phoneProjectionService` nor
+`DeviceConnectionManager`. An unknown destination clears both resolved strings
+and returns `-1`; the command caller exits before invocation and the owner
+notification caller exits before querying/subscribing. Registering a service
+under the HMI's expected name alone cannot make this route work. The stock
+`ConnectionManager` mapping is distinct from `DeviceConnectionManager`.
+
+**HIGH:** shared `main.swf` Connection code, gateway message parsing, SVCIPC
+imports and boot launch identify the native bridge relationship. **INFERRED:**
+the bundled HMI retains a broader build-family contract than this gateway.
+**UNKNOWN:** the deployment reason, matching backend/package/bridge and live
+state. **EXTERNAL_PROVIDER_GATE:** request supported matching bridge, device
+manager, screen and receiver components, or a separate supported app/engine API.
+No stock gateway patch, alias substitution or new deployment is proposed.
+
+The ARM tool now reads `PT_DYNAMIC` PLT relocations when stripped ELF sections
+cannot supply imports. Its 181 gateway import slots match an independent
+pyelftools relocation/symbol read. Five new synthetic tests cover resolution,
+malformed/incomplete metadata, absent PLT metadata and ignored relocation types.
+Fresh full Python suite: **145 tests pass, no skips**; compileall passes.
+The current report records hash-bound native/SWF anchors and USB rule evidence.
+
+The six stock USB device-rule files contain legacy serial/network/storage,
+MTP and iPod matches, with no explicit AOA `18D1:2D01` rule identified.
+`enum_devices.lua` only selects some Fiat iPod configuration links. Exclusive
+AOA ownership and re-enumeration handling remain UNKNOWN; no Windows driver
+conclusion is transferred to RA4. No vehicle, phone or target action occurred.
+
+The backend compatibility requirement is sharper, but no transport, engine,
+video, audio, input, resource or rollback runtime gate passed. Cabin topology
+still needs the passive C2-to-PHY/controller evidence. The resident milestone
+and resource caps are unchanged; installed radio effect remains zero bytes.
+
+### Preceding checkpoint: 2026-09-06 transport, backend and provider gates
 
 Canonical branch remains `codex/ra4-driver-temperature`, draft PR #14. This
 continuation began with a clean checkout on main `6c898a1`, fetched origin and

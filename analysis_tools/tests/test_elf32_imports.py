@@ -29,7 +29,61 @@ def import_fixture():
     return data, reloc_offset, sections_offset
 
 
+def dynamic_import_fixture():
+    # All metadata is in PT_LOAD; a second header describes PT_DYNAMIC.
+    payload = bytearray(0x180)
+    struct.pack_into('<III', payload, 0, 0xE28FC000, 0xE28CC000, 0xE5BCF018)
+    payload[0x40:0x4f] = b'\0example_write\0'
+    struct.pack_into('<IIIBBH', payload, 0x70, 1, 0, 0, 0x12, 0, 0)
+    struct.pack_into('<II', payload, 0x80, 0x1020, (1 << 8) | 22)
+    tags = [(5, 0x1040), (10, 15), (6, 0x1060), (11, 16),
+            (23, 0x1080), (2, 8), (20, 17), (19, 8), (0, 0)]
+    for index, record in enumerate(tags):
+        struct.pack_into('<II', payload, 0xa0 + index * 8, *record)
+    data = bytearray(_elf32(bytes(payload)))
+    struct.pack_into('<H', data, 44, 2)
+    struct.pack_into('<8I', data, 84, 2, 0x1a0, 0x10a0, 0x10a0,
+                     len(tags) * 8, len(tags) * 8, 4, 4)
+    return data
+
+
 class ImportTests(unittest.TestCase):
+    def test_resolves_sectionless_dynamic_plt(self):
+        analyzer = ArmElfAnalyzer(Elf32Image.from_bytes(bytes(dynamic_import_fixture())))
+        self.assertEqual(analyzer.plt_imports(), {0x1000: (0x1020, 'example_write')})
+
+    def test_rejects_invalid_dynamic_metadata(self):
+        for offset, value in ((0x1a0 + 8 + 4, 5),  # unterminated bounded string
+                              (0x1a0 + 3 * 8 + 4, 8),  # symbol stride
+                              (0x1a0 + 4 * 8 + 4, 0x9000),  # unmapped REL
+                              (0x1a0 + 5 * 8 + 4, 7),  # partial REL
+                              (0x1a0 + 6 * 8 + 4, 7),  # RELA unsupported
+                              (0x184, (999 << 8) | 22),  # unmapped symbol
+                              (0x170, 99),  # out-of-range name
+                              (0x1e0, 21)):  # missing DT_NULL
+            data = dynamic_import_fixture()
+            struct.pack_into('<I', data, offset, value)
+            with self.subTest(offset=offset), self.assertRaises(ElfFormatError):
+                ArmElfAnalyzer(Elf32Image.from_bytes(bytes(data))).plt_imports()
+
+    def test_dynamic_table_without_plt_relocations_has_no_imports(self):
+        data = dynamic_import_fixture()
+        struct.pack_into('<I', data, 0x1a0 + 4 * 8, 0)
+        self.assertEqual(ArmElfAnalyzer(Elf32Image.from_bytes(bytes(data))).plt_imports(), {})
+
+    def test_rejects_incomplete_duplicate_and_partial_dynamic_table(self):
+        for offset, value in ((0x1a0 + 3 * 8, 21), (0x1a0 + 3 * 8, 10),
+                              (84 + 16, 71)):
+            data = dynamic_import_fixture()
+            struct.pack_into('<I', data, offset, value)
+            with self.subTest(offset=offset), self.assertRaises(ElfFormatError):
+                ArmElfAnalyzer(Elf32Image.from_bytes(bytes(data))).plt_imports()
+
+    def test_dynamic_non_jump_slot_does_not_resolve_symbol(self):
+        data = dynamic_import_fixture()
+        struct.pack_into('<I', data, 0x184, (999 << 8) | 2)
+        self.assertEqual(ArmElfAnalyzer(Elf32Image.from_bytes(bytes(data))).plt_imports(), {})
+
     def test_resolves_rel_symbol_and_arm_plt_without_executing_target(self):
         self.assertTrue(hasattr(ArmElfAnalyzer, 'plt_imports'), 'PLT resolver missing')
         data, _, _ = import_fixture()
@@ -56,7 +110,7 @@ class ImportTests(unittest.TestCase):
             with self.subTest(offset=offset), self.assertRaises(ElfFormatError):
                 ArmElfAnalyzer(Elf32Image.from_bytes(bytes(damaged))).plt_imports()
 
-    def test_no_sections_has_no_imports(self):
+    def test_no_sections_or_dynamic_metadata_has_no_resolved_imports(self):
         analyzer = ArmElfAnalyzer(Elf32Image.from_bytes(_elf32(bytes(12))))
         self.assertEqual(analyzer.plt_imports(), {})
 

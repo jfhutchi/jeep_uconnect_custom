@@ -142,13 +142,54 @@ class ArmElfAnalyzer:
             raise ElfFormatError(f"ELF machine {image.machine} is not ARM")
         self.image = image
 
-    def plt_imports(self) -> dict[int, tuple[int, str]]:
-        """Resolve classic ARM ADD/ADD/LDR PLT candidates via ELF32 REL entries.
+    def _dynamic_jump_slots(self) -> dict[int, str] | None:
+        segments = [s for s in self.image.program_segments if s.kind == 2]
+        if not segments:
+            return None
+        if len(segments) != 1:
+            raise ElfFormatError('multiple PT_DYNAMIC segments are unsupported')
+        segment = segments[0]
+        if segment.file_size % 8:
+            raise ElfFormatError('partial ELF32 dynamic entry')
+        records = self.image.data[segment.offset:segment.offset + segment.file_size]
+        tags: dict[int, int] = {}
+        wanted = {2, 5, 6, 10, 11, 19, 20, 23}
+        for tag, value in struct.iter_unpack('<II', records):
+            if tag == 0:
+                break
+            if tag in wanted:
+                if tag in tags:
+                    raise ElfFormatError('duplicate dynamic PLT metadata tag')
+                tags[tag] = value
+        else:
+            raise ElfFormatError('unterminated PT_DYNAMIC table')
+        if not {2, 20, 23} & tags.keys():
+            return {}
+        if not {2, 5, 6, 10, 11, 20, 23} <= tags.keys():
+            raise ElfFormatError('incomplete dynamic PLT metadata')
+        if tags[20] != 17 or tags.get(19, 8) != 8 or tags[11] != 16 or tags[2] % 8:
+            raise ElfFormatError('unsupported dynamic relocation/symbol format')
 
-        Requires section headers. Supports R_ARM_JUMP_SLOT only, not Thumb,
-        RELA or arbitrary linker stubs. No target execution or broad decoding.
-        A matching stub is not proof that a caller reaches it at runtime.
-        """
+        def read(address: int, size: int) -> bytes:
+            try:
+                return self.image.read_vaddr(address, size)
+            except ValueError as exc:
+                raise ElfFormatError('dynamic metadata outside file-backed load segment') from exc
+
+        names = read(tags[5], tags[10])
+        imports: dict[int, str] = {}
+        for offset, info in struct.iter_unpack('<II', read(tags[23], tags[2])):
+            if info & 255 != 22:  # R_ARM_JUMP_SLOT
+                continue
+            symbol = read(tags[6] + (info >> 8) * 16, 16)
+            name_offset = struct.unpack_from('<I', symbol)[0]
+            end = names.find(b'\0', name_offset)
+            if name_offset >= len(names) or end < 0:
+                raise ElfFormatError('invalid dynamic symbol name')
+            imports[offset] = names[name_offset:end].decode('ascii', errors='backslashreplace')
+        return imports
+
+    def _section_jump_slots(self) -> dict[int, str]:
         data = self.image.data
         section_offset = struct.unpack_from('<I', data, 32)[0]
         entry_size, count = struct.unpack_from('<HH', data, 46)
@@ -190,6 +231,18 @@ class ArmElfAnalyzer:
                 if name_offset >= len(names) or end < 0:
                     raise ElfFormatError('invalid symbol name')
                 imports[offset] = names[name_offset:end].decode('ascii', errors='backslashreplace')
+        return imports
+
+    def plt_imports(self) -> dict[int, tuple[int, str]]:
+        """Resolve classic ARM ADD/ADD/LDR PLT candidates via ELF32 REL entries.
+
+        Uses PT_DYNAMIC, with section-linked metadata when no dynamic segment
+        exists. Supports R_ARM_JUMP_SLOT only, not Thumb, RELA or arbitrary
+        linker stubs. A match does not prove runtime reachability.
+        """
+        imports = self._dynamic_jump_slots()
+        if imports is None:
+            imports = self._section_jump_slots()
 
         def arm_immediate(word: int) -> int:
             rotate = ((word >> 8) & 15) * 2

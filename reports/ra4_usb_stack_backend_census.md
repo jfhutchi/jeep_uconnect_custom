@@ -200,10 +200,13 @@ owners; connection to a generic broker does not itself prove an owner exists.
 `ModuleLink.xml` configures the span/hb endpoint at localhost port 4400 (hash
 `46cacc8e084ba4b3024cdf68191da1b7165754cc2bedbc2bf44949a9ab59e533`). This is an
 existing transport setting, **not permission or a standalone-client protocol**.
-The variable names are DBus-oriented and the wrapper sends a JSON-like envelope;
-the exact native bridge, D-Bus object/interface, servicebroker registration,
-executable/package owner and supported caller ABI remain UNKNOWN. No connection
-was attempted, and no wire request or socket/PPS adapter is supplied.
+The variable names are DBus-oriented and the wrapper sends a JSON-like envelope.
+The subsequent [native gateway trace](ra4_projection_gateway_dispatch.md)
+identifies the SVCIPC bridge with HIGH confidence and proves that the recovered
+gateway's normal routing rejects both projection destinations. The matching
+D-Bus object/interface, executable/package owner and supported caller ABI remain
+UNKNOWN; a compatible bridge/build is also required for this HMI route. No
+connection was attempted, and no wire request or socket/PPS adapter is supplied.
 
 The prior raw census supplied no exact native `phoneProjectionService` hit;
 the new dynamic metadata and archive-member census likewise found no named

@@ -25,7 +25,7 @@ provides hashes, boundaries and the expected backend interface.
 | Camera takeover | No vehicle in bench | Stock HMI camera priority and host arbiter model | STATIC_PROVED stock paths; UNKNOWN custom coexistence | Camera remains independent through app launch, hang, exit and removal |
 | Critical/eCall and HVAC | No vehicle in bench | Existing priority/overlay model and stock evidence | UNKNOWN custom coexistence | Authorized integration yields correctly; no emergency-call trial improvised |
 | USB device/function stack | Not required for host-side AOA | No named DCD/function bundle in bounded census | UNKNOWN complete board/device capability; EXTERNAL_PROVIDER_GATE for missing components | Exact QNX 6.5 OMAP DCD, descriptors and reversible cabin route if chosen CarPlay transport needs them |
-| Stock projection backend | Google DHU services the PC session | ModuleLink destination `phoneProjectionService`, separate `DeviceConnectionManager`; no matching provider artifact | STATIC_PROVED expected client contract; EXTERNAL_PROVIDER_GATE implementation | Provider/package identity, service registration, matching screen and permitted API |
+| Stock projection backend | Google DHU services the PC session | HMI names `phoneProjectionService` and `DeviceConnectionManager`; recovered gateway rejects both in normal dispatch | STATIC_PROVED client/gateway routing gap; EXTERNAL_PROVIDER_GATE implementation | Matching supported bridge/build or separate permitted API, provider/package identity, service registration and screen |
 | Resident launch and authorization | Windows DHU proves none | Secure AMS/AppManager/Xlet manual launch chain | STATIC_PROVED stock lifecycle; EXTERNAL_PROVIDER_GATE app | Legitimate package identity/schema/permissions and supported surface lifecycle |
 | Resource fit | PC RAM/CPU/storage is inapplicable | Approx. 77 MB historical free space; budget unchanged | UNKNOWN measured product fit | <=15 MB installed, <=4 MB growth, <=8 MB extra staging, >=45 MB reserve and >=5 MB residual |
 | Rollback | PC/phone returned to ordinary USB state | Stock per-app lifecycle traced; no custom package trial | UNKNOWN RA4 runtime rollback | Package-local uninstall, registry reconciliation, clean reboot and stock baseline |
@@ -45,6 +45,9 @@ provides hashes, boundaries and the expected backend interface.
    prerequisites are met. A provider or missing-evidence gate is not a measured
    local failure and does not select external compute.
 
-This run advances the host API evidence, expected backend contract, provider
-qualification and experiment definition. It does not establish working Android
-Auto at the stock Jeep USB port.
+The [native gateway trace](../reports/ra4_projection_gateway_dispatch.md) now
+proves that backend-name registration alone cannot satisfy the recovered HMI
+route: commands and owner subscriptions exit on unknown destinations. USB rule
+inspection still does not establish exclusive AOA ownership. This advances the
+backend compatibility requirement; it does not establish working Android Auto
+at the stock Jeep USB port.
