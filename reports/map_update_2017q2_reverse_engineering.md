@@ -437,10 +437,10 @@ embedded format/prefix strings and no runtime-looking instances of the selected
 App-SKU/device/classification markers. That closes the intact-plain-text
 recovery route for these markers; compressed, fragmented, corrupted,
 differently worded, or radio-only logs are not excluded. The probe now emits
-only a truncated SHA-256 token for complete printable record/file fields, so a
+only a full SHA-256 token for complete printable record/file fields, so a
 future capture can correlate classification and exclusion values without
-printing them. Equal tokens establish equal field bytes, not the field's
-semantic type. See the focused report for offsets and reproduction commands.
+printing them. Matching tokens are strong correlation evidence for equal field
+bytes, not proof of the field's semantic type. See the focused report for offsets and reproduction commands.
 
 ## 17. Safety and handling notes
 

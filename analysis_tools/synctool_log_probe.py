@@ -17,7 +17,7 @@ from typing import BinaryIO, Iterator
 
 
 MAX_RUNTIME_FIELD_BYTES = 512
-TOKEN_HEX_CHARS = 16
+TOKEN_HEX_CHARS = 64
 
 MARKERS = {
     "app_sku": b"App SKU ID ",

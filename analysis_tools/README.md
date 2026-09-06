@@ -108,8 +108,8 @@ This standard-library-only streaming probe distinguishes embedded format
 strings from runtime-looking marker occurrences. It reports byte offsets,
 categories and, when present, a signed decimal App SKU. For complete printable
 record/file values inside the known angle-bracket fields it emits only a
-16-hex-character SHA-256 correlation token. Equal tokens let separate
-classification and exclusion events be linked without printing the value; a
+full SHA-256 correlation token. Matching tokens let separate
+classification and exclusion events be correlated without printing the value; a
 token is not proof that unlike record and filename namespaces have the same
 meaning. It never prints record names or surrounding arbitrary log contents.
 The display cap does not stop the full scan. No matches cannot exclude compressed, fragmented, damaged or

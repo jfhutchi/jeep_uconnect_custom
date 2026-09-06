@@ -52,7 +52,7 @@ class LogProbeTests(unittest.TestCase):
             b"Removing file from file copy: <" + private_value + b">"
         )
         hits = list(scan_markers(io.BytesIO(data), chunk_size=9))
-        expected = hashlib.sha256(private_value).hexdigest()[:16]
+        expected = hashlib.sha256(private_value).hexdigest()
         self.assertEqual([hit.value_token for hit in hits], [expected, expected])
         self.assertNotIn(private_value.decode(), repr(hits))
         self.assertEqual(runtime_value_token(private_value + b">"), expected)
