@@ -102,8 +102,9 @@ commit recovered libraries, DSP images, codecs, firmware, or payloads.
 
 The committed synthetic tests cover cross-chunk detection, deduplication, offset
 caps, hashes, relative paths, non-disclosure of unrelated content, explicit
-oversize skips, and multi-root totals. They are not reported as executed because
-the local command service currently cannot start a trivial process.
+oversize skips, and multi-root totals. They were executed after reboot; see the
+[checkpoint](../reports/ra4_post_reboot_checkpoint.md) for results and the raw
+census's compressed-SWF limitation.
 
 ## Legacy QNX 6.6 CarPlay transport boundary
 

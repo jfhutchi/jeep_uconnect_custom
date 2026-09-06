@@ -18,7 +18,7 @@ Status vocabulary:
 | Preserve stock Radio/Media/Climate/Controls/Phone/Messaging/Settings | Product contract and current prototype render no replacement factory screens | MODEL_PROVED / TARGET_UNPROVED | Supported stock application/screen loading boundary and target observation |
 | Full 640x480 projection while selected | `DEVICE_PROJECTION`; graphics.conf has OMAP3730/SGX530, CMC mtouch and `video_hmi`; QNX reference proves managed groups/focus | STATIC_PROVED / TARGET_UNPROVED | Exact stock group/class, buffer, z-order, focus/sensitivity, owner-death and render proof |
 | Return to Uconnect without ending session | `sessionActive` is independent of current branch at FWS `0x002588C5-0x0025892C`; host model preserves session | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Complete `PROJECTION_BACKTO_CAR` consumer and supported stock navigation action |
-| Return to active projection without reconnect | `startProjection` at `0x002B5177` is distinct from `goto(DEVICE_PROJECTION)`; model changes foreground only | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Exact return control and target session continuity measurement |
+| Return to active projection without reconnect | Stock AppPhone BacktoCar/start check at `0x00262B59-0x00262B72` precedes sessionActive/goto; model preserves session | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Missing screen/listener, start/resume backend semantics and target continuity measurement |
 | Factory camera priority and return | DisplayManager `0x002BA764`; LayerManager preemption/stack unwind `0x002D4D6F-0x002D4EF8` | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Spare-bench latency, every camera variant and projection restoration |
 | Temporary comfort overlay | HVAC popup path `0x0026DA68-0x0026DAB9` proves branch-independent popup layering; model preserves owner/session | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Heated-seat/wheel event-to-popup consumers and target overlay dismissal |
 | Projection owns ordinary call presentation while active | Projection call event `0x002B4E18-0x002B4EBC`; native HFP presentation starts `0x00257983` | STATIC_PROVED / MODEL_PROVED / TARGET_UNPROVED | Supported policy/API that gates only native goto/popup, not HFP ingestion |
@@ -37,45 +37,32 @@ Status vocabulary:
 
 ## Current implementation evidence
 
-The browser-based bench in `prototype/resident_hmi` is development-host only.
-At exact head `94791f6`, all eight modules parse and all 20 committed test bodies
-execute in the isolated V8 fallback harness; 89 assertions pass. Coverage includes
-return/resume, camera, critical takeover, comfort overlay, disconnect,
-stale/invalid fallback, replay rejection and point-of-use lease expiry. This is
-not the unavailable Node runner. The bench installs zero radio bytes.
+The development-host bench now passes all 20 committed tests under Node 24.15.0;
+all eight mjs modules pass `node --check`. The earlier isolated V8 fallback was
+historical verification. The post-reboot Python discovery passes 135 tests.
 
-The C99 candidate in `prototype/projection_arbiter_c` carries the same policy
-without heap or I/O and enforces `sizeof(PA_Arbiter) <= 128` at compile time.
-Its time-aware presentation accessor is designed to expire stale ownership at
-the point of use. Structural inspection finds ten matched public functions and
-70 assertions, but it has not yet been compiled. Local command execution is unavailable. GitHub
-Actions runs `34038125932` and `34038125990` each created the conformance job
-but terminated before runner allocation: `runner_id` was 0 and the step list was
-empty. No checkout, compiler or test command ran. The workflow is manual-only
-until hosted runners are available, preventing infrastructure failures from
-masquerading as code failures. The C test remains intended coverage, not a
-passing target or host build.
+The C99 arbiter compiled under Ubuntu/WSL GCC 13.3.0 with
+`-std=c99 -Wall -Wextra -Werror -pedantic` and passed all assertions, including
+its compile-time <=128-byte state guard. These are host results, not QNX target
+ABI, footprint or runtime proof. The bench installs zero radio bytes.
+
+Historical GitHub Actions runs `34038125932` and `34038125990` terminated
+before runner allocation. No new hosted-runner result is claimed. The workflow
+remains manual-only. Exact local commands/results are in the
+[post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md).
 
 ## Closest completion path
 
-1. Recover local command execution and run both host suites plus the ignored
-   `MainSupplement.swf` consumer XREFs.
-2. Run the 122-marker recovered-tree probe and schema-validating correlator;
-   inspect exact `DeviceProjection.swf`, RA4 AMS/AppManager/Xlet lifecycle,
-   service, startup, audio and Screen candidates in tier order.
-3. Resolve `PROJECTION_BACKTO_CAR` and heated comfort popup consumers from
-   the hash-identified firmware; recover source registration, ducking/playback
-   callbacks, call route and microphone ownership.
-4. Use the proved Xlet launch lane only with legitimate package authorization;
-   establish the screen/service contract and compile the transport-free arbiter.
-5. Select and size a legitimate projection backend. Keep it local only if it
-   passes storage, RAM and CPU gates; otherwise mark only that engine
-   `EXTERNAL_COMPUTE_REQUIRED`.
-6. Under separate authorization, use spare hardware to measure camera/overlay/
-   call/message/fallback behavior and all storage peaks.
+1. Follow the [post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md):
+   host tests, strict C99 execution, 122-marker census and foreground XREFs are
+   complete. Raw markers do not inspect compressed SWF contents.
+2. Trace the installed Mentor driver's board-init/ULPI operations to PHY/VBUS
+   and authorized BE2800 port nets; resolve the hardware-specific DCD lane.
+3. Acquire the matching projection screen/backend contract and prove the
+   BacktoCar/start path's session continuity, then close comfort/audio seams.
+4. Use the proved Xlet lane only with legitimate package authorization.
+5. Measure target storage, RAM, CPU and all foreground/fallback behavior on
+   separately authorized spare hardware before deployment or engine selection.
 
-The project goal is not complete until every TARGET_UNPROVED row has direct
-target evidence. The [evidence-gate manifest](10_evidence_gates.md) identifies
-the exact artifact, interface or measurement that closes each row. No step here
-authorizes a radio write, modified firmware, credential derivation or
-safety-feature bypass.
+The project is not target-proved by host tests. No step authorizes radio writes,
+modified firmware, credential derivation or safety-feature bypass.

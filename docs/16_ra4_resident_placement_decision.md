@@ -34,8 +34,9 @@ the resident interfaces are incomplete.
   `0x002588DF` inside `0x002588C5-0x002589A8`.
 - Session state and the visible `DEVICE_PROJECTION` branch are independent;
   auto-show navigation occurs at `0x0025892C`.
-- `startProjection(ppId)` at `0x002B5177-0x002B519E` is a session-start
-  command, distinct from navigating back to an already active session.
+- `startProjection(ppId)` at `0x002B5177-0x002B519E` is distinct from navigation,
+  but stock BacktoCar also calls it before the active-session check. Its backend
+  effect remains UNKNOWN; see the post-reboot checkpoint.
 - `PhoneProjectionEvent`, `PROJECTION_BACKTO_CAR`,
   `phoneProjectionService`, and `IPhoneProjection` are stock references.
 - The physical `DeviceProjection.swf` payload, its loader/descriptor, and the
@@ -142,7 +143,7 @@ A full duplicate installation is not assumed.
 | Gate | Evidence that closes it |
 | --- | --- |
 | existing screen | hash and relative path for the complete `DeviceProjection.swf`, its descriptor/loader, and its imports/consumer XREFs |
-| return/resume | complete `PROJECTION_BACKTO_CAR` consumer and proof it navigates without another `startProjection` |
+| return/resume | matching projection screen/listener and backend semantics of BacktoCar-triggered callStartProjection; prove session continuity |
 | authorized identity | written supported developer/DRM/package route or a legitimately issued inert signed sample; no credential material belongs in Git |
 | backend registration | servicebroker/ModuleLink provider/client schema, version, permissions, reconnect and owner-death semantics |
 | Screen/touch | exact group/class, buffers, z-order, focus/sensitivity, transform, cancellation and teardown |

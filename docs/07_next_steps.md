@@ -6,26 +6,24 @@ ownership, adapter boundaries and failure policy.
 
 ## Next highest-value static task
 
-1. Run the new bounded `swf_abc_inspect --xref` mode on
-   `PROJECTION_BACKTO_CAR`, `DEVICE_PROJECTION`,
-   `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE` and HVAC popup names.
-2. Trace the projection screen's Return-to-Uconnect control from those consumers.
-3. Trace heated-seat/heated-wheel popup events.
-4. Run the 122-marker `qnx_media_runtime_probe.py` over each recovered root,
-   feed its redacted JSON to `qnx_runtime_correlation.py`, and inspect exact
-   projection-screen plus RA4 app-lifecycle tier-1 candidates before lower tiers.
-5. Correlate legacy QNX 6.6 CarPlay transport (`usblauncher`, role swap,
-   `io-usb-dcd`, OMAP DCD/function driver, iAP2/iPod) with RA4
-   USB/projection/startup evidence and the physical phone-port controller.
-   Start from the now-identified BE2800 CMC board, Mopar media hub
-   `68141322AA` / `68289895AA`, and USB jumper `68141323AA`. The public
-   FCC photographs confirm a separate rear-I/O/main-board boundary, while the
-   permanently confidential block diagram/schematic means the internal USB net
-   must come from authorized board evidence or recovered BSP configuration.
-6. Correlate controlled Audio Manager/Now Playing/io-acoustic plus Harman
-   AudioCtrlSvc/audioMgrCMC hits with imports, XREFs and process startup.
-7. Recover the exact MME source registration, ducking/pause-resume callbacks,
-   projected prompt/call route, and microphone owner-death behavior.
+The [post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md) executed
+135 Python tests, 20 JS tests, the strict C99 build/run, the seven-root 122-marker
+census and bounded foreground XREFs. Do not repeat those acquisitions without
+new evidence or code changes.
+
+1. Trace the recovered `devu-omap3530-mg.so` board-init and ULPI routines to
+   concrete PHY/VBUS operations. Correlate with `.script`'s two controller
+   clauses and authorized BE2800 nets; no target execution or role change.
+2. Obtain a matching owner-supplied `DeviceProjection.swf`/backend or legitimate
+   provider contract. The seven-root filename census and 610-SWF exact-name
+   census did not locate the screen or a back-to-car event listener.
+3. Determine the backend meaning of stock BacktoCar-triggered
+   `callStartProjection(activePpId)`. Preserve session continuity; do not infer
+   teardown or prohibit this command solely from its name.
+4. Finish heated-seat/heated-wheel popup event control flow and the separate
+   MME source registration, ducking/call route and microphone owner-death trace.
+5. Acquire authorized hub/controller/net evidence for Radio C2. The installed
+   host paths are known; the physical phone-port and reversible DCD lane are not.
 
 Current evidence: [projection foreground ownership](../reports/projection_foreground_ownership.md).
 The [completion matrix](08_projection_completion_matrix.md) separates static,

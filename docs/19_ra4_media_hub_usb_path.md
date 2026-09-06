@@ -161,6 +161,15 @@ UNKNOWN:
 
 ## Exact next evidence
 
+The [post-reboot census](../reports/ra4_post_reboot_checkpoint.md) now links
+recovered `io-usb` startup to `omap3530-mg` at `0x480ab000`/IRQ 92 and
+`ehci-omap3` at `0x48064800`/IRQ 77, with both DLLs materialized and hashed.
+Its startup environment declares `qnx650`. Raw DCD/role-swap markers were absent
+in seven roots, which does not exclude compressed/private implementations.
+The exact Radio C2 controller, PHY/VBUS/ID route and device role remain UNKNOWN.
+The next local static target is the Mentor DLL's board-init/ULPI routines;
+external hub/net acquisition remains necessary for the physical chain.
+
 The most efficient closure is passive identification of the stock data hub:
 
 1. Obtain authorized macro photographs of both PCB sides of a spare

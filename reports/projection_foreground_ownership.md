@@ -71,9 +71,20 @@ start command with `ppId` at `0x002B518B-0x002B5195` and clears
 `AppStateManager.callStartProjection` at `0x00258A0E` calls that API and
 records `activePpId`.
 
-**HIGH.** Resuming an already-active session should navigate to
-`DEVICE_PROJECTION`, not issue a new `startProjection` command. The complete
-consumer XREF for `PROJECTION_BACKTO_CAR` remains unknown.
+**STATIC_PROVED, corrected 2026-09-06.** `AppPhone.press` method 1251 reads
+`BacktoCar` at `0x00262B59` and, if set, calls
+`callStartProjection(activePpId)` at `0x00262B72` before its later
+`sessionActive` check at `0x00262BCD` and `goto(DEVICE_PROJECTION)` at
+`0x00262BE7`. This supersedes the earlier blanket prohibition on a start-named
+command during resume. Its backend meaning (resume/reacquire/restart) is UNKNOWN;
+preserving a live session remains the product requirement. See the
+[post-reboot checkpoint](ra4_post_reboot_checkpoint.md).
+
+`projectionBackToCar` sets `mBacktoCar` and dispatches `PROJECTION_BACKTO_CAR`
+at `0x002B4C97-0x002B4CA9`. An exact-name census of 610 `hmi_rov` SWFs found
+no listener for that event. `main.swf` maps `DEVICE_PROJECTION` to
+`DeviceProjection.swf` at `0x0002306E`, but that named file is absent from the
+seven materialized roots. These are bounded findings, not live-radio absence.
 
 ### Projection-owned call status
 
@@ -264,8 +275,9 @@ Return behavior:
 
 - Return to Uconnect: remember/navigate to a stock branch without stopping the
   projection session.
-- Return to projection: if `sessionActive`, navigate to `DEVICE_PROJECTION`;
-  only start when no session exists.
+- Return to projection: preserve session continuity through the stock foreground
+  path. Stock BacktoCar can trigger `callStartProjection` before its active-session
+  navigation check; that command's backend effect remains a gate.
 - Temporary popup: do not change branch.
 - Camera: reuse existing `goto` / `back` / `removeFromStack`.
 - Disconnect/error: reuse existing source-derived or `MAIN_PHONE` fallback.
@@ -283,16 +295,19 @@ Return behavior:
 - **UNKNOWN:** exact return behavior for every camera variant/configuration;
   backup/cargo use popup layers while front/side explicitly enters a screen here.
 
-Best next static targets:
+The 122-marker raw census and 610-SWF exact-name census were executed in the
+[post-reboot checkpoint](ra4_post_reboot_checkpoint.md). The raw census misses
+compressed HMI names. BacktoCar producer and phone-button consumer are traced;
+the missing projection screen/listener and backend remain open.
 
-1. run the bounded `swf_abc_inspect --xref` mode added in commit
-   `b4cc616` on `PROJECTION_BACKTO_CAR`, `DEVICE_PROJECTION`,
-   `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE`, and HVAC popup names;
-2. trace the projection screen's Return-to-Uconnect control from those consumers;
+Best next static targets (remaining after the checkpoint):
+
+1. locate a matching owner-supplied projection screen/backend or authorized
+   provider contract; the current `hmi_rov` census found no exact-name listener;
+2. determine the session-preserving meaning of the stock BacktoCar/start path;
 3. trace heated-seat/heated-wheel ICS events into the popup manager;
-4. run the 122-marker recovered-tree census, prioritizing files where
-   `ra4_foreground_policy` and `projection_service` co-occur, then correlate HNM/
-   HandsFreePhone candidates with startup configuration and the SWF call graph;
+4. follow the completed census's stock-specific candidates with imports and
+   startup evidence; generic session/service names do not establish identity;
 5. trace audio focus separately before proposing runtime integration.
 
 ## Resource effect

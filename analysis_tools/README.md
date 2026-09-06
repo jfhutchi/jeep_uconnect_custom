@@ -37,6 +37,12 @@ Pool names omit namespace-set detail for ordinary multinames; runtime names are
 explicitly labeled. `--xref` decodes every method body and reports bounded
 instruction-line regex matches, so it finds consumers rather than only method
 names; it fails closed if any scanned method contains an unsupported opcode.
+The XREF cap limits stored matches, not validation: later instructions and
+methods are still decoded. `truncated` is true only if another match exists.
+`newcatch` consumes one u30 index. `pushshort` accepts a bounded encoded u32 and
+displays its signed low 16 bits, including stock sign-extended operands; other
+u30 operands stay strict. See [Adobe's opcode table](https://github.com/adobe/avmplus/blob/master/core/opcodes.tbl)
+and [interpreter](https://github.com/adobe/avmplus/blob/master/core/Interpreter.cpp).
 Neither tool is a general untrusted-input sandbox/VM verifier.
 
 Fixtures in `fixtures/ra4_driver_temperature_cases.json` are original examples,
@@ -166,6 +172,14 @@ bounded offsets; it does not emit file contents or execute a target artifact.
 ```text
 python -m analysis_tools.qnx_media_runtime_probe RECOVERED_ROOT [RECOVERED_ROOT ...] --pretty
 ```
+
+The census searches raw bytes and filenames; it does not decompress CWS/SWF,
+JAR or image payloads. It misses known projection names inside compressed
+`MainSupplement.swf`. Inspect hash-identified HMI artifacts with the SWF tool
+even if the raw census reports no hit. Generic `sessionActive`/`servicebroker`
+co-occurrence is not projection identity. The
+[post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md) records the
+seven-root 122-marker census and separate 610-SWF return-name census.
 
 The default per-file scan ceiling is 128 MiB and every skipped file is explicit
 in the JSON report. Raise the ceiling only for a known recovered artifact. A

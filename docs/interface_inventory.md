@@ -6,7 +6,7 @@ This is the working index of interfaces, services and artifacts relevant to the 
 |---|---|---:|---|
 | Projection | `IPhoneProjection` | VERIFIED | Referenced by factory HMI |
 | Projection | `sessionActive` | VERIFIED | Session exists independently of visible `DEVICE_PROJECTION` branch |
-| Projection | `startProjection(ppId)` | VERIFIED | Distinct session-start command; not the active-session resume operation |
+| Projection | `startProjection(ppId)` | VERIFIED command; backend effect UNKNOWN | Stock BacktoCar path calls it before checking sessionActive; no teardown/reconnect meaning inferred |
 | Projection | `projectionCallState` | VERIFIED | Projection call/caller state feeds stock status bar |
 | Projection | `PhoneProjectionEvent` | VERIFIED | Status, status-bar and back-to-car event family |
 | Projection | `phoneProjectionService` | VERIFIED reference / UNKNOWN implementation | HMI expects this backend name; implementation not yet located |
@@ -77,17 +77,16 @@ artifact is a focused projection-ownership bench and contains no replacement
 factory screens. A VERIFIED name proves observed stock code, not access permission
 or a complete backend.
 
-1. Run bounded AVM2 consumer XREFs for `PROJECTION_BACKTO_CAR`,
-   `DEVICE_PROJECTION`, native call/SMS presentation and HVAC popup names.
+1. Use the executed [post-reboot XREF/census results](../reports/ra4_post_reboot_checkpoint.md)
+   for return, native call/SMS and comfort candidates; follow remaining consumers.
 2. Recover Return-to-Uconnect and resume-existing-session control flow.
 3. Run the audio/Now-Playing/acoustic marker census, then recover RA4 source,
    ducking, pause/resume, microphone and speaker ownership.
 4. Recover heated-seat/heated-wheel popup triggers.
 5. Continue the independent temperature units/service-restart quality trace.
-6. Run the 98-marker recovered-tree census and schema-validating correlator for
-   exact projection-screen, RA4 AMS/AppManager/Xlet, QNX CAR reference, Harman
-   service, audio and Screen names; close ranked candidates with imports/XREFs
-   and startup configuration.
+6. Follow the completed 122-marker census with imports/XREFs and startup
+   configuration. Inspect compressed SWFs separately; raw negatives do not
+   exclude their names. Trace installed Mentor board-init/ULPI to PHY/VBUS.
 7. Use the static-proved Xlet launch lane only after a legitimate package
    authorization route is supplied; establish screen/service loading separately,
    then measure a tiny resident trial.

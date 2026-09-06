@@ -8,6 +8,42 @@
 
 ## 1. Mission and corrected premise
 
+### Current checkpoint: 2026-09-06 after reboot
+
+The active integration line is `codex/ra4-driver-temperature`, draft PR #14.
+It was recovered from local `52a37f1` and fast-forwarded to remote `9eb28ad2`;
+`main` remains `6c898a1`. Two untracked pre-crash reports were preserved outside
+Git. The command runner works again. The
+[post-reboot checkpoint](reports/ra4_post_reboot_checkpoint.md) is authoritative
+for current verification, commands, corpus coverage and remaining targets:
+
+- 135 Python tests and 20 JavaScript tests pass; all 8 mjs files pass syntax
+  checks, Python compileall passes, and Synctool passes 83/83 hash-gated anchors.
+- The portable arbiter compiled with strict C99 flags and passed its assertions
+  under existing Ubuntu/WSL GCC 13.3.0. This is a host result, not a target build.
+- The current 122-marker probe and correlator completed over seven existing
+  roots: 4,110 files, 1,509,846,870 bytes, no size skips; 628 candidates,
+  including 108 tier 1. Raw scanning misses compressed SWF names.
+- Recovered `.script` loads `io-usb` with OMAP/Mentor at `0x480ab000`, IRQ 92,
+  and EHCI at `0x48064800`, IRQ 77; its environment says `qnx650`.
+  QNX 6.6 documentation is reference evidence, not proof of the installed ABI.
+- Stock `AppPhone.press` can call `callStartProjection(activePpId)` when
+  `BacktoCar` is set before its later session-active navigation check. The
+  previous blanket no-start-on-resume inference is withdrawn; the command's
+  backend meaning and live-session continuity remain unproved.
+- All 610 `hmi_rov` SWFs were parsed for exact return names. `main.swf` maps
+  the projection screen filename, but no `DeviceProjection.swf` file exists in
+  the seven roots and no exact-name back-to-car listener was found in that
+  bounded SWF census. Dynamic names/other variants/packages are not excluded.
+
+Next bounded static target: the recovered Mentor driver's board-initialization
+and ULPI routines, to narrow PHY/VBUS control before correlating to BE2800 nets.
+Resident authorization, screen/backend availability, camera/critical priority,
+fail-open stock presentation and the existing storage envelope remain gates.
+No radio connection, service launch, firmware edit, vehicle-state mutation or
+credential bypass occurred. Historical verification/publication statements in
+the original investigation below are historical snapshots, not current status.
+
 The project goal remains to understand the smallest safe and reversible owner-authorized path to run an original application while preserving normal vehicle behavior, the factory anti-theft system, AMS secure mode, application authentication, stock update capability, and a verified return to production state.
 
 The original proposed chain was:
@@ -108,7 +144,7 @@ The three HBC images contain 778 regular files totaling 89,007,481 payload bytes
 | analysis_tools/jamaica_rom_strings.py | 13,329 | 3fdd53837de8eeeef434d1249a0055102ab6ac05a7bc3c29b6752077cb185530 | Bounded JamaicaVM pool, literal-table, member-selector, and class-pointer decoding |
 | analysis_tools/tests/test_jamaica_rom_strings.py | 15,268 | 309420c6bfd8359f49fc7e44793295f7be8c824e80536c0d19bb059329b922a7 | Twenty-two pool/tag, prefix-bound, mapping-table, class-bound, and CLI numeric-bound tests |
 
-Both parser suites pass: six QNX imagefs tests and 22 Jamaica metadata-decoder tests. Together with the 19 developer-token probe tests, repository-wide discovery passes all 47 tests. Other methods used in the reports are static Node file/JAR traversal, manifest digest recomputation, OpenSSL PKCS#7 signature-math verification without trust-chain acceptance, AVM2 parsing, Lua 5.1 decoding, and bounded ARM ELF control-flow analysis. No recovered target executable was run.
+Historical checkpoint: six QNX imagefs, 22 Jamaica metadata-decoder and 19 developer-token probe tests passed (47 total). Current post-reboot discovery passes 135 Python tests; see section 1. Other methods used in the reports are static Node file/JAR traversal, manifest digest recomputation, OpenSSL PKCS#7 signature-math verification without trust-chain acceptance, AVM2 parsing, Lua 5.1 decoding, and bounded ARM ELF control-flow analysis. No recovered target executable was run.
 
 ## 4. Security-domain separation matrix
 
@@ -731,7 +767,7 @@ Precedence notes:
 
 ## 16. Repository and publication safety
 
-Current repository policy:
+Original investigation publication snapshot (current checkpoint: section 1):
 
 - Stock/vendor firmware tracked: **NO**.
 - Stock/vendor firmware staged: **NO**.

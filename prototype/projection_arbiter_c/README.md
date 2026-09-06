@@ -23,6 +23,12 @@ only C99 `stdbool.h` and `stdint.h`; the test alone uses `assert.h` and
 presentation decision so expiry is enforced at the point of use even if no new
 backend snapshot arrives. No target binary has been built or measured yet.
 
+Post-reboot verification on 2026-09-06: the exact strict C99 build above and
+the executable passed under existing Ubuntu/WSL GCC 13.3.0. The <=128-byte guard
+therefore passed on that host. The
+[checkpoint](../../reports/ra4_post_reboot_checkpoint.md) records the full
+repository-root command and results. This is not QNX ABI or target-size proof.
+
 Resource targets for this component:
 
 | Item | Planning target | Measured |

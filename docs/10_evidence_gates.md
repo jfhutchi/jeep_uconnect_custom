@@ -13,7 +13,7 @@ be committed.
 
 | Class | Meaning | Current response |
 | --- | --- | --- |
-| LOCAL_EXECUTION_RECOVERY | Hash-identified artifact and tool already exist locally, but this task cannot launch even a trivial shell command | Retry read-only commands only after the command service recovers; do not copy artifacts into Git |
+| LOCAL_EXECUTION_RECOVERY | Closed 2026-09-06: Python, Node, static inspection and WSL C99 execution work | See post-reboot checkpoint; recovered artifacts remain outside Git |
 | ARTIFACT_NOT_FOUND | Required historical evidence was not found in the image/recovered files | Search existing off-radio copies and backups; do not create high-volume radio logs |
 | LEGITIMATE_CONTRACT_REQUIRED | A compatible backend, SDK, package identity or supported policy API is not present in the recovered corpus | Obtain authorized vendor/provider documentation or implementation; do not guess wire fields or bypass authentication |
 | SPARE_HARDWARE_REQUIRED | Static/model evidence cannot prove runtime priority, timing, resource use or crash fallback | Use only a separately authorized spare RA4 bench after the lifecycle gate is legitimate |
@@ -22,8 +22,10 @@ be committed.
 ## Gate A - local static closure
 
 These artifacts are already represented by hashes and derived evidence in the
-repository. The task runner currently hangs before any process starts, so the
-next commands cannot execute in this session.
+repository. The runner recovered after reboot. The
+[checkpoint](../reports/ra4_post_reboot_checkpoint.md) records executed host tests,
+strict C99 build, 122-marker census and HMI XREFs. Remaining static questions
+are evidence gaps, not command-runner blockers.
 
 | Artifact | Expected SHA-256 | Required read-only query | Closure supplied |
 | --- | --- | --- | --- |
@@ -137,7 +139,7 @@ Required observations in later staged trials:
 | Scenario | Required result |
 | --- | --- |
 | explicit Return to Uconnect | stock screen appears; active projection session continues |
-| Return to Projection | same session resumes; no reconnect/start command |
+| Return to Projection | same session resumes; prove backend effect of stock BacktoCar/start and exclude teardown/reconnect |
 | backup/front/cargo camera | stock takeover is immediate and autonomous; prior foreground restores correctly |
 | permitted comfort popup | stock popup overlays and dismisses without session loss |
 | ordinary projected call/message | projection owns presentation; no duplicate native popup/goto/TTS |

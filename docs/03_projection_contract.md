@@ -11,7 +11,7 @@ and the fail-safe [adapter boundary](09_projection_adapter_boundary.md).
 | Symbol | Interpretation |
 | --- | --- |
 | `IPhoneProjection.sessionActive` | session state independent of visible branch |
-| `startProjection(ppId)` | distinct session-start command |
+| `startProjection(ppId)` | distinct command also used by the stock BacktoCar path; backend session effect unproved |
 | `PhoneProjectionEvent` | status, status-bar and back-to-car events |
 | `phoneProjectionService` | expected backend |
 | `DeviceProjection.swf` / `DEVICE_PROJECTION` | stock projection screen/branch |
@@ -32,8 +32,10 @@ camera/critical stock > permitted stock overlay > projection > ordinary stock HM
 ```
 
 - Return to Uconnect changes foreground, not session lifetime.
-- Return to projection navigates to `DEVICE_PROJECTION` if already active; it
-  does not call `startProjection` again.
+- Return to projection preserves the live session. Stock `AppPhone.press` can
+  call `callStartProjection(activePpId)` when `BacktoCar` is set before checking
+  session state and navigating. Its backend effect remains an adapter gate; see
+  the [checkpoint](../reports/ra4_post_reboot_checkpoint.md).
 - Camera and comfort overlays preserve the session.
 - Projection call/message ownership follows session state, not screen visibility.
 - Inactive/disconnected projection restores native Phone/Messaging presentation.

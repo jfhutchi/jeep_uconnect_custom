@@ -53,7 +53,7 @@ the current screen or from a persisted preference.
 | Arbiter result | Intended stock seam | Required behavior | Gate before implementation |
 | --- | --- | --- | --- |
 | foreground projection | stock app foreground request and pending retry at `0x0025250E-0x002525D2`, `0x002524C4-0x002524FD` | Request, never seize, foreground; stock denial remains authoritative | Supported caller/registration boundary |
-| resume active projection | `IStructure.goto(DEVICE_PROJECTION)` | Navigate only; do not call `startProjection` for an active session | Complete `PROJECTION_BACKTO_CAR`/screen consumer XREF |
+| resume active projection | Stock BacktoCar/start precedes sessionActive/goto in AppPhone.press | Preserve session; do not infer backend effects from the command name | Missing screen/listener and backend meaning of callStartProjection; see post-reboot checkpoint |
 | return to Uconnect | stock navigation stack | Leave session running and reveal a stock branch | Exact stock Return-to-Uconnect action and previous-branch rule |
 | suppress native call presentation | presentation actions inside `processBTCallState`, beginning `0x00257983` | Gate ordinary `MAIN_PHONE` goto and incoming-call popup only | Supported policy hook; preserve HFP state/audio and emergency path |
 | suppress native message presentation | SMS popup path `0x002B6C35-0x002B6C96` | Gate incoming/full-message foreground only | Supported policy hook; preserve MAP ingestion |

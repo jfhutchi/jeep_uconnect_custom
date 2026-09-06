@@ -36,8 +36,9 @@ ordinary stock HMI.
 ## Return semantics
 
 Return to Uconnect changes foreground only. Return to Projection uses
-`DEVICE_PROJECTION` when `sessionActive`; only an inactive session may need
-the distinct start command. Temporary overlays do not change branch. Camera
+`DEVICE_PROJECTION` when `sessionActive`. Stock BacktoCar can issue the distinct
+start command before that check; its backend effect is unproved. Session continuity
+remains required. Temporary overlays do not change branch. Camera
 reuses stock `goto/back/removeFromStack`. Disconnect/error uses stock fallback.
 
 ## Resource rules

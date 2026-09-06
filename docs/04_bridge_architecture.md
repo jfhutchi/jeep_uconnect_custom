@@ -69,8 +69,11 @@ not authorize direct invocation or patching.
 
 ### High-confidence deductions
 
-- Returning to an already active projection session should navigate to the stock
-  projection branch; it must not issue another start command.
+- Returning to active projection must preserve the session. Stock `AppPhone.press`
+  can call `callStartProjection(activePpId)` when `BacktoCar` is set before
+  checking session state and navigating. Its backend effect is UNKNOWN; the
+  [checkpoint](../reports/ra4_post_reboot_checkpoint.md) supersedes the earlier
+  blanket prohibition on a start-named command.
 - Camera return can restore projection when projection was underneath because
   the stock stack unwinds after the session-independent camera layer clears.
 - The narrowest duplicate-call control point is native presentation after HFP
@@ -133,7 +136,7 @@ Return to Projection
   -> validate fresh active session
   -> request stock foreground
   -> navigate to DEVICE_PROJECTION only after stock permits it
-  -> never call startProjection for that existing session
+  -> preserve session; bind BacktoCar/start only after backend proof
 ```
 
 The exact stock Return-to-Uconnect action remains an evidence gate.

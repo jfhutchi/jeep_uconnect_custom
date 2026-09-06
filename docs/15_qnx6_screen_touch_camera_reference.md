@@ -68,8 +68,10 @@ ended according to the recovered stock contract; it cannot leak into the newly
 visible camera or stock surface.
 
 Return to Uconnect backgrounds the surface but preserves session. Return to
-Projection requests stock foreground and reveals the existing surface; it does
-not create another surface or call startProjection.
+Projection requests stock foreground and reveals the existing surface. Stock
+BacktoCar can call `callStartProjection(activePpId)` before checking session
+state; its backend effect must be proved. Session/surface continuity remains
+required. See the [checkpoint](../reports/ra4_post_reboot_checkpoint.md).
 
 ## Camera and overlay behavior
 
