@@ -3,17 +3,21 @@
 Date: 2026-09-05. Scope: owner-authorized source, mocks and read-only analysis.
 No installation, firmware changes, signing changes, CAN writes or projection
 engine implementation. This decision supersedes the premature native-only
-language in the earlier resident-first proposal.
+language and the later replacement-shell interpretation.
+
+**PRODUCT CORRECTION:** production is one projection application inside stock
+Uconnect. Stock Radio, Media, Climate, Controls, Phone, Messaging and Settings
+remain. The six-screen PC artifact is only a technical scaffold.
 
 ## Decision
 
-**DESIGN:** First evaluate a small, independently authored SWF screen/module
-using the already-installed AIR environment and stock high-level service
-bindings. Add a minimal native bridge only if a specific required service cannot
-be reached through the existing runtime. Keep a lightweight native QNX renderer
-as an alternative, not a prerequisite. Do not replace the factory main SWF,
-change its startup files or launch a second full AIR process as an assumed
-solution. A supported new-screen loading/lifecycle boundary is still UNKNOWN.
+**DESIGN:** First evaluate a small, independently authored projection screen and
+foreground-integration module using the installed AIR environment and stock
+high-level bindings. It participates in the stock application arbiter, navigation
+stack, popup manager and camera layers; it does not replace factory screens.
+Add a native bridge only for a proved service gap. Keep native QNX rendering as
+an alternative. Do not replace the main SWF, change startup files or assume a
+second AIR process. A supported loading/lifecycle boundary remains UNKNOWN.
 
 This is the smallest credible *direction*, not a deployable architecture proven
 on hardware. Sharing a stock process may minimize new bytes but increases
@@ -88,9 +92,10 @@ governs this decision.
 
 ## MVP and performance gates
 
-Home, Media, Climate, Controls, Phone placeholder and Settings are enough to
-evaluate navigation, legibility, state and stock handover. No media decoder,
-map data, call handling or projection engine. All vehicle changes are abstract
+The six PC routes evaluate legibility, state and adapter failure behavior, but
+are not production screens. The target trial is one stock-integrated projection
+screen plus foreground/return arbitration. No media decoder, map data, call
+handling or projection engine is bundled in that trial. All vehicle changes are abstract
 mock intents; a real adapter starts read-only with all write capabilities off.
 
 Use [the contract](resident_hmi_contract.md) and [PC scaffold](../prototype/resident_hmi/README.md).
@@ -132,20 +137,16 @@ proof of package/install feasibility. Stock runtime logs/cache attributable to
 the trial count too; trace-heavy AIR settings are not free. Actual filesystem
 allocation, update failure artifacts and stock variation must be measured.
 
-No MVP capability is currently proved to require external compute. Bundled
-large maps/media/speech models remain excluded; any future capability that
-requires them beyond the budget is `EXTERNAL_COMPUTE_REQUIRED` (prefer existing
-stock or phone services). CarPlay/Android Auto remain deferred/UNKNOWN, not a
-reason to require external hardware for this shell.
+No small stock-facing integration capability is proved to require external
+compute. Bundled maps/media/speech models remain excluded. The complete legitimate
+projection engine is locally UNKNOWN; classify it `EXTERNAL_COMPUTE_REQUIRED`
+only if measured storage/CPU/RAM or platform requirements make resident execution
+unsafe. The six-screen shell is not a product dependency.
 
 ## Next single evidence task
 
-Trace **one read-only driver-temperature subscription** from the ROV
-`IHvac`/MainSupplement client through ModuleLink into the stock `vehicle/hvac.lua`
-publisher. Recover field type, units, capability/validity and change event,
-with exact bytecode offsets and no request sent. This replaces one mock field
-with a real contract and is narrower than reconstructing all vehicle services.
-
-Other release gates remain: authorized app/screen loading, matching toolchain,
-display/touch/camera ownership, independent fallback, RAM/CPU and storage peaks.
-They do not prevent a safe PC prototype, and are not permission to modify stock.
+Complete consumer XREFs for `PROJECTION_BACKTO_CAR`, `DEVICE_PROJECTION`,
+heated comfort popups and phone/SMS ownership, then trace projection/HFP audio
+focus. Continue the independent read-only temperature-quality trace across units
+changes and service restart. No runtime call, radio write or vehicle command is
+authorized.

@@ -2,31 +2,44 @@
 
 ## Goal
 
-Create a modernized infotainment experience for a 2014 Jeep Grand Cherokee WK2 with RA4 that visually and functionally resembles newer Uconnect generations while preserving factory vehicle functions.
+Integrate Apple CarPlay and Android Auto as first-class projection applications
+inside stock 2014 WK2 RA4 Uconnect. Production does not replace factory Radio,
+Media, Climate, Controls, Phone, Messaging or Settings. The six-screen PC
+prototype is only a technical scaffold.
 
-## Required user experience
+## Required experience
 
-The driver should be able to:
-
-- Boot into a modern Jeep/Uconnect-inspired home screen.
-- Connect an Android phone and use native Android Auto.
-- Connect an iPhone and use native Apple CarPlay.
-- Open Jeep controls at any time without losing vehicle functionality.
-- Control heated seats, heated steering wheel, HVAC and supported comfort features.
-- Retain the factory backup camera, vehicle settings, steering-wheel controls and audio system.
-- Return to the original RA4 UI as a fallback/service mode.
+- Ordinary operation remains stock Uconnect.
+- Active projection may use the full 640x480 display.
+- Return to Uconnect leaves the projection session running.
+- Returning to projection resumes that session without reconnecting.
+- Stock comfort overlays may temporarily appear over projection.
+- Factory camera and critical stock presentation always have priority and return
+  to the appropriate previous screen afterward.
+- Active projection owns projected calls/messages; stock Phone/Messaging must not
+  independently take foreground or announce the same message.
+- Inactive/disconnected projection restores normal stock phone/message behavior.
+- Do not globally disable Bluetooth, HFP, MAP or the phone subsystem to achieve
+  presentation ownership.
 
 ## Design principle
 
-The stock RA4 remains the authority for Jeep-specific behavior. The modernization layer should integrate with existing high-level RA4 services instead of reimplementing vehicle logic or safety-critical CAN behavior.
+Reuse stock application arbitration, navigation stack, popup manager, camera
+layers, display/touch/audio facilities and high-level vehicle services. Add the
+smallest resident integration component possible.
 
-## Display constraint
+## Constraints
 
-The factory HMI targets 640x480. The new UI should be designed specifically for that resolution rather than shrinking a later Uconnect interface pixel-for-pixel.
+Design for 640x480 and [the protected resource budget](ra4_resource_budget.md):
+15 MB installed, 4 MB runtime growth, 8 MB additional update peak, 45 MB stock
+reserve and 5 MB planned-peak margin. If a complete projection engine cannot meet
+local storage/CPU/RAM constraints, it is `EXTERNAL_COMPUTE_REQUIRED`; the
+stock-facing integration remains tiny.
 
 ## Non-goals
 
-- Porting a complete later UAS/UAQ firmware image to RA4 hardware.
-- Circumventing FCA/Harman update signing.
-- Replacing safety-critical vehicle control logic.
-- Requiring a second dashboard-mounted display.
+- Replacement six-screen infotainment shell.
+- Later UAS/UAQ firmware port or signing bypass.
+- Replacement vehicle-control or camera logic.
+- Whole-subsystem connectivity disablement.
+- Second dashboard display.

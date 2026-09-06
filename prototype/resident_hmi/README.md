@@ -1,8 +1,14 @@
 # TRAIL: 640x480 resident-HMI feasibility scaffold
 
-PC-only demonstration, original code and CSS. **Not a deployable RA4 app.**
-No radio connection, persistent storage, sound, camera video, vendor assets,
-CAN implementation or phone-projection backend.
+PC-only demonstration, original code and CSS. **Not a deployable RA4 app and not
+the production navigation model.** Its six screens are a technical scaffold for
+state, adapter, legibility and failure-policy tests. Production preserves stock
+Radio, Media, Climate, Controls, Phone, Messaging and Settings and adds projection
+as a first-class Uconnect application.
+
+No radio connection, persistent storage, sound, camera video, vendor assets, CAN
+implementation or phone-projection backend. The scaffold's `stock/app/camera`
+mode does not model the corrected session/foreground ownership state machine.
 
 From the repository root, with Python 3 and a local browser:
 

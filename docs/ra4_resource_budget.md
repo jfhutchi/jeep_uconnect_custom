@@ -51,15 +51,16 @@ installation or radio-state changes are authorized by this budget document.
 
 ## Resident-first deployable architecture
 
-Tiny RA4-resident HMI/integration layer -> existing RA4 display, touch, media and
-vehicle services -> optional external capabilities only where local feasibility
-is disproved or exceeds the conservative storage/compute envelope.
+Tiny RA4-resident projection integration -> stock application arbiter, navigation
+stack, popups, camera, display, touch, audio and vehicle services -> optional
+external projection engine only where local feasibility is disproved or exceeds
+the conservative storage/compute envelope.
 
-The maximum credible initial local scope to investigate is lightweight 640x480
-navigation between UI screens, small state/view models, and supported stock
-service integration for media, settings and comfort controls, with stock-camera
-preemption and fallback. These are feasibility targets, not validated interfaces
-or a claim that runtime execution/installation is already possible.
+The maximum credible initial local scope is one lightweight projection
+application/screen plus session, foreground, return and notification arbitration.
+The six-screen PC scaffold is not a resident product requirement. Stock screens
+remain responsible for media, settings and comfort controls. This is a feasibility
+target, not a validated interface or claim of installability.
 
 Reuse existing QNX/Harman services, native platform libraries, fonts, graphics,
 icons, codecs and media databases where their availability, ABI and permitted
@@ -79,7 +80,7 @@ measure those separately before committing to the resident feature set.
 
 | Capability | Current disposition | Reason / evidence needed |
 | --- | --- | --- |
-| Basic modern HMI and stock-service integration | RA4-resident feasibility target | No credible basis to require external hardware solely for development convenience; ABI/performance/access remain unverified. |
+| Tiny stock-facing projection integration | RA4-resident feasibility target | Reuse stock screens, arbitration, popup/camera layers and services; ABI/performance/access remain unverified. |
 | Bundled map/media databases or speech/AI models | `EXTERNAL_COMPUTE_REQUIRED` if a feature requires bundling these large datasets locally | Excluded from this app footprint; prefer existing stock/phone services before adding external hardware. This label covers separation from the radio, not a requirement to buy a separate box. |
 | New CarPlay / Android Auto projection engine | Local feasibility **UNKNOWN**; not budget-approved | No sized, legitimate compatible engine/build has been identified. Existing HMI references are not a complete backend. Measure storage, RAM, CPU and required facilities; classify `EXTERNAL_COMPUTE_REQUIRED` if they exceed limits, never promise future optimization. |
 | PC development tools / firmware analyzers | Development host only | Not part of the deployable app or its footprint. |
@@ -109,7 +110,7 @@ bytes of radio writable growth**. Potential historical diagnostic captures can
 be much larger than this budget; collect existing artifacts off-radio without
 creating an internal staging archive or enabling high-volume logging.
 
-## Application-shell slice, 2026-09-05
+## Projection-integration scaffold, corrected 2026-09-06
 
 The [resident decision](resident_hmi_decision.md) now compares stock AIR/SWF,
 native QNX and hybrid before committing to a language. The preferred stock-AIR

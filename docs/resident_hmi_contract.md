@@ -1,8 +1,18 @@
 # Resident HMI MVP contract v1
 
-Implementation-neutral semantics; field names here are original application
-names, **not** recovered Harman/PPS/ModuleLink wire keys. Reference code lives in
-`prototype/resident_hmi/model.mjs`; the DOM renderer is replaceable.
+Implementation-neutral semantics for the **PC technical scaffold**; field names
+are original application names, not recovered Harman/PPS/ModuleLink wire keys.
+Reference code lives in `prototype/resident_hmi/model.mjs`; the DOM renderer is
+replaceable.
+
+## Product-contract correction
+
+The six scaffold routes are not a production replacement HMI. Production keeps
+stock Radio, Media, Climate, Controls, Phone, Messaging and Settings and adds
+projection as a first-class stock application. This snapshot/intent model remains
+useful for tests, but its `stock/app/camera` demonstration is superseded by the
+session/foreground contract in
+[projection_foreground_ownership.md](../reports/projection_foreground_ownership.md).
 
 ## Ownership and layers
 
@@ -64,18 +74,25 @@ the UI intent does not undo a stock action. Reconcile later observed state.
 
 ## Foreground and fallback
 
-Modes: `stock`, `app`, `camera`. Start in stock/waiting. The PC demonstration
-explicitly activates after its first valid mock snapshot; real activation must
-come through an independently verified stock-supported lifecycle boundary.
+Production separates projection session state from foreground ownership.
 
-- Camera observation cancels pending intent and replaces all custom controls.
-- Camera clear leaves stock mode; an explicit resume is required.
-- Disconnect, stale state, invalid snapshot or manual fallback cancels intent
-  and requests stock UI. Fresh data alone never retakes foreground.
-- The `Stock UI` control is always present. In the PC it changes state only.
-- A real fallback adapter must release its own surface/input/resources and let
-  stock retain authority, including on crash. Exact API and crash supervision
-  remain UNKNOWN; an in-process timer cannot guarantee recovery from a crash.
+Foreground priority: camera/critical stock takeover, permitted temporary stock
+overlay, active projection, ordinary stock HMI. An active projection session may
+be visible or backgrounded.
+
+- Return to Uconnect changes the foreground branch without ending projection.
+- Return to projection navigates to the existing active session.
+- Camera uses factory takeover and navigation-stack return.
+- Permitted comfort popups overlay the branch and dismiss back to it.
+- Active projection owns projected call/message presentation even while the user
+  temporarily views an ordinary stock screen.
+- Native call goto/popup and SMS popup/TTS are suppressed only for that ownership
+  interval; Bluetooth/HFP/MAP ingestion remains available.
+- Inactive/disconnected projection restores normal stock Phone/Messaging.
+- Emergency/eCall remains stock-owned.
+
+The PC scaffold's old `stock/app/camera` panels only test fail-closed transitions.
+They are not a recovered lifecycle or the product navigation model.
 
 ## Minimum real adapter seams
 
@@ -86,8 +103,8 @@ come through an independently verified stock-supported lifecycle boundary.
 | Heated-seat state | CONFIRMED `HeatedSeatFL/FR`, `FL_HS_STAT/FR_HS_STAT` mapping in existing inventory | HIGH adapter route, but raw PPS value encoding, subscription and equipment variability not closed. |
 | Media | CONFIRMED source mapping to MME | State/title subscription and playback intent ownership UNKNOWN; do not open audio devices or decode media. |
 | Vehicle settings | CONFIRMED stock settings screens/services; UNKNOWN per-setting API | Read-only/unavailable. No custom persistent vehicle state or mutations. |
-| Camera/preemption | CONFIRMED graphics classes/resources; INFERRED integration via stock foreground arbiter | Exact event, z-order, release ordering and latency UNKNOWN. PC panel is not camera video. |
-| Phone/projection | CONFIRMED stock-facing references; UNKNOWN complete backend | State placeholder only; no pairing, call or projection actions. |
+| Camera/preemption | CONFIRMED DisplayManager/LayerManager layers, foreground rejection and stack return | Reuse stock priority; configuration-specific behavior and runtime latency remain UNKNOWN. PC panel is not camera video. |
+| Phone/projection | CONFIRMED session/branch separation, projection call status and native call/SMS presentation seams | Backend, supported presentation policy and audio focus remain UNKNOWN; no pairing, call or projection action is implemented. |
 | Stock fallback | CONFIRMED stock lifecycle/foreground code exists; UNKNOWN independent app handover | Prove release, process death and restart behavior before any resident trial. |
 
 The [decision report](resident_hmi_decision.md) links primary local evidence and
@@ -104,15 +121,16 @@ a stock generic temperature event or cached getter response arrived.
 ## Portability and UI
 
 640x480 logical pixels; header 56, content 330, status 26, navigation 68.
-Six routes, original text/rectangles and minimum 48px-high action controls. No
-animations, video, fonts, vendor icons or heavy assets. PC can horizontally
+Six PC-only routes, original text/rectangles and minimum 48px-high action controls.
+They are a technical scaffold, not production replacement screens. No animations,
+video, fonts, vendor icons or heavy assets. PC can horizontally
 scroll on narrower viewports; it never reflows into a misleading radio layout.
 Implement snapshots, intents and state tests in the eventual resident language;
 HTML, CSS and JavaScript syntax are not the RA4 API contract.
 
-## Out of scope
+## Out of scope for the current PC scaffold
 
-Defrost/vent/sync/vented-seat controls until individual contracts are known;
-arbitrary vehicle settings; audio registration; call handling; projection;
-boot modification; installation/update media; security bypasses. Stock UI
-continues to provide omitted factory functions.
+Live projection backend, radio transport, screen registration, audio registration,
+call/SMS handling, boot modification, installation/update media, security bypasses
+and vehicle writes. These implementation exclusions do not change the product
+goal: projection integrates inside stock Uconnect rather than replacing it.

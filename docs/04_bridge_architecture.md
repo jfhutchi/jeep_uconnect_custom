@@ -1,116 +1,58 @@
-# 04 - Bridge Architecture
+# 04 - Projection Integration Architecture
 
 ## Objective
 
-Add a modern HMI and native phone projection without replacing the RA4's role as the Jeep vehicle-services authority.
+Add native phone projection as an OEM-style application inside stock Uconnect.
+Do not replace the stock HMI or RA4 vehicle-service authority.
 
-## Proposed architecture
-
-**Resident-first revision, 2026-09-05:** the previous default of rendering the
-entire modern HMI on hidden external compute is superseded. Follow the mandatory
-[RA4 resource budget](ra4_resource_budget.md): 45 MB protected stock reserve,
-15 MB provisional installed allowance, 4 MB runtime growth and 8 MB additional
-peak update/rollback overhead. Expected remaining space is 58 MB steady / 50 MB
-peak from an approximately 77 MB baseline; actual sizes and peaks are unmeasured.
-The deployable core should be small code reusing stock services and assets.
-The [resident decision](resident_hmi_decision.md) now prefers existing AIR/SWF
-reuse conditionally, with native QNX as an alternative and a bridge only for a
-demonstrated service gap. This supersedes the initial native-only wording.
-No complete projection engine has yet been sized or proved runnable locally.
+## Architecture
 
 ```text
-Tiny RA4-resident HMI / integration process
-  |-- QNX display/touch and reused stock assets
-  |-- stock MME / audio services
-  |-- stock Harman / PPS services --> CAN
-  `-- optional external capability interface
-       (only for functions proved infeasible within local limits)
+Tiny RA4-resident projection integration
+  |-- stock application arbiter, navigation stack, popups and camera layers
+  |-- stock display, touch, audio, media and vehicle services
+  `-- optional external projection engine
+       only if local storage/CPU/RAM feasibility fails
 ```
 
-## Responsibilities
+Follow [the resource budget](ra4_resource_budget.md): 15 MB installed cap, 4 MB
+runtime growth, 8 MB additional update peak, 45 MB protected stock reserve and
+5 MB planned-peak margin.
 
-### RA4-resident core: feasibility targets
+## Resident responsibilities
 
-- Render a minimal modern Uconnect-inspired UI using the smallest supported stock-runtime or native path.
-- Translate high-level user actions into supported RA4 service calls.
-- Maintain a watchdog/fallback policy.
-- Reuse stock fonts, icons, codecs, media services and platform libraries after ABI/access verification; do not package duplicates.
+- Register/use projection as a stock application/screen.
+- Keep session lifetime separate from visible foreground ownership.
+- Reuse stock foreground requests, navigation stack, popup and camera layers.
+- Provide easy Return to Uconnect and resume-existing-projection paths.
+- Gate only duplicate native Phone/Messaging foreground and announcement behavior.
+- Preserve Bluetooth/HFP/MAP and stock services unless a narrower proved conflict
+  requires arbitration.
+- Reuse stock assets/libraries after ABI/access verification.
 
-### Optional external capabilities
+## Stock responsibilities
 
-First measure local feasibility, including installed dependencies, runtime
-writes, update peaks, RAM/CPU and service access. Mark a capability
-`EXTERNAL_COMPUTE_REQUIRED` if it cannot fit or execute safely; do not make the
-entire HMI external by default. A legitimate CarPlay/Android Auto engine remains
-an unresolved feasibility item, not an assumed resident dependency. Large new
-maps, media libraries and speech models are excluded from the app footprint.
-PC prototype tooling must not silently enter the RA4 deployment architecture.
+Stock retains ordinary screens, vehicle configuration, HVAC/comfort, tuner/media,
+phone services, camera priority, display/touch/audio policy and CAN communication.
 
-### Stock RA4
+## Optional external engine
 
-- Remain responsible for Jeep-specific state and commands.
-- Continue to own vehicle configuration, HVAC/comfort integration, camera behavior and factory service logic.
-- Continue to communicate with vehicle ECUs through its existing middleware and CAN services.
+First measure legitimate local engine size, RAM, CPU, graphics, USB and service
+access. Use `EXTERNAL_COMPUTE_REQUIRED` only if local feasibility fails. External
+compute must not replace the tiny stock-facing arbitration layer or become the
+ordinary HMI. Never bundle maps, media libraries, speech models or a browser.
 
-## Display path
+## Foreground and return behavior
 
-### VERIFIED
+Camera/critical stock takeover outranks permitted temporary overlays, which
+outrank projection, which outranks ordinary stock HMI only while selected.
+Camera uses the stock layer/stack return. Comfort popups do not end projection.
+Return to Uconnect hides projection without stopping it; Return to Projection
+navigates to the active session. Crash/disconnect returns to stock.
 
-- QNX Screen is present.
-- Factory utilities can create Screen windows/buffers and access display properties.
+## Unknown integration contracts
 
-### HYPOTHESIS
-
-A bridge or companion process may be able to present a full-screen surface through supported QNX Screen mechanisms without replacing the stock HMI.
-
-### Required behavior
-
-- Stock backup camera must preempt the custom UI immediately.
-- A crash or bridge disconnect must return control to stock UI.
-- No boot dependency may prevent normal RA4 startup.
-
-## Touch path
-
-### VERIFIED
-
-- Factory touch tooling consumes QNX Screen / mtouch events.
-
-### HYPOTHESIS
-
-Projection-active mode can route coordinates to the projection layer while preserving stock behavior outside the projection surface/session.
-
-## Audio path
-
-### VERIFIED
-
-The system has logical multimedia sources, and an `audioApp` source is mapped into MME in analyzed configuration.
-
-### HYPOTHESIS
-
-The projection layer can register or use an application audio source and allow AudioCtrlSvc/MME to retain volume, mute and amplifier behavior.
-
-## Vehicle-control path
-
-The modern HMI should use high-level existing RA4 services for comfort and vehicle functions.
-
-Preferred order:
-
-1. Existing Harman ModuleLink API
-2. Existing PPS writable object intended for that feature
-3. Existing servicebroker/SVCIPC/DBus contract
-4. Raw CAN only for passive observation during research, not as the product architecture
-
-## Failure model
-
-Any bridge failure must degrade to stock RA4 behavior.
-
-The bridge must never be required for:
-
-- vehicle startup
-- HVAC safety behavior
-- backup-camera availability
-- safety-critical ECU operation
-
-## Bench-first rule
-
-Runtime experiments belong on a spare/bench RA4 before they are attempted on the vehicle's only working unit.
+Authorized app/screen loading, compatible toolchain, video surface, touch routing,
+projection/HFP audio focus, supported call/SMS presentation policy and complete
+backend protocol remain unproved. Runtime work belongs on an authorized spare
+bench unit after static closure; this document authorizes no radio mutation.

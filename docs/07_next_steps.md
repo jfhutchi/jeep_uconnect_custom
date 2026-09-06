@@ -1,136 +1,53 @@
 # 07 - Product-first next steps
 
-Updated 2026-09-06. The current slice is a small resident shell, not projection,
-external hardware or unrelated Synctool research. The completed
-[PC prototype](../prototype/resident_hmi/README.md),
-[resident decision](resident_hmi_decision.md) and
-[adapter contract](resident_hmi_contract.md) move software prototyping ahead of
-bench integration. Historical phase numbers below are backlog categories, not a
-requirement to acquire hardware before building the UI.
+Updated 2026-09-06. Production is projection inside stock Uconnect, not a
+replacement six-screen shell. The PC prototype remains useful only for state,
+adapter, legibility and failure-policy tests.
 
-## Next single highest-value task
+## Next highest-value static task
 
-The [read-only driver-temperature trace](../reports/ra4_driver_temperature_contract.md)
-and original fixture now establish string values, units gates, physical zones,
-service mapping and client events. They also prove silent invalid-value suppression
-and stale-cache hazards; no real adapter or live subscription is implemented.
+1. Add reusable property/multiname consumer XREFs to `swf_abc_inspect`.
+2. Trace `PROJECTION_BACKTO_CAR`, `DEVICE_PROJECTION` and the projection
+   screen's Return-to-Uconnect control.
+3. Trace heated-seat/heated-wheel popup events.
+4. Trace projection/HFP audio focus separately from visual foreground ownership.
 
-Next: close **temperature quality across units changes and service restart**.
-Trace PersonalConfig `temperatureUnits`/`ready` production and the native gateway's
-subscription callback/wrapping path. Determine whether any existing signal or
-refresh distinguishes a valid current setpoint from a stale cache, then define
-fixture-driven per-field quality behavior. Do not invent a heartbeat, units epoch
-or freshness guarantee from a getter response. No radio calls or vehicle commands.
+Current evidence: [projection foreground ownership](../reports/projection_foreground_ownership.md).
 
-Before any resident trial, independently close authorized screen/app loading,
-compatible toolchain, stock camera/display/touch ownership and crash fallback.
-Measure the complete target package, RAM/CPU/startup and storage peaks; never
-borrow the protected 45 MB stock reserve. This roadmap authorizes no deployment
-or bench/radio mutation by itself.
+Continue the [driver-temperature trace](../reports/ra4_driver_temperature_contract.md)
+independently: close units-change/service-restart quality and stale-cache behavior
+without adding a live radio subscription or replacement Climate screen.
 
-## Phase 1 - Finish the contract map
+## Static-contract exit
 
-1. Close the single read-only temperature quality contract above.
-2. Document capability/validity semantics before replacing further state mocks.
-3. Establish supported app/screen loading and stock foreground/fallback contracts.
-4. Defer projection and new audio-source registration until the shell is useful.
+Recover session versus foreground lifecycle, return/resume behavior, call/SMS
+visual and audio gates, camera stack return, permitted overlays and temperature
+quality with explicit CONFIRMED/HIGH/INFERRED/UNKNOWN evidence.
 
-### Exit criterion
+## Authorized lifecycle/resource proof
 
-An evidence-backed interface inventory exists with clear VERIFIED / STRONG EVIDENCE / HYPOTHESIS / UNKNOWN labels.
+Establish a supported screen/app boundary and compatible toolchain. Build only a
+tiny integration trial. Measure installed bytes, runtime writes, update peak, RAM,
+CPU and startup. Preserve the 45 MB stock reserve. No roadmap step authorizes radio
+modification.
 
-## Phase 2 - Bench hardware
+## Bench-only proofs
 
-Acquire a spare compatible RA4 and build a bench harness.
+Under separate authorization on spare hardware: show/hide projection through the
+stock arbiter; verify camera/popup priority; verify Return to Uconnect and session
+resume; verify no duplicate call/SMS foreground or TTS while active and normal
+behavior while inactive; verify crash fallback.
 
-Bench goals:
+## Engine feasibility
 
-- power radio safely outside the vehicle
-- access USB and display-related interfaces where practical
-- observe normal boot behavior
-- preserve an unmodified reference unit/image
-
-### Exit criterion
-
-The spare RA4 can boot reliably on the bench and be restored to stock behavior after every experiment.
-
-## Phase 3 - Non-invasive runtime proofs
-
-Prototype only non-destructive experiments:
-
-1. Create a test QNX Screen surface/window.
-2. Observe touch events without blocking stock input.
-3. Determine whether application audio can be registered/routed through stock audio services.
-4. Determine stock camera priority behavior while a custom surface exists.
-
-### Exit criterion
-
-Display, touch and audio integration paths are demonstrated without modifying signed firmware.
-
-## Phase 4 - Modern HMI prototype
-
-The minimal PC slice now exists. Remaining items below are later expansion,
-not claims of resident deployment or projection support.
-
-Screens:
-
-- Home
-- Radio
-- Media
-- Climate
-- Controls
-- Phone
-- Projection
-- Settings
-
-### Exit criterion
-
-The UI is usable at native resolution and all vehicle controls are represented through an abstract service API rather than direct CAN calls.
-
-## Phase 5 - RA4 bridge
-
-Implement adapters from the abstract HMI service API to verified stock RA4 interfaces.
-
-Start read-only:
-
-- temperatures
-- HVAC state
-- seat/wheel capability and state
-- media state
-- phone/projection state
-
-Only under a separately authorized plan, enable individual comfort commands
-after units, equipment capabilities, permissions, acknowledgment and failure
-semantics are established. Do not use raw CAN control.
-
-## Phase 6 - Projection integration
-
-Deferred: evaluate a legitimate CarPlay/Android Auto engine only after the shell.
-There is no assumed hidden compute layer. Require external compute only for a
-capability demonstrated infeasible within stock storage/CPU/RAM and service limits.
-
-Required:
-
-- automatic phone-type detection
-- projection video into the factory display path
-- factory touchscreen coordinates into projection
-- audio into stock audio stack
-- steering-wheel media controls where supported
-- clean exit to modern Jeep UI
-
-## Phase 7 - Vehicle validation
-
-Only after bench success:
-
-- install reversible prototype in vehicle
-- validate boot/fallback
-- validate reverse camera
-- validate HVAC/comfort controls
-- validate Android Auto
-- validate CarPlay
-- validate steering-wheel controls
-- run long-duration stability tests
+Evaluate a legitimate engine against local storage, RAM, CPU, video, touch, USB
+and audio contracts. Do not choose external hardware merely for convenience. Mark
+the engine `EXTERNAL_COMPUTE_REQUIRED` only if resident feasibility fails while
+keeping the RA4 integration layer tiny.
 
 ## Definition of done
 
-The system feels like a newer Jeep infotainment system, supports native Android Auto and CarPlay, preserves all required 2014 WK2 comfort/vehicle features, and falls back safely to the original RA4 behavior if the modernization layer fails.
+Projection behaves like an OEM Uconnect application: full-screen when selected,
+easy to leave/resume, subordinate to camera/critical overlays, compatible with
+temporary comfort popups, and sole presenter of projected calls/messages while
+active. Ordinary factory screens and disconnected behavior remain stock.

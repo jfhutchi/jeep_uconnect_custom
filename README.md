@@ -4,21 +4,22 @@ Modernize a 2014 Jeep Grand Cherokee WK2 RA4 infotainment experience while prese
 
 ## Product goal
 
-Build a newer-Uconnect-inspired interface with native Android Auto and Apple CarPlay integration while retaining the stock RA4 as the vehicle-services authority for Jeep-specific functions.
+Integrate native Android Auto and Apple CarPlay as first-class projection
+applications inside stock RA4 Uconnect. Production does **not** replace the
+factory Radio, Media, Climate, Controls, Phone, Messaging or Settings screens.
 
 Target experience:
 
-- Modern Jeep/Uconnect-style 640x480 HMI
-- Native Android Auto for Android phones
-- Native Apple CarPlay for iPhone
-- Heated seats preserved
-- Heated steering wheel preserved
-- Dual-zone HVAC preserved
-- Factory backup camera preserved
-- Vehicle settings preserved
-- Factory steering-wheel controls preserved
-- Factory audio path preserved
-- Safe fallback to the stock RA4 UI
+- Stock Uconnect remains the ordinary HMI and vehicle-services authority.
+- Projection may use the full 640x480 display while active.
+- Return to Uconnect and Return to Projection are explicit and easy.
+- Returning to projection resumes the session instead of reconnecting it.
+- Factory camera and permitted comfort overlays preempt projection and reveal it
+  again afterward.
+- During an active projection session, projection owns call/message presentation;
+  duplicate stock Phone/Messaging foreground UI and audio are suppressed without
+  globally disabling Bluetooth/HFP/MAP.
+- Normal stock phone/message behavior returns when projection is inactive.
 
 ## Architecture direction
 
@@ -30,7 +31,7 @@ caps installed app size at 15 MB, runtime growth at 4 MB and additional peak
 update/rollback overhead at 8 MB. These are planning caps, not measured artifacts.
 
 ```text
-Small RA4-resident HMI (stock AIR/SWF reuse preferred, feasibility target)
+Small RA4-resident projection integration (stock AIR/SWF reuse preferred)
   |-- existing display / touch / assets
   |-- existing audio / media services
   |-- existing Harman / PPS vehicle services --> CAN
@@ -39,12 +40,12 @@ Small RA4-resident HMI (stock AIR/SWF reuse preferred, feasibility target)
 
 The original RA4 remains responsible for vehicle-specific logic. New code should consume high-level existing services where possible rather than reimplementing raw CAN behavior.
 
-This supersedes the earlier external-renderer-first proposal. First determine
-the largest credible software-only HMI; do not add external hardware solely for
-development convenience. Projection-engine feasibility and size are unresolved.
-Capabilities that cannot fit or execute locally must be explicitly classified
-`EXTERNAL_COMPUTE_REQUIRED`, not deferred to hypothetical optimization. PC mocks
-and analysis tooling must remain outside the deployable package.
+This supersedes both the earlier external-renderer-first proposal and the later
+six-screen replacement-shell interpretation. First determine the largest credible
+software-only projection integration. A complete legitimate projection engine
+remains unresolved; classify it `EXTERNAL_COMPUTE_REQUIRED` only when measured
+local storage/CPU/RAM feasibility fails. PC mocks and analysis tools remain
+outside deployment.
 
 ## Verified research findings
 
@@ -64,10 +65,12 @@ These findings do **not** imply that a hidden switch alone enables CarPlay or An
 
 Detailed navigation-update findings: [`reports/map_update_2017q2_reverse_engineering.md`](reports/map_update_2017q2_reverse_engineering.md).
 
-Current product integration: the [read-only driver-temperature contract](reports/ra4_driver_temperature_contract.md)
-traces the stock Lua publisher, native HVAC service mapping and ModuleLink client.
-Its original fixtures cover units, LO/HI and stale-cache hazards; the prototype
-remains mock-only and no radio subscription or control is enabled.
+Current product integration: the [projection foreground-ownership report](reports/projection_foreground_ownership.md)
+traces stock session/display separation, call/SMS presentation, foreground
+arbitration, camera return and comfort-popup reuse. The separate
+[read-only driver-temperature contract](reports/ra4_driver_temperature_contract.md)
+remains active research; its prototype stays mock-only and no radio subscription
+or control is enabled.
 
 The focused [Synctool device/license-selection report](reports/synctool_device_license_selection.md)
 traces the App-SKU virtual query, corrects the SWID-property data-flow direction,
@@ -91,21 +94,14 @@ This project is analysis-first.
 
 ## Current milestones
 
-The current product slice is a useful resident application shell, **not projection
-or custom hardware**. The [resident decision](docs/resident_hmi_decision.md)
-compares AIR/SWF, native QNX and hybrid options without assuming native code is
-required. Stock-runtime reuse is preferred conditionally; loading, compatible
-toolchain and independent fallback remain unproved.
+The resident product slice is a tiny projection integration layer inside stock
+Uconnect. The six-screen [PC prototype](prototype/resident_hmi/README.md) remains
+a state/adapter feasibility scaffold, not a replacement infotainment product.
 
-The [PC prototype](prototype/resident_hmi/README.md) implements six 640x480 screens,
-mock services and fail-closed state handling without a framework or bundled assets.
-Its browser is development-only, not an RA4 runtime dependency. The
-[application contract](docs/resident_hmi_contract.md) keeps those layers separate.
-
-1. Trace one read-only driver-temperature subscription end-to-end.
-2. Establish supported app/screen loading and stock display/touch/camera ownership.
-3. Build a tiny target trial with a compatible authorized toolchain; measure it.
-4. Prove stock fallback and resource headroom before replacing any mock adapter.
-5. Consider additional media/comfort functions, then projection only after the shell.
+1. Complete projection foreground and Return-to-Uconnect contract recovery.
+2. Trace projection-back, comfort-popup and audio-focus XREFs.
+3. Establish authorized app/screen lifecycle and measure a tiny target trial.
+4. Prove camera, popup, phone/message arbitration, fallback and resource headroom.
+5. Continue read-only temperature-quality research independently.
 
 See `docs/` and the GitHub issue tracker for the detailed plan.
