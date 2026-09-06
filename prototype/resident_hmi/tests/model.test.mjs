@@ -29,9 +29,13 @@ test('return to Uconnect preserves session ownership and resume does not reconne
   assert.equal(shell.foreground, FOREGROUND.UCONNECT);
   assert.equal(shell.state.projection.session, SESSION.ACTIVE);
   assert.equal(shell.nativePresentation().incomingCallForeground, false);
-  shell.showProjection(2);
+  shell.receive(adapter.scenario('normal'), 2);
+  assert.equal(shell.foreground, FOREGROUND.UCONNECT);
+  assert.ok(shell.state.sequence > sequence);
+  const heartbeatSequence = shell.state.sequence;
+  shell.showProjection(3);
   assert.equal(shell.foreground, FOREGROUND.PROJECTION);
-  assert.equal(shell.state.sequence, sequence);
+  assert.equal(shell.state.sequence, heartbeatSequence);
   assert.match(shell.notice, /no reconnect/);
 });
 
@@ -71,7 +75,7 @@ test('comfort overlay preserves underlying foreground and session', () => {
 test('projection disconnect restores native phone and message presentation', () => {
   const { shell, adapter } = setup();
   shell.receive(adapter.scenario('android'), 1);
-  shell.returnToUconnect();
+  assert.equal(shell.foreground, FOREGROUND.PROJECTION);
   shell.receive(adapter.scenario('projection-off'), 2);
   assert.equal(shell.foreground, FOREGROUND.UCONNECT);
   assert.deepEqual(shell.nativePresentation(), {
@@ -88,8 +92,11 @@ test('critical takeover outranks comfort and projection', () => {
   shell.receive(adapter.scenario('critical'), 3);
   assert.equal(shell.foreground, FOREGROUND.TAKEOVER);
   assert.equal(shell.overlay, OVERLAY.NONE);
+  assert.equal(shell.interactionOwner(), 'uconnect');
+  assert.equal(shell.nativePresentation().incomingCallForeground, true);
   shell.receive(adapter.scenario('normal'), 4);
   assert.equal(shell.foreground, FOREGROUND.PROJECTION);
+  assert.equal(shell.interactionOwner(), 'projection');
 });
 
 test('connected but inactive session never becomes projection foreground', () => {
@@ -110,10 +117,16 @@ test('invalid, duplicate and stale state fail toward stock Uconnect', () => {
   invalid.projection.platform = null;
   assert.throws(() => shell.receive(invalid, 3), /snapshot/);
   assert.equal(shell.foreground, FOREGROUND.UCONNECT);
+  assert.equal(shell.state, null);
+  assert.equal(shell.interactionOwner(), 'uconnect');
+  assert.equal(shell.nativePresentation().messageTts, true);
 
   shell.receive(adapter.scenario('carplay'), 4);
   shell.tick(2005);
   assert.equal(shell.foreground, FOREGROUND.UCONNECT);
+  assert.equal(shell.state, null);
+  assert.equal(shell.interactionOwner(), 'uconnect');
+  assert.equal(shell.nativePresentation().incomingCallForeground, true);
   assert.throws(() => shell.showProjection(2005), /unavailable/);
 });
 

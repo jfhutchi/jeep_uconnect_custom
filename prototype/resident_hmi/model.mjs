@@ -52,11 +52,12 @@ export class Shell {
   }
 
   interactionOwner() {
+    if (this.state?.critical) return 'uconnect';
     return this.projectionActive() ? 'projection' : 'uconnect';
   }
 
   nativePresentation() {
-    const allowed = !this.projectionActive();
+    const allowed = this.interactionOwner() === 'uconnect';
     return Object.freeze({
       owner: allowed ? 'uconnect' : 'projection',
       incomingCallForeground: allowed,
@@ -65,10 +66,14 @@ export class Shell {
     });
   }
 
-  fallback(reason) {
+  fallback(reason, invalidateState = false) {
     this.foreground = FOREGROUND.UCONNECT;
     this.overlay = OVERLAY.NONE;
     this.preemptedForeground = FOREGROUND.UCONNECT;
+    if (invalidateState) {
+      this.state = null;
+      this.lastReceived = -Infinity;
+    }
     this.notice = `Stock Uconnect foreground: ${reason}`;
   }
 
@@ -96,8 +101,7 @@ export class Shell {
   receive(state, now) {
     this.tick(now);
     if (!validSnapshot(state)) {
-      this.lastReceived = -Infinity;
-      this.fallback('invalid service snapshot');
+      this.fallback('invalid service snapshot', true);
       throw new Error('Invalid snapshot');
     }
     if (this.state && state.sequence <= this.state.sequence) return false;
@@ -108,7 +112,7 @@ export class Shell {
     this.lastReceived = now;
 
     if (!state.serviceConnected) {
-      this.fallback('integration service disconnected');
+      this.fallback('integration service disconnected', true);
       return true;
     }
 
@@ -143,6 +147,6 @@ export class Shell {
 
   tick(now) {
     this.time(now);
-    if (this.state && !this.fresh(now)) this.fallback('stale integration state');
+    if (this.state && !this.fresh(now)) this.fallback('stale integration state', true);
   }
 }
