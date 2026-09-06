@@ -28,7 +28,11 @@ attributed connector-end view maps the cable to Radio C2 `D2784B`: `X455`
 power, `X458` D-, `X457` D+, and `X456` ground on two cavities. The combined
 SD-reader/USB module exposes only this one upstream pair, so active hub,
 multifunction-controller, or multiplexer logic is required. Its role behavior,
-D2784B-to-OMAP nets, PHY/VBUS switching and installed DCD remain unknown. The
+D2784B-to-OMAP nets, physical PHY/power-switch identity, electrical VBUS behavior
+and installed DCD remain unknown. The stock software control path is now
+recovered: Mentor requests ULPI PHY reset, and onoff uses `usbPowerSwitch` to
+change VBUS-drive bits through `0x480ab000`. See the
+[static power-control trace](../reports/ra4_usb_phy_power_control.md). The
 runtime must include an OMAP-compatible `io-usb-dcd` controller DLL plus the
 CarPlay function/descriptor path.
 
@@ -51,7 +55,8 @@ CarPlay cannot run locally without an authorized BSP/driver addition.
 | RA4 host path | `io-usb`, `libusbdi`/usbd APIs and factory USB utility evidence | CONFIRMED |
 | RA4 Apple-adjacent path | `itun`, `libipod`, iPod/media integration and CarPlay HMI vocabulary | CONFIRMED adjacent capability |
 | RA4 device stack | `io-usb-dcd`, controller DLL, function driver, descriptors, startup and port mapping | UNKNOWN |
-| physical role route | hub silicon/role behavior, D2784B-to-BE2800 nets, SoC controller, PHY and VBUS switching | EXTERNAL_EVIDENCE_REQUIRED |
+| stock PHY/power request | Mentor ULPI reset; onoff calls `usbPowerSwitch`, which writes OTG Control `0x86`/`0xe6` through `0x480ab000` | CONFIRMED STATIC / electrical result UNKNOWN |
+| physical role route | hub silicon/role behavior, D2784B-to-BE2800/controller nets, PHY/power-switch identity and electrical VBUS behavior | EXTERNAL_EVIDENCE_REQUIRED |
 | CarPlay receiver | licensed driver/receiver/manager, MFi authentication and service ABI | EXTERNAL_EVIDENCE_REQUIRED |
 
 Primary sources:
@@ -134,7 +139,8 @@ cabin media hub 68141322AA / 68289895AA
   -> USB jumper 68141323AA
   -> Radio C2 D2784B: X455 power, X458 D-, X457 D+, X456 ground
   -> confirmed rear-board/main-board assembly boundary; USB net unproved
-  -> unproved OMAP3730 OTG controller and PHY/VBUS switching
+  -> unproved connection to OMAP3730 OTG controller and physical PHY/power switch
+     (stock software reset/VBUS-drive request at 0x480ab000 is now proved)
 ```
 
 The absence of a separate ID circuit at D2784B is not by itself a blocker:

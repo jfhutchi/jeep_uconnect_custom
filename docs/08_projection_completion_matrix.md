@@ -32,7 +32,7 @@ Status vocabulary:
 | Stock lifecycle for an already authorized resident Xlet | Secure AMS startup, non-autostart install state, generic Apps tile, DRM-checked native `startApp` and later foreground arbitration are recovered | STATIC_PROVED / TARGET_UNPROVED | Legitimately authorized inert package returned by target `getAppList`, target launch/fallback observation |
 | Authorization of a new resident component | Detached signature/DRM/developer-token binding is recovered; no legitimate new-project issuer or credential is available | EXTERNAL_EVIDENCE_REQUIRED | Written supported package/DRM/developer route or legitimately issued inert signed sample; no bypass |
 | Complete CarPlay/Android Auto engine | QNX 6.6-era docs prove a legacy CarPlay USB role-swap transport family; later Smartphone Connectivity is a modular vendor lead, but public 2.0 remains QNX 7.x | EXTERNAL_EVIDENCE_REQUIRED | Support-supplied legacy drivers plus compatible receiver or authorized port, Apple/Google access, target ABI and measured CPU/RAM/storage |
-| USB device-role path | OMAP3730 supports OTG host/peripheral; FCC identifies BE2800; Mopar distinguishes the SD/USB/AUX data hub from charging-only ports; Chrysler-attributed D2784B data maps one power/D-/D+/ground path to Radio C2; QNX 6.6 has generic `io-usb-dcd`, but the public OMAP3730 BSP lists OTG Host only | STATIC_PROVED (silicon/platform/products); HIGH external circuit map / TARGET_UNPROVED | Active hub/controller or mux identity and reversibility, VBUS behavior, D2784B-to-rear-board-to-main-board/OMAP route, installed DCD/function driver, startup and role-switch proof; FCC block diagram/schematics are permanently confidential |
+| USB device-role path | OMAP3730 supports OTG host/peripheral; BE2800 and the external D2784B circuit map are identified; Mentor requests ULPI PHY reset; stock onoff calls `usbPowerSwitch`, which changes VBUS-drive bits through `0x480ab000`; QNX 6.6 has generic `io-usb-dcd`, but the public OMAP3730 BSP lists OTG Host only | STATIC_PROVED (silicon/platform/software control); HIGH external circuit map / TARGET_UNPROVED | PHY/power-switch and active hub identity, electrical VBUS behavior, D2784B-to-OMAP route, installed DCD/function driver and role-switch proof; utility completion reporting does not prove hardware success |
 | No signing, license or activation bypass | Repository/PR path audit contains no vendor payload, license, key, certificate or activation material | STATIC_PROVED | Re-audit every future package and deployment design |
 
 ## Current implementation evidence
@@ -56,8 +56,9 @@ remains manual-only. Exact local commands/results are in the
 1. Follow the [post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md):
    host tests, strict C99 execution, 122-marker census and foreground XREFs are
    complete. Raw markers do not inspect compressed SWF contents.
-2. Trace the installed Mentor driver's board-init/ULPI operations to PHY/VBUS
-   and authorized BE2800 port nets; resolve the hardware-specific DCD lane.
+2. Use the [completed Mentor/power trace](../reports/ra4_usb_phy_power_control.md)
+   to pursue explicit PHY identity and power-switch linkage in startup/I2C/PMIC
+   configuration; correlate to authorized BE2800 port nets and the DCD lane.
 3. Acquire the matching projection screen/backend contract and prove the
    BacktoCar/start path's session continuity, then close comfort/audio seams.
 4. Use the proved Xlet lane only with legitimate package authorization.

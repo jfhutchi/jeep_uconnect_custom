@@ -11,9 +11,12 @@ The [post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md) executed
 census and bounded foreground XREFs. Do not repeat those acquisitions without
 new evidence or code changes.
 
-1. Trace the recovered `devu-omap3530-mg.so` board-init and ULPI routines to
-   concrete PHY/VBUS operations. Correlate with `.script`'s two controller
-   clauses and authorized BE2800 nets; no target execution or role change.
+1. Follow the completed [USB PHY/power trace](../reports/ra4_usb_phy_power_control.md):
+   Mentor requests PHY reset; `usbPowerSwitch` changes ULPI VBUS-drive bits
+   under stock onoff lifecycle control. Inspect recovered startup/I2C/PMIC
+   configuration for explicit PHY identity and power-switch linkage to
+   `0x480ab000`; no target execution or role change. Utility success is not
+   electrical proof because its exhausted-poll path can return zero.
 2. Obtain a matching owner-supplied `DeviceProjection.swf`/backend or legitimate
    provider contract. The seven-root filename census and 610-SWF exact-name
    census did not locate the screen or a back-to-car event listener.

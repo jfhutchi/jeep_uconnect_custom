@@ -155,7 +155,8 @@ UNKNOWN:
 - hub controller/multiplexer manufacturer, part number and role behavior;
 - whether the phone receptacle can be isolated from the SD reader and presented
   bidirectionally during CarPlay role swap;
-- whether VBUS can be removed or reversed safely;
+- whether physical VBUS can be removed or reversed safely (the stock software
+  VBUS-drive request is now [statically proved](../reports/ra4_usb_phy_power_control.md));
 - D2784B-to-OMAP PCB nets, PHY, power switch and controller instance;
 - installed OMAP-compatible DCD, descriptors, function driver and startup rule.
 
@@ -166,9 +167,14 @@ recovered `io-usb` startup to `omap3530-mg` at `0x480ab000`/IRQ 92 and
 `ehci-omap3` at `0x48064800`/IRQ 77, with both DLLs materialized and hashed.
 Its startup environment declares `qnx650`. Raw DCD/role-swap markers were absent
 in seven roots, which does not exclude compressed/private implementations.
-The exact Radio C2 controller, PHY/VBUS/ID route and device role remain UNKNOWN.
-The next local static target is the Mentor DLL's board-init/ULPI routines;
-external hub/net acquisition remains necessary for the physical chain.
+The [Mentor/stock power trace](../reports/ra4_usb_phy_power_control.md) now
+identifies PHY-reset writes and onoff-driven VBUS-drive requests through that
+OTG controller. The utility's exhausted-poll path can report success without
+completion; its Lua callers discard results. This narrows software ownership
+without proving electrical behavior. Radio C2 controller routing, physical
+PHY/power-switch identity, hub reversibility and device role remain UNKNOWN.
+The next local static target is startup/I2C/PMIC configuration for an explicit
+PHY/power-switch link; external hub/net evidence remains necessary.
 
 The most efficient closure is passive identification of the stock data hub:
 

@@ -1,6 +1,10 @@
 # RA4 post-reboot verification and static checkpoint
 
 Date: 2026-09-06. Baseline: `9eb28ad2c9d06753c1b0ec59a251c804b70b4b52`.
+Subsequent work: [Mentor PHY reset and stock VBUS-drive control](ra4_usb_phy_power_control.md)
+completes this checkpoint's final board-init/ULPI target and records the narrower
+remaining PHY/physical-route/device-stack gates. Results below retain their
+original checkpoint scope.
 Verified tool/test revision: `d0f3c269599aa96c62de5c782c924f17e82ef1bb`.
 This checkpoint supersedes the earlier frozen-runner status and the inference
 that an active-session return can never issue a start-named command. It contains

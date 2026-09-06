@@ -8,14 +8,36 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 after reboot
+### Current checkpoint: 2026-09-06 USB PHY and power-control trace
+
+The [USB PHY/power-control report](reports/ra4_usb_phy_power_control.md) closes
+the previous Mentor board-init/ULPI task. It is current for USB static findings:
+
+- Mentor board init writes `0x20` to ULPI `0x05`: PHY Function Control RESET
+  through its SET alias. Port recovery can repeat the reset and set SESSION.
+- The separate stock `usbPowerSwitch` utility accesses the same `0x480ab000`
+  controller and writes ULPI OTG Control `0x0a` with `0x86` or `0xe6`, changing
+  both VBUS-drive bits. This proves the software request path, not actual VBUS
+  voltage, physical routing, PHY identity or device-role operation.
+- Four `onoff/main.lua` call sites link that request to factory load-shed and
+  resume/ignition handling. They discard results. The utility's exhausted-poll
+  path can return success, so an exit status cannot establish hardware success.
+- Fresh static validation matched three artifact hashes, decoded 12 bounded
+  ARM ranges (1,022 instructions), parsed 70 Lua prototypes and checked the four
+  zero-result CALLs. No implementation/tool changes or new host-suite runs.
+
+Next bounded static target: recovered startup/I2C/PMIC configuration for an
+explicit PHY identity and power-switch link to this ULPI controller. Radio C2
+nets, active hub reversibility and a compatible DCD/function stack remain open.
+
+### Preceding checkpoint: 2026-09-06 after reboot
 
 The active integration line is `codex/ra4-driver-temperature`, draft PR #14.
 It was recovered from local `52a37f1` and fast-forwarded to remote `9eb28ad2`;
 `main` remains `6c898a1`. Two untracked pre-crash reports were preserved outside
 Git. The command runner works again. The
 [post-reboot checkpoint](reports/ra4_post_reboot_checkpoint.md) is authoritative
-for current verification, commands, corpus coverage and remaining targets:
+for the preceding host verification, commands and corpus coverage:
 
 - 135 Python tests and 20 JavaScript tests pass; all 8 mjs files pass syntax
   checks, Python compileall passes, and Synctool passes 83/83 hash-gated anchors.
@@ -36,8 +58,8 @@ for current verification, commands, corpus coverage and remaining targets:
   the seven roots and no exact-name back-to-car listener was found in that
   bounded SWF census. Dynamic names/other variants/packages are not excluded.
 
-Next bounded static target: the recovered Mentor driver's board-initialization
-and ULPI routines, to narrow PHY/VBUS control before correlating to BE2800 nets.
+The subsequent USB report above completes this checkpoint's board-init/ULPI
+target and narrows the remaining physical-route and device-stack questions.
 Resident authorization, screen/backend availability, camera/critical priority,
 fail-open stock presentation and the existing storage envelope remain gates.
 No radio connection, service launch, firmware edit, vehicle-state mutation or
