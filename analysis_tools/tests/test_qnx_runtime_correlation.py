@@ -187,5 +187,30 @@ class CorrelationTests(unittest.TestCase):
             correlate_report(duplicate_path)
 
 
+    def test_correlates_ra4_projection_and_authorized_app_lifecycle(self):
+        result = correlate_report(
+            report_with(
+                [
+                    {
+                        "path": "share/hmi/DeviceProjection.swf",
+                        "size": 30,
+                        "sha256": DIGEST_A,
+                        "filename_tags": ["device_projection_swf"],
+                        "content_markers": {
+                            "phone_projection_event": {"count": 1},
+                            "app_manager_service": {"count": 1},
+                        },
+                    }
+                ]
+            )
+        )
+        candidate = result["candidates"][0]
+        self.assertEqual(candidate["priority_tier"], 1)
+        self.assertEqual(
+            candidate["families"],
+            ["projection_service", "ra4_app_lifecycle"],
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

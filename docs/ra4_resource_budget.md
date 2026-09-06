@@ -151,3 +151,14 @@ requires explicit `--writable-bytes` and `--temporary-bytes`, then checks the
 existing caps and reserve. It counts host logical bytes and estimates allocation
 with `--allocation-unit`; actual target allocated bytes, filesystem metadata,
 shared service growth and stock free-space behavior must still be measured.
+
+## Component placement refinement - 2026-09-06
+
+The [resident placement decision](16_ra4_resident_placement_decision.md) keeps
+the no-engine trial at 3 MB installed, 1 MB normal writable growth and 6 MB
+additional staging. It assigns provisional sublimits of 0.50 MB to an authorized
+Xlet/control shell, 0.25 MB to an optional native adapter/arbiter, 0.50 MB to
+private glue dependencies and 1.75 MB to packaging/allocation uncertainty.
+These are unmeasured ceilings inside the existing envelope, not new capacity.
+A preinstalled stock projection screen receives zero-byte credit only after its
+presence and permitted reuse are proved.

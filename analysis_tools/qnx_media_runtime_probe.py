@@ -100,6 +100,15 @@ MARKERS: dict[str, bytes] = {
     "modulelink": b"modulelink",
     "phone_projection_service": b"phoneprojectionservice",
     "iphone_projection": b"iphoneprojection",
+    "device_projection_swf": b"deviceprojection.swf",
+    "projection_back_to_car": b"projection_backto_car",
+    "phone_projection_event": b"phoneprojectionevent",
+    # Exact RA4 secure application-lifecycle anchors.
+    "ams_service": b"com.aicas.xlet.manager.ams",
+    "app_manager_service": b"com.harman.service.appmanager",
+    "appmanager_javaapps": b"appmanager_javaapps",
+    "xlets_directory": b"/fs/mmc1/xletsdir",
+    "xlet_properties": b"xlet.properties",
 }
 
 _MAX_MARKER_BYTES = max(map(len, MARKERS.values()))

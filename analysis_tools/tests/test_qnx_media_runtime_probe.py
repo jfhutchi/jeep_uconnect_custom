@@ -38,7 +38,10 @@ class StreamTests(unittest.TestCase):
             b"audioMgrCMC.conf AudioCtrlSvc audioApp "
             b"screen_join_window_group SCREEN_PROPERTY_FOCUS "
             b"SCREEN_PROPERTY_SENSITIVITY SCREEN_EVENT_MTOUCH_TOUCH video_hmi "
-            b"boot.sh graphics.conf ModuleLink.xml processStarter"
+            b"boot.sh graphics.conf ModuleLink.xml processStarter "
+            b"DeviceProjection.swf PROJECTION_BACKTO_CAR PhoneProjectionEvent "
+            b"com.aicas.xlet.manager.AMS com.harman.service.AppManager "
+            b"AppManager_JavaApps /fs/mmc1/xletsdir xlet.properties"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -72,6 +75,14 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["graphics_config"]["count"], 1)
         self.assertEqual(matches["modulelink_config"]["count"], 1)
         self.assertEqual(matches["process_starter"]["count"], 1)
+        self.assertEqual(matches["device_projection_swf"]["count"], 1)
+        self.assertEqual(matches["projection_back_to_car"]["count"], 1)
+        self.assertEqual(matches["phone_projection_event"]["count"], 1)
+        self.assertEqual(matches["ams_service"]["count"], 1)
+        self.assertEqual(matches["app_manager_service"]["count"], 1)
+        self.assertEqual(matches["appmanager_javaapps"]["count"], 1)
+        self.assertEqual(matches["xlets_directory"]["count"], 1)
+        self.assertEqual(matches["xlet_properties"]["count"], 1)
         self.assertEqual(matches["pps_audio_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_status"]["count"], 1)

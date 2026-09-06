@@ -11,6 +11,9 @@ This is the working index of interfaces, services and artifacts relevant to the 
 | Projection | `PhoneProjectionEvent` | VERIFIED | Status, status-bar and back-to-car event family |
 | Projection | `phoneProjectionService` | VERIFIED reference / UNKNOWN implementation | HMI expects this backend name; implementation not yet located |
 | Projection | `DeviceProjection.swf` | VERIFIED reference / UNKNOWN installed artifact | Projection screen referenced by main HMI |
+| RA4 app lifecycle | secure AMS + `/fs/mmc1/xletsdir` | VERIFIED | `jvm.sh` retains `-secure`; development selects a security configuration, not insecure mode |
+| RA4 app lifecycle | generic Apps Xlet launch | VERIFIED for authorized packages | Apps tile -> ModuleLink `startApp` -> native DRM-check byte 1 -> AMS start; target package authorization remains external |
+| RA4 app authorization | detached `key.jar` + DRM/developer identity | VERIFIED binding / UNKNOWN issuer path | New-project signer/token/DRM issuance is not available and must not be bypassed |
 | Projection | `isSourceCarPlay` | VERIFIED | Media HMI source awareness |
 | Projection | `isSourceGAL` | VERIFIED | Media HMI source awareness |
 | Projection | `enableCarplay` | VERIFIED | Persistency property |
@@ -77,7 +80,10 @@ or a complete backend.
    ducking, pause/resume, microphone and speaker ownership.
 4. Recover heated-seat/heated-wheel popup triggers.
 5. Continue the independent temperature units/service-restart quality trace.
-6. Run the bounded recovered-tree census for both QNX CAR reference names and
-   Harman-specific service names, then correlate positive files with imports
+6. Run the 83-marker recovered-tree census and schema-validating correlator for
+   exact projection-screen, RA4 AMS/AppManager/Xlet, QNX CAR reference, Harman
+   service, audio and Screen names; close ranked candidates with imports/XREFs
    and startup configuration.
-7. Establish authorized app/screen loading, then measure a tiny resident trial.
+7. Use the static-proved Xlet launch lane only after a legitimate package
+   authorization route is supplied; establish screen/service loading separately,
+   then measure a tiny resident trial.

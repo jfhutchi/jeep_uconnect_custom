@@ -104,6 +104,18 @@ FAMILY_MARKERS: dict[str, frozenset[str]] = {
             "servicebroker",
             "modulelink",
             "modulelink_config",
+            "device_projection_swf",
+            "projection_back_to_car",
+            "phone_projection_event",
+        }
+    ),
+    "ra4_app_lifecycle": frozenset(
+        {
+            "ams_service",
+            "app_manager_service",
+            "appmanager_javaapps",
+            "xlets_directory",
+            "xlet_properties",
         }
     ),
     "codec_runtime": frozenset(
@@ -130,13 +142,17 @@ HIGH_SIGNAL_MARKERS = frozenset(
     {
         "audio_mgr_cmc_config",
         "audio_ctrl_svc",
+        "appmanager_javaapps",
         "boot_script",
+        "device_projection_swf",
         "graphics_config",
         "modulelink_config",
         "phone_projection_service",
         "process_starter",
+        "projection_back_to_car",
         "servicebroker",
         "video_hmi_class",
+        "xlets_directory",
     }
 )
 

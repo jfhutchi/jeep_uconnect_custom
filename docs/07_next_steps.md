@@ -11,9 +11,9 @@ ownership, adapter boundaries and failure policy.
    `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE` and HVAC popup names.
 2. Trace the projection screen's Return-to-Uconnect control from those consumers.
 3. Trace heated-seat/heated-wheel popup events.
-4. Run `qnx_media_runtime_probe.py` over each recovered root, feed its redacted
-   JSON to `qnx_runtime_correlation.py`, and inspect tier-1 configuration,
-   startup and stock-specific candidates before lower tiers.
+4. Run the 83-marker `qnx_media_runtime_probe.py` over each recovered root,
+   feed its redacted JSON to `qnx_runtime_correlation.py`, and inspect exact
+   projection-screen plus RA4 app-lifecycle tier-1 candidates before lower tiers.
 5. Correlate controlled Audio Manager/Now Playing/io-acoustic plus Harman
    AudioCtrlSvc/audioMgrCMC hits with imports, XREFs and process startup.
 6. Recover the exact MME source registration, ducking/pause-resume callbacks,
@@ -22,7 +22,10 @@ ownership, adapter boundaries and failure policy.
 Current evidence: [projection foreground ownership](../reports/projection_foreground_ownership.md).
 The [completion matrix](08_projection_completion_matrix.md) separates static,
 host-model and target proof so these tasks cannot be closed by a narrow test.
-The [evidence-gate manifest](10_evidence_gates.md) names the exact local artifacts,
+The [resident placement decision](16_ra4_resident_placement_decision.md) separates
+proved authorized-Xlet launch from the still-external package authorization and
+projection backend/screen gates. The [evidence-gate manifest](10_evidence_gates.md)
+names the exact local artifacts,
 historical log fields, legitimate contracts and spare-bench measurements needed.
 
 Continue the [driver-temperature trace](../reports/ra4_driver_temperature_contract.md)

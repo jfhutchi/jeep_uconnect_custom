@@ -32,7 +32,7 @@ next commands cannot execute in this session.
 | hvac.lua | 3ddadef2296acb475b307893b9a61fa8c7324dce336dcb3baaef1ff89a5b0b50 | PersonalConfig temperatureUnits/ready producer and restart paths | whether units/restart invalidates cached temperature |
 | hmiGateway | 8d7fe8789bb012a66fbebd1bd44eefa506c672a5d70c90fbf92b3a5a6f01ec82 | HVAC callback wrapping plus audio/service references | native delivery and service-loss ordering |
 | Synctool.elf | aa2e2c425d42a5f60427a89817f676b0d32b3ce73057d89355248acc24d4e330 | hash-gated evidence anchors and any newly bounded selector-name references | version-drift check and remaining static selector evidence |
-| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded filename/content census for media/codec markers plus QNX CAR reference `navigator`/Launcher/Authman/HNM/HandsFreePhone-policy/NowPlaying/mm services and Harman `ModuleLink`/servicebroker/phone-projection markers | whether a stock video path or a supported era-compatible app/notification lifecycle is present and boot-configured |
+| Recovered RA4 filesystem trees | source-image and decoded-tree hashes in the current handoff | complete bounded 83-marker census for media/codec, exact `DeviceProjection.swf`/return events, RA4 AMS/AppManager/Xlet lifecycle, QNX CAR reference lifecycle/notification/audio, and Harman ModuleLink/servicebroker/projection names | whether the physical stock projection screen, backend/service path, authorized-app lifecycle components, audio/Screen runtime or codec path is present and boot-configured |
 
 Required tools are already tracked:
 
@@ -48,7 +48,9 @@ Run `qnx_media_runtime_probe.py` first, then pass its redacted JSON to
 stock-specific candidates before cross-family and single-family candidates.
 The correlator's tier is only a deterministic inspection order: a positive hit
 must still be closed with imports, XREFs, process-start evidence and an
-authorized interface contract.
+authorized interface contract. Roots that share a basename receive deterministic
+ordinal labels, and the correlator rejects stale marker inventories or duplicate
+root/path identities so evidence from separate recovered segments cannot merge.
 
 A valid result must include the input hash, bounded method/function/address range
 and tool version/commit. A string hit alone is not a consumer or ABI proof.

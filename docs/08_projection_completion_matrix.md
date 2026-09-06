@@ -28,7 +28,9 @@ Status vocabulary:
 | Projection/HFP audio and microphone arbitration | `P/share/audioDSP/audioMgrCMC.conf:24-29` maps stock `audioApp` to MME; QNX reference separates HFP, visual, routing/ducking, playback and acoustic input | STATIC_PROVED (configuration/reference) / TARGET_UNPROVED | Recovered service census; exact source registration, priority, callbacks, mic owner-death; spare-bench tests |
 | Tiny resident arbitration implementation | JavaScript model plus C99 no-heap candidate; C source is 19,404 bytes across four files | MODEL_PROVED / TARGET_UNPROVED | C compile/tests, target ABI, linked map, allocated package bytes |
 | Protected 77 MB envelope | Caps are 15 MB installed, 4 MB writable, 8 MB extra peak, 45 MB protected, 5 MB residual | MODEL_PROVED / TARGET_UNPROVED | Mount-specific boot/use/update measurements and target package accounting |
-| Authorized lifecycle and stock fallback | Stock AIR launch and application foreground machinery are recovered; arbitrary app acceptance is not | EXTERNAL_EVIDENCE_REQUIRED | Legitimate loader/package/signing boundary and crash-isolation test |
+| Existing stock projection-screen reuse | `DeviceProjection.swf`, `PROJECTION_BACKTO_CAR` and service/session symbols are referenced by stock HMI | STATIC_PROVED (references) / TARGET_UNPROVED | Complete physical screen artifact, descriptor/loader and supported backend binding |
+| Stock lifecycle for an already authorized resident Xlet | Secure AMS startup, non-autostart install state, generic Apps tile, DRM-checked native `startApp` and later foreground arbitration are recovered | STATIC_PROVED / TARGET_UNPROVED | Legitimately authorized inert package returned by target `getAppList`, target launch/fallback observation |
+| Authorization of a new resident component | Detached signature/DRM/developer-token binding is recovered; no legitimate new-project issuer or credential is available | EXTERNAL_EVIDENCE_REQUIRED | Written supported package/DRM/developer route or legitimately issued inert signed sample; no bypass |
 | Complete CarPlay/Android Auto engine | QNX Smartphone Connectivity is a vendor-contact architecture lead; public 2.0 is tied to QNX SDP 7.x and is not a direct RA4/QNX 6.6 binary candidate | EXTERNAL_EVIDENCE_REQUIRED | Supported legacy build or authorized port, Apple/Google access, target ABI, authentication and measured CPU/RAM/storage |
 | No signing, license or activation bypass | Repository/PR path audit contains no vendor payload, license, key, certificate or activation material | STATIC_PROVED | Re-audit every future package and deployment design |
 
@@ -57,15 +59,18 @@ passing target or host build.
 
 1. Recover local command execution and run both host suites plus the ignored
    `MainSupplement.swf` consumer XREFs.
-2. Resolve `PROJECTION_BACKTO_CAR` and heated comfort popup consumers from
-   the hash-identified firmware; run the audio service/config census and recover
-   source registration, ducking/playback callbacks, call route and microphone ownership.
-3. Establish a legitimate app/screen lifecycle and compile the transport-free
-   arbiter with a compatible toolchain.
-4. Select and size a legitimate projection backend. Keep it local only if it
+2. Run the 83-marker recovered-tree probe and schema-validating correlator;
+   inspect exact `DeviceProjection.swf`, RA4 AMS/AppManager/Xlet lifecycle,
+   service, startup, audio and Screen candidates in tier order.
+3. Resolve `PROJECTION_BACKTO_CAR` and heated comfort popup consumers from
+   the hash-identified firmware; recover source registration, ducking/playback
+   callbacks, call route and microphone ownership.
+4. Use the proved Xlet launch lane only with legitimate package authorization;
+   establish the screen/service contract and compile the transport-free arbiter.
+5. Select and size a legitimate projection backend. Keep it local only if it
    passes storage, RAM and CPU gates; otherwise mark only that engine
    `EXTERNAL_COMPUTE_REQUIRED`.
-5. Under separate authorization, use spare hardware to measure camera/overlay/
+6. Under separate authorization, use spare hardware to measure camera/overlay/
    call/message/fallback behavior and all storage peaks.
 
 The project goal is not complete until every TARGET_UNPROVED row has direct

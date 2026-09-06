@@ -136,3 +136,7 @@ pause/resume and microphone/acoustic ownership. The
 [QNX 6.6 Screen/touch/camera reference](docs/15_qnx6_screen_touch_camera_reference.md)
 requires one stock-managed surface, privileged focus ownership, touch only
 while selected, and autonomous camera restoration.
+The [resident component-placement decision](docs/16_ra4_resident_placement_decision.md)
+separates the conditional stock projection-screen reuse path, the static-proved
+secure launch lane for an already authorized Xlet, the still-unproved backend
+registration contract, and the separately qualified licensed projection engine.
