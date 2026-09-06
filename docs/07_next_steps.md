@@ -11,9 +11,12 @@ ownership, adapter boundaries and failure policy.
    `mPrevScreenBeforeActiveCall`, `SMS_INCOMING_MESSAGE` and HVAC popup names.
 2. Trace the projection screen's Return-to-Uconnect control from those consumers.
 3. Trace heated-seat/heated-wheel popup events.
-4. Run the controlled Audio Manager/Now Playing/io-acoustic plus Harman
-   AudioCtrlSvc/audioMgrCMC census; correlate each hit with imports and startup.
-5. Recover the exact MME source registration, ducking/pause-resume callbacks,
+4. Run `qnx_media_runtime_probe.py` over each recovered root, feed its redacted
+   JSON to `qnx_runtime_correlation.py`, and inspect tier-1 configuration,
+   startup and stock-specific candidates before lower tiers.
+5. Correlate controlled Audio Manager/Now Playing/io-acoustic plus Harman
+   AudioCtrlSvc/audioMgrCMC hits with imports, XREFs and process startup.
+6. Recover the exact MME source registration, ducking/pause-resume callbacks,
    projected prompt/call route, and microphone owner-death behavior.
 
 Current evidence: [projection foreground ownership](../reports/projection_foreground_ownership.md).

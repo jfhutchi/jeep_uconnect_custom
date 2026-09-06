@@ -156,3 +156,27 @@ prove a running service, supported ABI, authorized caller contract, or that a
 standard QNX CAR reference component is present in the customized RA4 product.
 Review metadata before committing it, and never commit recovered codecs,
 libraries, DSP images or firmware.
+
+## qnx_runtime_correlation.py
+
+Consumes only the redacted JSON produced by `qnx_media_runtime_probe.py`,
+validates its schema and controlled-marker boundary, groups matching files by
+integration family, and emits a deterministic candidate order. It never opens a
+recovered vendor artifact, preserves no marker offsets or arbitrary source
+fields, and rejects unknown markers, unsafe paths, invalid hashes and malformed
+counts.
+
+```text
+python -m analysis_tools.qnx_media_runtime_probe RECOVERED_ROOT [RECOVERED_ROOT ...] --pretty > qnx-runtime-report.json
+python -m analysis_tools.qnx_runtime_correlation qnx-runtime-report.json --pretty
+```
+
+Priority tier 1 means a stock-specific/startup marker or configuration/startup
+filename; tier 2 means markers from two or more integration families; tier 3 is
+single-family evidence. Inspect tier 1 before lower tiers, then correlate a
+candidate's hash and relative path with imports, XREFs and startup configuration.
+A tier is an inspection priority only. It does not prove that a component runs,
+exports a supported ABI, grants an authorized caller contract, or is safe to
+invoke. Keep the intermediate and output reports outside Git unless their
+controlled metadata has been reviewed.
+

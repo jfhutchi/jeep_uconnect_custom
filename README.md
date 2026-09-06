@@ -79,7 +79,9 @@ traces the App-SKU virtual query, corrects the SWID-property data-flow direction
 identifies the scanner key as a runtime source-container ordinal, and follows
 record-group pruning into filename exclusion from the copy plan.
 [Reusable analysis tools](analysis_tools/README.md) include hash-gated static
-evidence checks and a read-only diagnostic-marker probe. The exact numerical
+evidence checks, a read-only diagnostic-marker probe, and a schema-validating
+correlator that ranks only redacted QNX runtime candidates for manual XREF and
+startup verification. The exact numerical
 MY14 REVA record mapping remains unobserved; the successful filename and the
 generic selection mechanism are established separately.
 

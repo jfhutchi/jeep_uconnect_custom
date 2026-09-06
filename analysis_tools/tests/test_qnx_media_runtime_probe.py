@@ -28,12 +28,17 @@ class StreamTests(unittest.TestCase):
             b"/pps/services/bluetooth/handsfree/status bar-descriptor.xml "
             b'<asset type="Qnx/Elf" entry="true"> run_native '
             b"audio_manager_get_handle /pps/services/audio/audio_router_control "
+            b"/pps/services/audio/audio_router_status /pps/services/audio/control "
+            b"/pps/services/audio/devices/speaker /pps/services/audio/status "
             b"/pps/services/audio/types/voice /pps/services/audio/voice_status "
+            b"/pps/services/multimedia/mediacontroller/control "
+            b"/pps/services/multimedia/mediaplayer/control "
             b"/pps/services/multimedia/mediaplayer/phone "
             b"/pps/services/multimedia/mediaplayer/status io-audio io-acoustic pps-bluetooth "
             b"audioMgrCMC.conf AudioCtrlSvc audioApp "
             b"screen_join_window_group SCREEN_PROPERTY_FOCUS "
-            b"SCREEN_PROPERTY_SENSITIVITY SCREEN_EVENT_MTOUCH_TOUCH video_hmi"
+            b"SCREEN_PROPERTY_SENSITIVITY SCREEN_EVENT_MTOUCH_TOUCH video_hmi "
+            b"boot.sh graphics.conf ModuleLink.xml processStarter"
         )
         _, matches, _ = _scan_stream(
             io.BytesIO(data), chunk_bytes=11, max_offsets=4
@@ -63,9 +68,19 @@ class StreamTests(unittest.TestCase):
         self.assertEqual(matches["screen_property_sensitivity"]["count"], 1)
         self.assertEqual(matches["screen_event_mtouch"]["count"], 1)
         self.assertEqual(matches["video_hmi_class"]["count"], 1)
+        self.assertEqual(matches["boot_script"]["count"], 1)
+        self.assertEqual(matches["graphics_config"]["count"], 1)
+        self.assertEqual(matches["modulelink_config"]["count"], 1)
+        self.assertEqual(matches["process_starter"]["count"], 1)
+        self.assertEqual(matches["pps_audio_control"]["count"], 1)
         self.assertEqual(matches["pps_audio_router_control"]["count"], 1)
+        self.assertEqual(matches["pps_audio_router_status"]["count"], 1)
+        self.assertEqual(matches["pps_audio_devices"]["count"], 1)
+        self.assertEqual(matches["pps_audio_status"]["count"], 1)
         self.assertEqual(matches["pps_audio_types"]["count"], 1)
         self.assertEqual(matches["pps_audio_voice_status"]["count"], 1)
+        self.assertEqual(matches["pps_mediacontroller_control"]["count"], 1)
+        self.assertEqual(matches["pps_mediaplayer_control"]["count"], 1)
         self.assertEqual(matches["pps_mediaplayer_phone"]["count"], 1)
         self.assertEqual(matches["pps_mediaplayer_status"]["count"], 1)
         self.assertEqual(matches["io_audio"]["count"], 1)

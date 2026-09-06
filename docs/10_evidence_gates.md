@@ -41,6 +41,14 @@ Required tools are already tracked:
 - analysis_tools/arm_elf_analysis.py
 - analysis_tools/synctool_evidence.py
 - analysis_tools/qnx_media_runtime_probe.py
+- analysis_tools/qnx_runtime_correlation.py
+
+Run `qnx_media_runtime_probe.py` first, then pass its redacted JSON to
+`qnx_runtime_correlation.py`. Inspect tier-1 configuration, startup and
+stock-specific candidates before cross-family and single-family candidates.
+The correlator's tier is only a deterministic inspection order: a positive hit
+must still be closed with imports, XREFs, process-start evidence and an
+authorized interface contract.
 
 A valid result must include the input hash, bounded method/function/address range
 and tool version/commit. A string hit alone is not a consumer or ABI proof.
