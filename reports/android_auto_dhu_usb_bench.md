@@ -354,3 +354,21 @@ identity shape, snapshot-time qualification, and absence of instance/friendly
 name/container/location fields. This verifies the helper's observed output,
 not an Android Auto connection. `git diff --check` was clean. No production
 RA4 code was changed, so unrelated parser/prototype suites were not rerun.
+
+## Follow-up: retry after owner unlocked the phone
+
+The owner reported that the phone had been locked and requested another attempt.
+At `2026-09-06T15:16:18-04:00`, ADB was restarted and `adb devices` again
+returned an empty list. The redacted PnP snapshot at
+`2026-09-06T19:16:22.1976722Z` showed the same Samsung `04E8:6860` composite,
+MTP, and modem nodes, all `OK`, with unchanged driver versions and INFs.
+No ADB interface appeared. Unlocking alone did not establish the control
+connection in this observation.
+
+The owner was asked to check standard USB debugging and accept the PC's prompt
+without permanent authorization. USB debugging's original state and any
+subsequent change remain unconfirmed. No driver binding or phone setting was
+changed by the agent, and no DHU session or direct AOA attempt was made.
+The `15:17:28-04:00` ADB retry was also empty. For this follow-up the local
+ADB server is left running so it can present an authorization prompt when the
+owner enables debugging; no phone transport or TCP 5277 forward exists.
