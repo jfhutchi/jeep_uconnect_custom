@@ -19,6 +19,7 @@ int main(void)
 {
     PA_Arbiter arbiter;
     PA_Arbiter inactive_arbiter;
+    PA_Arbiter offline_arbiter;
     PA_Snapshot snapshot;
     PA_Snapshot delayed;
     PA_Presentation presentation;
@@ -100,6 +101,20 @@ int main(void)
     assert(arbiter.foreground == PA_FOREGROUND_UCONNECT);
     assert(pa_interaction_owner(&arbiter) == PA_OWNER_UCONNECT);
     assert(pa_native_presentation(&arbiter).message_tts);
+
+    pa_init(&offline_arbiter);
+    snapshot = active(1);
+    assert(pa_receive(&offline_arbiter, &snapshot, 10) == PA_STATUS_OK);
+    delayed = snapshot;
+    snapshot = active(2);
+    snapshot.service_connected = false;
+    assert(pa_receive(&offline_arbiter, &snapshot, 20) == PA_STATUS_OK);
+    assert(!offline_arbiter.has_state);
+    assert(offline_arbiter.foreground == PA_FOREGROUND_UCONNECT);
+    assert(pa_interaction_owner(&offline_arbiter) == PA_OWNER_UCONNECT);
+    assert(pa_native_presentation(&offline_arbiter).incoming_call_foreground);
+    assert(pa_receive(&offline_arbiter, &delayed, 30) == PA_STATUS_IGNORED);
+    assert(!offline_arbiter.has_state);
 
     pa_init(&inactive_arbiter);
     snapshot = active(1);

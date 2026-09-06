@@ -122,13 +122,13 @@ runtime-generated log/cache and failed-update accounting remains a release gate.
 
 The refocused projection-ownership bench has no private package dependencies or
 bundled font/icon/image assets. Its current candidate source tree was counted directly
-from the 11 committed Git blobs: **30,127 logical bytes**.
+from the 11 committed Git blobs: **30,768 logical bytes**.
 Estimated allocation at 4,096-byte units is **53,248 bytes**, excluding filesystem
 metadata. This is a source-tree count, not an RA4 installed-size measurement.
 It replaces the earlier six-screen source count; browser/Node/Python remain host
 tools and are not deployment dependencies.
 
-The transport-free C99 arbiter candidate adds **16,750
+The transport-free C99 arbiter candidate adds **17,451
 logical source bytes** across four files, approximately **24,576
 bytes** at 4,096-byte allocation units. Its compiled-code planning ceiling is
 64 KiB, state-object compile-time ceiling is 128 bytes, and it requests no heap,

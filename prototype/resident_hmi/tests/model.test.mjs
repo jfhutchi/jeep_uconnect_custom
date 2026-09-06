@@ -86,6 +86,21 @@ test('projection disconnect restores native phone and message presentation', () 
   assert.throws(() => shell.showProjection(2), /active/);
 });
 
+test('integration disconnect releases presentation and rejects active replay', () => {
+  const { shell, adapter } = setup();
+  shell.receive(adapter.scenario('carplay'), 1);
+  const preDisconnectActive = JSON.parse(JSON.stringify(shell.state));
+  shell.receive(adapter.scenario('offline'), 2);
+  assert.equal(shell.state, null);
+  assert.equal(shell.foreground, FOREGROUND.UCONNECT);
+  assert.deepEqual(shell.nativePresentation(), {
+    owner: 'uconnect', incomingCallForeground: true,
+    messageForeground: true, messageTts: true,
+  });
+  assert.equal(shell.receive(preDisconnectActive, 3), false);
+  assert.equal(shell.state, null);
+});
+
 test('critical takeover outranks comfort and projection', () => {
   const { shell, adapter } = setup();
   shell.receive(adapter.scenario('carplay'), 1);
