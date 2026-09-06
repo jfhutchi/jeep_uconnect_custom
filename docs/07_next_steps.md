@@ -1,6 +1,6 @@
 # 07 - Product-first next steps
 
-Updated 2026-09-05. The current slice is a small resident shell, not projection,
+Updated 2026-09-06. The current slice is a small resident shell, not projection,
 external hardware or unrelated Synctool research. The completed
 [PC prototype](../prototype/resident_hmi/README.md),
 [resident decision](resident_hmi_decision.md) and
@@ -10,11 +10,17 @@ requirement to acquire hardware before building the UI.
 
 ## Next single highest-value task
 
-Trace one **read-only driver-temperature subscription** from the ROV
-`IHvac`/MainSupplement client through ModuleLink into `vehicle/hvac.lua`.
-Record exact type, units, capability/validity and change-event fields with
-bytecode offsets. No radio calls, commands or raw CAN writes. Exit: a concrete
-adapter field contract and fixture independent of guessed mock encodings.
+The [read-only driver-temperature trace](../reports/ra4_driver_temperature_contract.md)
+and original fixture now establish string values, units gates, physical zones,
+service mapping and client events. They also prove silent invalid-value suppression
+and stale-cache hazards; no real adapter or live subscription is implemented.
+
+Next: close **temperature quality across units changes and service restart**.
+Trace PersonalConfig `temperatureUnits`/`ready` production and the native gateway's
+subscription callback/wrapping path. Determine whether any existing signal or
+refresh distinguishes a valid current setpoint from a stale cache, then define
+fixture-driven per-field quality behavior. Do not invent a heartbeat, units epoch
+or freshness guarantee from a getter response. No radio calls or vehicle commands.
 
 Before any resident trial, independently close authorized screen/app loading,
 compatible toolchain, stock camera/display/touch ownership and crash fallback.
@@ -24,7 +30,7 @@ or bench/radio mutation by itself.
 
 ## Phase 1 - Finish the contract map
 
-1. Start with the single read-only temperature subscription above.
+1. Close the single read-only temperature quality contract above.
 2. Document capability/validity semantics before replacing further state mocks.
 3. Establish supported app/screen loading and stock foreground/fallback contracts.
 4. Defer projection and new audio-source registration until the shell is useful.

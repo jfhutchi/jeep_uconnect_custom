@@ -4,6 +4,41 @@ Run commands from the repository root. Firmware inputs stay in ignored local
 paths; none of these tools needs a tracked vendor fixture. Do not execute a
 vendor ELF, patch an image, or commit license/activation material.
 
+## Lua 5.1 and SWF/ABC inspection
+
+`lua51_inspect.py` and `swf_abc_inspect.py` are original Python-standard-library
+inspectors. They never execute input, connect to services or write extracted
+payloads. The [driver-temperature report](../reports/ra4_driver_temperature_contract.md)
+provides exact ignored artifact paths, hashes and bounded queries.
+
+```text
+python -m analysis_tools.lua51_inspect PATH --match 'FT_DRV_ATC_TEMP|US_METRIC'
+python -m analysis_tools.lua51_inspect PATH --function 23 --start 200 --count 60
+python -m analysis_tools.swf_abc_inspect PATH --match 'IHvac.*zoneTemp'
+python -m analysis_tools.swf_abc_inspect PATH --method 2598 --start 0x276BE0 --count 160
+python -m unittest analysis_tools.tests.test_lua51_inspect analysis_tools.tests.test_swf_abc_inspect
+```
+
+Lua supports exactly the LE Lua 5.1 header with 32-bit int/size_t/instructions and
+float64 numbers; 16 MB CLI input cap. Output is physical instruction-word indexing,
+not decompiled source: CLOSURE upvalue-binding words appear as MOVE/GETUPVAL, and
+SETLIST extension words are not specially decoded. Debug locals are evidence,
+not guaranteed semantic names. Unsupported Lua opcodes are labeled UNKNOWN.
+
+SWF supports bounded FWS/CWS and DoABC tag 82, ABC version 46.16; 32 MB compressed
+and declared-uncompressed cap. It keeps reconstructed FWS offsets and indexes
+method traits/signatures and bodies. Disassembly supports documented common
+AVM2 operand forms and fails closed on unknown opcodes; it does not guess their
+length or verify VM stack/control-flow safety. `--start` is a FWS byte offset;
+decoding still begins at the method start. Entire selected method is decoded
+even if output is capped, so unsupported opcodes beyond the printed range fail.
+Pool names omit namespace-set detail for ordinary multinames; runtime names are
+explicitly labeled. Neither tool is a general untrusted-input sandbox/VM verifier.
+
+Fixtures in `fixtures/ra4_driver_temperature_cases.json` are original examples,
+not captures or a deployable decoder. No payload or vendor asset is bundled.
+These PC-only tools add zero resident dependencies or radio storage usage.
+
 ## ELF32 / ARM inspection
 
 `arm_elf_analysis.py` uses Python 3.10+ and Capstone (`python -m pip install capstone`

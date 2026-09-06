@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "origin": "original synthetic examples; not radio captures",
+  "scope": "non-MP4 automatic front climate; no transport implementation",
+  "defaultContext": {
+    "automatic": true,
+    "variantBranch": "non-MP4",
+    "sourceZone": "frontLeft",
+    "driverSideVerified": true,
+    "temperatureUnits": "METRIC"
+  },
+  "cases": [
+    {
+      "id": "fractional_metric",
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "21.5"}}},
+      "expectedInterpretation": {"kind": "numeric", "value": 21.5, "unit": "C"},
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "us_numeric",
+      "contextOverride": {"temperatureUnits": "US"},
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "72"}}},
+      "expectedInterpretation": {"kind": "numeric", "value": 72, "unit": "F"},
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "low_limit",
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "lo"}}},
+      "expectedInterpretation": {"kind": "low", "value": null, "unit": null},
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "high_limit",
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "hi"}}},
+      "expectedInterpretation": {"kind": "high", "value": null, "unit": null},
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "unknown_units",
+      "contextOverride": {"temperatureUnits": null},
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "21"}}},
+      "expectedInterpretation": {"kind": "unavailable", "reason": "units_pending"},
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "manual_is_not_degrees",
+      "contextOverride": {"automatic": false},
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "50"}}},
+      "expectedInterpretation": {"kind": "unavailable", "reason": "unsupported_mode"},
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "unknown_sentinel",
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "--"}}},
+      "expectedInterpretation": {"kind": "unavailable", "reason": "unknown"},
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "explicit_sna_at_message_boundary",
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "SNA"}}},
+      "expectedInterpretation": {"kind": "unavailable", "reason": "invalid_observed_at_message_boundary"},
+      "stockClientBehavior": "retains cached temp; dispatches generic hvacZoneTemp only",
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "malformed_numeric",
+      "clientData": {"zone": {"zone": "frontLeft", "controls": {"temp": "21junk"}}},
+      "expectedInterpretation": {"kind": "unavailable", "reason": "malformed"},
+      "provesFreshPhysicalSample": false
+    },
+    {
+      "id": "right_side_driver",
+      "contextOverride": {"sourceZone": "frontRight"},
+      "publisherContext": {"VC_LHD_RHD": "2"},
+      "clientData": {"zone": {"zone": "frontRight", "controls": {"temp": "22"}}},
+      "expectedInterpretation": {"kind": "numeric", "value": 22, "unit": "C"},
+      "provesFreshPhysicalSample": false
+    }
+  ],
+  "sequences": [
+    {
+      "id": "pps_invalid_is_silent_to_client",
+      "steps": [
+        {"ppsAttribute": "FT_DRV_ATC_TEMP", "ppsValue": "21", "potentialPublishedTemp": "21"},
+        {"ppsAttribute": "FT_DRV_ATC_TEMP", "ppsValue": "127", "publishedEvent": null}
+      ],
+      "warning": "IHvac getter may still return 21. No event receipt can reveal the suppressed invalid input."
+    },
+    {
+      "id": "stable_value_is_not_a_heartbeat",
+      "steps": [
+        {"ppsAttribute": "FT_DRV_ATC_TEMP", "ppsValue": "21", "potentialPublishedTemp": "21"},
+        {"ppsAttribute": "FT_DRV_ATC_TEMP", "ppsValue": "21", "publishedEvent": null}
+      ],
+      "warning": "No change event is not proof of service death. Freshness policy remains unresolved."
+    },
+    {
+      "id": "units_epoch_change",
+      "steps": [
+        {"temperatureUnits": "METRIC", "cachedTemp": "21"},
+        {"temperatureUnits": "US", "newTemperatureObserved": false}
+      ],
+      "requiredApplicationPolicy": "invalidate interpretation; do not relabel cached 21 as Fahrenheit"
+    }
+  ]
+}

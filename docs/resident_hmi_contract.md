@@ -81,7 +81,7 @@ come through an independently verified stock-supported lifecycle boundary.
 
 | Seam | Evidence level | What can replace a mock next / missing proof |
 | --- | --- | --- |
-| Climate state | CONFIRMED `IHvac` references; HIGH high-level service seam | First target: driver temperature property/event, units, capability/validity in MainSupplement + stock hvac publisher; no live subscription yet. |
+| Climate state | CONFIRMED string-valued temperature, zone events, units gates and gateway service mapping; HIGH endpoint linkage | See the [driver-temperature trace](../reports/ra4_driver_temperature_contract.md). Silent `127` suppression and `SNA` cache retention prevent treating events/getters as fresh physical samples. Resolve quality/units ordering before replacing mocks; no live subscription. |
 | Climate/comfort actions | CONFIRMED capability/action vocabulary; UNKNOWN complete command contract | Keep disabled. Per-zone/seat/wheel availability, units, ranges, permission, acknowledgment and failure semantics needed. |
 | Heated-seat state | CONFIRMED `HeatedSeatFL/FR`, `FL_HS_STAT/FR_HS_STAT` mapping in existing inventory | HIGH adapter route, but raw PPS value encoding, subscription and equipment variability not closed. |
 | Media | CONFIRMED source mapping to MME | State/title subscription and playback intent ownership UNKNOWN; do not open audio devices or decode media. |
@@ -93,6 +93,13 @@ come through an independently verified stock-supported lifecycle boundary.
 The [decision report](resident_hmi_decision.md) links primary local evidence and
 the existing launch/interface reports. No confidence label for a *name's presence*
 should be read as proof that the full adapter is implemented or safe to call.
+
+The recovered read-only seam requires numeric/LO/HI/unavailable states, fractional
+values, separate units and verified physical-to-driver mapping. The original
+fixture in `analysis_tools/fixtures/ra4_driver_temperature_cases.json` records this
+without changing v1's mock schema. Never feed stock string events straight into
+`driverC`, and never reset the complete-snapshot freshness timer merely because
+a stock generic temperature event or cached getter response arrived.
 
 ## Portability and UI
 

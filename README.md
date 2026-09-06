@@ -64,6 +64,11 @@ These findings do **not** imply that a hidden switch alone enables CarPlay or An
 
 Detailed navigation-update findings: [`reports/map_update_2017q2_reverse_engineering.md`](reports/map_update_2017q2_reverse_engineering.md).
 
+Current product integration: the [read-only driver-temperature contract](reports/ra4_driver_temperature_contract.md)
+traces the stock Lua publisher, native HVAC service mapping and ModuleLink client.
+Its original fixtures cover units, LO/HI and stale-cache hazards; the prototype
+remains mock-only and no radio subscription or control is enabled.
+
 The focused [Synctool device/license-selection report](reports/synctool_device_license_selection.md)
 traces the App-SKU virtual query, corrects the SWID-property data-flow direction,
 identifies the scanner key as a runtime source-container ordinal, and follows
