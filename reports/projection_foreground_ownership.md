@@ -4,8 +4,8 @@
 
 This report records static, read-only analysis of the stock RA4 18.45.01 HMI.
 It does not prescribe radio writes, disable Bluetooth services, or modify camera
-behavior. The six-screen PC prototype is a technical scaffold, not the product
-navigation model.
+behavior. The current PC prototype is a focused projection-ownership bench and
+contains no replacement factory screens.
 
 The product target is an OEM-style CarPlay/Android Auto projection application
 inside stock Uconnect. Stock Radio, Media, Climate, Controls, Phone, Messaging

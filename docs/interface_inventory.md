@@ -54,9 +54,10 @@ This is the working index of interfaces, services and artifacts relevant to the 
 
 ## Next items to resolve
 
-The production contract is projection inside stock Uconnect. The six-screen PC
-artifact is only a technical scaffold. A VERIFIED name proves observed stock code,
-not access permission or a complete backend.
+The production contract is projection inside stock Uconnect. The current PC
+artifact is a focused projection-ownership bench and contains no replacement
+factory screens. A VERIFIED name proves observed stock code, not access permission
+or a complete backend.
 
 1. Run bounded AVM2 consumer XREFs for `PROJECTION_BACKTO_CAR`,
    `DEVICE_PROJECTION`, native call/SMS presentation and HVAC popup names.

@@ -7,7 +7,8 @@ language and the later replacement-shell interpretation.
 
 **PRODUCT CORRECTION:** production is one projection application inside stock
 Uconnect. Stock Radio, Media, Climate, Controls, Phone, Messaging and Settings
-remain. The six-screen PC artifact is only a technical scaffold.
+remain. The former six-screen artifact has been replaced by a focused
+projection-ownership bench.
 
 ## Decision
 
@@ -92,9 +93,9 @@ governs this decision.
 
 ## MVP and performance gates
 
-The six PC routes evaluate legibility, state and adapter failure behavior, but
-are not production screens. The target trial is one stock-integrated projection
-screen plus foreground/return arbitration. No media decoder, map data, call
+The PC bench evaluates projection ownership, state freshness and adapter failure
+behavior without reproducing factory screens. The target trial is one
+stock-integrated projection screen plus foreground/return arbitration. No media decoder, map data, call
 handling or projection engine is bundled in that trial. All vehicle changes are abstract
 mock intents; a real adapter starts read-only with all write capabilities off.
 
@@ -141,7 +142,7 @@ No small stock-facing integration capability is proved to require external
 compute. Bundled maps/media/speech models remain excluded. The complete legitimate
 projection engine is locally UNKNOWN; classify it `EXTERNAL_COMPUTE_REQUIRED`
 only if measured storage/CPU/RAM or platform requirements make resident execution
-unsafe. The six-screen shell is not a product dependency.
+unsafe. No replacement shell is a product dependency.
 
 ## Next single evidence task
 

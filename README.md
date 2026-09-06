@@ -95,8 +95,9 @@ This project is analysis-first.
 ## Current milestones
 
 The resident product slice is a tiny projection integration layer inside stock
-Uconnect. The six-screen [PC prototype](prototype/resident_hmi/README.md) remains
-a state/adapter feasibility scaffold, not a replacement infotainment product.
+Uconnect. The refocused [PC prototype](prototype/resident_hmi/README.md) is an
+executable projection-ownership and failure-policy bench; it contains no
+replacement Radio, Media, Climate, Controls, Phone, Messaging or Settings UI.
 
 1. Complete projection foreground and Return-to-Uconnect contract recovery.
 2. Trace projection-back, comfort-popup and audio-focus XREFs.

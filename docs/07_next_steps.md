@@ -1,8 +1,8 @@
 # 07 - Product-first next steps
 
 Updated 2026-09-06. Production is projection inside stock Uconnect, not a
-replacement six-screen shell. The PC prototype remains useful only for state,
-adapter, legibility and failure-policy tests.
+replacement shell. The refocused PC prototype exercises only projection
+ownership, adapter boundaries and failure policy.
 
 ## Next highest-value static task
 

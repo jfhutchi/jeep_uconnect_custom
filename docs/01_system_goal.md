@@ -4,8 +4,9 @@
 
 Integrate Apple CarPlay and Android Auto as first-class projection applications
 inside stock 2014 WK2 RA4 Uconnect. Production does not replace factory Radio,
-Media, Climate, Controls, Phone, Messaging or Settings. The six-screen PC
-prototype is only a technical scaffold.
+Media, Climate, Controls, Phone, Messaging or Settings. The current PC prototype
+is a focused projection-ownership bench; the former six-screen scaffold is
+historical only.
 
 ## Required experience
 

@@ -2,9 +2,10 @@
 
 ## Product correction
 
-The six-screen resident prototype is a PC-only scaffold. Production preserves
-stock Radio, Media, Climate, Controls, Phone, Messaging and Settings and adds
-CarPlay/Android Auto as a first-class Uconnect application.
+The resident prototype is a PC-only projection-ownership bench. It deliberately
+does not reproduce stock screens. Production preserves Radio, Media, Climate,
+Controls, Phone, Messaging and Settings and adds CarPlay/Android Auto as a
+first-class Uconnect application.
 
 ## Projection screen
 

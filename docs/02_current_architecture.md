@@ -17,8 +17,8 @@ usable by a new app, nor that a complete projection backend fits locally.
 The [resident implementation decision](resident_hmi_decision.md) compares stock
 AIR/SWF, native QNX, hybrid and existing Java/Lua facilities. It provisionally
 prefers stock AIR/SWF reuse, not native code by default; installation and
-independent fallback remain UNKNOWN. The PC-only six-screen artifact is a
-technical state/adapter scaffold, not the production navigation model.
+independent fallback remain UNKNOWN. The PC-only artifact is now a focused
+projection-ownership state bench, not a replacement navigation model.
 
 ## VERIFIED
 
