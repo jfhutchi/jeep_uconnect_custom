@@ -134,7 +134,7 @@ measured screen/engine, are:
 | standalone staging | 0; account inside the <=6 MB trial peak |
 
 These are unmeasured ceilings, not permission to consume them. The current C
-arbiter source is 17,451 bytes and its state has a <=128-byte compile-time guard;
+arbiter source is 17,934 bytes and its state has a <=128-byte compile-time guard;
 compiled and linked bytes remain UNKNOWN. Stock service growth attributable to
 the adapter must be measured too.
 

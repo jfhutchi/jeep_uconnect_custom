@@ -20,6 +20,7 @@ int main(void)
     PA_Arbiter arbiter;
     PA_Arbiter inactive_arbiter;
     PA_Arbiter offline_arbiter;
+    PA_Arbiter background_arbiter;
     PA_Snapshot snapshot;
     PA_Snapshot delayed;
     PA_Presentation presentation;
@@ -101,6 +102,15 @@ int main(void)
     assert(arbiter.foreground == PA_FOREGROUND_UCONNECT);
     assert(pa_interaction_owner(&arbiter) == PA_OWNER_UCONNECT);
     assert(pa_native_presentation(&arbiter).message_tts);
+
+    pa_init(&background_arbiter);
+    snapshot = active(1);
+    snapshot.auto_show = false;
+    assert(pa_receive(&background_arbiter, &snapshot, 10) == PA_STATUS_OK);
+    assert(background_arbiter.foreground == PA_FOREGROUND_UCONNECT);
+    assert(pa_projection_active(&background_arbiter));
+    assert(pa_interaction_owner(&background_arbiter) == PA_OWNER_PROJECTION);
+    assert(!pa_native_presentation(&background_arbiter).message_foreground);
 
     pa_init(&offline_arbiter);
     snapshot = active(1);

@@ -39,6 +39,17 @@ test('return to Uconnect preserves session ownership and resume does not reconne
   assert.match(shell.notice, /no reconnect/);
 });
 
+test('active session without auto-show remains backgrounded but owns presentation', () => {
+  const { shell, adapter } = setup();
+  const state = adapter.scenario('carplay');
+  state.projection.autoShow = false;
+  shell.receive(state, 1);
+  assert.equal(shell.foreground, FOREGROUND.UCONNECT);
+  assert.equal(shell.projectionActive(), true);
+  assert.equal(shell.interactionOwner(), 'projection');
+  assert.equal(shell.nativePresentation().incomingCallForeground, false);
+});
+
 test('camera restores the preempted projection session through ownership state', () => {
   const { shell, adapter } = setup();
   shell.receive(adapter.scenario('carplay'), 1);
