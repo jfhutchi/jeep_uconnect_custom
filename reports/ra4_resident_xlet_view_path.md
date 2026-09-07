@@ -128,7 +128,13 @@ sampled principal destroy methods. Framework, manager, subclass and native
 cleanup may happen elsewhere. Absence of a direct call is not proof of a leak,
 and successful voluntary exit is not proof of hung-app recovery.
 
-**Next technical target:** trace AMS's Xlet container visibility/focus owner and
+**Follow-up:** the [foreground handoff report](ra4_xlet_foreground_handoff.md)
+now traces native HMI admission and the 640x480 stock app screen's pause,
+`ams` display-request release, resume and separate Close/stop calls. The native
+background request's SuperApp identity restriction prevents assuming generic
+custom-Xlet support. Physical focus release and hung-app reclaim remain open.
+
+**Remaining technical target:** trace AMS's Xlet container visibility/focus owner and
 the native AppManager-to-AMS foreground handoff, including denial, pause/stop,
 window disappearance and stock reclaim. Keep camera/critical/comfort precedence
 outside the custom app. Native decoded-video buffer import is a separate later

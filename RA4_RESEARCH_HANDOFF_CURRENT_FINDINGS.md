@@ -8,7 +8,49 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 resident Xlet view path
+### Current checkpoint: 2026-09-06 Xlet foreground and return handoff
+
+Started clean at `679d73b` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. Previous goal turn made progress on stock Xlet
+graphics. This continuation advances the return/resume and stock-owner path;
+the full projection goal remains active and no target runtime gate passes.
+
+**STATIC_PROVED:** the recovered 640x480 AppsActiveScreen requests the `ams`
+display on entry. Screen exit conditionally requests pause, then releases the
+display request on its normal path. Its Close handler requests stop and avoids
+the ordinary exit pause. Re-entry can dispatch `Resume` for the last paused app.
+Native requestForeground checks a Boolean HMI foregroundClear reply before
+find/start processing. Local HMI availability is a String, converted to a
+Boolean wire response; the earlier foreground report now states that precisely.
+
+**STATIC_PROVED restriction:** requestBackground validates supplied appId but
+uses configured SuperApp UUID in its normal outgoing invokeAppBackButton event.
+The HMI only navigates when event identity matches the running app and the
+active app screen is current. The Java wrapper checks AppMgrPermission("appMgr").
+Neither fact grants a supported Return API to an arbitrary custom Xlet.
+The [handoff report](reports/ra4_xlet_foreground_handoff.md) records artifact
+hashes, Java BCIs, native data flow and SWF branch/call anchors.
+
+**UNKNOWN:** native display/input release completion, bounded IPC, owner-loss
+reclaim, custom authorization and session survival across pause. No wait for
+pause acknowledgment is explicit in the screenOut method, but called code
+may block; this is not a hung-app fail-open guarantee. No engine or target app
+was created, installed or run. The resident trial now separates Return/resume
+observations from explicit Close/stop; resource caps remain unchanged.
+
+**Next technical target:** native DisplayManager's `ams` requester path through
+visibility/input ownership and owner-loss recovery, followed by AMS pause/resume
+acknowledgments. This provides a concrete target for the remaining reclaim
+question. PR #14 stays open/draft; main and independent PR #15 are preserved.
+This continuation contains original documentation only and has zero installed
+radio bytes. No vehicle/radio/phone operation or provider contact occurred.
+
+Fresh verification: **150 Python tests pass, no skips**. Four artifact hashes,
+one class hash, 29 SWF anchors, 16 native instructions and eight Java invocation
+BCIs match fresh reads; all 87 local links in seven changed Markdown files
+resolve. No analysis-tool code or target package changed.
+
+### Preceding checkpoint: 2026-09-06 resident Xlet view path
 
 Started clean at `1484f88` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. Previous goal turn made progress by establishing

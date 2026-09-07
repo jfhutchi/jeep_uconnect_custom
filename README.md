@@ -6,6 +6,7 @@ Current decision artifacts: [transport gate matrix](docs/20_projection_transport
 [USB and projection backend evidence](reports/ra4_usb_stack_backend_census.md),
 [native projection gateway routing gap](reports/ra4_projection_gateway_dispatch.md),
 [stock Xlet view path](reports/ra4_resident_xlet_view_path.md),
+[Xlet foreground admission and return/release handoff](reports/ra4_xlet_foreground_handoff.md),
 and [first future resident proof](docs/21_first_resident_runtime_proof.md).
 The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
 canonical draft PR status. No radio deployment is authorized by these reports.

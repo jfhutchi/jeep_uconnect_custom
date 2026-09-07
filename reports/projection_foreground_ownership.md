@@ -151,10 +151,19 @@ duplicate audio.
 **CONFIRMED.** `AppStateManager.checkForegroundAvailability` at
 `0x0025250E` rejects app foreground requests for `RearCamera`,
 `DisplayOff`, a blocking `Popup`, or `FullPopScreen`; otherwise it returns
-`true`. `onAppRequestForeground` at `0x002525D2` returns the result and
-reason through `IHMIRequest`. `onStateChange` at `0x002523DB` publishes
-popup state and re-evaluates a pending foreground request at
-`0x002524C4-0x002524FD`.
+the String `"true"`. `onAppRequestForeground` at `0x002525D2` passes the
+decision and reason through `IHMIRequest`, whose reply serializes a Boolean
+`foregroundClear`. The native consumer explicitly requires that Boolean type.
+`onStateChange` at `0x002523DB` publishes popup state and re-evaluates pending
+availability at `0x002524C4-0x002524FD`, emitting a separate clear signal.
+This does not prove that the original synchronous request remains pending.
+
+The [Xlet handoff trace](ra4_xlet_foreground_handoff.md) connects native admission
+to this HMI decision and identifies the 640x480 app screen's separate pause,
+display-release, resume and stop calls. Native `requestBackground(appId)` uses
+the configured SuperApp UUID in its normal outgoing back event; generic custom
+application support is unproved. Display-release acknowledgment and hung-app
+reclaim remain unresolved.
 
 **HIGH.** This stock pending/retry foreground path is the preferred OEM
 integration seam. Projection should participate in it rather than run as an

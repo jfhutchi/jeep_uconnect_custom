@@ -34,6 +34,13 @@ Display/Form APIs, corroborated by matching AMS ROM class metadata. This makes
 Xlet/AWT/LWUIT the concrete candidate view API family. Custom-app acceptance,
 usable display area, input focus and failure isolation remain unproved. A
 supplier must confirm compatible API support and stock foreground registration.
+The [stock handoff trace](../reports/ra4_xlet_foreground_handoff.md) distinguishes
+screen exit (pause plus release of the `ams` display request) from Close (stop).
+The Java wrapper checks `AppMgrPermission("appMgr")`; that is an observed
+permission check, not authorization for a custom app. The normal native
+`requestBackground(appId)` event uses the configured SuperApp UUID, so it must
+not be assumed to implement Return for an arbitrary new Xlet. Require a
+supported action for the legitimate new identity without changing stock identity.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
@@ -48,7 +55,7 @@ qualify a supported isolated native package rather than injecting a surface.
 | Stock install/register/uninstall | Exact supplier-supported interfaces and acknowledgments, non-autostart descriptor semantics and per-app rollback contract | STATIC_PROVED stock chain; UNKNOWN custom runtime |
 | Manual launch | Package appears in stock `getAppList`; ordinary Apps entry uses factory DRM-checked launch | STATIC_PROVED stock route; UNKNOWN custom acceptance |
 | View and input | Supported app-owned 640x480 area, focus/release semantics and identity recognized by stock foreground arbiter | STATIC_PROVED stock Xlet/AWT/LWUIT calls and AMS metadata; UNKNOWN custom dimensions, permission and arbitration |
-| Foreground priority | Camera, critical/eCall and comfort-overlay precedence enforced outside the custom app; denial/loss events cannot be vetoed by it | UNKNOWN custom integration |
+| Foreground priority | Camera, critical/eCall and comfort-overlay precedence enforced outside the custom app; denial/loss events cannot be vetoed by it | STATIC_PROVED stock admission, pause and display-request release; UNKNOWN custom integration and completed reclaim |
 | Failure containment | No boot dependency or autostart; bounded resources; stock-owned reclaim on exit, disappearance and unresponsive app; shared-VM risks resolved | UNKNOWN target guarantee |
 | Baseline and storage | Exact-unit stock health baseline, current writable free blocks, package manifest and allocated-block accounting; update state idle | UNKNOWN future measurement |
 | Recovery authority | Supported app-specific stop/uninstall remains reachable without the custom view or process; registry/data reconciliation documented | UNKNOWN complete runtime rollback |
@@ -59,8 +66,9 @@ AppManager install/list/start/stop/uninstall, stock app identity and foreground
 request/loss notifications, permitted view create/draw/input/release, and
 bounded app-local state if needed. The view trace records observed Java method
 signatures, but a compatible SDK must confirm their supported use, lifecycle
-and permissions. IPC paths, native surface handles and foreground permission
-identifiers remain unresolved.
+and permissions. The stock Java `appMgr` permission identifier is observed;
+custom grants, native surface handles, bounded IPC completion and independent
+foreground/input reclaim remain unresolved.
 
 ## Installed-size estimate and resource accounting
 
@@ -112,8 +120,13 @@ This sequence is a design; there are no executable radio commands here.
    validation needs a supported simulation/test mode; do not place emergency
    calls or inject CAN to manufacture a state. If that proof is unavailable,
    the trial does not pass the coexistence gate.
-6. **Clean exit:** use the approved return/exit action, release only app-owned
-   resources, and observe stock foreground/input restoration and a stopped app.
+6. **Return, resume and explicit close:** use the supported Return action for
+   the new identity; record pause and display-release completion independently
+   and observe stock foreground/input restoration. Re-enter through the ordinary
+   supported app route and check the counter/state and resume acknowledgment.
+   Then use explicit Close/stop and verify the app is stopped. A background
+   request's zero response, a dispatched Resume, or navigation alone does not
+   establish those completion states. Release only app-owned resources.
 7. **Failure containment:** only after documented isolation exists, test the
    approved app-only failure/unresponsive scenario on the spare bench. Stock
    must reclaim presentation without relying on custom cleanup. Never terminate

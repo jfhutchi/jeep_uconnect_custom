@@ -19,9 +19,9 @@ provides hashes, boundaries and the expected backend interface.
 | Video path / visible projection | Dashboard rendered over ADB | Stock 640x480 display; decoder/interface/resource gates open | PROVED PC/ADB; UNKNOWN RA4 | Decoder output, composition, frame timing and memory on exact ABI |
 | Touch/input | Dashboard-to-launcher tap over ADB | Stock touch infrastructure and host ownership model | PROVED PC/ADB; UNKNOWN RA4 | Input delivery to authorized app/engine, focus release and no stolen stock input |
 | Audio / microphone | Audio quality not independently validated | Stock audio services and HMI status contracts | UNKNOWN | Supported audio focus, call/voice paths, latency and restoration |
-| Foreground ownership | PC window offers no vehicle-arbiter proof | HMI AppStateManager checks and host model | STATIC_PROVED stock branches; UNKNOWN custom app | Supported foreground identity with camera/critical/comfort priority |
+| Foreground ownership | PC window offers no vehicle-arbiter proof | Native Boolean admission check, HMI state checks, 640x480 app-screen pause and `ams` display-release request | STATIC_PROVED stock calls; UNKNOWN custom app and completed reclaim | Supported foreground identity with camera/critical/comfort priority; background API's SuperApp restriction resolved through permitted custom interface |
 | Disconnect/recovery | Clean ADB session exits; second session after tunnel recreation; normal USB after owner reconnect | Host leases/fail-open model only | PROVED limited PC behavior; UNKNOWN RA4 | No stale ownership, bounded cleanup and automatic stock restoration |
-| Return to Uconnect | Not tested by PC/DHU | HMI `projectionBackToCar` consumer and `BacktoCar` branch; may call start-named API before navigation | STATIC_PROVED HMI contract; UNKNOWN engine continuity | Return hides projection without ending a healthy session; resume semantics from provider |
+| Return to Uconnect | Not tested by PC/DHU | HMI projectionBackToCar/BacktoCar contract; separate stock Xlet screen exit pauses/releases display while Close stops; re-entry can dispatch Resume | STATIC_PROVED HMI calls; UNKNOWN engine continuity | Supported custom Return and engine continuity across pause; distinct completion acknowledgments for return/resume/stop |
 | Camera takeover | No vehicle in bench | Stock HMI camera priority and host arbiter model | STATIC_PROVED stock paths; UNKNOWN custom coexistence | Camera remains independent through app launch, hang, exit and removal |
 | Critical/eCall and HVAC | No vehicle in bench | Existing priority/overlay model and stock evidence | UNKNOWN custom coexistence | Authorized integration yields correctly; no emergency-call trial improvised |
 | USB device/function stack | Not required for host-side AOA | No named DCD/function bundle in bounded census | UNKNOWN complete board/device capability; EXTERNAL_PROVIDER_GATE for missing components | Exact QNX 6.5 OMAP DCD, descriptors and reversible cabin route if chosen CarPlay transport needs them |
@@ -51,3 +51,9 @@ route: commands and owner subscriptions exit on unknown destinations. USB rule
 inspection still does not establish exclusive AOA ownership. This advances the
 backend compatibility requirement; it does not establish working Android Auto
 at the stock Jeep USB port.
+
+The [Xlet foreground handoff](../reports/ra4_xlet_foreground_handoff.md) identifies
+stock display ownership requests and the distinction between pause and stop.
+It does not pass a runtime gate: native `requestBackground` emits the configured
+SuperApp identity, display release is not yet traced to compositor completion,
+and no engine has demonstrated session continuity across the stock pause.
