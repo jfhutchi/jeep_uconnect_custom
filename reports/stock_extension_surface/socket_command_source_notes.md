@@ -221,6 +221,23 @@ AppManager permissions but contain no explicit `java.net.SocketPermission`.
 The recovered evidence does not establish how those policies compose for this
 code source or whether the bind succeeds under the live policy.
 
+## Targeted native/QNX correlation
+
+**PROVED:** A candidate-led pass read 832 regular files (92,057,375 bytes) in
+the recovered hidden-HBC/QNX corpus. It found no `SocketCommandSource`,
+`com.tweddle.test.input`, or `TGTCore-CommandLooperThread` string. Generic
+`127.0.0.1` strings occur in unrelated components and configuration, including
+the packet-filter loopback documentation/block table and the 3proxy internal
+loopback setting. Generic decimal `11111` strings occur in Adobe AIR and a
+platform OTA data file. String equality alone does not correlate those records
+to the Java listener.
+
+**UNKNOWN:** The host lacks the optional `pyelftools` dependency, so the 390
+ELF files in that bounded pass have no newly generated structured import/export
+evidence. Existing strings therefore do not prove `socket`, `bind`, `listen`,
+QNX IPC, or forwarding calls. No candidate-specific native forwarder or named
+endpoint is established.
+
 ## Answer to the priority question
 
 **STRONGLY INFERRED:** This is genuinely activatable stock code in three normal
