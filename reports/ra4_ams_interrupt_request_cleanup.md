@@ -186,3 +186,9 @@ and ams.properties
 No committed implementation or test changes in this checkpoint; the earlier
 162-test host-suite result is historical and was not rerun.
 All 124 local links in the seven changed Markdown files resolve.
+
+Follow-up: the [native I/O and Screen wait trace](ra4_native_io_screen_wait.md)
+now maps 11 direct registration sites to six callbacks, checks their different
+return semantics and follows a concrete stock caller into the Screen wait.
+The caller supplies a positive timeout, while the no-argument API supplies -1.
+Pending-AIE delivery and completed native UI/input recovery remain open.

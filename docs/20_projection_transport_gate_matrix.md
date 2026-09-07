@@ -104,3 +104,12 @@ VM mutex, then the cleanup caller's joins and escalation. The initial I/O
 request precedes deadline checks, and a later pass joins for 50 ms per array
 entry. Timer values and interrupt flags cannot certify a total recovery bound.
 Surviving threads can still lead to AMSError 20 and context-finalization attempts.
+
+The [native I/O and Screen follow-up](../reports/ra4_native_io_screen_wait.md)
+maps 11 direct registrations to six callback bodies and follows the stock
+GLESPlatformScreen caller's positive wait argument into screen_get_event.
+Underlying shutdown/semaphore results are not uniformly checked by callbacks.
+The linked event-post method is unsupported; window/context destruction is
+separate from per-app AWT detachment. Finite per-call waiting and callback
+success cannot certify end-to-end UI/input recovery. Runtime, topology,
+transport and legitimate provider gates remain unchanged.

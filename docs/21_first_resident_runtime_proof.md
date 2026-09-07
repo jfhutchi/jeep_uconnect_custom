@@ -90,6 +90,15 @@ Group cleanup requests blocking-I/O interruption before checking its join
 deadline, then has another join pass during escalation. Qualify the supported
 native-I/O cancellation contract and observe total cleanup time; a configured
 thread timeout does not cover the whole sequence by itself.
+The [native I/O and Screen trace](../reports/ra4_native_io_screen_wait.md)
+resolves six callback bodies and the stock platform-screen caller's positive
+2000000000 wait argument, forwarded to screen_get_event. Callback Booleans
+do not uniformly check the underlying operation. The finite wait argument
+does not bound the whole event loop, shared locks or recovery. The linked
+event-post method throws unsupported-operation, and native window/context
+destruction differs from app-container detachment. Require the supported
+per-operation cancellation contract, actual event-loop return and restored
+stock contacts/focus; do not use whole-context destruction as a Return action.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;

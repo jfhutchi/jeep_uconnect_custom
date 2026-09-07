@@ -8,7 +8,52 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 native interruption request and cleanup escalation
+### Current checkpoint: 2026-09-06 native I/O callbacks and stock Screen wait
+
+Started clean at `a75f790` on canonical `codex/ra4-driver-temperature`;
+origin had no divergence. This continuation follows the I/O registration and
+native UI boundary identified by the preceding checkpoint. The full
+resident-first projection goal remains active.
+
+**STATIC_PROVED:** 11 direct registration calls resolve to six callbacks:
+four signal requests, one semaphore post and one socket-shutdown handler.
+Registration is conditional on interruption-request state; teardown clears
+the registered callback/payload. The semaphore and socket handlers do not
+uniformly validate their underlying operation results. A callback Boolean
+cannot substitute for actual native-operation completion.
+
+**STATIC_PROVED:** GLESPlatformScreen$KSWindowInitialiser.run passes long
+2000000000 to KSEvent.ksWaitEvent; the adapter and recovered libKSLinked.so
+forward it unchanged to screen_get_event. This actual stock caller uses a
+positive timeout, while the separate no-argument wrapper supplies -1. Later
+QNX API documentation interprets the units as nanoseconds; that context is
+not a measured RA4 deadline. The linked event-post implementation throws
+unsupported-operation. Native window destruction calls both Screen window
+and context destruction, separately from app AWT child detachment. See the
+[native I/O and Screen report](reports/ra4_native_io_screen_wait.md).
+
+**UNKNOWN:** whole-program native cancellation coverage, event-loop exit,
+completed window/contact recovery and per-app containment while shared AMS
+is alive. No whole-context destructor is selected as an app Return action.
+The future resident proof now requires supported per-operation cancellation,
+actual loop return and restored stock input rather than timer/callback proxies.
+
+Next local boundary: stock event-loop termination and native event ownership/
+release, joined to shared platform-screen teardown. Pending-AIE delivery and
+effective strictRTSJ remain unresolved. Legitimate SDK/package, cabin USB
+topology, transport, engine/provider and resource gates remain unchanged.
+No runtime gate passes, no measured local capability fails and external
+compute is not selected.
+
+Fresh checks match two identities, 11 registration sites/six callbacks,
+74 ARM anchors, 13 imports, three AOT bindings, three library exports,
+two inline ROM bodies and four ROM references. No committed executable code
+or tests change; the earlier 162 host tests remain historical. All 121 local
+links across six changed Markdown files resolve. This is
+host-only research with no target footprint, provider contact or vendor
+payload commit. PR #14 remains draft; main and independent PR #15 are preserved.
+
+### Preceding checkpoint: 2026-09-06 native interruption request and cleanup escalation
 
 Started clean at `7faebed` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. The preceding worker trace was concrete progress.
