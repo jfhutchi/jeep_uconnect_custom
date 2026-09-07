@@ -10,12 +10,59 @@ from analysis_tools.resident_surface_census import (
     census_roots,
     classify_reference,
     parse_properties,
+    resolve_focus_dispatch_candidates,
     write_census_outputs,
 )
+from analysis_tools.java_classfile import ClassModel, MemberEdge, MethodModel
 from analysis_tools.tests.test_java_classfile import class_fixture
 
 
 class ResidentSurfaceCensusTests(unittest.TestCase):
+    def test_focus_dispatch_resolves_superclass_virtual_call_as_candidate(self):
+        abstract_method = MethodModel(
+            "waitForNewCommand", "()Z", 0x0401, (), (), (), (), (),
+        )
+        concrete_method = MethodModel(
+            "waitForNewCommand", "()Z", 0x0001, (), (), (), (), (),
+        )
+        caller_method = MethodModel(
+            "run", "()V", 0x0001, (),
+            (
+                MemberEdge(
+                    7, "invoke_virtual", "example/CommandSource",
+                    "waitForNewCommand", "()Z", "invokevirtual", 1,
+                ),
+            ),
+            (), (), (),
+        )
+        models = {
+            "example/CommandSource": ClassModel(
+                0, 49, 0x0421, "example/CommandSource", "java/lang/Object",
+                (), (), (abstract_method,), (), (), (), (),
+            ),
+            "example/SocketSource": ClassModel(
+                0, 49, 0x0021, "example/SocketSource", "example/CommandSource",
+                (), (), (concrete_method,), (), (), (), (),
+            ),
+            "example/Looper": ClassModel(
+                0, 49, 0x0021, "example/Looper", "java/lang/Object",
+                ("java/lang/Runnable",), (), (caller_method,), (), (), (), (),
+            ),
+        }
+
+        candidates = resolve_focus_dispatch_candidates(models, "example/SocketSource")
+
+        self.assertEqual(
+            candidates,
+            [
+                (
+                    "example/Looper", "run", "()V", 7,
+                    "example/SocketSource", "waitForNewCommand", "()Z",
+                    "superclass_virtual_override_candidate",
+                )
+            ],
+        )
+
     def test_reference_rules_cover_every_requested_surface_family(self):
         cases = [
             ("java/lang/ClassLoader", "loadClass", "dynamic_loading"),

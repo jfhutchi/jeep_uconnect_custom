@@ -201,7 +201,10 @@ class ActivationGraph:
         if matching:
             sources = []
             for node in matching:
-                sources.extend(dict(source) for source in node.sources)
+                for source in node.sources:
+                    normalized = dict(source)
+                    if normalized not in sources:
+                        sources.append(normalized)
             ladder["class_exists"] = {
                 "classification": "PROVED",
                 "evidence": sources,

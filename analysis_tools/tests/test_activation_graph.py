@@ -106,6 +106,31 @@ class ActivationGraphTests(unittest.TestCase):
             self.assertEqual(ladder[state]["classification"], "UNKNOWN")
             self.assertEqual(ladder[state]["evidence"], [])
 
+    def test_activation_ladder_deduplicates_class_presence_sources(self):
+        shared_source = ({
+            "kind": "parsed_structure",
+            "artifact": "resident/synthetic.jar",
+            "member": "example/SocketSource.class",
+            "offset": 0,
+        },)
+        graph = ActivationGraph(
+            [
+                MethodNode(
+                    "example/SocketSource#<init>()V", "example/SocketSource",
+                    "<init>", "()V", sources=shared_source,
+                ),
+                MethodNode(
+                    "example/SocketSource#run()V", "example/SocketSource",
+                    "run", "()V", sources=shared_source,
+                ),
+            ],
+            [],
+        )
+
+        ladder = graph.activation_ladder("example/SocketSource")
+
+        self.assertEqual(ladder["class_exists"]["evidence"], list(shared_source))
+
     def test_explicit_later_state_evidence_is_preserved_independently(self):
         supplied = {
             "activation_mechanism_exists": {

@@ -1,0 +1,2033 @@
+{
+  "coverage": {
+    "archives": 300,
+    "broad": false,
+    "class_occurrences": 72507,
+    "resources": 1528,
+    "unique_classes": 13272
+  },
+  "endpoints": [
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "1507a7bbb36deef84781",
+      "method": "com/tweddle/test/input/SocketCommandSource#initSource()V",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/ServerSocket#setReuseAddress(Z)V",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 16
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "38dcbbda44ac7839d80f",
+      "method": "com/tweddle/test/input/SocketCommandSource#waitForNewCommand(Lcom/tweddle/test/input/CommandTranslator;Lcom/tweddle/test/input/CommandListener;)Z",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/Socket#getOutputStream()Ljava/io/OutputStream;",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 69
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "40dbb3fbb5d0c3617726",
+      "method": "com/tweddle/test/input/SocketCommandSource#initSource()V",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/ServerSocket#<init>()V",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 5
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "4da84cc0f8f37e1a6809",
+      "method": "com/tweddle/test/input/SocketCommandSource#waitForNewCommand(Lcom/tweddle/test/input/CommandTranslator;Lcom/tweddle/test/input/CommandListener;)Z",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/ServerSocket#accept()Ljava/net/Socket;",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 6
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "9973162b887c56aabf5c",
+      "method": "com/tweddle/test/input/SocketCommandSource#waitForNewCommand(Lcom/tweddle/test/input/CommandTranslator;Lcom/tweddle/test/input/CommandListener;)Z",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/Socket#getInputStream()Ljava/io/InputStream;",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 13
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "ba6c7683fd4d85921736",
+      "method": "com/tweddle/test/input/SocketCommandSource#releaseResources()V",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/ServerSocket#close()V",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 27
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "be7ef91811f7e5111039",
+      "method": "com/tweddle/test/input/SocketCommandSource#getServerSocket()Ljava/net/ServerSocket;",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/ServerSocket#isBound()Z",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 15
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "c1a04d8ffc8e91caa921",
+      "method": "com/tweddle/test/input/SocketCommandSource#getServerSocket()Ljava/net/ServerSocket;",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/InetSocketAddress#<init>(Ljava/lang/String;I)V",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 37
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "db4456309235f9c87469",
+      "method": "com/tweddle/test/input/SocketCommandSource#waitForNewCommand(Lcom/tweddle/test/input/CommandTranslator;Lcom/tweddle/test/input/CommandListener;)Z",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/Socket#close()V",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 116
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "de33373aeab11832d25b",
+      "method": "com/tweddle/test/input/SocketCommandSource#initSource()V",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/ServerSocket#bind(Ljava/net/SocketAddress;)V",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 38
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "e72a585642d1a1c2323e",
+      "method": "com/tweddle/test/input/SocketCommandSource#getServerSocket()Ljava/net/ServerSocket;",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/ServerSocket#bind(Ljava/net/SocketAddress;)V",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 40
+        }
+      ]
+    },
+    {
+      "capability": {
+        "classification": "STRONGLY INFERRED",
+        "description": "create or use a Java network endpoint"
+      },
+      "category": "network_service",
+      "claim": "parsed static presence in recovered resident bytecode or configuration",
+      "classification": "PROVED",
+      "component": "com/tweddle/test/input/SocketCommandSource",
+      "dispatcher": {
+        "classification": "UNKNOWN",
+        "description": "not established"
+      },
+      "id": "ee2ff2f4f5c4bb1cb4bc",
+      "method": "com/tweddle/test/input/SocketCommandSource#initSource()V",
+      "missing_links": [
+        "external_origin",
+        "signed_runtime_activation",
+        "dispatcher",
+        "resulting_runtime_capability"
+      ],
+      "origin": {
+        "classification": "UNKNOWN",
+        "description": "external or user-controlled origin not established by this edge"
+      },
+      "parser": {
+        "classification": "UNKNOWN",
+        "description": "parser not established"
+      },
+      "reference": "java/net/InetSocketAddress#<init>(Ljava/lang/String;I)V",
+      "signed_component": {
+        "classification": "UNKNOWN",
+        "description": "installed executable presence is parsed; signer association is not evaluated here"
+      },
+      "sources": [
+        {
+          "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+          "kind": "bytecode_edge",
+          "member": "com/tweddle/test/input/SocketCommandSource.class",
+          "offset": 35
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "generation_command": "python -m analysis_tools.resident_surface_census --root LABEL=<PATH>",
+  "input_manifest": [
+    {
+      "artifact": "resident/base/kona/extension/ams_initializer.jar",
+      "bytes": 21917,
+      "sha256": "b40c69ff6cfd3e31e097c5ae33e71f1a314ce8aee2e3a734589f3025a98e959c"
+    },
+    {
+      "artifact": "resident/base/kona/lib/kona.jar",
+      "bytes": 3062680,
+      "sha256": "19390472018f02d998690b982f00eb68da5d40d7a8d6fba91499677651015f92"
+    },
+    {
+      "artifact": "resident/base/kona/security/development/security.jar",
+      "bytes": 7371,
+      "sha256": "fbe5314ab304e122162aae20ace46999b93832fc4c7451439f4ada430eccc8a7"
+    },
+    {
+      "artifact": "resident/base/kona/security/security.jar",
+      "bytes": 7504,
+      "sha256": "29a8a350ef0facc30c1c98e5250563a4020ad9c1a243f13e795e2e68e3bd74e7"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/DRM.jar",
+      "bytes": 3484,
+      "sha256": "0a4cb4ead688547658a7ac5d0beecd0b242c36aa5bdf0f1f887cad5707f06ad2"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/05096915-cc7e-4881-b53e-278f6d799862/prog/jars/05096915-cc7e-4881-b53e-278f6d799862.jar",
+      "bytes": 925156,
+      "sha256": "329098c01cd0cbef808ca06778e57411be979108dfb35965ba2992c6fd5c8a47"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/05096915-cc7e-4881-b53e-278f6d799862/prog/jars/key.jar",
+      "bytes": 52183,
+      "sha256": "91a031d22e62e129177470e64533df772f1faad57a532cd4caddcb45518d1aa0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/079aa169-df8f-48b4-b331-4ed51dbf6b12/prog/jars/079aa169-df8f-48b4-b331-4ed51dbf6b12.jar",
+      "bytes": 1558076,
+      "sha256": "382026942a6cde768c4c3762497523c3300a5c3fa101d8661b2b0dfacfe3b260"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/079aa169-df8f-48b4-b331-4ed51dbf6b12/prog/jars/key.jar",
+      "bytes": 27207,
+      "sha256": "faccde0e49150c883d2f7a247987ba48d20e90b5966bfdab9556ab70d8cf0e49"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/186c8aa0-6175-11e1-b86c-0800200c9a66/prog/jars/186c8aa0-6175-11e1-b86c-0800200c9a66.jar",
+      "bytes": 567021,
+      "sha256": "1892073c7cdcd04a2a63f214b543bb7806c66ed572877dd329e6a5aa5d92ff25"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/186c8aa0-6175-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 24186,
+      "sha256": "ee6a04cb0b7cbad600b94ead8a73c3c94b681a2aca97735e86846d6caf3cbc4a"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 37529,
+      "sha256": "26f171c8b16ac5352ab23af9663c9a813be02cbc68035d5bc73d5295843d7b5f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+      "bytes": 1182045,
+      "sha256": "6387e029278985dd5c24339879ac2c3b1f2ee51cc908fea2d4aee26d2457b40c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/1efb8b70-1ab5-11e1-bddb-0800200c9a66/prog/jars/1efb8b70-1ab5-11e1-bddb-0800200c9a66.jar",
+      "bytes": 700271,
+      "sha256": "8e349ee2e9c193220a17bac35d6b0ec4bd4dead749c8386b37f4ebc3765a2574"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/1efb8b70-1ab5-11e1-bddb-0800200c9a66/prog/jars/key.jar",
+      "bytes": 46760,
+      "sha256": "52566a9e4799b0ce350fc89ff464f1fac8c2a520efd7d8dba6ae898b26d6d516"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/2BA676FA-1542-11E1-A537-1F614824019B.jar",
+      "bytes": 528531,
+      "sha256": "3b06e0d2286b21d3fcd743739c8cb748a3487403ca201862089df493abc5a17c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 25429,
+      "sha256": "2165cc4f574bc06601564368109dad9119247715065e2f4d74d28a4ed220a30b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/3bbeae36-1542-11e1-b393-31614824019b.jar",
+      "bytes": 1891758,
+      "sha256": "3aa5810b31b0777275f442a065d8f58eea0ebfc9e2290dbd42bc4b0e174c4cca"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 30561,
+      "sha256": "18a1a8cce1923578f7058e8d76d3d7d609a328920b1b3d07dc1f6b4ed63d0626"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/437af6c9-7f4a-47b5-8d4d-7aa0914b50e9/prog/jars/437af6c9-7f4a-47b5-8d4d-7aa0914b50e9.jar",
+      "bytes": 1535060,
+      "sha256": "331eef5fa1f6146e86379bdd6caa0a84a6822daa841e26e51bb4e37207256eed"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/437af6c9-7f4a-47b5-8d4d-7aa0914b50e9/prog/jars/key.jar",
+      "bytes": 13416,
+      "sha256": "5be8ec5ca896fc7ff23773a2c59c9d6a50e565c069db837fcd3c06e84728a952"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/4c74b232-3360-42ff-a05f-d098ba85b220/prog/jars/4c74b232-3360-42ff-a05f-d098ba85b220.jar",
+      "bytes": 158509,
+      "sha256": "6c25a229f1421149d1b51e48e8b4a9da92a0945439ec4001bd146b323b4a28d3"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/4c74b232-3360-42ff-a05f-d098ba85b220/prog/jars/key.jar",
+      "bytes": 18127,
+      "sha256": "1b1a71b8a565c996e0410ab8bea00cb6e4a44631eba2c3b4a89cf7e4a47c99aa"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/52c79381-6719-11e1-b86c-0800200c9a66.jar",
+      "bytes": 7555478,
+      "sha256": "d5bd28e5592c4405b475c5396dff878006b6adc55952857ab2c6d0c3ecf32d96"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 61533,
+      "sha256": "e9f2f320163ae0783947882cdc90ae52bde94ef41a9b0913787b6b4281d55c8b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/550e8400-e29b-41d4-a716-446655440000.jar",
+      "bytes": 1827686,
+      "sha256": "228f353515c57d9009112d1566cfb4d9c9fcd6073adcebc62ebdcd15cd75d1ca"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 21532,
+      "sha256": "4671c7c8d320e1f9e01ab341306fa74267d39e1d29309e65a43b165584564f8d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/6BFD02C0-40C3-11E2-A25F-0800200C9A66.jar",
+      "bytes": 4899638,
+      "sha256": "60701dbec8b89c744e53b7e13b7f2ab10f90a8ead1f813e58f82227ffc3e6eef"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 56864,
+      "sha256": "5d51dec27ed426a90c8098d8cea0f4d0f0159651a80971ce7588d860a291787d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/7DEC7834-535D-47B5-BD33-695477EDCD57.jar",
+      "bytes": 21899303,
+      "sha256": "3c8e646d85d04e3596ac29bae8fcce0fb0e946b52628f66f606b76fbcf8f4569"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57256,
+      "sha256": "08d7aaaee0e4c10dc92e4310a9665295155f6a76cdf6c16a448fd82a539a4b88"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/A7A4B215-9B5A-7DAA-457C-15545178E72F.jar",
+      "bytes": 1634997,
+      "sha256": "db10a74858f68b6a73937679d485c208f8b77b70554fe793df808f2d12417bee"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 16084,
+      "sha256": "c17055ed2dc8dc19b8f5ec8e889702df62833242cc315b4bd5d7061e7027c398"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/c9dba9de-281b-41de-911c-e20bdd029de0/prog/jars/c9dba9de-281b-41de-911c-e20bdd029de0.jar",
+      "bytes": 843852,
+      "sha256": "4385102b6388771913c31984e2eaced5ab87a6858de8ae4683d554d9f0de916f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/c9dba9de-281b-41de-911c-e20bdd029de0/prog/jars/key.jar",
+      "bytes": 37218,
+      "sha256": "e2897fcf0752010a2d41b4238486551215fa1cd4fda6aababaa950a3c706b167"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/d0412192-c51d-476c-91e0-76fc65a82692/prog/jars/d0412192-c51d-476c-91e0-76fc65a82692.jar",
+      "bytes": 1602456,
+      "sha256": "587c06e2152f0f99b6a4a798926147101484876b0995a58f6a5196bc31205c0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/d0412192-c51d-476c-91e0-76fc65a82692/prog/jars/key.jar",
+      "bytes": 82141,
+      "sha256": "7edfa67b911efc2f9e1dff5d63f389d498012fd3a7d36ae2b153b1e063e14996"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/f7583530-8d53-11e0-91e4-0800200c9a66.jar",
+      "bytes": 652155,
+      "sha256": "18d07335e5e873839654d29f6cca8b8f8cdadc55f15ce636a09ae6f9375419f1"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM1/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 34494,
+      "sha256": "4a566178e9d670e1b6b90e9515614cfed4dce4fa5b69400437fdfbfb29668d4c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM10/DRM.jar",
+      "bytes": 2718,
+      "sha256": "7379b7bc4f39ef0b6391722f42dc4718a99b6e415b578465a4712b9ba90de234"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM10/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/52c79381-6719-11e1-b86c-0800200c9a66.jar",
+      "bytes": 7555478,
+      "sha256": "d5bd28e5592c4405b475c5396dff878006b6adc55952857ab2c6d0c3ecf32d96"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM10/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 61533,
+      "sha256": "e9f2f320163ae0783947882cdc90ae52bde94ef41a9b0913787b6b4281d55c8b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM10/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/6BFD02C0-40C3-11E2-A25F-0800200C9A66.jar",
+      "bytes": 4899638,
+      "sha256": "60701dbec8b89c744e53b7e13b7f2ab10f90a8ead1f813e58f82227ffc3e6eef"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM10/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 56864,
+      "sha256": "5d51dec27ed426a90c8098d8cea0f4d0f0159651a80971ce7588d860a291787d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM10/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/7DEC7834-535D-47B5-BD33-695477EDCD57.jar",
+      "bytes": 21899303,
+      "sha256": "3c8e646d85d04e3596ac29bae8fcce0fb0e946b52628f66f606b76fbcf8f4569"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM10/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57256,
+      "sha256": "08d7aaaee0e4c10dc92e4310a9665295155f6a76cdf6c16a448fd82a539a4b88"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM11/DRM.jar",
+      "bytes": 2413,
+      "sha256": "b190321581fb231dd6ef268ef5ba7eae4be78c5516cb034f0f205db5cc93888f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM11/xlets/100/prog/jars/100.jar",
+      "bytes": 1663985,
+      "sha256": "ae0ae0364bf9c98aeaf235668a9e0774cfefecf262983e84bc2a844a0e6b1e96"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM11/xlets/100/prog/jars/key.jar",
+      "bytes": 46250,
+      "sha256": "729475ea6f5a0bc7b1768087abc5e40f934b322e9d08a15f090728d706aad334"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM11/xlets/999/prog/jars/999.jar",
+      "bytes": 151458,
+      "sha256": "c2e23fe7cb8ec76f2e11de22b24bf8c0fa195ee585c25354d78ffc3bb4c0645f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM11/xlets/999/prog/jars/key.jar",
+      "bytes": 8578,
+      "sha256": "cba55a70349ccc4b4a64a4b0a766683a8224e0167a5c0996ac555f3638757407"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/DRM.jar",
+      "bytes": 3539,
+      "sha256": "3e8f5961275e17aef939e7113bc6eafdc88e4c265eaecf2de8e3dfef2024749f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/05096915-cc7e-4881-b53e-278f6d799862/prog/jars/Slacker1.0.76_FIT.jar",
+      "bytes": 925156,
+      "sha256": "329098c01cd0cbef808ca06778e57411be979108dfb35965ba2992c6fd5c8a47"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/05096915-cc7e-4881-b53e-278f6d799862/prog/jars/key.jar",
+      "bytes": 52183,
+      "sha256": "91a031d22e62e129177470e64533df772f1faad57a532cd4caddcb45518d1aa0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/079aa169-df8f-48b4-b331-4ed51dbf6b12/prog/jars/IVHClient_v1.0.4-FIT.jar",
+      "bytes": 1558076,
+      "sha256": "382026942a6cde768c4c3762497523c3300a5c3fa101d8661b2b0dfacfe3b260"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/079aa169-df8f-48b4-b331-4ed51dbf6b12/prog/jars/key.jar",
+      "bytes": 27207,
+      "sha256": "faccde0e49150c883d2f7a247987ba48d20e90b5966bfdab9556ab70d8cf0e49"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/186c8aa0-6175-11e1-b86c-0800200c9a66/prog/jars/PandoraV1_0_120-FIT.jar",
+      "bytes": 567021,
+      "sha256": "1892073c7cdcd04a2a63f214b543bb7806c66ed572877dd329e6a5aa5d92ff25"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/186c8aa0-6175-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 24186,
+      "sha256": "ee6a04cb0b7cbad600b94ead8a73c3c94b681a2aca97735e86846d6caf3cbc4a"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 37529,
+      "sha256": "26f171c8b16ac5352ab23af9663c9a813be02cbc68035d5bc73d5295843d7b5f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+      "bytes": 1182045,
+      "sha256": "6387e029278985dd5c24339879ac2c3b1f2ee51cc908fea2d4aee26d2457b40c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.06_FIT.jar",
+      "bytes": 528531,
+      "sha256": "3b06e0d2286b21d3fcd743739c8cb748a3487403ca201862089df493abc5a17c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 25429,
+      "sha256": "2165cc4f574bc06601564368109dad9119247715065e2f4d74d28a4ed220a30b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB-04.00.09_FIT.jar",
+      "bytes": 1891758,
+      "sha256": "3aa5810b31b0777275f442a065d8f58eea0ebfc9e2290dbd42bc4b0e174c4cca"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 30561,
+      "sha256": "18a1a8cce1923578f7058e8d76d3d7d609a328920b1b3d07dc1f6b4ed63d0626"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/437af6c9-7f4a-47b5-8d4d-7aa0914b50e9/prog/jars/640X480_84_ViaMobileSetup-v01.00.05-FIT.jar",
+      "bytes": 1535060,
+      "sha256": "331eef5fa1f6146e86379bdd6caa0a84a6822daa841e26e51bb4e37207256eed"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/437af6c9-7f4a-47b5-8d4d-7aa0914b50e9/prog/jars/key.jar",
+      "bytes": 13416,
+      "sha256": "5be8ec5ca896fc7ff23773a2c59c9d6a50e565c069db837fcd3c06e84728a952"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/4c74b232-3360-42ff-a05f-d098ba85b220/prog/jars/IVHDaemon_v1.0.1_2015Jul30_FIT.jar",
+      "bytes": 158509,
+      "sha256": "6c25a229f1421149d1b51e48e8b4a9da92a0945439ec4001bd146b323b4a28d3"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/4c74b232-3360-42ff-a05f-d098ba85b220/prog/jars/key.jar",
+      "bytes": 18127,
+      "sha256": "1b1a71b8a565c996e0410ab8bea00cb6e4a44631eba2c3b4a89cf7e4a47c99aa"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.22.06_FIT.jar",
+      "bytes": 7555478,
+      "sha256": "d5bd28e5592c4405b475c5396dff878006b6adc55952857ab2c6d0c3ecf32d96"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 61533,
+      "sha256": "e9f2f320163ae0783947882cdc90ae52bde94ef41a9b0913787b6b4281d55c8b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore-v02.33.02_FIT.jar",
+      "bytes": 1827686,
+      "sha256": "228f353515c57d9009112d1566cfb4d9c9fcd6073adcebc62ebdcd15cd75d1ca"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 21532,
+      "sha256": "4671c7c8d320e1f9e01ab341306fa74267d39e1d29309e65a43b165584564f8d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.00.17_FIT.jar",
+      "bytes": 5750204,
+      "sha256": "b8243be33a1f2488c8a294091de7dcaf269d225cdee84cdf3d21093faa40f189"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 57004,
+      "sha256": "65efc4e915c31286b544344999946c77dc722e9577c3f6244018c0e0da835693"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.00.16_FIT.jar",
+      "bytes": 21907080,
+      "sha256": "18754a6c2a72d5a7f507123958082b20dec61f89e864123c63ce7d39ee262f0e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57573,
+      "sha256": "1e4458a292091b0c7e713bda7b76505eeba919e27fa3788ff4534986d158780e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration-v02.02.05_FIT.jar",
+      "bytes": 1634997,
+      "sha256": "db10a74858f68b6a73937679d485c208f8b77b70554fe793df808f2d12417bee"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 16084,
+      "sha256": "c17055ed2dc8dc19b8f5ec8e889702df62833242cc315b4bd5d7061e7027c398"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/c9dba9de-281b-41de-911c-e20bdd029de0/prog/jars/aha_1.10.65_FIT.jar",
+      "bytes": 843852,
+      "sha256": "4385102b6388771913c31984e2eaced5ab87a6858de8ae4683d554d9f0de916f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/c9dba9de-281b-41de-911c-e20bdd029de0/prog/jars/key.jar",
+      "bytes": 37218,
+      "sha256": "e2897fcf0752010a2d41b4238486551215fa1cd4fda6aababaa950a3c706b167"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/d0412192-c51d-476c-91e0-76fc65a82692/prog/jars/iHeart.4491_FIT.jar",
+      "bytes": 1602456,
+      "sha256": "587c06e2152f0f99b6a4a798926147101484876b0995a58f6a5196bc31205c0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/d0412192-c51d-476c-91e0-76fc65a82692/prog/jars/key.jar",
+      "bytes": 82141,
+      "sha256": "7edfa67b911efc2f9e1dff5d63f389d498012fd3a7d36ae2b153b1e063e14996"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/ORP_1.5.9_FIT.jar",
+      "bytes": 8703658,
+      "sha256": "b0d1fb758a7c852dd19af030b7cc44b62bdd98325ab2b11977c01fd6d8c727dc"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 46536,
+      "sha256": "7325daf966fc8a11dc47db2be59fb1399b626927dc263cef7a5519ad0428607b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.18_FIT.jar",
+      "bytes": 652617,
+      "sha256": "a5e5d1033d82728042b34642f59c8552f7026ec0028df8af6aed6b0e95044aa8"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM12/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 34491,
+      "sha256": "b8f117b24e01df85f266ebb3660a0ffe8320a5ed4ec6fe68e7313af68b0d8f2e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/DRM.jar",
+      "bytes": 2833,
+      "sha256": "28fcaa805097b34e4cda0761ba7610dd67ccaa5cb1b44d44b0c7cb746ef4ef15"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.22.06_FIT.jar",
+      "bytes": 7555478,
+      "sha256": "d5bd28e5592c4405b475c5396dff878006b6adc55952857ab2c6d0c3ecf32d96"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 61533,
+      "sha256": "e9f2f320163ae0783947882cdc90ae52bde94ef41a9b0913787b6b4281d55c8b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.00.17_FIT.jar",
+      "bytes": 5750204,
+      "sha256": "b8243be33a1f2488c8a294091de7dcaf269d225cdee84cdf3d21093faa40f189"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 57004,
+      "sha256": "65efc4e915c31286b544344999946c77dc722e9577c3f6244018c0e0da835693"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.00.16_FIT.jar",
+      "bytes": 21907080,
+      "sha256": "18754a6c2a72d5a7f507123958082b20dec61f89e864123c63ce7d39ee262f0e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57573,
+      "sha256": "1e4458a292091b0c7e713bda7b76505eeba919e27fa3788ff4534986d158780e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/ORP_1.5.9_FIT.jar",
+      "bytes": 8703658,
+      "sha256": "b0d1fb758a7c852dd19af030b7cc44b62bdd98325ab2b11977c01fd6d8c727dc"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM13/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 46536,
+      "sha256": "7325daf966fc8a11dc47db2be59fb1399b626927dc263cef7a5519ad0428607b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM14/DRM.jar",
+      "bytes": 2552,
+      "sha256": "89bc97be2a79408ac227819db9cc09749420f725cd1738114f6ec29bebcf4f8c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM14/xlets/DBF8632A-EC07-4434-A7D8-FB20CBCE326A/prog/jars/DBF8632A-EC07-4434-A7D8-FB20CBCE326A-1.6.14.jar",
+      "bytes": 2328376,
+      "sha256": "74fc2cffac9ce116721378da2909c50ede78536f7a77d03433efa0b3a41a0443"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM14/xlets/DBF8632A-EC07-4434-A7D8-FB20CBCE326A/prog/jars/key.jar",
+      "bytes": 65809,
+      "sha256": "96498b94581a98a6e811d880c1de3029a4753c28796dbef469336cf28e578271"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/DRM.jar",
+      "bytes": 2824,
+      "sha256": "6093c7850e9bbec8c42176e3dd89901b6f8fd509b596eb54586c7a6edd0ece0c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7414015,
+      "sha256": "445444a9b6af3c396205693a0f7a79e51a71ce3437bf572609f90c09babb17a7"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55015,
+      "sha256": "2c342b6f6bd662346c49a357700c4006b33e776eacbcff94533e9ced889fb94b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.01.01_FIT.jar",
+      "bytes": 5748895,
+      "sha256": "c666d49dda25039a0dba1c4733c62d8ee8d5fa6100107eb807b6e873c6e2f9cf"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 56793,
+      "sha256": "a755e108bc0d6d26d0b075b5ca833b0c44c740ccc8b626dc0f2b247a65b550ad"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21906671,
+      "sha256": "ce964da5c6d7bbd8b8b15d50179785e757bd646aa387e6774dd5e3b98908b2a9"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57344,
+      "sha256": "9bfd315c9b484693f89cfbb5d6a7f3bff991b2da160e4bbcc91b0bce67c30523"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/OffRoadPages_1.7.1_0906.jar",
+      "bytes": 8800617,
+      "sha256": "21ed8049f6b51caee1561fd23ca28020c5cdf331d2e177f0ee2b268e337cd122"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM15/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 47675,
+      "sha256": "e5bf2f9a0ed1427ce869bed074df51bedcbdc1f73336fa8c4b0a60802fb724cd"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/DRM.jar",
+      "bytes": 3191,
+      "sha256": "181a1af71ed7f262203e201e583ecdcbac9255da8ba5643bfbfa93f5a1c5bd15"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/079aa169-df8f-48b4-b331-4ed51dbf6b12/prog/jars/IVHClient_v1.0.4-FIT.jar",
+      "bytes": 1558076,
+      "sha256": "382026942a6cde768c4c3762497523c3300a5c3fa101d8661b2b0dfacfe3b260"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/079aa169-df8f-48b4-b331-4ed51dbf6b12/prog/jars/key.jar",
+      "bytes": 27207,
+      "sha256": "faccde0e49150c883d2f7a247987ba48d20e90b5966bfdab9556ab70d8cf0e49"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "bytes": 1852176,
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 22238,
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "bytes": 547834,
+      "sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 26092,
+      "sha256": "ab0888bde75c940a63a27ee0e1fadfdde824c9ee512bf6090d2c1fe49c6cc1ba"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+      "bytes": 1623022,
+      "sha256": "cd91225970a68353920acc674e15fb9775c60ee8352134ecf447157e811512f4"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 15832,
+      "sha256": "491f0c7ae34639bcaeca820924defbd41f57966622b565bb4d1e3ef76bd5578f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/4c74b232-3360-42ff-a05f-d098ba85b220/prog/jars/IVHDaemon_v1.0.1_2015Jul30_FIT.jar",
+      "bytes": 158509,
+      "sha256": "6c25a229f1421149d1b51e48e8b4a9da92a0945439ec4001bd146b323b4a28d3"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/4c74b232-3360-42ff-a05f-d098ba85b220/prog/jars/key.jar",
+      "bytes": 18127,
+      "sha256": "1b1a71b8a565c996e0410ab8bea00cb6e4a44631eba2c3b4a89cf7e4a47c99aa"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7416574,
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55369,
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "bytes": 1861609,
+      "sha256": "2e5b3f7e1c7857950f7ea536b3975f1feebff744a47fb141551bbb6c23c7d552"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 22520,
+      "sha256": "eb29ef31fcc6c7d95cad6c994ecacfef707208820ff2cb30eb3350e0ce8d8b5c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.01.01_FIT.jar",
+      "bytes": 5751454,
+      "sha256": "278a8464c50c92e2a30d7a916202e6ca3faff532f3cca5b792d0ee2c1f5ae0da"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 57132,
+      "sha256": "50d9094a5d9362f37a20977b6c0f68b0a355f4665ba2464ada40a02a8d200d47"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21909230,
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57687,
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "bytes": 1984531,
+      "sha256": "70e3f0939a26223e84fdd67a2b90adbee84367e46afb4928e0db1192e4aefcdb"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 32785,
+      "sha256": "a984d02c62e6fcd9a8ad0bbb27d3810eb4ee3361353969a25e20bb0af04a45d2"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/ORP_1.6.0_FIT.jar",
+      "bytes": 8737570,
+      "sha256": "5028c4a7c98916311f9f52bd074fda9edcbca03c62910235d6e84cac65525582"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 47535,
+      "sha256": "14454ef069125f4faf3b82238902b688dadfd6dfb90de201ed193de5663d8abe"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "bytes": 663321,
+      "sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM16/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 35106,
+      "sha256": "e9ae276c6ae3f3c3e04673a235e4585b490f4dd9cfbc74a271a6261d43118e48"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/DRM.jar",
+      "bytes": 3073,
+      "sha256": "eecf883e2b32d84853f680c14494ed81be828a4360d541caa61850bb2ce5d18f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "bytes": 1852176,
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 22238,
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "bytes": 547834,
+      "sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 26092,
+      "sha256": "ab0888bde75c940a63a27ee0e1fadfdde824c9ee512bf6090d2c1fe49c6cc1ba"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+      "bytes": 1623022,
+      "sha256": "cd91225970a68353920acc674e15fb9775c60ee8352134ecf447157e811512f4"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 15832,
+      "sha256": "491f0c7ae34639bcaeca820924defbd41f57966622b565bb4d1e3ef76bd5578f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7416574,
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55369,
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "bytes": 1861609,
+      "sha256": "2e5b3f7e1c7857950f7ea536b3975f1feebff744a47fb141551bbb6c23c7d552"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 22520,
+      "sha256": "eb29ef31fcc6c7d95cad6c994ecacfef707208820ff2cb30eb3350e0ce8d8b5c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.01.01_FIT.jar",
+      "bytes": 5751454,
+      "sha256": "278a8464c50c92e2a30d7a916202e6ca3faff532f3cca5b792d0ee2c1f5ae0da"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 57132,
+      "sha256": "50d9094a5d9362f37a20977b6c0f68b0a355f4665ba2464ada40a02a8d200d47"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21909230,
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57687,
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "bytes": 1984531,
+      "sha256": "70e3f0939a26223e84fdd67a2b90adbee84367e46afb4928e0db1192e4aefcdb"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 32785,
+      "sha256": "a984d02c62e6fcd9a8ad0bbb27d3810eb4ee3361353969a25e20bb0af04a45d2"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/ORP_1.6.0_FIT.jar",
+      "bytes": 8737570,
+      "sha256": "5028c4a7c98916311f9f52bd074fda9edcbca03c62910235d6e84cac65525582"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 47535,
+      "sha256": "14454ef069125f4faf3b82238902b688dadfd6dfb90de201ed193de5663d8abe"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "bytes": 663321,
+      "sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM17/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 35106,
+      "sha256": "e9ae276c6ae3f3c3e04673a235e4585b490f4dd9cfbc74a271a6261d43118e48"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/DRM.jar",
+      "bytes": 3025,
+      "sha256": "b2eeafce6e01ca83ccde766801a3f1f964731bcc5258e1ca8e8865668af35227"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "bytes": 1852176,
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 22238,
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "bytes": 547834,
+      "sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 26092,
+      "sha256": "ab0888bde75c940a63a27ee0e1fadfdde824c9ee512bf6090d2c1fe49c6cc1ba"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+      "bytes": 1623022,
+      "sha256": "cd91225970a68353920acc674e15fb9775c60ee8352134ecf447157e811512f4"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 15832,
+      "sha256": "491f0c7ae34639bcaeca820924defbd41f57966622b565bb4d1e3ef76bd5578f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7416574,
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55369,
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "bytes": 1861609,
+      "sha256": "2e5b3f7e1c7857950f7ea536b3975f1feebff744a47fb141551bbb6c23c7d552"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 22520,
+      "sha256": "eb29ef31fcc6c7d95cad6c994ecacfef707208820ff2cb30eb3350e0ce8d8b5c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.01.01_FIT.jar",
+      "bytes": 5751454,
+      "sha256": "278a8464c50c92e2a30d7a916202e6ca3faff532f3cca5b792d0ee2c1f5ae0da"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 57132,
+      "sha256": "50d9094a5d9362f37a20977b6c0f68b0a355f4665ba2464ada40a02a8d200d47"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21909230,
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57687,
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "bytes": 1984531,
+      "sha256": "70e3f0939a26223e84fdd67a2b90adbee84367e46afb4928e0db1192e4aefcdb"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 32785,
+      "sha256": "a984d02c62e6fcd9a8ad0bbb27d3810eb4ee3361353969a25e20bb0af04a45d2"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "bytes": 663321,
+      "sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM18/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 35106,
+      "sha256": "e9ae276c6ae3f3c3e04673a235e4585b490f4dd9cfbc74a271a6261d43118e48"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/DRM.jar",
+      "bytes": 3094,
+      "sha256": "13b31b0cd71a92f95dfa214af442524c5b106e04ab127a9b874e3ee1a9252fd2"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "bytes": 1852176,
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 22238,
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "bytes": 547834,
+      "sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 26092,
+      "sha256": "ab0888bde75c940a63a27ee0e1fadfdde824c9ee512bf6090d2c1fe49c6cc1ba"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+      "bytes": 1623022,
+      "sha256": "cd91225970a68353920acc674e15fb9775c60ee8352134ecf447157e811512f4"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 15832,
+      "sha256": "491f0c7ae34639bcaeca820924defbd41f57966622b565bb4d1e3ef76bd5578f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7416574,
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55369,
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "bytes": 1861609,
+      "sha256": "2e5b3f7e1c7857950f7ea536b3975f1feebff744a47fb141551bbb6c23c7d552"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 22520,
+      "sha256": "eb29ef31fcc6c7d95cad6c994ecacfef707208820ff2cb30eb3350e0ce8d8b5c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "bytes": 5671188,
+      "sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 55435,
+      "sha256": "4a78041e2a2840299bbdea04c2771cbf2130789f62650d5b851dc76eaf340fd9"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21909230,
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57687,
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "bytes": 1984531,
+      "sha256": "70e3f0939a26223e84fdd67a2b90adbee84367e46afb4928e0db1192e4aefcdb"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 32785,
+      "sha256": "a984d02c62e6fcd9a8ad0bbb27d3810eb4ee3361353969a25e20bb0af04a45d2"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "bytes": 663321,
+      "sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM19/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 35106,
+      "sha256": "e9ae276c6ae3f3c3e04673a235e4585b490f4dd9cfbc74a271a6261d43118e48"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM2/DRM.jar",
+      "bytes": 2548,
+      "sha256": "33e0bc2492221b073d1e193c6e4dcf3afe8610d7107c57a72a85127a10123a1f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM2/xlets/DBF8632A-EC07-4434-A7D8-FB20CBCE326A/prog/jars/DBF8632A-EC07-4434-A7D8-FB20CBCE326A-1.6.24.jar",
+      "bytes": 2235131,
+      "sha256": "7666aa3b3834855c2f42f0e2e430c4c52cf9ea2153b401e695366ab1f8fb80e9"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM2/xlets/DBF8632A-EC07-4434-A7D8-FB20CBCE326A/prog/jars/key.jar",
+      "bytes": 65601,
+      "sha256": "98e30c9aa226923b981f5511fc921ac2186d32b941ac7f74ad2c0627127a9140"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/DRM.jar",
+      "bytes": 2877,
+      "sha256": "289dd3dba7b62eb23042bc414802ac5c18166460062015fde3894c7d887ba243"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/800X480_65_Yelp_v03.00.33_FIT.jar",
+      "bytes": 2358424,
+      "sha256": "83bbe31b157cfabf073bc993d91e9538ff0f9bb5212886cd166546a692ca46f0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 22233,
+      "sha256": "a0b249fc76eb8d7d3ab7720580cbd42817550e429a06045442a9cac572eee994"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "bytes": 547834,
+      "sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 26092,
+      "sha256": "ab0888bde75c940a63a27ee0e1fadfdde824c9ee512bf6090d2c1fe49c6cc1ba"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/800X480_65_Assist_VSB_04.00.14_FIT.jar",
+      "bytes": 2105385,
+      "sha256": "6076ba6f89535a59eab9650470fc7edd1fcf85839c792cae5b9fcbc17900ce24"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 15829,
+      "sha256": "09b7f3fbc40d72a2b489e5bc39a5616f81d9b197370819dc1b2508feae92567b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/800X480_65_UconnectStore_v02.33.07_FIT.jar",
+      "bytes": 2343004,
+      "sha256": "32af4d927f9ba5d6295742668b632803e450e6e9da2e42e5419659c4348e8cb4"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 22472,
+      "sha256": "e88276051c429485524e399d09038cd8e8e0d86cb2a4bb8ce53a64f4b697104d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/800X480_65_UconnectRegistration_v02.03.01_FIT.jar",
+      "bytes": 2492836,
+      "sha256": "4de37cbcbd05302b8a229d3108eb1d3f43a8e83b81d6b63bd4973be290801ee6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 32816,
+      "sha256": "a2daa740733a6861443a3ce9bd905efe93137c08258df08e526ec2516c6b2da5"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.18_FIT.jar",
+      "bytes": 652617,
+      "sha256": "a5e5d1033d82728042b34642f59c8552f7026ec0028df8af6aed6b0e95044aa8"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM20/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 34491,
+      "sha256": "b8f117b24e01df85f266ebb3660a0ffe8320a5ed4ec6fe68e7313af68b0d8f2e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/DRM.jar",
+      "bytes": 2761,
+      "sha256": "2065af2460ae0559486deb2c6c38af5911ecf2fdbf8902b7a0d3075ae1c02f7a"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7416574,
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55369,
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.01.01_FIT.jar",
+      "bytes": 5751454,
+      "sha256": "278a8464c50c92e2a30d7a916202e6ca3faff532f3cca5b792d0ee2c1f5ae0da"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 57132,
+      "sha256": "50d9094a5d9362f37a20977b6c0f68b0a355f4665ba2464ada40a02a8d200d47"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21909230,
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57687,
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/ORP_1.6.0_FIT.jar",
+      "bytes": 8737570,
+      "sha256": "5028c4a7c98916311f9f52bd074fda9edcbca03c62910235d6e84cac65525582"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM21/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 47535,
+      "sha256": "14454ef069125f4faf3b82238902b688dadfd6dfb90de201ed193de5663d8abe"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM22/DRM.jar",
+      "bytes": 2709,
+      "sha256": "866826b571f5e840c52405f70baf42c0e29314a490e5c602d240e7e43484e909"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM22/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7416574,
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM22/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55369,
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM22/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.01.01_FIT.jar",
+      "bytes": 5751454,
+      "sha256": "278a8464c50c92e2a30d7a916202e6ca3faff532f3cca5b792d0ee2c1f5ae0da"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM22/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 57132,
+      "sha256": "50d9094a5d9362f37a20977b6c0f68b0a355f4665ba2464ada40a02a8d200d47"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM22/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21909230,
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM22/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57687,
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM23/DRM.jar",
+      "bytes": 2715,
+      "sha256": "9d5b4ad5df502503a0eb69b469939b1a107b39ca8fe078bc7fc5cd5d6789fa29"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM23/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7416574,
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM23/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55369,
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM23/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "bytes": 5671188,
+      "sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM23/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 55435,
+      "sha256": "4a78041e2a2840299bbdea04c2771cbf2130789f62650d5b851dc76eaf340fd9"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM23/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21909230,
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM23/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57687,
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/DRM.jar",
+      "bytes": 2834,
+      "sha256": "fba5fa0392a9b4c945b2a80fd8337971b548c31886d7659238b0c58d70be3b4b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "bytes": 7416574,
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "bytes": 55369,
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.01.01_FIT.jar",
+      "bytes": 5751454,
+      "sha256": "278a8464c50c92e2a30d7a916202e6ca3faff532f3cca5b792d0ee2c1f5ae0da"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 57132,
+      "sha256": "50d9094a5d9362f37a20977b6c0f68b0a355f4665ba2464ada40a02a8d200d47"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "bytes": 21909230,
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "bytes": 57687,
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/OffRoadPages_1.7.1_0906.jar",
+      "bytes": 8800617,
+      "sha256": "21ed8049f6b51caee1561fd23ca28020c5cdf331d2e177f0ee2b268e337cd122"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM24/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 47791,
+      "sha256": "9c3e7ad4b3a35b1e59324d7cac4272d1fa325eb3ec13f4f6ea50dcd443cc9f67"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/DRM.jar",
+      "bytes": 2824,
+      "sha256": "6093c7850e9bbec8c42176e3dd89901b6f8fd509b596eb54586c7a6edd0ece0c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/xlets/100/prog/jars/UconnectLIVE.jar",
+      "bytes": 1698272,
+      "sha256": "4c400664f306eaf52d376c8c14cb7d21e25240a49a7d31f7e07a5fec500da3fa"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/xlets/100/prog/jars/key.jar",
+      "bytes": 46693,
+      "sha256": "cec1f9f747cd864038a875eb9119acbee35070ef3feeb441ba81ea535d3dc75d"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_MY16_WK_v02.01.01_FIT.jar",
+      "bytes": 5748895,
+      "sha256": "c666d49dda25039a0dba1c4733c62d8ee8d5fa6100107eb807b6e873c6e2f9cf"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 56793,
+      "sha256": "a755e108bc0d6d26d0b075b5ca833b0c44c740ccc8b626dc0f2b247a65b550ad"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/xlets/999/prog/jars/UconnectOTA.jar",
+      "bytes": 161744,
+      "sha256": "24a0d4d3a1fdfec0d8cc879034166df04f2815318d6a13c562f3249034edc7e0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/xlets/999/prog/jars/key.jar",
+      "bytes": 9059,
+      "sha256": "e9365716ef4c606143a019e5381e1d0b6bdf39455f4dedf2984d76564a671395"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/OffRoadPages_1.7.1_0906.jar",
+      "bytes": 8800617,
+      "sha256": "21ed8049f6b51caee1561fd23ca28020c5cdf331d2e177f0ee2b268e337cd122"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM25/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 47675,
+      "sha256": "e5bf2f9a0ed1427ce869bed074df51bedcbdc1f73336fa8c4b0a60802fb724cd"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM26/DRM.jar",
+      "bytes": 2560,
+      "sha256": "ba0a8ac23828d1fc185450953b227042317e292cf8f5e193a5f7975013452884"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM26/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/OffRoadPages_1.7.1_0906.jar",
+      "bytes": 8800617,
+      "sha256": "21ed8049f6b51caee1561fd23ca28020c5cdf331d2e177f0ee2b268e337cd122"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM26/xlets/f1de6bac-9876-3250-8dc2-c729b755a600/prog/jars/key.jar",
+      "bytes": 47791,
+      "sha256": "9c3e7ad4b3a35b1e59324d7cac4272d1fa325eb3ec13f4f6ea50dcd443cc9f67"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM27/DRM.jar",
+      "bytes": 2712,
+      "sha256": "4529ec895f6fd13bc611acb7cdb99c7f72072f349b148bf3827cd2fcdd58b91c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM27/xlets/DBF8632A-EC07-4434-A7D8-FB20CBCE326A/prog/jars/DBF8632A-EC07-4434-A7D8-FB20CBCE326A-2.1.4.jar",
+      "bytes": 2432866,
+      "sha256": "0c02ad9bb3d67c8ae783e1478b95d08661b344924957c3a3833b42daf2eabf1b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM27/xlets/DBF8632A-EC07-4434-A7D8-FB20CBCE326A/prog/jars/key.jar",
+      "bytes": 75491,
+      "sha256": "7762ef8ed2b7ba4eed0122e65cb1a56c8ea58c7543b36047c70538f601150677"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM3/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72E/prog/jars/A7A4B215-9B5A-7DAA-457C-15545178E72E.jar",
+      "bytes": 707774,
+      "sha256": "f0910ae0eaf6b881ef61fa42d20836823adaad9d1f0747aecc660cfb631c34d0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM3/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72E/prog/jars/key.jar",
+      "bytes": 21861,
+      "sha256": "9cd829cd8d214669422b2bac9cd5ebeec4a04c9209aafeb645e382868996b028"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM3/xlets/B7A4B215-9B5A-7DAA-457C-15545178E72E/prog/jars/B7A4B215-9B5A-7DAA-457C-15545178E72E.jar",
+      "bytes": 277311,
+      "sha256": "4edcbcddd1f6e0bf9ebda97d33899d3081d6a446bac045fb80cc08313f209105"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM3/xlets/B7A4B215-9B5A-7DAA-457C-15545178E72E/prog/jars/key.jar",
+      "bytes": 5560,
+      "sha256": "cb3cd5291c00f67c675eab8d6340616400c0aad4037e260f063872e0e67d1be7"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM3/xlets/c1d77320-6335-48b2-aa22-21912f657311/prog/jars/c1d77320-6335-48b2-aa22-21912f657311.jar",
+      "bytes": 836379,
+      "sha256": "bcc4b7de1c7aad3c683c2831ef7f9d2b79e557d2c8bf1a2c6d2b7c252bc187d9"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM3/xlets/c1d77320-6335-48b2-aa22-21912f657311/prog/jars/key.jar",
+      "bytes": 39080,
+      "sha256": "13a2d3c861e6b02f61b1c86e5770b8766e64489604fc66e06b4daed7b4852202"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/DRM.jar",
+      "bytes": 3137,
+      "sha256": "c58048e281a0698d290bf21a9b13b2c79d74846c42eacbf33f08df1c88ef2da2"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/1D5347C0-8B5E-11E2-9E96-0800200C9A66.jar",
+      "bytes": 2358843,
+      "sha256": "dd6fbc8de19bfd43d9ff081aefc553c678be004b570c78cb35f544835fd8107e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 21933,
+      "sha256": "dd272293f4329d9bc56e89fe6f5ca3e9595e8cd690c8050f6301b5b4213973f3"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/1efb8b70-1ab5-11e1-bddb-0800200c9a66/prog/jars/ROC-326-FIT.jar",
+      "bytes": 700271,
+      "sha256": "8e349ee2e9c193220a17bac35d6b0ec4bd4dead749c8386b37f4ebc3765a2574"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/1efb8b70-1ab5-11e1-bddb-0800200c9a66/prog/jars/key.jar",
+      "bytes": 46760,
+      "sha256": "52566a9e4799b0ce350fc89ff464f1fac8c2a520efd7d8dba6ae898b26d6d516"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DrmSync_vsb_FIT_03.01.1.jar",
+      "bytes": 219979,
+      "sha256": "a64a66b421b4034fd4bba08ccab7b9cf02e0de83ae8f67d24c03c62a542f67ab"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 9952,
+      "sha256": "7785c98823078177c6f15d838501618aa0d7888c67676739ad82a0ff3ab48b09"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/3bbeae36-1542-11e1-b393-31614824019b.jar",
+      "bytes": 2710961,
+      "sha256": "678a80555384fd31dbc90c17396241da49dbaee21d00e90da12f3b33a3d678e2"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 55383,
+      "sha256": "e8b52b92721c744d1f2910040de7b51d0ae0df7413edb069335173535820ab43"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/550e8400-e29b-41d4-a716-446655440000.jar",
+      "bytes": 2296941,
+      "sha256": "0314506af8c5b3e760b5b59bd8cb471422eb4696c3bbfbd096588ae668982fb3"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 21698,
+      "sha256": "478db62383c282951ca0f75f21402498ece7bb8659f21383843653ccc06ce53b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/A7A4B215-9B5A-7DAA-457C-15545178E72F.jar",
+      "bytes": 2164883,
+      "sha256": "0c771ac5fd9b89543434a32af4c9a00a8429ec408ce857a6be4b8cec2c9213d4"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 16097,
+      "sha256": "ec69adbe61a8df09976b8eee7a125176399130b38357cf27ef0547a3abd151f9"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/SDPClient-326-FIT.jar",
+      "bytes": 872399,
+      "sha256": "30174f4ce2ce6791e7a5171e18ed27372aca83ac4d13fad90c119eecd95f303a"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM4/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 53167,
+      "sha256": "1789064c5d844a954f8c008c8898dbcdf001850548704c3ca68c73de164f0ba7"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM5/DRM.jar",
+      "bytes": 2798,
+      "sha256": "1056af3d2b4f3e3089da97427d9137554d8bdd16e071deac93f164f23f0360a3"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM5/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/6BFD02C0-40C3-11E2-A25F-0800200C9A66.jar",
+      "bytes": 6329522,
+      "sha256": "e3821952d36e00b4850a87e284c971926d0a041a77cb84a34e841d9d01c3fa3e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM5/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "bytes": 111682,
+      "sha256": "58efde82a2a8ba0154ac176c22dbe5d45912681756ea56f7a3641d0438adee55"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM6/DRM.jar",
+      "bytes": 2414,
+      "sha256": "78a226990a00f7eb05803d91645aa2c961066a291adcc271c07d7618cee8f093"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM6/xlets/100/prog/jars/100.jar",
+      "bytes": 1530514,
+      "sha256": "3534bea95f9c789203d4328968b7a8c063f3920d4d96ae5a734d78e7933dc878"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM6/xlets/100/prog/jars/key.jar",
+      "bytes": 68531,
+      "sha256": "54da2cacb30bf533547fdbe86c7fe0e68c282e5706a59e38092e80788285b88c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM6/xlets/999/prog/jars/999.jar",
+      "bytes": 138277,
+      "sha256": "88d213b1ec6e144826dea033b0398744b2cf9fe83fbc9e3554ddc03bd45d6e55"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM6/xlets/999/prog/jars/key.jar",
+      "bytes": 12814,
+      "sha256": "70379f67b37de6bb30714ac0192b897e087bd009c5f6ae8c4d9b9b598d8e49f0"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM7/DRM.jar",
+      "bytes": 2824,
+      "sha256": "0832cc4eb9e319eef4c707518c26499f3e00692dbc5686c9a01bb8f5fbdb6d0c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM8/DRM.jar",
+      "bytes": 2713,
+      "sha256": "ca641e67bfdc5e66821e9fac3c4e63a1917ccb19ff337fd95f3785859af99b12"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM8/xlets/DBF8632A-EC07-4434-A7D8-FB20CBCE326A/prog/jars/DBF8632A-EC07-4434-A7D8-FB20CBCE326A.jar",
+      "bytes": 870684,
+      "sha256": "73e834fcc020f10525ab1060b26c2d29e50eba6f596bd2ee136dd3f3c31b9038"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM8/xlets/DBF8632A-EC07-4434-A7D8-FB20CBCE326A/prog/jars/key.jar",
+      "bytes": 38732,
+      "sha256": "3bd0f9eb4f9442e968e5271631933b6e762c38a66cae5540f19d8f4e3ae708ed"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/DRM.jar",
+      "bytes": 2939,
+      "sha256": "08a10d65d09063f6f40831f80a38bddcdf984d511fc142228eb5b78b5e3da506"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/800X480_65_Yelp-v03.00.25_FIT.jar",
+      "bytes": 2353580,
+      "sha256": "59cd8780dca6c80b67c49d54998b572d522c34c54a5f6532477cef56cc9a6649"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "bytes": 21675,
+      "sha256": "c01372523d8d9ee4a2aee55bf5e9680ef1ee8475dc6cb963ad1ab47401cc069f"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.06_FIT.jar",
+      "bytes": 528531,
+      "sha256": "3b06e0d2286b21d3fcd743739c8cb748a3487403ca201862089df493abc5a17c"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "bytes": 25429,
+      "sha256": "2165cc4f574bc06601564368109dad9119247715065e2f4d74d28a4ed220a30b"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/800X480_65_Assist_VSB-04.00.09_FIT.jar",
+      "bytes": 2393965,
+      "sha256": "9e4343061ccdd43727767dc2145639b954e049d353ae4f8169f5aa588ec12128"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "bytes": 30566,
+      "sha256": "780a3cf70961efaf7c5a7da8521e18cb77b1d50e1a4fade097c01bf58e1b2d28"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/800X480_65_UconnectStore-v02.33.02_FIT.jar",
+      "bytes": 2328925,
+      "sha256": "31f0ada1b45e848fe2e66d085d50c83854dfd0ee8f0260259b27f5767bb4d572"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "bytes": 21472,
+      "sha256": "64855e55174c9cdd3fd9768e5afa4ef73795720d4cf2accd68639c130d6020b6"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/800X480_65_UconnectRegistration-v02.02.06_FIT.jar",
+      "bytes": 2174384,
+      "sha256": "50b8fd2549679fc06e56507ff61fb972305ce725bd3942684b9df5e43714df8e"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "bytes": 16074,
+      "sha256": "c3b91ec314d88743f1251c4c7fb27e84ce3a0416cffdcf820ec5f65bde312be1"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.18_FIT.jar",
+      "bytes": 652617,
+      "sha256": "a5e5d1033d82728042b34642f59c8552f7026ec0028df8af6aed6b0e95044aa8"
+    },
+    {
+      "artifact": "resident/kim_packages/KIM9/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "bytes": 34491,
+      "sha256": "b8f117b24e01df85f266ebb3660a0ffe8320a5ed4ec6fe68e7313af68b0d8f2e"
+    }
+  ],
+  "schema_version": 1,
+  "tool_version": "1.0"
+}

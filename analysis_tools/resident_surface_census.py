@@ -352,6 +352,77 @@ def _root_categories(model: ClassModel, method_name: str) -> tuple[str, ...]:
     ) if category in categories)
 
 
+def resolve_focus_dispatch_candidates(
+    models_by_name: Mapping[str, ClassModel], focus_class: str,
+) -> list[tuple[str, str, str, int, str, str, str, str]]:
+    """Resolve virtual calls to focus overrides without claiming runtime dispatch.
+
+    The result is deliberately labelled as a candidate.  It establishes the
+    structural consumer path which a direct constant-pool owner would otherwise
+    hide, but it does not prove the receiver's runtime type.
+    """
+    focus = models_by_name.get(focus_class)
+    if focus is None:
+        return []
+    ancestors: set[str] = set()
+    pending = [focus.super_name, *focus.interfaces]
+    while pending:
+        owner = pending.pop()
+        if owner is None or owner in ancestors:
+            continue
+        ancestors.add(owner)
+        model = models_by_name.get(owner)
+        if model is not None:
+            pending.extend((model.super_name, *model.interfaces))
+    overrides = {
+        (method.name, method.descriptor)
+        for method in focus.methods
+        if method.name not in ("<init>", "<clinit>")
+    }
+    candidates = []
+    for caller_name, caller in sorted(models_by_name.items()):
+        for method in caller.methods:
+            for edge in method.member_edges:
+                if (
+                    edge.kind in ("invoke_virtual", "invoke_interface")
+                    and edge.owner in ancestors
+                    and (edge.name, edge.descriptor) in overrides
+                ):
+                    relation = (
+                        "superclass_virtual_override_candidate"
+                        if edge.kind == "invoke_virtual"
+                        else "interface_override_candidate"
+                    )
+                    candidates.append((
+                        caller_name, method.name, method.descriptor, edge.offset,
+                        focus_class, edge.name, edge.descriptor, relation,
+                    ))
+    return sorted(candidates)
+
+
+def _method_details(method: Any) -> dict[str, Any]:
+    return {
+        "name": method.name,
+        "descriptor": method.descriptor,
+        "access_flags": method.access_flags,
+        "native": method.is_native,
+        "abstract": method.is_abstract,
+        "instructions": [
+            {
+                "offset": instruction.offset,
+                "mnemonic": instruction.mnemonic,
+                "operands": list(instruction.operands),
+                "targets": list(instruction.target_offsets),
+            }
+            for instruction in method.instructions
+        ],
+        "member_edges": [asdict(edge) for edge in method.member_edges],
+        "type_edges": [asdict(edge) for edge in method.type_edges],
+        "literal_edges": [asdict(edge) for edge in method.literal_edges],
+        "exception_handlers": [asdict(handler) for handler in method.exception_handlers],
+    }
+
+
 def _focus_model(model: ClassModel) -> dict[str, Any]:
     return {
         "name": model.name,
@@ -368,29 +439,7 @@ def _focus_model(model: ClassModel) -> dict[str, Any]:
             }
             for field in model.fields
         ],
-        "methods": [
-            {
-                "name": method.name,
-                "descriptor": method.descriptor,
-                "access_flags": method.access_flags,
-                "native": method.is_native,
-                "abstract": method.is_abstract,
-                "instructions": [
-                    {
-                        "offset": instruction.offset,
-                        "mnemonic": instruction.mnemonic,
-                        "operands": list(instruction.operands),
-                        "targets": list(instruction.target_offsets),
-                    }
-                    for instruction in method.instructions
-                ],
-                "member_edges": [asdict(edge) for edge in method.member_edges],
-                "type_edges": [asdict(edge) for edge in method.type_edges],
-                "literal_edges": [asdict(edge) for edge in method.literal_edges],
-                "exception_handlers": [asdict(handler) for handler in method.exception_handlers],
-            }
-            for method in model.methods
-        ],
+        "methods": [_method_details(method) for method in model.methods],
         "class_references": list(model.class_references),
         "string_constants": list(model.string_constants),
     }
@@ -567,6 +616,10 @@ def census_roots(
         except (OSError, zipfile.BadZipFile, RuntimeError) as error:
             errors.append({"artifact": artifact, "message": f"archive error: {error}"})
 
+    for occurrence in occurrences:
+        model = models_by_hash.get(occurrence["sha256"])
+        if model is not None:
+            occurrence["class"] = model.name
     occurrences.sort(key=lambda row: (row["artifact"], row["member"], row["sha256"]))
     focus_occurrences = []
     focus_hashes = []
@@ -583,32 +636,15 @@ def census_roots(
         if parse_failures:
             raise ValueError(f"focus class failed to parse: {focus_class}")
 
-    nodes: dict[str, MethodNode] = {}
-    call_edges: list[CallEdge] = []
-    edge_rows: list[dict[str, Any]] = []
     surfaces = []
-    unresolved_dispatch = []
-    class_name_hashes: dict[str, set[str]] = {}
     for digest, model in sorted(models_by_hash.items(), key=lambda item: (item[1].name, item[0])):
-        class_name_hashes.setdefault(model.name, set()).add(digest)
         artifact, member = first_source_by_hash[digest]
         for method in model.methods:
             identifier = _method_id(model.name, method.name, method.descriptor)
-            if identifier not in nodes:
-                nodes[identifier] = MethodNode(
-                    identifier, model.name, method.name, method.descriptor,
-                    _root_categories(model, method.name),
-                    (_source(artifact, member, 0, "parsed_structure"),),
-                )
             for edge in method.member_edges:
-                if not edge.kind.startswith("invoke"):
-                    categories = classify_reference(
-                        edge.owner, edge.name, edge.descriptor, model.name
-                    )
-                else:
-                    categories = classify_reference(
-                        edge.owner, edge.name, edge.descriptor, model.name
-                    )
+                categories = classify_reference(
+                    edge.owner, edge.name, edge.descriptor, model.name
+                )
                 for category in categories:
                     surfaces.append(_surface(
                         category=category, class_name=model.name,
@@ -616,27 +652,6 @@ def census_roots(
                         offset=edge.offset,
                         reference=f"{edge.owner}#{edge.name}{edge.descriptor}",
                     ))
-
-    for digest, model in sorted(models_by_hash.items(), key=lambda item: (item[1].name, item[0])):
-        artifact, member = first_source_by_hash[digest]
-        for method in model.methods:
-            caller = _method_id(model.name, method.name, method.descriptor)
-            for edge in method.member_edges:
-                if not edge.kind.startswith("invoke"):
-                    continue
-                callee = _method_id(edge.owner, edge.name, edge.descriptor)
-                resolved = callee in nodes and len(class_name_hashes.get(edge.owner, ())) == 1
-                call = CallEdge(
-                    caller, callee, edge.kind, resolved,
-                    _source(artifact, member, edge.offset),
-                )
-                call_edges.append(call)
-                edge_rows.append({
-                    "caller": caller, "callee": callee, "kind": edge.kind,
-                    "resolved": resolved, "source": dict(call.source or {}),
-                })
-                if not resolved and edge.kind in ("invoke_virtual", "invoke_interface", "invoke_dynamic"):
-                    unresolved_dispatch.append(edge_rows[-1])
 
     for resource in resource_records:
         for configured_class in resource.get("configured_classes", []):
@@ -647,64 +662,190 @@ def census_roots(
                 reference=configured_class.replace(".", "/"),
             ))
 
-    graph = ActivationGraph.from_iterables(nodes.values(), call_edges)
-    relevant = set()
+    occurrences_by_artifact: dict[str, list[dict[str, Any]]] = {}
+    for occurrence in occurrences:
+        if "class" in occurrence:
+            occurrences_by_artifact.setdefault(occurrence["artifact"], []).append(occurrence)
+
+    focus_references = []
     if focus_class:
+        for occurrence in occurrences:
+            model = models_by_hash.get(occurrence["sha256"])
+            if model is None or model.name == focus_class:
+                continue
+            reference_kinds = []
+            if focus_class in model.class_references:
+                reference_kinds.append("constant_pool_class")
+            if focus_class.replace("/", ".") in model.string_constants:
+                reference_kinds.append("constant_string")
+            for method in model.methods:
+                if any(edge.owner == focus_class for edge in method.member_edges):
+                    reference_kinds.append("bytecode_member")
+                if any(edge.owner == focus_class for edge in method.type_edges):
+                    reference_kinds.append("bytecode_type")
+                if any(
+                    edge.kind == "string_literal"
+                    and edge.value in (focus_class, focus_class.replace("/", "."))
+                    for edge in method.literal_edges
+                ):
+                    reference_kinds.append("loaded_class_name_string")
+            if reference_kinds:
+                focus_references.append({
+                    "class": model.name,
+                    "class_sha256": occurrence["sha256"],
+                    "artifact": occurrence["artifact"],
+                    "member": occurrence["member"],
+                    "reference_kinds": sorted(set(reference_kinds)),
+                })
+
+    focus_artifacts = sorted({row["artifact"] for row in focus_occurrences})
+    focus_nodes: dict[str, MethodNode] = {}
+    focus_edges: list[CallEdge] = []
+    focus_edge_rows = []
+    focus_dispatch_candidates = []
+    focus_context: dict[str, tuple[str, ClassModel, Any, dict[str, Any]]] = {}
+    for artifact in focus_artifacts:
+        class_rows: dict[str, dict[str, Any]] = {}
+        for occurrence in occurrences_by_artifact.get(artifact, []):
+            class_name = occurrence["class"]
+            if class_name in class_rows:
+                errors.append({
+                    "artifact": artifact,
+                    "member": occurrence["member"],
+                    "message": f"duplicate class definition in archive: {class_name}",
+                })
+                continue
+            class_rows[class_name] = occurrence
+        for class_name, occurrence in sorted(class_rows.items()):
+            model = models_by_hash[occurrence["sha256"]]
+            for method in model.methods:
+                symbolic = _method_id(class_name, method.name, method.descriptor)
+                identifier = f"{artifact}!{symbolic}"
+                focus_nodes[identifier] = MethodNode(
+                    identifier, class_name, method.name, method.descriptor,
+                    _root_categories(model, method.name),
+                    (_source(artifact, occurrence["member"], 0, "parsed_structure"),),
+                )
+                focus_context[identifier] = (
+                    occurrence["sha256"], model, method, occurrence,
+                )
+        for class_name, occurrence in sorted(class_rows.items()):
+            model = models_by_hash[occurrence["sha256"]]
+            for method in model.methods:
+                caller_symbolic = _method_id(class_name, method.name, method.descriptor)
+                caller = f"{artifact}!{caller_symbolic}"
+                for edge in method.member_edges:
+                    if not edge.kind.startswith("invoke"):
+                        continue
+                    callee_symbolic = _method_id(edge.owner, edge.name, edge.descriptor)
+                    callee = f"{artifact}!{callee_symbolic}"
+                    resolved = callee in focus_nodes
+                    call = CallEdge(
+                        caller, callee, edge.kind, resolved,
+                        _source(artifact, occurrence["member"], edge.offset),
+                    )
+                    focus_edges.append(call)
+                    focus_edge_rows.append({
+                        "caller": caller,
+                        "callee": callee,
+                        "kind": edge.kind,
+                        "resolved": resolved,
+                        "dispatch": (
+                            "symbolic_candidate"
+                            if edge.kind in ("invoke_virtual", "invoke_interface")
+                            else "direct"
+                        ),
+                        "source": dict(call.source or {}),
+                    })
+        models_by_name = {
+            class_name: models_by_hash[occurrence["sha256"]]
+            for class_name, occurrence in class_rows.items()
+        }
+        for (
+            caller_class, caller_name, caller_descriptor, offset,
+            callee_class, callee_name, callee_descriptor, relation,
+        ) in resolve_focus_dispatch_candidates(models_by_name, focus_class or ""):
+            caller = f"{artifact}!{_method_id(caller_class, caller_name, caller_descriptor)}"
+            callee = f"{artifact}!{_method_id(callee_class, callee_name, callee_descriptor)}"
+            occurrence = class_rows[caller_class]
+            resolved = caller in focus_nodes and callee in focus_nodes
+            source = _source(artifact, occurrence["member"], offset)
+            call = CallEdge(caller, callee, relation, resolved, source)
+            focus_edges.append(call)
+            row = {
+                "caller": caller,
+                "callee": callee,
+                "kind": relation,
+                "resolved": resolved,
+                "dispatch": "structural_candidate_not_runtime_proof",
+                "source": dict(source),
+            }
+            focus_edge_rows.append(row)
+            focus_dispatch_candidates.append(row)
+
+    relevant: set[str] = set()
+    reverse_paths = []
+    ladder = {
+        state: {"classification": "UNKNOWN", "evidence": []}
+        for state in ACTIVATION_STATES
+    }
+    strong_components: list[list[str]] = []
+    if focus_nodes:
+        graph = ActivationGraph.from_iterables(focus_nodes.values(), focus_edges)
         relevant.update(
-            identifier for identifier, node in nodes.items()
+            identifier for identifier, node in focus_nodes.items()
             if node.class_name == focus_class
         )
         changed = True
         while changed:
             changed = False
-            for edge in call_edges:
+            for edge in focus_edges:
                 if edge.resolved and edge.callee in relevant and edge.caller not in relevant:
                     relevant.add(edge.caller)
                     changed = True
-    reverse_paths = []
-    for identifier in sorted(
-        value for value in relevant
-        if nodes[value].class_name == focus_class
-    ):
-        for path in graph.reverse_paths(identifier):
-            reverse_paths.append({
-                "target": identifier,
-                "nodes": list(path.nodes),
-                "edge_kinds": list(path.edge_kinds),
-                "root_categories": list(path.root_categories),
-            })
-    ladder = graph.activation_ladder(focus_class) if focus_class else {
-        state: {"classification": "UNKNOWN", "evidence": []}
-        for state in ACTIVATION_STATES
-    }
-
-    focus_references = []
-    if focus_class:
-        for digest, model in sorted(models_by_hash.items(), key=lambda item: (item[1].name, item[0])):
-            if model.name == focus_class:
-                continue
-            artifact, member = first_source_by_hash[digest]
-            reference_kinds = []
-            if focus_class in model.class_references:
-                reference_kinds.append("constant_pool_class")
-            for method in model.methods:
-                for edge in method.member_edges:
-                    if edge.owner == focus_class:
-                        reference_kinds.append("bytecode_member")
-                for edge in method.type_edges:
-                    if edge.owner == focus_class:
-                        reference_kinds.append("bytecode_type")
-            if reference_kinds:
-                focus_references.append({
-                    "class": model.name, "class_sha256": digest,
-                    "artifact": artifact, "member": member,
-                    "reference_kinds": sorted(set(reference_kinds)),
+        for identifier in sorted(
+            value for value in relevant
+            if focus_nodes[value].class_name == focus_class
+        ):
+            for path in graph.reverse_paths(identifier):
+                reverse_paths.append({
+                    "target": identifier,
+                    "nodes": list(path.nodes),
+                    "edge_kinds": list(path.edge_kinds),
+                    "root_categories": list(path.root_categories),
                 })
+        ladder = graph.activation_ladder(focus_class)
+        strong_components = [
+            list(component) for component in graph.strong_components()
+            if any(identifier in relevant for identifier in component)
+        ]
+
+    relevant_symbolic = {
+        _method_id(
+            focus_nodes[identifier].class_name,
+            focus_nodes[identifier].method_name,
+            focus_nodes[identifier].descriptor,
+        )
+        for identifier in relevant
+    }
+    context_methods = []
+    for identifier in sorted(relevant):
+        digest, model, method, occurrence = focus_context[identifier]
+        context_methods.append({
+            "id": identifier,
+            "artifact": occurrence["artifact"],
+            "member": occurrence["member"],
+            "class_sha256": digest,
+            "class": model.name,
+            "super_name": model.super_name,
+            "interfaces": list(model.interfaces),
+            **_method_details(method),
+        })
 
     if not broad:
         surfaces = [
             surface for surface in surfaces
-            if surface["method"] in relevant
+            if surface["method"] in relevant_symbolic
             or surface["component"] == focus_class
             or surface["reference"] == (focus_class or "")
         ]
@@ -753,19 +894,18 @@ def census_roots(
             if digest in models_by_hash
         ],
         "references": focus_references,
-        "nodes": [asdict(nodes[identifier]) for identifier in sorted(relevant)],
+        "dispatch_candidates": focus_dispatch_candidates,
+        "nodes": [asdict(focus_nodes[identifier]) for identifier in sorted(relevant)],
         "edges": [
-            row for row in edge_rows
+            row for row in focus_edge_rows
             if row["caller"] in relevant or row["callee"] in relevant
         ],
-        "strong_components": [
-            list(component) for component in graph.strong_components()
-            if any(identifier in relevant for identifier in component)
-        ],
+        "context_methods": context_methods,
+        "strong_components": strong_components,
         "reverse_paths": reverse_paths,
         "activation_ladder": ladder,
         "unresolved_dispatch": [
-            row for row in unresolved_dispatch
+            row for row in focus_edge_rows if not row["resolved"]
             if row["caller"] in relevant or row["callee"] in relevant
         ],
     }
