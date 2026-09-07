@@ -7,9 +7,11 @@ with origin after fetch. Read-only host artifact analysis; no target execution.
 
 Later qualification: the [quick-field trace](ra4_screen_quick_field_semantics.md)
 resolves D7/D0 as a fused local-zero receiver and segmented signed-byte read.
-Location 46 is not a constant-pool index or flat object offset. Its connection
-to a named field and a supported stop writer remains unproved. References to
-unresolved quick-op semantics below describe the earlier checkpoint.
+Location 46 is not a constant-pool index or flat object offset. The subsequent
+loader-based reconstruction maps it to pumpEvents with HIGH static confidence,
+corroborated by eight other getters. Its supported stop writer remains
+unproved. References to unresolved quick-op semantics and field identity below
+describe the earlier checkpoint.
 
 Later qualification: the [JNI registration trace](ra4_jni_registration_limit.md)
 proves that both recovered standard RegisterNatives entries call an aborting

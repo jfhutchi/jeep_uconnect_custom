@@ -20,7 +20,46 @@ jobs existed when this instruction was received. This restriction supersedes
 earlier CI-related expectations. Do not automatically enable or run Actions
 when the calendar changes without considering the owner's latest instructions.
 
-### Current checkpoint: 2026-09-06 Screen-loop quick-field semantics
+### Current checkpoint: 2026-09-06 pumpEvents layout reconstruction
+
+Started clean at `f26a3e7`; fetched origin with no divergence. The previous
+goal turn made concrete progress by resolving the accessor's read mechanics.
+This continuation reconstructs the named field and narrows its writer search.
+The full resident-first goal remains active; verification stays local.
+
+**HIGH:** the loader's selected type/packing rules applied to class 914's
+metadata assign pumpEvents to logical byte location 46, matching access$800.
+java/lang/Object contributes no declared fields; the seed is three logical
+words. Eight other quick getters corroborate the reconstructed layout.
+The loader reuses remaining small-field space, explaining why pumpEvents
+precedes ie in storage despite following it in declaration order. This is
+a cross-checked static reconstruction, not an observed live object layout.
+See the [expanded field-semantics report](reports/ra4_screen_quick_field_semantics.md).
+
+**STATIC_PROVED within the stated boundary:** all 30 inline bodies of the
+class decode, and the sole named putfield to pumpEvents is the constructor's
+true write. There is no false-writing named putfield in those bodies. Six
+non-inline methods, native/reflection/dynamic behavior, other classes and
+optional components remain outside that writer check. **UNKNOWN:** supported
+stop writer, cross-thread observation, effective native event release and
+stock input recovery. No immutable-flag, thread-leak or runtime-failure claim.
+
+Fresh checks reran the prior artifact chain and matched 64 new ARM anchors,
+eight table entries, superclass metadata, 14 instance locations, three static
+exclusions and nine getter comparisons including the target. All 30 inline
+bodies decoded with exactly the constructor write. No committed executable
+code change, target/phone test, provider contact or GitHub Actions run. The
+earlier 162-test suite remains historical. USB, engine, authorization,
+transport and resource gates are unchanged; external compute is not selected.
+All 79 local links across four changed Markdown files resolve; whitespace
+checks pass. The remote workflow remains the verified manual-only blob.
+
+Next useful boundary is the six non-inline methods and supported shared-screen
+ownership/lifetime contract. Do not repeat the completed quick-read or layout
+reconstruction without new evidence. A field location is not an integration
+API; native release and app Return remain independently unqualified.
+
+### Preceding checkpoint: 2026-09-06 Screen-loop quick-field semantics
 
 Started clean at `1ac0ba2`; fetched origin with no divergence on canonical
 `codex/ra4-driver-temperature`. The full resident-first goal remains active.

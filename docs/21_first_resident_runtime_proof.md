@@ -110,10 +110,13 @@ thread return, AWT detachment and successful native resource release.
 The [quick-field follow-up](../reports/ra4_screen_quick_field_semantics.md)
 resolves the loop accessor as a fused local-zero receiver and segmented byte
 read. Location 46 follows one object-block link and reads at +0x12 in the
-next block; its named-field binding and supported stop writer remain unproved.
-Qualify the lifecycle API rather than treating a recovered field location as
-a control interface. Visibility, cross-thread observation and completed native
-release still need their own evidence.
+next block. A loader-based reconstruction, corroborated by eight other getters,
+now maps this location to pumpEvents with HIGH static confidence. All 30 inline
+methods contain only its constructor's true write; the six non-inline methods
+and native/dynamic behavior remain outside that writer check. The supported
+stop writer remains unproved. Qualify the lifecycle API rather than treating
+a recovered field location as a control interface. Cross-thread observation
+and completed native release still need their own evidence.
 The event-loop/release report also traces AMS's dynamic symbol formatter and library
 lookup: zero AOT entries alone cannot reject dynamic binding, but ordinary
 short/signature-qualified lookup does not remove the observed class-name
