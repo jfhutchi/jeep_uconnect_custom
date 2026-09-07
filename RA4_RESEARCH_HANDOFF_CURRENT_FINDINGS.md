@@ -8,7 +8,54 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 queued worker and interruption consumer
+### Current checkpoint: 2026-09-06 native interruption request and cleanup escalation
+
+Started clean at `7faebed` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding worker trace was concrete progress.
+This continuation follows interruption requests and cleanup escalation; the
+full resident-first projection goal remains active.
+
+**STATIC_PROVED:** AIE.fire reaches RealtimeThread.interrupt, which checks
+isAlive and calls the native pending-AIE setter. Non-null setter calls reach
+Thread.interrupt0 and native interrupt-status update; null clears the pending
+reference without that request. A separate native accessor reads/clears the
+interrupt flag. These states do not acknowledge actual action exit.
+
+**STATIC_PROVED:** checkThreadTermination first requests blocking-I/O
+interruption through the permissioned group controller. Its native helper
+uses a VM mutex and conditionally invokes a registered callback. The Java
+caller then performs deadline-based joins, followed when necessary by AIE
+escalation, an exact TimerThread stop path, another 50 ms join per array entry,
+active-count recheck and reduced priority/error 20 for survivors. The initial
+I/O request and later join pass prevent treating the first deadline or stored
+200 timeout as an end-to-end completion bound. See the
+[interrupt/cleanup report](reports/ra4_ams_interrupt_request_cleanup.md).
+
+**UNKNOWN:** full interrupt delivery/defer behavior, I/O callback coverage and
+completion, total cleanup bound, late action activity and native display/input
+recovery. strictRTSJ reads a runtime field; its initializer/value remains
+unresolved after the bounded field search and recovered launch/config review.
+Generic RTSJ semantics are not promoted to build-specific proof. The partial
+ROM decoder's unsupported quick opcode in AIE.fire is explicitly retained as
+a limit; only verified invocation anchors are used from that body.
+
+The future resident proof now separates pending/interrupt state, I/O completion,
+both join stages, surviving app threads and context-finalization attempts.
+The next local boundary is the pending-AIE consumer and actual stock UI I/O
+callback registration/coverage. Legitimate SDK/package, USB topology, transport,
+engine/provider, native recovery and resource gates remain open or unchanged.
+No runtime gate passes, no measured local capability fails, and external compute
+is not selected.
+
+Fresh checks match three identities, six native method bindings, 53 ARM
+anchors, five complete inline bodies, 19 resolved invocations, two imports
+and three property literals. No committed code/test changed; the preceding
+162 host tests are historical. All 124 local links in seven changed Markdown
+files resolve. No radio/vehicle/phone execution, provider
+contact or protected payload commit occurred. PR #14 remains draft, main and
+PR #15 are preserved, and this checkpoint adds no target footprint.
+
+### Preceding checkpoint: 2026-09-06 queued worker and interruption consumer
 
 Started clean at `f3943db` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. The previous checkpoint made progress on AOT

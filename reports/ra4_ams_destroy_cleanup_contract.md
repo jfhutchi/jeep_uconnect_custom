@@ -164,12 +164,20 @@ AWT removal, recursive removeNotify, focus transfer and selected event cleanup.
 The factory can be replaced, and these Java operations do not establish native
 visibility/contact release or bounded completion under a shared UI lock hang.
 
-The next timeout boundary is equally specific: XletThread method 8 at record
+XletThread method 8 at record
+`0x5C73DF` was subsequently resolved in the
+[compiled timeout report](ra4_ams_aot_timeout_runner.md). The
+[interrupt/cleanup follow-up](ra4_ams_interrupt_request_cleanup.md) now details
+checkThreadTermination's I/O request before deadline checks, AIE escalation,
+TimerThread-specific stop, later 50 ms per-entry joins and residual-thread
+priority reduction before error 20. This does not prove an end-to-end deadline.
+
+ROM format boundary: XletThread method 8 at record
 `0x5C73DF` has no inline body, as does XletCallback's central
 `action(String,long,Runnable,boolean)` at `0x5C326E`. Partial parsing stops at
 unsupported ROM attributes rather than inventing instruction semantics. These
-boundaries remain AOT/native investigation targets; their absence from the
-inline bytecode is not absence from the installed executable.
+records required AOT/native lookup; their absence from inline bytecode is
+not absence from the installed executable.
 
 The [compiled timeout follow-up](ra4_ams_aot_timeout_runner.md) now maps the
 action runner to ARM `0x1AA05C` and its no-finally helper to `0x1A8EE8`.
@@ -186,9 +194,10 @@ removal, native visibility/input release and usable stock foreground. Record
 configured/effective timeout values separately from elapsed recovery time.
 Do not treat stop-and-restart as preservation of a healthy projection session.
 
-**Next bounded technical target:** identify the concrete XletMainFrame
-`removeChild` implementation and follow its native window/focus/input effects;
-then resolve the AOT action-with-timeout entry and its completion hooks.
+**Remaining technical boundary:** native window/focus/input effects, interrupt
+delivery, I/O callback coverage and bounded completion of the cleanup sequence.
+The conditional default frame and AOT action runner are now mapped by the
+linked follow-ups; those mappings do not establish live recovery.
 The provider still must qualify custom package authorization and shared-VM
 failure containment before any future bench trial.
 

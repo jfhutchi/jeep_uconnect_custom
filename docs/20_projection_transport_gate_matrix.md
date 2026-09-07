@@ -96,3 +96,11 @@ path marks done, notifies and returns to the worker queue. The caller's
 timeout fallback also sets done, so neither that flag nor raw AMS TIMEOUT
 certifies action exit. Late activity and cleanup overlap require separate
 evidence; no live overlap or measured interruption bound is established.
+
+The [interrupt/cleanup follow-up](../reports/ra4_ams_interrupt_request_cleanup.md)
+separates stored pending AIE, native interrupt status and actual action exit.
+It follows the group I/O-interruption request into a native callback under a
+VM mutex, then the cleanup caller's joins and escalation. The initial I/O
+request precedes deadline checks, and a later pass joins for 50 ms per array
+entry. Timer values and interrupt flags cannot certify a total recovery bound.
+Surviving threads can still lead to AMSError 20 and context-finalization attempts.

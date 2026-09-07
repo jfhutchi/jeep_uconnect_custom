@@ -84,6 +84,12 @@ shows that both worker return and the caller's timeout fallback can set the
 same done flag. The worker normally continues to its queue after an action.
 Require evidence of actual action exit, interruption/fallback origin and late
 activity, distinguishing worker reuse from app-created thread termination.
+The [interrupt/cleanup trace](../reports/ra4_ams_interrupt_request_cleanup.md)
+also distinguishes pending AIE and native interrupt status from action exit.
+Group cleanup requests blocking-I/O interruption before checking its join
+deadline, then has another join pass during escalation. Qualify the supported
+native-I/O cancellation contract and observe total cleanup time; a configured
+thread timeout does not cover the whole sequence by itself.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
@@ -199,6 +205,13 @@ This sequence is a design; there are no executable radio commands here.
    that late work cannot reacquire display/input or access disposed app
    resources. A continuing stock action worker is distinct from surviving
    app-created threads; record both without requiring the shared worker to die.
+   Distinguish pending AIE, native interrupt status, blocking-I/O request
+   completion, deadline-based joins and the later escalation joins. Observe
+   total elapsed cleanup, surviving app threads and context finalization even
+   on error 20. The supported native-I/O contract must cover the app's actual
+   operations and cancellation callbacks; do not register an unqualified native
+   hook or infer cancellation success from a flag. Shared mutex acquisition
+   and callback completion need their own containment evidence.
    Identify the effective main-frame implementation and observe child detachment
    and Java focus cleanup separately from native contact cancellation. Supplier
    isolation evidence must cover shared AWT locks as well as app lifecycle calls;

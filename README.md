@@ -14,6 +14,7 @@ Current decision artifacts: [transport gate matrix](docs/20_projection_transport
 [Xlet container removal and Java focus cleanup](reports/ra4_xlet_container_focus_cleanup.md),
 [compiled AMS timeout runner and finally dispatch](reports/ra4_ams_aot_timeout_runner.md),
 [queued worker interruption and completion-flag limits](reports/ra4_ams_worker_interruption.md),
+[interruption requests and thread-cleanup escalation](reports/ra4_ams_interrupt_request_cleanup.md),
 and [first future resident proof](docs/21_first_resident_runtime_proof.md).
 The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
 canonical draft PR status. No radio deployment is authorized by these reports.

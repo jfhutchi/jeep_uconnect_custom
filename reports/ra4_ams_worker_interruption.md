@@ -155,3 +155,10 @@ The pointer/table words were verified as data, not disassembled instructions.
 No committed implementation or test changed in this documentation checkpoint;
 the preceding 162-test host result is historical, not a new target proof.
 All 114 local links across the six changed Markdown files resolve.
+
+Follow-up: the [native interrupt request and cleanup escalation](ra4_ams_interrupt_request_cleanup.md)
+trace now separates pending AIE and native interrupt status, follows the
+group's blocking-I/O request into native callback dispatch, and identifies
+deadline-based joins followed by another per-entry join pass. Request-side
+state and configured timeout values still cannot certify action exit or total
+native recovery time.
