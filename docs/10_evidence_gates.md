@@ -11,36 +11,46 @@ be committed.
 
 ## Current next-action decision
 
-The highest-value next input is an approved RA4/QNX 6.5/Kona build or package
+The highest-value external input is an issuer-supported RA4 package/identity
 contract, not another repetition of the completed firmware census. The
 [transport matrix](20_projection_transport_gate_matrix.md) still has no RA4
 runtime pass, and the [engine qualification](11_projection_engine_feasibility.md)
-has no confirmed compatible receiver build. Further static lifecycle work can
-refine requirements but cannot supply a toolchain entitlement, approved package
-identity, provider support or observed stock recovery.
+has no confirmed compatible receiver build. Host Java compilation is a separate
+local task; it cannot supply an approved package identity, provider support or
+observed stock recovery.
 
 The 2026-09-07 host audit at `930fffd` found no qcc, q++ or javac on the
 current process PATH and no QNX_HOST/QNX_TARGET configuration. This is a
-bounded environment observation, not proof that no SDK exists elsewhere on
-the owner's machine. No approved SDK/provider-document location has been
-supplied for this continuation. Inspect such a location read-only when provided;
-do not install a generic newer QNX SDK and infer RA4 compatibility.
+bounded environment observation, not an application requirement. **PROVED:**
+the selected stock applications contain ordinary classfiles in ordinary JARs,
+with observed classfile majors 48 and 49, and AMS loads them through the Xlet
+classloader path. **INFERRED:** an ordinary host compiler that emits the chosen
+observed version plus independently reconstructed declaration-only API stubs is
+sufficient for the original Java Hello source. **UNKNOWN:** target acceptance
+of any independently issued package identity and its effective permissions.
 
 Keep the next inputs small and separate their effects:
 
 | New evidence | Minimum useful content | Work it unlocks |
 | --- | --- | --- |
-| Authorized compatible build kit | Exact QNX 6.5 ARM32 little-endian/Kona target support, compiler/runtime version, permitted API stubs/headers/libraries and build-use scope | Original host compilation and dependency/size inspection of the no-engine shell; no target execution |
+| Ordinary Java host compiler | Deterministic classfile-major-48 output, exact compile-only declarations for referenced runtime APIs and a bytecode/dependency audit | Original Java Xlet compilation and host artifact inspection; no package acceptance or target execution |
+| Later native ABI environment, only if justified | QNX 6.5-compatible ARM32 little-endian ABI, startup objects, linker contract and exact imported libraries/symbol versions | A future native component; qcc itself is not yet proved indispensable and no native component is required for Hello |
 | Issuer-supported package route | Accepted schema and entry point, non-autostart semantics, allowed app identity/permissions, supported signing/issuance process and install/uninstall format | Reviewable package integration using that documented route; no credential material is needed in Git or chat |
 | Supported lifecycle/ownership contract | Effective frame/device ownership, permitted foreground/Return action, pause policy, app-only failure containment, raw errors versus completed cleanup and independent stock input recovery | Complete the resident test's integration and acceptance design; a separate bench authorization is still required |
 | Existing passive C2 topology evidence | Identified unpowered C2 D+/D- net through board connectors to an identified PHY/controller on authorized spare hardware, or equivalent existing correlated topology evidence | Select the cabin host path without inferring it from generic port numbers; does not pass AOA transport |
 | Authorized receiver/provider response | Separate Android Auto/CarPlay component manifests, exact ABI, permitted transport/video/audio interfaces, rights and target resource figures | Evaluate the actual local engine; neither PC DHU nor a generic QNX product description substitutes |
 
-The first host compile does not require a phone engine or a physical radio.
-It does require a real compatible build kit and API contract; compiling an
-invented shim against the host platform would not close that gate. Package
-assembly, target execution and full engine qualification are later, separate
-decisions. The <=3 MB no-engine and <=15 MB full-product caps remain unchanged.
+The Java host compile does not require a complete Kona or QNX build kit. It
+requires a conventional compiler capable of emitting observed classfile version
+48 or 49, compile-only declarations for the exact referenced runtime APIs, and
+a dependency/bytecode audit. The declarations are not a vendor SDK and must
+never be bundled as implementations. **PROVED:** custom native code is not
+required for the first resident proof. If native code is later justified, a
+QNX 6.5-compatible ABI/link environment is required; qcc itself is not yet
+proved indispensable. Package acceptance, signing/identity, entitlement,
+install/uninstall, foreground ownership and target recovery remain separate
+external or runtime gates. The <=3 MB no-engine and <=15 MB full-product caps
+remain unchanged.
 
 The provider questions already exist in the engine report; no provider has
 been contacted. A location for existing authorized materials can unlock the
@@ -55,7 +65,7 @@ runtime pass. Remaining static questions are not declared universally solved.
 | --- | --- | --- |
 | LOCAL_EXECUTION_RECOVERY | Closed 2026-09-06: Python, Node, static inspection and WSL C99 execution work | See post-reboot checkpoint; recovered artifacts remain outside Git |
 | ARTIFACT_NOT_FOUND | Required historical evidence was not found in the image/recovered files | Search existing off-radio copies and backups; do not create high-volume radio logs |
-| LEGITIMATE_CONTRACT_REQUIRED | A compatible backend, SDK, package identity or supported policy API is not present in the recovered corpus | Obtain authorized vendor/provider documentation or implementation; do not guess wire fields or bypass authentication |
+| LEGITIMATE_CONTRACT_REQUIRED | A compatible backend, accepted package identity or supported policy API is not present in the recovered corpus | Obtain authorized vendor/provider documentation or implementation; independently reconstructed compile declarations do not answer authentication or runtime-policy questions |
 | SPARE_HARDWARE_REQUIRED | Static/model evidence cannot prove runtime priority, timing, resource use or crash fallback | Use only a separately authorized spare RA4 bench after the lifecycle gate is legitimate |
 | MEASUREMENT_REQUIRED | A build or runtime exists but exact bytes/CPU/RAM/latency are unknown | Measure before accepting the feature; never consume the 45 MB stock reserve |
 
@@ -247,10 +257,11 @@ remains required.
 | Gate D spare bench | OEM-style foreground/camera/overlay/fallback acceptance |
 | Gate E measurements | resident engine acceptance or evidence-backed external classification |
 
-Until these gates are satisfied, the current deliverable is an evidence-backed
-architecture and tested host policy model, not a deployable RA4 product. This
-manifest turns each unknown into a named artifact, interface or measurement and
-prevents an unknown from being silently implemented as an assumption.
+Until these gates are satisfied, the current deliverable includes an
+evidence-backed architecture, tested host policy model and independently
+authored major-48 Hello Xlet, but not a deployable RA4 product. This manifest
+turns each unknown into a named artifact, interface or measurement and prevents
+an unknown from being silently implemented as an assumption.
 
 ## Resource effect
 

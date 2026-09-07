@@ -1,14 +1,18 @@
 # First future resident runtime proof: original, manual, no engine
 
-Date: 2026-09-06. **Specification only. No target package has been created,
-authorized, deployed or executed.** Work remains on the host until the gates
-below are resolved and a future target experiment is separately authorized.
+Date: 2026-09-07. **Host artifact only. No accepted target package has been
+created, authorized, deployed or executed.** Work remains on the host until the
+gates below are resolved and a future target experiment is separately authorized.
 
 The [next-action decision](10_evidence_gates.md#current-next-action-decision)
-lists the minimum inputs that separately unlock host compilation, package
-integration and a future bench trial. A compatible approved build kit can
-advance the original host build before a receiver engine is available; it
+separates Java source compilation, any later native ABI work, package
+authentication and a future bench trial. The host Java artifact can be built
+before a receiver engine or issuer-supported package route is available; it
 does not authorize target execution or pass a runtime acceptance gate.
+The reproducible source, compile-only declarations and validator are now in
+[`prototype/hello_uconnect`](../prototype/hello_uconnect/README.md); the exact
+host result and remaining gate are recorded in the
+[Hello artifact report](../reports/hello_uconnect_host_artifact.md).
 
 ## Artifact and package lane
 
@@ -162,7 +166,8 @@ qualify a supported isolated native package rather than injecting a surface.
 | Prerequisite | Evidence required before proceeding | Current status |
 | --- | --- | --- |
 | Legitimate package identity | Issuer-approved package schema, signer identity, permission set, target release and any required entitlement/developer identity | EXTERNAL_PROVIDER_GATE |
-| Compatible build | Authorized QNX 6.5 ARM32 / Kona toolchain and API stubs; reproducible source build; documented permitted stock dependencies | EXTERNAL_PROVIDER_GATE |
+| Java host compile | Conventional compiler emitting observed classfile major 48 or 49; exact declaration-only compile API; reproducible source build and bytecode/dependency audit | HOST_PROVED at conservative observed major 48; no target acceptance implied |
+| Native build, if later justified | QNX 6.5-compatible ARM32 ABI/link contract, startup objects and exact imported library/symbol contract; qcc itself is not proved indispensable | NOT REQUIRED for Hello; future conditional gate |
 | Stock install/register/uninstall | Exact supplier-supported interfaces and acknowledgments, non-autostart descriptor semantics and per-app rollback contract | STATIC_PROVED stock chain; UNKNOWN custom runtime |
 | Manual launch | Package appears in stock `getAppList`; ordinary Apps entry uses factory DRM-checked launch | STATIC_PROVED stock route; UNKNOWN custom acceptance |
 | View and input | Supported app-owned 640x480 area, focus/release semantics and identity recognized by stock foreground arbiter | STATIC_PROVED stock Xlet/AWT/LWUIT calls and AMS metadata; UNKNOWN custom dimensions, permission and arbitration |
@@ -173,14 +178,28 @@ qualify a supported isolated native package rather than injecting a surface.
 | Recovery authority | Supported app-specific stop/uninstall remains reachable without the custom view or process; raw errors, parse validity, normalized result and registry/data reconciliation documented | STATIC_PROVED callback/state bookkeeping can advance despite errors; UNKNOWN completed runtime rollback |
 | Experiment setting | Owner-authorized spare bench unit and supplier-supported camera/critical-state validation method, stable power and recovery provisions | External prerequisite; no vehicle operation authorized here |
 
-Expected semantic APIs: Xlet initialize/start/pause/destroy lifecycle, authorized
-AppManager install/list/start/stop/uninstall, stock app identity and foreground
-request/loss notifications, permitted view create/draw/input/release, and
-bounded app-local state if needed. The view trace records observed Java method
-signatures, but a compatible SDK must confirm their supported use, lifecycle
-and permissions. The stock Java `appMgr` permission identifier is observed;
-custom grants, native surface handles, bounded IPC completion and independent
-foreground/input reclaim remain unresolved.
+**PROVED:** the selected stock classfiles establish the Xlet
+initialize/start/pause/destroy signatures and the referenced AWT/LWUIT member
+descriptors needed to compile the minimal Hello surface. **INFERRED:** a normal
+Java compiler plus clean-room declaration-only stubs is sufficient for source
+compilation; the declarations neither recreate vendor implementation code nor
+constitute a distributable Kona SDK. **UNKNOWN:** whether a newly issued identity
+may use those APIs with the necessary lifecycle, display and input permissions
+on the target. Authorized AppManager install/list/start/stop/uninstall, stock app
+identity and foreground request/loss notifications, bounded IPC completion and
+independent foreground/input reclaim remain package/runtime gates. The stock
+Java `appMgr` permission identifier is observed and must not be referenced or
+requested by this proof.
+
+The Java host compile therefore does not require a complete Kona or QNX build
+kit. It requires a conventional compiler capable of emitting observed classfile
+version 48 or 49, compile-only declarations for the exact referenced runtime
+APIs, and a dependency/bytecode audit. Custom native code is not required for
+the first resident proof. If native code is later justified, a QNX
+6.5-compatible ABI/link environment is required, but qcc itself is not yet
+proved indispensable. Package acceptance, signing/identity, entitlement,
+install/uninstall, foreground ownership and target recovery remain separate
+external or runtime gates.
 
 ## Installed-size estimate and resource accounting
 
