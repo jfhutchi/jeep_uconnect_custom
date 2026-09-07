@@ -78,3 +78,9 @@ removal calls, including selected exception paths. The timeout action runner
 has no inline ROM body; completed native visibility/input recovery and the
 effective deadlines remain UNKNOWN. These findings narrow resident recovery
 requirements without changing any USB, transport or engine gate.
+
+The [container/focus trace](../reports/ra4_xlet_container_focus_cleanup.md) now
+follows the default frame through AWT detachment, recursive removeNotify,
+conditional focus transfer and selected event cleanup. It preserves the
+distinction between Java focus/mouse state and native input contacts; shared
+window visibility and usable stock foreground still require separate evidence.

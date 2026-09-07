@@ -158,6 +158,12 @@ not a claim about when garbage collection might invoke a Java finalizer.
 The concrete main-frame implementation and its native presentation/input
 effects still need tracing.
 
+The [container/focus follow-up](ra4_xlet_container_focus_cleanup.md) now resolves
+the conditional default implementation: UndecoratedXletMainFrame delegates to
+AWT removal, recursive removeNotify, focus transfer and selected event cleanup.
+The factory can be replaced, and these Java operations do not establish native
+visibility/contact release or bounded completion under a shared UI lock hang.
+
 The next timeout boundary is equally specific: XletThread method 8 at record
 `0x5C73DF` has no inline body, as does XletCallback's central
 `action(String,long,Runnable,boolean)` at `0x5C326E`. Partial parsing stops at

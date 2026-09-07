@@ -8,7 +8,58 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 AMS destroy and container cleanup
+### Current checkpoint: 2026-09-06 default frame and Java focus cleanup
+
+Started clean at `a658023` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding turn made progress on AMS destroy
+and explicit container-removal calls. This continuation resolves the conditional
+default implementation and its focus/event behavior. The full goal remains active.
+
+**STATIC_PROVED:** AMS selects UndecoratedXletMainFrame's factory only if its
+configured factory is null. That frame's removeChild delegates to AWT Container
+removal. For an attached child of a displayable parent, the path calls child
+removeNotify, clears the parent reference and removes the child-list entry.
+XletContainer inherits Container's recursive removeNotify, which attempts focus
+transfer, clears its lightweight dispatcher and calls Component.removeNotify.
+
+**STATIC_PROVED Java input cleanup:** Component clears most-recent/permanent
+focus state as applicable, conditionally notifies its input context, calls
+EventQueue.removeSourceEvents with false and invokes discardKeyEvents on the
+keyboard focus manager. The false event-removal path preserves six event
+classes, including KeyEvent and FocusEvent. LightweightDispatcher.dispose
+clears its Java mouseEventTarget field; it is not a native touch-cancel proof.
+The [container/focus report](reports/ra4_xlet_container_focus_cleanup.md)
+records method/field identities, factory selection, branches and the distinction
+between resolved and symbolic ROM invocation references.
+
+**HIGH intended default:** no direct frame-factory override was found among
+19 initializer classes / 517 invocation instructions, or direct resolved CP
+references in successfully decoded AMS class slots 0 through 4121. This does
+not cover reflection, uninspected optional JARs or undecoded metadata. The
+factory setter remains available; the live instance is not measured.
+
+**UNKNOWN:** native visibility and touch/contact release, completed focus
+transfer, stock foreground restoration, and bounded cleanup when a shared
+AWT tree lock or app callback hangs. The resident specification now requires
+effective frame identity and shared UI-lock isolation evidence in addition to
+the existing lifecycle/resource prerequisites. No runtime gate passes and no
+measured local limit fails. Transport, provider authorization, engine and
+resource gates are unchanged; no external-compute fallback is selected.
+
+**Next technical target:** the AOT/native actionWithTimeout implementation and
+its timeout/finally completion hooks. The Java removal route is now concrete;
+more Java labels cannot prove bounded recovery from a stalled shared VM.
+PR #14 remains draft; main and independent PR #15 are preserved. No radio,
+vehicle or phone action, provider contact or vendor-payload commit occurred.
+
+Fresh static checks cover three artifact identities, ten selected complete
+method tables, 23 direct call anchors, one symbolic invocation reference,
+factory/parent/mouse-field assignments and all six event-exclusion branches.
+The prior AMS destroy/default checks also pass. The full host Python suite
+passes **150 tests, no skips**, and **103 local links in six changed Markdown
+documents** resolve. No target or provider test ran.
+
+### Preceding checkpoint: 2026-09-06 AMS destroy and container cleanup
 
 Started clean at `51b5a78` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. The preceding goal turn made progress on result
