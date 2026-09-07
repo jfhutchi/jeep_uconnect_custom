@@ -35,6 +35,15 @@ the RA4 contract; the traced Harman camera flow is authoritative.
 
 Fixed addresses are evidence anchors, not stable APIs.
 
+The later [RA4 display-owner trace](../reports/ra4_display_owner_reclaim.md)
+connects the HMI DisplayManager destination to Lua LayerManager and then native
+Screen visibility. An AMS service-owner callback hides `:AMS` and restores
+default AMS/HMI layer orders. This is a service-wide reaction; per-Xlet hangs,
+input/contact release and bounded recovery are still unproved. `:AMS` is an
+observed policy/window key, not an established Screen group contract. The
+captured native command table has no explicit focus/sensitivity entry, which
+does not exclude management of those properties elsewhere.
+
 ## Required surface contract
 
 ~~~text

@@ -8,7 +8,51 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 Xlet foreground and return handoff
+### Current checkpoint: 2026-09-06 display visibility and AMS owner scope
+
+Started clean at `7b16ef1` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The previous turn made progress on pause, Return,
+display-release requests and the SuperApp identity restriction. This turn
+traces the display mechanism and distinguishes service loss from an app hang.
+
+**STATIC_PROVED:** the gateway maps HMI `DisplayManager` to
+`com.harman.service.LayerManager`. The recovered Lua policy registers that
+service, opens `/dev/DisplayManager:0`, and maps an `ams` false request to hiding
+`:AMS`. The native Visibility descriptor reaches screen_set_window_property_iv;
+batch processing reaches screen_flush_context. Lua discards the write/read
+results before returning a normal-path grant, so that grant is not compositor
+completion evidence. The [display-owner report](reports/ra4_display_owner_reclaim.md)
+records the exact mapping, Lua closures/PCs and native descriptor/call anchors.
+
+**STATIC_PROVED service reaction:** LayerManager subscribes to
+`com.aicas.xlet.manager.AMS` owner changes. Its AMS-name branch ignores the old
+and new owner values, restores AMS order 1, hides `:AMS`, and restores HMI
+order 5. It does not explicitly show the HMI or restore input. A selected
+native close-event path removes/destroys the window; neither path proves an
+app/VM hang detector or bounded recovery. The separately found start_display
+script is labeled VP2-only and is not accepted as RA4 boot proof.
+
+**UNKNOWN:** a failed Xlet while AMS remains registered, an unresponsive AMS
+that retains ownership, native input/contact release, actual event delivery,
+live boot selection, custom permission and healthy engine continuity. The
+resident trial now explicitly requires app-only recovery with AMS alive;
+whole-VM loss cannot stand in for that result. No runtime gate passed and no
+measured local limit failed. External compute is not selected.
+
+**Next technical target:** per-Xlet pause/destroy/error acknowledgments and
+container/input removal in AMS/AppManager while the shared service remains
+present, including any independent timeout. The full projection goal remains
+active. PR #14 stays open/draft; main and independent PR #15 are preserved.
+Only original documentation is added, with zero target bytes or target actions.
+
+Fresh validation: **150 host Python tests pass, no skips**; three artifact
+hashes/sizes, 28 Lua anchors and 15 native instruction/literal anchors match.
+All 71 Lua prototypes parsed; the 15 native command descriptors and sentinel
+were checked, including the complete Visibility record. The three Screen
+call targets resolve through the native import inventory. All 83 local links
+in six changed Markdown documents resolve. No analysis-tool code changed.
+
+### Preceding checkpoint: 2026-09-06 Xlet foreground and return handoff
 
 Started clean at `679d73b` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. Previous goal turn made progress on stock Xlet

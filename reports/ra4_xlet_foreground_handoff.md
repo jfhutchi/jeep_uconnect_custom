@@ -161,12 +161,18 @@ engine transport/audio, that resource limits permit it, or that provider
 contracts allow it. A supported engine session owner and pause/resume contract
 are needed before claiming Return preserves Android Auto/CarPlay.
 
-**Next technical target:** trace the native DisplayManager handler for requester
-`ams` through actual visibility/input ownership and owner-loss recovery, then
-the AMS pause/resume acknowledgment path. Determine whether display reclaim
-can complete independently when the Xlet/VM is unresponsive. Keep camera,
-critical/eCall and comfort priority under the stock owners. No target failure
-injection or deployment is authorized by these static findings.
+**Follow-up:** the [display-owner report](ra4_display_owner_reclaim.md) now
+resolves the HMI destination to LayerManager, follows `ams` release to native
+Screen visibility, and identifies the AMS service-owner hide/order callback.
+Device results are discarded by the Lua helper, and service-owner changes do
+not establish per-Xlet failure detection while AMS stays present.
+
+**Remaining technical target:** AMS/AppManager's per-Xlet pause/resume/error
+acknowledgments and container/input removal while the shared service remains
+alive. Determine whether display reclaim can complete independently when the
+Xlet/VM is unresponsive. Keep camera, critical/eCall and comfort priority under
+the stock owners. No target failure injection or deployment is authorized by
+these static findings.
 
 ## Reproduction and validation
 

@@ -41,6 +41,12 @@ permission check, not authorization for a custom app. The normal native
 `requestBackground(appId)` event uses the configured SuperApp UUID, so it must
 not be assumed to implement Return for an arbitrary new Xlet. Require a
 supported action for the legitimate new identity without changing stock identity.
+The [display-owner trace](../reports/ra4_display_owner_reclaim.md) follows that
+request through LayerManager to native Screen visibility. LayerManager also
+reacts to AMS service-owner changes by hiding the AMS window key and restoring
+default layer orders. That watches the shared service, not each Xlet; it cannot
+establish recovery from an app hang while AMS remains registered. The policy's
+returned grant does not validate the discarded device write/read results.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
@@ -56,7 +62,7 @@ qualify a supported isolated native package rather than injecting a surface.
 | Manual launch | Package appears in stock `getAppList`; ordinary Apps entry uses factory DRM-checked launch | STATIC_PROVED stock route; UNKNOWN custom acceptance |
 | View and input | Supported app-owned 640x480 area, focus/release semantics and identity recognized by stock foreground arbiter | STATIC_PROVED stock Xlet/AWT/LWUIT calls and AMS metadata; UNKNOWN custom dimensions, permission and arbitration |
 | Foreground priority | Camera, critical/eCall and comfort-overlay precedence enforced outside the custom app; denial/loss events cannot be vetoed by it | STATIC_PROVED stock admission, pause and display-request release; UNKNOWN custom integration and completed reclaim |
-| Failure containment | No boot dependency or autostart; bounded resources; stock-owned reclaim on exit, disappearance and unresponsive app; shared-VM risks resolved | UNKNOWN target guarantee |
+| Failure containment | No boot dependency or autostart; bounded resources; stock-owned reclaim on exit, disappearance and unresponsive app; distinguish app failure with AMS alive from AMS owner loss/hang | STATIC_PROVED AMS owner-change hide/order callback; UNKNOWN per-Xlet detection, input reclaim and target guarantee |
 | Baseline and storage | Exact-unit stock health baseline, current writable free blocks, package manifest and allocated-block accounting; update state idle | UNKNOWN future measurement |
 | Recovery authority | Supported app-specific stop/uninstall remains reachable without the custom view or process; registry/data reconciliation documented | UNKNOWN complete runtime rollback |
 | Experiment setting | Owner-authorized spare bench unit and supplier-supported camera/critical-state validation method, stable power and recovery provisions | External prerequisite; no vehicle operation authorized here |
@@ -131,6 +137,11 @@ This sequence is a design; there are no executable radio commands here.
    approved app-only failure/unresponsive scenario on the spare bench. Stock
    must reclaim presentation without relying on custom cleanup. Never terminate
    a shared stock VM/service or install an intentional boot hang to test this.
+   Specifically require recovery while AMS remains alive and registered; its
+   service-owner callback does not cover that case. Record native visibility,
+   input/contact release and stock interaction separately from a policy grant.
+   AMS disappearance or VM-hang recovery needs separate supplier evidence and
+   cannot be substituted for this app-specific result.
 8. **Uninstall:** use supported app-specific removal; confirm absence from both
    AMS and AppManager inventory and verify the documented disposition of its
    own data/staging. A tile disappearing alone is not successful rollback.
