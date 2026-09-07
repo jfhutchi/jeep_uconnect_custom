@@ -1,8 +1,9 @@
 """Read-only structural inspection for recovered RA4 resident packages.
 
-The tool recognizes the factory installed-layout form proved by the RA4 KIM
-corpus and inventories a single JAR candidate without claiming that its live
-incoming schema is known. It never writes, signs, verifies private authority,
+The tool recognizes both the factory installed-layout form and the live
+single-JAR member-routing contract recovered from the AMS Installer class. It
+can test whether an installed payload/key pair is a consistent image of that
+split, but it never reconstructs an archive, signs, asserts private authority,
 or produces an install request.
 """
 
@@ -28,6 +29,12 @@ _MAX_MEMBER_SIZE = 64 * 1024 * 1024
 _MAX_TOTAL_SIZE = 512 * 1024 * 1024
 _SIGNATURE_FILE = re.compile(r"^META-INF/([^/]+)\.SF$", re.IGNORECASE)
 _SIGNATURE_BLOCK = re.compile(r"^META-INF/([^/]+)\.(RSA|DSA|EC)$", re.IGNORECASE)
+_AMS_SIGNATURE_FILE = re.compile(r"^META-INF/([^/]+)\.SF$")
+_AMS_SIGNATURE_BLOCK = re.compile(r"^META-INF/([^/]+)\.(RSA|DSA)$")
+_AMS_KEY_SUFFIXES = (".MF", ".RSA", ".SF", ".DSA")
+_AMS_APP_ID_CHARACTERS = frozenset(
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_.-"
+)
 _CORE_IDENTITY_KEYS = (
     "xlet.appId",
     "xlet.mainClass",
@@ -55,6 +62,97 @@ _TOKEN_KEYS = frozenset(("xlet.developerToken", "xlet.deviceToken"))
 
 def _sha256(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def _content_set_sha256(members: dict[str, bytes]) -> str:
+    inventory = [
+        {"name": name, "sha256": _sha256(members[name]), "size": len(members[name])}
+        for name in sorted(members)
+    ]
+    canonical = json.dumps(inventory, separators=(",", ":"), sort_keys=True).encode("ascii")
+    return _sha256(canonical)
+
+
+def _ams_routes_to_key(name: str) -> bool:
+    """Mirror Installer.copyAndCheck's exact, case-sensitive suffix tests."""
+
+    return name.endswith(_AMS_KEY_SUFFIXES)
+
+
+def _ams_app_id_valid(value: str | None) -> bool:
+    return bool(value) and all(character in _AMS_APP_ID_CHARACTERS for character in value)
+
+
+def _single_jar_transformation_report(members: dict[str, bytes]) -> dict[str, Any]:
+    payload_names = sorted(name for name in members if not _ams_routes_to_key(name))
+    key_names = sorted(
+        name
+        for name in members
+        if _ams_routes_to_key(name) or name == "xlet.properties"
+    )
+    overlap = sorted(set(payload_names) & set(key_names))
+    return {
+        "archive_byte_identity_recoverable": False,
+        "content_set_sha256": _content_set_sha256(members),
+        "key_member_names": key_names,
+        "overlap_member_names": overlap,
+        "payload_member_names": payload_names,
+        "predicted_incoming_member_count": len(members),
+        "routing_rule": {
+            "case_sensitive": True,
+            "duplicate_to_both": ["xlet.properties"],
+            "key_suffixes": list(_AMS_KEY_SUFFIXES),
+            "otherwise": "payload JAR only",
+        },
+    }
+
+
+def _inverse_transformation_report(
+    payload_members: dict[str, bytes], key_members: dict[str, bytes]
+) -> dict[str, Any]:
+    errors: list[str] = []
+    payload_names = set(payload_members)
+    key_names = set(key_members)
+    misplaced_payload = sorted(name for name in payload_names if _ams_routes_to_key(name))
+    misplaced_key = sorted(
+        name
+        for name in key_names
+        if not _ams_routes_to_key(name) and name != "xlet.properties"
+    )
+    overlap = sorted(payload_names & key_names)
+    if misplaced_payload:
+        errors.append("payload JAR contains members AMS routes only to key.jar")
+    if misplaced_key:
+        errors.append("key.jar contains members AMS routes only to the payload JAR")
+    if overlap != ["xlet.properties"]:
+        errors.append("payload/key overlap is not exactly root xlet.properties")
+    elif payload_members["xlet.properties"] != key_members["xlet.properties"]:
+        errors.append("payload/key xlet.properties copies differ")
+
+    reconstructed = dict(payload_members)
+    conflicts: list[str] = []
+    for name, data in key_members.items():
+        if name in reconstructed and reconstructed[name] != data:
+            conflicts.append(name)
+        else:
+            reconstructed[name] = data
+    if conflicts:
+        errors.append("payload/key member bytes conflict")
+
+    report = _single_jar_transformation_report(reconstructed)
+    report.update(
+        {
+            "consistent_with_ams_split": not errors,
+            "errors": errors,
+            "misplaced_key_member_names": misplaced_key,
+            "misplaced_payload_member_names": misplaced_payload,
+            "overlap_member_names": overlap,
+        }
+    )
+    if conflicts:
+        report["content_set_sha256"] = None
+        report["conflicting_member_names"] = sorted(conflicts)
+    return report
 
 
 def is_safe_leaf_name(value: str) -> bool:
@@ -146,8 +244,7 @@ def parse_java_properties(data: bytes) -> dict[str, str]:
         key = _java_unescape(raw_key)
         if not key:
             raise PackageInspectionError("descriptor has an empty property key")
-        if key in properties:
-            raise PackageInspectionError("descriptor has a duplicate property key")
+        # java.util.Properties.load keeps the last occurrence of a duplicate key.
         properties[key] = _java_unescape(raw_value)
     return properties
 
@@ -196,6 +293,13 @@ def _read_zip(path: Path) -> tuple[dict[str, bytes], list[dict[str, Any]]]:
             )
         inventory.sort(key=lambda item: item["name"])
         return members, inventory
+
+
+def _inventory_from_members(members: dict[str, bytes]) -> list[dict[str, Any]]:
+    return [
+        {"name": name, "sha256": _sha256(members[name]), "size": len(members[name])}
+        for name in sorted(members)
+    ]
 
 
 def _unfold_manifest(data: bytes) -> list[list[tuple[str, str]]]:
@@ -356,7 +460,7 @@ def _entitlement_report(properties: dict[str, str]) -> dict[str, Any]:
 
 def _base_installability() -> list[str]:
     return [
-        "accepted incoming single-JAR schema",
+        "authorized issuer-produced incoming JAR and authentication material",
         "authorized application ID issuance",
         "legitimate signer or developer-token issuance",
         "AMS signer-to-principal and policy construction",
@@ -366,9 +470,12 @@ def _base_installability() -> list[str]:
     ]
 
 
-def _inspect_key_jar(key_path: Path, payload_members: dict[str, bytes]) -> tuple[dict[str, Any], list[str], dict[str, str] | None]:
+def _inspect_key_members(
+    key_members: dict[str, bytes],
+    key_inventory: list[dict[str, Any]],
+    payload_members: dict[str, bytes],
+) -> tuple[dict[str, Any], list[str], dict[str, str] | None, dict[str, bytes]]:
     errors: list[str] = []
-    key_members, key_inventory = _read_zip(key_path)
     manifest = key_members.get("META-INF/MANIFEST.MF")
     signed_descriptor_data = key_members.get("xlet.properties")
     signed_properties = parse_java_properties(signed_descriptor_data) if signed_descriptor_data is not None else None
@@ -490,7 +597,7 @@ def _inspect_key_jar(key_path: Path, payload_members: dict[str, bytes]) -> tuple
         "signed_descriptor_covered": signed_descriptor_covered,
         "uncovered_payload_members": uncovered,
     }
-    return report, errors, signed_properties
+    return report, errors, signed_properties, key_members
 
 
 def _inspect_directory(root: Path, hello_profile: bool) -> dict[str, Any]:
@@ -508,6 +615,10 @@ def _inspect_directory(root: Path, hello_profile: bool) -> dict[str, Any]:
             errors.append("installed descriptor missing %s" % key)
     app_id = installed.get("xlet.appId")
     jar_file = installed.get("xlet.jarFile")
+    if app_id and not _ams_app_id_valid(app_id):
+        errors.append("xlet.appId uses characters rejected by AMS")
+    if app_id and not is_safe_leaf_name(app_id):
+        errors.append("xlet.appId is not a safe directory leaf")
     if app_id and root.name != app_id:
         errors.append("directory name does not match xlet.appId")
 
@@ -537,8 +648,12 @@ def _inspect_directory(root: Path, hello_profile: bool) -> dict[str, Any]:
         errors.append("prog/jars/magic.txt HB_CMC marker")
     authentication: dict[str, Any]
     signed_properties: dict[str, str] | None = None
+    key_members: dict[str, bytes] = {}
     if key_path.is_file() and payload_path is not None and payload_path.is_file():
-        authentication, key_errors, signed_properties = _inspect_key_jar(key_path, payload_members)
+        key_members, key_inventory = _read_zip(key_path)
+        authentication, key_errors, signed_properties, key_members = _inspect_key_members(
+            key_members, key_inventory, payload_members
+        )
         errors.extend(key_errors)
     else:
         errors.append("fixed sibling prog/jars/key.jar")
@@ -558,6 +673,15 @@ def _inspect_directory(root: Path, hello_profile: bool) -> dict[str, Any]:
             "signed_descriptor_covered": False,
             "uncovered_payload_members": sorted(payload_members),
         }
+
+    incoming_transformation = _inverse_transformation_report(payload_members, key_members)
+    if (
+        key_path.is_file()
+        and payload_path is not None
+        and payload_path.is_file()
+        and not incoming_transformation["consistent_with_ams_split"]
+    ):
+        errors.append("installed payload/key pair is inconsistent with AMS split")
 
     identity = _identity_report(installed, signed_properties)
     if signed_properties is not None:
@@ -596,8 +720,10 @@ def _inspect_directory(root: Path, hello_profile: bool) -> dict[str, Any]:
         "authentication": authentication,
         "classification": classification,
         "container": {
-            "accepted_schema": "PROVED only as factory installed layout; live incoming schema UNKNOWN",
+            "accepted_schema": "STRUCTURALLY_CONFORMING" if valid else "NONCONFORMING",
+            "candidate_conforms": valid,
             "input_name": root.name,
+            "schema_contract": "PROVED for factory layout and AMS incoming member routing",
             "type": "directory",
         },
         "descriptor": {
@@ -613,6 +739,7 @@ def _inspect_directory(root: Path, hello_profile: bool) -> dict[str, Any]:
         },
         "entitlements": _entitlement_report(signed_properties or installed),
         "identity": identity,
+        "incoming_transformation": incoming_transformation,
         "installability": {
             "installable": False,
             "missing_requirements": missing,
@@ -642,8 +769,88 @@ def _inspect_single_jar(path: Path, hello_profile: bool) -> dict[str, Any]:
     members, inventory = _read_zip(path)
     descriptor_data = members.get("xlet.properties")
     properties = parse_java_properties(descriptor_data) if descriptor_data is not None else {}
-    signature_files = sorted(name for name in members if _SIGNATURE_FILE.match(name))
-    signature_blocks = sorted(name for name in members if _SIGNATURE_BLOCK.match(name))
+    signature_files = sorted(name for name in members if _AMS_SIGNATURE_FILE.match(name))
+    signature_blocks = sorted(name for name in members if _AMS_SIGNATURE_BLOCK.match(name))
+    signature_stems = {
+        _AMS_SIGNATURE_FILE.match(name).group(1) for name in signature_files
+    }
+    block_stems = {
+        _AMS_SIGNATURE_BLOCK.match(name).group(1) for name in signature_blocks
+    }
+    token_properties = sorted(
+        key
+        for key in ("xlet.developerToken", "xlet.deviceToken")
+        if properties.get(key)
+    )
+    developer_token_present = "xlet.developerToken" in token_properties
+    device_token_present = "xlet.deviceToken" in token_properties
+    conventional_signature_shape = (
+        "META-INF/MANIFEST.MF" in members
+        and bool(signature_stems)
+        and signature_stems == block_stems
+    )
+    errors: list[str] = []
+    if descriptor_data is None:
+        errors.append("root xlet.properties")
+    for key in ("xlet.appId", "xlet.jarFile", "xlet.mainClass", "xlet.name", "xlet.version"):
+        if not properties.get(key):
+            errors.append("descriptor missing %s" % key)
+    if properties.get("xlet.appId") and not _ams_app_id_valid(properties.get("xlet.appId")):
+        errors.append("xlet.appId uses characters rejected by AMS")
+    if properties.get("xlet.appId") and not is_safe_leaf_name(properties["xlet.appId"]):
+        errors.append("xlet.appId is not a safe directory leaf")
+    if not conventional_signature_shape:
+        if developer_token_present:
+            errors.append("token-only authentication profile is not recovered")
+        else:
+            errors.append("conventional JAR signature metadata")
+    transformation = _single_jar_transformation_report(members)
+    authentication: dict[str, Any]
+    if conventional_signature_shape:
+        predicted_payload = {
+            name: data for name, data in members.items() if not _ams_routes_to_key(name)
+        }
+        predicted_key = {
+            name: data
+            for name, data in members.items()
+            if _ams_routes_to_key(name) or name == "xlet.properties"
+        }
+        authentication, authentication_errors, _, _ = _inspect_key_members(
+            predicted_key, _inventory_from_members(predicted_key), predicted_payload
+        )
+        for error in authentication_errors:
+            if error.startswith("key.jar "):
+                errors.append("incoming JAR " + error[len("key.jar ") :])
+            else:
+                errors.append("incoming JAR " + error)
+        authentication["profile"] = "RECOVERED_CONVENTIONAL_JAR_SIGNATURE"
+    else:
+        authentication = {
+            "certificate_parse_errors": [],
+            "certificates": [],
+            "profile": (
+                "TOKEN_BEARING_PROFILE_NOT_RECOVERED"
+                if developer_token_present
+                else (
+                    "DEVICE_TOKEN_WITHOUT_CONVENTIONAL_SIGNATURE"
+                    if device_token_present
+                    else "NO_RECOVERED_AUTHENTICATION_PROFILE"
+                )
+            ),
+            "signature_blocks": signature_blocks,
+            "signature_files": signature_files,
+            "signature_math_verified": False,
+            "token_properties_present": token_properties,
+        }
+    valid = not errors
+    if valid:
+        classification = "live-incoming-jar-structural-candidate"
+    elif descriptor_data is not None and errors == ["token-only authentication profile is not recovered"]:
+        classification = "unverified-token-authentication-profile"
+    elif descriptor_data is not None and errors == ["conventional JAR signature metadata"]:
+        classification = "unsigned-live-schema-fixture"
+    else:
+        classification = "invalid-live-schema-candidate"
     report: dict[str, Any] = {
         "application": {
             "app_id": properties.get("xlet.appId"),
@@ -653,16 +860,26 @@ def _inspect_single_jar(path: Path, hello_profile: bool) -> dict[str, Any]:
             "vendor": properties.get("xlet.vendor"),
             "version": properties.get("xlet.version"),
         },
-        "authentication": {
-            "signature_blocks": signature_blocks,
-            "signature_files": signature_files,
-            "signature_math_verified": False,
-        },
-        "classification": "single-jar-candidate",
+        "authentication": authentication,
+        "classification": classification,
         "container": {
-            "accepted_schema": "UNKNOWN",
+            "accepted_schema": (
+                "STRUCTURALLY_CONFORMING"
+                if valid
+                else (
+                    "AUTHENTICATION_PROFILE_UNKNOWN"
+                    if classification == "unverified-token-authentication-profile"
+                    else "NONCONFORMING"
+                )
+            ),
+            "candidate_conforms": (
+                None
+                if classification == "unverified-token-authentication-profile"
+                else valid
+            ),
             "input_name": path.name,
             "magic_hex": data[:4].hex(),
+            "schema_contract": "PROVED",
             "sha256": _sha256(data),
             "size": len(data),
             "type": "zip-jar",
@@ -672,24 +889,92 @@ def _inspect_single_jar(path: Path, hello_profile: bool) -> dict[str, Any]:
             "property_keys": sorted(properties),
         },
         "entitlements": _entitlement_report(properties),
+        "incoming_transformation": transformation,
         "installability": {
             "installable": False,
             "missing_requirements": _base_installability(),
-            "status": "CANDIDATE ONLY / ACCEPTED LIVE SCHEMA UNKNOWN",
+            "status": "STRUCTURAL ANALYSIS ONLY / AUTHORITY NOT VERIFIED",
         },
         "payload": {
             "inventory": inventory,
             "member_count": len(inventory),
         },
         "structure": {
-            "errors": ["accepted live single-JAR schema is not established by the corpus"],
-            "structurally_analogous_to_stock": False,
-            "valid": False,
+            "errors": sorted(errors),
+            "structurally_analogous_to_stock": valid,
+            "valid": valid,
         },
     }
     if hello_profile:
         report["hello_profile"] = _hello_profile(properties)
     return report
+
+
+def inspect_installed_tree(root: Path) -> dict[str, Any]:
+    """Inspect every installed application below *root* without changing it."""
+
+    root = Path(root)
+    if not root.is_dir():
+        raise PackageInspectionError("installed-tree input is not a directory")
+    discovered = {path.parent.parent for path in root.rglob("prog/xlet.properties")}
+    discovered.update(path.parent for path in root.rglob("prog") if path.is_dir())
+    for xlets_dir in root.rglob("xlets"):
+        if xlets_dir.is_dir():
+            discovered.update(path for path in xlets_dir.iterdir() if path.is_dir())
+    app_roots = sorted(discovered, key=lambda path: path.relative_to(root).as_posix())
+    records: list[dict[str, Any]] = []
+    failures: list[dict[str, str]] = []
+    for app_root in app_roots:
+        relative = app_root.relative_to(root).as_posix()
+        try:
+            report = _inspect_directory(app_root, False)
+        except PackageInspectionError as error:
+            failures.append({"error": str(error), "path": relative})
+            continue
+        transformation = report["incoming_transformation"]
+        records.append(
+            {
+                "app_id": report["application"]["app_id"],
+                "classification": report["classification"],
+                "content_set_sha256": transformation["content_set_sha256"],
+                "key_member_count": len(transformation["key_member_names"]),
+                "member_count": transformation["predicted_incoming_member_count"],
+                "path": relative,
+                "payload_member_count": len(transformation["payload_member_names"]),
+                "split_consistent": transformation["consistent_with_ams_split"],
+            }
+        )
+
+    consistent = sum(record["split_consistent"] for record in records)
+    fully_valid = sum(
+        record["classification"] == "factory-installed-layout-analogue"
+        for record in records
+    )
+    fingerprints = {
+        record["content_set_sha256"]
+        for record in records
+        if record["content_set_sha256"] is not None
+    }
+    invalid = len(records) - fully_valid
+    census_errors: list[str] = []
+    if not app_roots:
+        census_errors.append("installed-tree census found no application directories")
+    if failures or invalid:
+        census_errors.append("installed-tree census contains invalid or unreadable layouts")
+    return {
+        "ams_split_consistent_instances": consistent,
+        "ams_split_inconsistent_instances": len(records) - consistent,
+        "application_instances": len(app_roots),
+        "fully_valid_installed_layouts": fully_valid,
+        "inspection_failures": failures,
+        "invalid_installed_layouts": invalid,
+        "records": records,
+        "structure": {
+            "errors": census_errors,
+            "valid": bool(app_roots) and not failures and not invalid,
+        },
+        "unique_content_sets": len(fingerprints),
+    }
 
 
 def inspect_path(path: Path, *, hello_profile: bool = False) -> dict[str, Any]:
@@ -709,15 +994,21 @@ def render_json(report: dict[str, Any], *, pretty: bool = False) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
-        description="Inspect an RA4 factory installed-layout analogue or single JAR candidate"
+        description="Inspect an RA4 installed layout or live single-JAR structural candidate"
     )
     parser.add_argument("path", type=Path)
     parser.add_argument("--hello-profile", action="store_true")
+    parser.add_argument("--scan-installed-tree", action="store_true")
     parser.add_argument("--output", type=Path)
     parser.add_argument("--pretty", action="store_true")
     args = parser.parse_args(argv)
     try:
-        report = inspect_path(args.path, hello_profile=args.hello_profile)
+        if args.scan_installed_tree:
+            if args.hello_profile:
+                parser.error("--hello-profile cannot be combined with --scan-installed-tree")
+            report = inspect_installed_tree(args.path)
+        else:
+            report = inspect_path(args.path, hello_profile=args.hello_profile)
     except PackageInspectionError as error:
         print("error: %s" % error, file=sys.stderr)
         return 2

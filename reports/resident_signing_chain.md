@@ -2,10 +2,14 @@
 
 ## Result
 
-The stock executable JAR is not self-signed. Its fixed sibling `key.jar` is a
-detached JAR-signature carrier that binds the executable members and signed
-descriptor. The recovered content chain is exact through public signer
-certificate extraction:
+The recovered production live input is a conventionally signed direct payload
+JAR. During install, AMS separates that archive into an unsigned executable
+member subset and fixed sibling
+`key.jar`, a detached JAR-signature carrier that binds the executable members
+and signed descriptor. The recovered content chain is exact through public
+signer certificate extraction. A legitimately issued developer-token package
+may take the proved short-circuit branch, so conventional certificate metadata
+is not claimed as universal for every possible development package:
 
 ```text
 executable JAR member bytes + key.jar!/xlet.properties
@@ -36,6 +40,10 @@ executable JAR member bytes + key.jar!/xlet.properties
   obtains certificate objects from exactly `key.jar!/xlet.properties`.
 - **PROVED:** missing `key.jar` takes a primary-resource signer fallback. No
   evidence shows that fallback accepts an unsigned executable.
+- **PROVED:** live incoming preflight intentionally uses that primary-resource
+  path, and `Installer.copyAndCheck` opens the submitted archive directly,
+  authenticates its entries, and routes `.MF`/`.SF`/`.RSA`/`.DSA` plus the root
+  descriptor into the installed companion key archive.
 
 ## Observed signer metadata
 
@@ -79,8 +87,8 @@ No token bytes are reproduced or reusable.
   algorithm-policy and cache behavior.
 - The exact accepted signer-to-principal, code-source, policy-domain and DRM
   relationship.
-- Whether live incoming package authentication uses an internal `key.jar`, a
-  normal self-signed outer JAR, or a transformation performed by the installer.
+- Original live ZIP serialization and the authorized issuer/tool interface;
+  member routing and the installer transformation are now proved.
 
 The service certificate is a separate HU-serial-bound, expiring engineering-menu
 authorization. **PROVED:** it does not issue an application signer, developer

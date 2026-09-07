@@ -12,7 +12,7 @@ capabilities, but the exact minimum accepted policy/DRM record is **UNKNOWN**.
 
 | Layer | Status | Role and Hello consequence |
 | --- | --- | --- |
-| Detached executable signature | **PROVED** | `key.jar` binds code and the signed descriptor to an application signer. Hello lacks this legitimate envelope. |
+| Application signature | **PROVED transformation** | The live JAR carries conventional signature members; AMS splits them into installed `key.jar`, which binds code and the signed descriptor to an application signer. Hello lacks this legitimate issuer output. |
 | Global Kona security configuration | **PROVED resources / UNKNOWN selection semantics** | Selected `security.jar!/xlet.security` enumerates `base.policy`, `complete.policy`, and `full.policy` and promotes signing keys. Exact policy-domain construction is unavailable. |
 | Signed per-application policy | **PROVED presence / UNKNOWN combination** | 122/135 signed descriptors name `security.policy`, and each associated executable carries the named, signature-bound file. Whether it augments, replaces, intersects or requests permissions under `xlet.policy.default` is unknown. |
 | Java AppManager permission | **PROVED** | Public install/uninstall/DRM/start/pause/stop methods construct `AppMgrPermission("appMgr")` and call the SecurityManager. Hello calls none of them. |

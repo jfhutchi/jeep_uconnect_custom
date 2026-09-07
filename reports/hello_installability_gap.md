@@ -4,8 +4,9 @@
 
 Hello Uconnect remains a genuine, deterministic RA4-compatible Java/Xlet host
 artifact and now has a machine-checked model of the proved factory installed
-layout. It is structurally complete only through original executable and logical
-descriptor generation. It is not an accepted incoming package and has no
+layout and live member-routing contract. It is structurally complete only
+through original executable and logical descriptor generation. It is not an
+authorized incoming package and has no
 legitimate application-signing envelope, issued identity, policy/DRM grant, or
 completed AppManager/AMS transaction.
 
@@ -13,14 +14,14 @@ The phrase "signing/package identity unresolved" can now be replaced with this
 more exact boundary:
 
 > An authorized FCA/Uconnect/Kona application process must allocate or accept
-> the application identity, define the live single-JAR package schema, bind the
+> the application identity, apply the proved live single-JAR package schema, bind the
 > executable member set and signed descriptor to an accepted application signer
 > or legitimately provisioned developer/device credential, construct the
 > signer-to-principal and Java policy domain, issue effective DRM/manual-launch
 > state, and submit that package through the stock AppManager/AMS install and
-> uninstall lifecycle. The recovered corpus proves the installed detached
-> envelope and runtime path but does not contain that issuance process or a live
-> incoming package sample.
+> uninstall lifecycle. The recovered corpus proves the schema, installed
+> detached envelope, and runtime path but does not contain that issuance process
+> or a byte-exact live incoming package sample.
 
 ## Current host state
 
@@ -44,7 +45,7 @@ more exact boundary:
 ```text
 Hello Java source
   -> deterministic major-48 executable JAR                         PROVED
-  -> authorized live single-JAR packaging                          UNKNOWN
+  -> proved single-JAR member packaging                            PROVED schema; absent for Hello
   -> signed package descriptor and executable-member manifest      PROVED stock shape; absent for Hello
   -> .SF digest + PKCS#7 signature + accepted public certificate   PROVED stock chain; absent for Hello
   -> legitimate app/developer/device identity issuance             UNKNOWN
@@ -60,11 +61,11 @@ Hello Java source
 | Gate | Status | Evidence | Missing requirement |
 | --- | --- | --- | --- |
 | Java/Xlet build | **PROVED** | Deterministic ordinary JDK 8 build; major 48; expected SHA-256; bytecode/API validator passes. | None for host compilation. |
-| Package/container | **PROVED installed layout / UNKNOWN incoming** | Live paths submit one JAR; 135 KIMs prove external descriptor, executable, fixed `key.jar`, and `magic.txt`. | A real live single-JAR sample or authoritative package-generation specification showing exact inner/outer schema and install-time transformation. |
+| Package/container | **PROVED incoming and installed member schema** | AMS opens the submitted direct JAR and splits it into payload and `key.jar`; all 135 recovered signed production pairs invert consistently. | Authorized issuer output; one live sample remains useful only for byte-exact ZIP serialization. |
 | Application identity | **PROVED field relations / UNKNOWN issuance** | App ID joins signed/installed descriptor, directory, DRM and AppManager; non-UUID IDs exist. | Authorized allocation/acceptance of Hello's app ID and any separate package/developer/device identity. |
 | Signing | **PROVED stock content chain / MISSING for Hello** | Cross-JAR manifest digests, `.SF`, PKCS#7 `.RSA`, public signer certificate, fixed AMS `key.jar` association. | Authorized application signer or legitimate developer/device credential and packaging service; no private key is present or sought. |
 | Policy/DRM | **PROVED layers / UNKNOWN construction** | Signed policy names/files, selected security configuration, AppMgrPermission checks, signed DRM grants and native checks. | Exact least-privilege GUI policy/principal rule and DRM/manual-launch grant for the issued Hello identity. |
-| Installer | **PROVED protocol boundary / UNKNOWN authorized artifact** | App media and catalog stage a JAR; AppManager performs authenticated preflight and AMS install/upgrade; stock uninstall path exists. | Authorized ingress/package, safe bench transaction plan, and verified payload-directory rollback/removal behavior. |
+| Installer | **PROVED transformation / UNKNOWN authorized artifact** | App media and catalog stage a JAR; AppManager performs authenticated preflight; AMS splits, installs/upgrades, and owns `prog.bak`; stock uninstall path exists. | Authorized ingress/package, safe bench transaction plan, and end-to-end native/DRM rollback behavior. |
 | Target runtime proof | **UNKNOWN** | Static generic Apps/manual-start, Xlet lifecycle and cleanup paths are recovered. | Spare-RA4 observation of package acceptance, list visibility, foreground ownership, clean exit, uninstall and stock recovery without affecting camera/climate/controls/boot. |
 
 ## Machine-verifiable host result
@@ -89,9 +90,9 @@ Audio app:                          false
 Unexpected API references:          0
 Installed-layout key.jar:           MISSING BY DESIGN
 Executable-root xlet.properties:    MISSING BY DESIGN
-Accepted incoming package schema:   UNKNOWN
+Accepted incoming package schema:   PROVED; fixture not generated
 Artifact installability:            NO
 ```
 
-No target attempt is justified until the incoming package and authorized
-identity/signing/policy issuance boundary is supplied or independently proved.
+No target attempt is justified until the authorized identity/signing/policy/DRM
+issuance boundary is supplied and a safe owner-authorized bench plan exists.

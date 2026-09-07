@@ -22,6 +22,7 @@ Current decision artifacts: [transport gate matrix](docs/20_projection_transport
 [Screen factory and compiled-method boundary](reports/ra4_screen_factory_lifetime.md),
 the [independently authored Hello Uconnect host artifact](reports/hello_uconnect_host_artifact.md),
 the [resident package format](reports/resident_package_format.md),
+the [live incoming-JAR schema and AMS transformation](reports/resident_incoming_jar_schema.md),
 [application identity model](reports/resident_identity_model.md),
 [detached signing chain](reports/resident_signing_chain.md),
 [policy/entitlement boundary](reports/resident_policy_entitlements.md),

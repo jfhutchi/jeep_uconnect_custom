@@ -122,11 +122,11 @@ This intended ordering retains the development acceptance context until removal 
 
 `CONFIRMED`: AppManager's tracked resource helpers are also non-transactional. Temporary cleanup executes `rm %s` at file `0x8DE6C`, and installation resource movement executes `mv %s %s` at file `0x8DFC8`; both ignore `system()`'s result and unconditionally clear their tracking vectors. This can turn a partial move or failed deletion into untracked residual state.
 
-`CONFIRMED OWNERSHIP / UNKNOWN SEMANTICS`: AMS `Installer.install(String)Application` owns the install rename diagnostic at body/load `0x5BFCC0/0x5BFD56`; `Installer.recoverProgIfNeeded(String)V` owns exact `prog.bak` at `0x5BFDFD`, loading it at `0x5BFE1B` and `0x5BFEE3`; and `Installer.upgrade(String)Application` owns both upgrade rename diagnostics at body/loads `0x5BFE8C/0x5BFF2E/0x5BFF5C`. This proves a real program-backup recovery facility. The triggering branch, parent path, restoration/deletion order, completeness, and power-loss guarantees remain unproved. See `reports/appmanager_registry_atomicity.md`.
+`CONFIRMED AMS PROGRAM RECOVERY / UNKNOWN POWER-LOSS DURABILITY`: AMS `Installer.install(String)Application` stages under fixed `__newxlet__`; `upgrade(String)Application` renames current `<appId>/prog` to sibling `prog.bak`, promotes staged `prog`, and deletes backup/staging after success; `recoverProgIfNeeded(String)` restores `prog.bak` only when `prog` is absent. This proves the normal program-backup flow. Filesystem durability and AppManager/QDB/DRM reconciliation after interruption remain unproved. See `reports/resident_incoming_jar_schema.md`.
 
 ### R3 - ambiguous or partially failed application install
 
-The live media installer removes its staging file after an explicit `status=ok`, but no end-to-end A/B application slot or transaction journal spanning AMS, AppManager, resources, and QDB was found. KIM3 contains cleanup and delete-before-install behavior, not a proved backup of the old package. AMS does contain `prog.bak`/installation-directory rename vocabulary, but the owning branch and any restoration guarantee are unresolved. If power loss, timeout, or an ambiguous response occurs:
+The live media installer removes its staging file after an explicit `status=ok`, but no end-to-end A/B application slot or transaction journal spanning AMS, AppManager, resources, DRM, and QDB was found. KIM3 contains cleanup and delete-before-install behavior. AMS has a proved program-only `prog.bak` promotion/restore path, but its filesystem durability and coordination with the other layers are unresolved. If power loss, timeout, or an ambiguous response occurs:
 
 1. Do not repeat install/upgrade blindly.
 2. Query package information for both the intended app ID/version and any prior version.
@@ -173,7 +173,7 @@ The anti-theft HMI path sends this command after an entered-PIN transition to un
 
 `CONFIRMED`: the resident `swdlMediaDetect/loader.lua` recognizes SWDL insertion at `usb0`, expects `swdl.upd`, mounts it at `/fs/swdl`, authenticates each present nested ISO, requires and mounts `installer.iso` at `/fs/installer`, and loads its manifest (`loader.lua:70-80,497-568`; 22,538 bytes; SHA-256 `f562650958dc487d8558571744cc517ba583550b29c79dba4f335fc07c47e885`). `swdlMediaDetect.lua::processManifest` dispatches `manifest.external.start_script`, and the loader supplies `ISO_PATH=/fs/swdl`, the detected `USB_PATH`, and `INSTALLERISO_PATH=/fs/installer` before running the selected script from the authenticated installer ISO (`swdlMediaDetect.lua:242-266`; `loader.lua:595-621`; dispatcher SHA-256 `0bf54e5866ad0a8bff467e592e5ee46d877ba957ee6f1f266f7d94191001088c`). The recognizer and environment handoff are no longer unknown.
 
-This confirmed dispatch chain is not authority to construct media and provides no undo operation. The recovered `us-app-install.sh` consumes the exported `ISO_PATH` and `USB_PATH`, but the stock 18.45.01 manifest has no `external` member, so it does not prove the exact `external.start_script` value used by factory application media. The corpus also has neither a factory external-install manifest nor a sample application JAR below `usr/share/APPS`. A trial must stop unless an authorized issuer supplies a legitimately signed installer ISO with the approved external manifest and the complete live package schema is independently validated. The materialized `segment_001a0000/files/etc/keys/swdl.pub` is a 451-byte, 2,048-bit RSA public key with SHA-256 `804e7cdf410c74a2b6ac52084d9b24c7b5becfd5bbb66a32819356d01f5b676e`; it can verify a signature but cannot create or authorize one. Repacking the stock update or editing its manifest would cross the authenticated boundary and is prohibited.
+This confirmed dispatch chain is not authority to construct media and provides no undo operation. The recovered `us-app-install.sh` consumes the exported `ISO_PATH` and `USB_PATH`, but the stock 18.45.01 manifest has no `external` member, so it does not prove the exact `external.start_script` value used by factory application media. The corpus also has neither a factory external-install manifest nor a sample application JAR below `usr/share/APPS`. AMS now proves the live application member schema, but a trial must still stop unless an authorized issuer supplies a legitimately signed installer ISO with the approved external manifest and an authorized application package/identity/DRM issuance. The materialized `segment_001a0000/files/etc/keys/swdl.pub` is a 451-byte, 2,048-bit RSA public key with SHA-256 `804e7cdf410c74a2b6ac52084d9b24c7b5becfd5bbb66a32819356d01f5b676e`; it can verify a signature but cannot create or authorize one. Repacking the stock update or editing its manifest would cross the authenticated boundary and is prohibited.
 
 ## Signed software update is recovery, not transactional rollback
 
@@ -193,7 +193,7 @@ The specific rollback limitations are:
 - no general A/B system slot, per-unit undo log, previous-IFS restore, or reverse-flash sequence was identified;
 - `parseConfig.lua` understands `[backup]` and `[restore]`, but the stock materialized update configs contain no active sections using them;
 - the only confirmed partition preservation is `MMC_TB` Take Back: `mmc.sh` lines 111-204, 488-499, and 598-600 temporarily copy `/fs/mmc1` to `/fs/mmc0/mmc1_bk` around repartition and restore it; this is not general application rollback;
-- application install/upgrade has no proved previous-version restoration; AMS contains exact `prog.bak`/rename handling vocabulary, but its ordinary-upgrade trigger and restore semantics remain unknown;
+- application install/upgrade has a proved AMS `prog.bak` program restore path, but no proved cross-layer transaction or power-loss durability across resources, native maps, QDB, and DRM;
 - a stock update has not been proved to remove `/fs/etfs/AMS_DEVELOPMENT`; development-to-production return remains a separate required action.
 
 `DESIGN`: retain an unmodified, compatible, OEM-signed stock update as candidate last-resort recovery media. Its exact-version/state acceptance and the authorized service procedure must be proved before relying on it. Use it only with stable power after ordinary per-app rollback is exhausted. Never repack it to carry the custom application. Never describe re-running it as an atomic rollback.
@@ -277,10 +277,10 @@ The full update's Apps unit may repopulate Xlets from factory/KIM content, but t
 
 The rollback design is not ready to execute until all of these are closed:
 
-1. a legitimately issued, stock-valid external installer manifest/media set, plus the exact live application package schema and official/authorized packaging tool;
+1. a legitimately issued, stock-valid external installer manifest/media set plus the official/authorized issuer tool applying the now-proved live member schema;
 2. exact native developer signer, principal, token, and policy-acceptance rules;
 3. exhaustive per-app uninstall disposition for the AMS-installed payload, AMS-internal registry, and application-owned paths beyond the confirmed AppManager map/QDB-list update, resource cleanup, and two RMS targets;
-4. exact AMS `prog.bak`/rename ownership and restore/delete flow, AMS-to-AppManager boot reconciliation, QDB durability settings, and install/upgrade behavior after power loss at each stage;
+4. AMS-to-AppManager boot reconciliation, QDB durability settings, and install/upgrade behavior after power loss at each stage (the normal AMS `prog.bak` restore/delete flow is now proved);
 5. a read-only runtime method to verify marker state and selected security configuration on the target unit;
 6. a legitimate service-certificate issuance and renewal path that guarantees production-return access, including any official external diagnostic route plus its session/SecurityAccess gate and interruption recovery;
 7. unit-specific authorized recovery behavior if AppManager/AMS cannot reach a manageable state;

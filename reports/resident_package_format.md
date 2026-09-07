@@ -2,13 +2,14 @@
 
 ## Result
 
-RA4 18.45.01 exposes two distinct package forms, and the evidence does not
-justify collapsing them.
+RA4 18.45.01 exposes two stage-specific representations, and AMS now proves the
+exact transformation between them.
 
-1. **PROVED - live installer input:** both recovered live ingress paths hand a
-   single local JAR filename or `file:` URI to AppManager/AMS. The complete
-   contents of such a live application JAR are **UNKNOWN** because the corpus
-   contains neither an `usr/share/APPS` example nor a downloaded catalog JAR.
+1. **PROVED - live installer input:** both recovered live ingress paths hand one
+   direct local payload JAR filename or `file:` URI to AppManager/AMS. The
+   recovered production form is conventionally signed. AMS opens that JAR
+   directly, authenticates it, and splits its members; there is no nested
+   executable JAR or nested `key.jar`.
 2. **PROVED - factory/post-install form:** KIM content and AMS path construction
    establish an external runtime descriptor, executable JAR, fixed detached
    `key.jar`, and `magic.txt` beneath an application-ID directory. This is an
@@ -25,8 +26,8 @@ raw Hello JAR plus that external file is not a proved install package.
 | --- | --- | --- |
 | Removable-media update | **PROVED** | Media detection expects `/fs/usb0/swdl.upd`, mounts it at `/fs/swdl`, authenticates present nested `installer.iso`, `primary.iso`, and `secondary.iso`, requires/mounts `installer.iso`, then loads its manifest. |
 | External app-media dispatcher | **PROVED / sample UNKNOWN** | An authenticated installer manifest may name `manifest.external.start_script`; `us-app-install.sh` invokes the app installer with `ISO_PATH` and `USB_PATH`. Stock 18.45.01's full-update manifest has no such external member, so the selecting manifest is absent. |
-| App-media application object | **PROVED boundary / schema UNKNOWN** | `us-app-install.lua` walks `<ISO_PATH>/usr/share/APPS/<directory>/*.jar`, copies one JAR to `/fs/mmc0/xlets/temp/<filename>`, previews it with AMS `getPackageInfo`, and submits its file URI to `install` or `upgrade`. |
-| Catalog application object | **PROVED boundary / schema UNKNOWN** | KIM3 downloads one server-named JAR to `/fs/mmc1/download`, verifies transport CRC32, and passes the basename to native AppManager. Native AppManager resolves it in the fixed download directory and performs authenticated AMS package-info preflight. |
+| App-media application object | **PROVED boundary and schema** | `us-app-install.lua` walks `<ISO_PATH>/usr/share/APPS/<directory>/*.jar`, copies one JAR to `/fs/mmc0/xlets/temp/<filename>`, previews it with AMS `getPackageInfo`, and submits its file URI to `install` or `upgrade`; AMS treats that file itself as the direct payload archive. Recovered production inversions have conventional JAR signature members; exact signature-block requirements for an authorized developer-token-only path remain unknown. |
+| Catalog application object | **PROVED boundary and schema** | KIM3 downloads one server-named JAR to `/fs/mmc1/download`, verifies transport CRC32, and passes the basename to native AppManager. Native AppManager resolves it in the fixed download directory and performs authenticated AMS package-info preflight over the same direct JAR. Recovered production inversions are conventionally JAR-signed; an original live sample and token-only acceptance contract are absent. |
 | Factory KIM population | **PROVED** | The software-update `xlets` installer copies a selected KIM tree into `/fs/mmc1/xletsdir/xlets`; KIM copy manifests record MD5, length, and destination. This is factory provisioning, not the live single-JAR schema. |
 
 The `swdl.upd`/nested-ISO signature is an outer software-update control. It does
@@ -61,18 +62,21 @@ executable JAR, and fixed companion `key.jar`. Every `key.jar` contains standard
 ZIP/JAR members `META-INF/MANIFEST.MF`, at least one `.SF`, a paired `.RSA`, and
 an embedded signed `xlet.properties`; none contains application classes.
 
-**PROVED for the two revalidated representative packages:** the executable JAR
-also contains root `xlet.properties`, byte-identical to the signed copy in
-`key.jar`; the installed external copy is the normalized third form. The
-inspector requires this representative-stock relationship, the exact `HB_CMC`
-marker, and unambiguous same-name payload/envelope bytes before reporting a
-factory installed-layout analogue. Whether every one of the 135 payload JARs
-has a byte-identical root copy was not rescanned in this continuation.
+**PROVED for all 135 recovered application instances:** the executable JAR
+contains root `xlet.properties`, byte-identical to the signed copy in `key.jar`;
+the installed external copy is the normalized third form. Every payload/key
+pair is consistent with the recovered AMS split. The deterministic census has
+135 consistent, zero inconsistent, zero invalid/unreadable layouts, and 65
+distinct member content sets (`reports/resident_incoming_transform_census.json`,
+SHA-256 `03159b95b64606bb92f0941413a884e59653584c3c1c5c6d4e347da64687255e`).
 
 The 245 observed `magic.txt` instances are byte-identical (`HB_CMC`, 6 bytes,
 SHA-256 `0ffe9823746d76b9fb74480676a68d052b3a11634f2dfe67bd9fe9c8f3cd1f80`).
-Their use as a build/copy sentinel is **INFERRED**. Authentication significance
-is **UNKNOWN** and unsupported by any recovered consumer.
+Their use as a build/copy sentinel is **INFERRED**. Use as an AMS `Installer`
+authentication input is **DISPROVED**: `Installer` creates neither the member
+nor the file and uses the signer/token verification paths instead. Sentinel or
+gating semantics in factory-copy, download, or pre-Installer components remain
+**UNKNOWN**.
 
 ## Representative stock samples
 
@@ -90,15 +94,16 @@ not authority to issue a new signature.
 
 ## What remains unknown
 
-- The exact member inventory, descriptor location, signature location, and any
-  outer/inner relation inside the single JAR passed to live AMS install/upgrade.
-- Whether that JAR is itself a standard signed archive, an application payload
-  carrying a nested `key.jar`, or another Kona-specific bundle with a `.jar`
-  suffix.
-- How live installation derives the normalized external descriptor, executable
-  filename, fixed `key.jar`, `magic.txt`, and hidden AMS package/index state.
-- Whether the catalog and app-media paths accept the same package generation.
-- Any authorized package-creation service or issuer-facing packaging tool.
+- The authorized package-creation service or issuer-facing packaging tool and
+  the original ZIP serialization of a legitimate live sample.
+- Certificate-chain, time/revocation, signing-key promotion/cache, and
+  signer-to-principal/policy internals.
+- The issuer rules for app-ID allocation, policy/DRM grants, category, launcher
+  masks, and installer type.
+- Hidden native AppManager/DRM transaction state after AMS file promotion.
+
+The complete schema and offset-level proof are in
+`reports/resident_incoming_jar_schema.md`.
 
 ## Reproduction
 

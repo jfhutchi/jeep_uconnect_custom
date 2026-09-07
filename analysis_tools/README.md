@@ -6,17 +6,19 @@ vendor ELF, patch an image, or commit license/activation material.
 
 ## Resident package structural inspection
 
-`resident_package_inspect.py` recognizes the factory installed-layout form
-proved by the recovered KIM corpus and separately inventories a single JAR
-candidate. It parses Java properties and JAR manifests, recomputes detached
+`resident_package_inspect.py` recognizes the factory installed-layout form and
+the live single-JAR member-routing contract recovered from AMS. It parses Java
+properties and JAR manifests, recomputes detached
 cross-JAR member digests, checks `.SF` full-manifest digests, inventories JAR
 signature blocks, and reports sanitized public PKCS#7 certificate metadata when
 the existing `cryptography` dependency is available. It never writes the input,
-performs private-key operations, changes policy, or sends an install request.
+reconstructs an incoming archive, performs private-key operations, changes
+policy, or sends an install request.
 
 ```powershell
 python -m analysis_tools.resident_package_inspect PATH_TO_APP_ID_DIRECTORY --pretty
 python -m analysis_tools.resident_package_inspect CANDIDATE.jar --pretty
+python -m analysis_tools.resident_package_inspect KIM_PACKAGES_ROOT --scan-installed-tree --pretty
 python -m unittest analysis_tools.tests.test_resident_package_inspect -v
 ```
 
@@ -26,12 +28,23 @@ sibling `key.jar`, detached digest coverage, paired signature aliases and
 parseable public certificate metadata match the recovered post-install shape.
 Certificate-parser absence fails closed rather than treating opaque signature
 blocks as valid. It is
-not proof that the signer is trusted, that DRM/policy grants are effective, or
-that the bytes are an accepted incoming live package. The corpus contains no
-live incoming application JAR sample, so single-JAR inputs are always reported
-with `accepted_schema=UNKNOWN` and `installable=false`. An unsigned Hello
-skeleton intentionally exits the CLI with status 1 while still producing its
-complete diagnostic report.
+not proof that the signer is trusted or that DRM/policy grants are effective.
+Single-JAR results now predict the exact AMS split: root `xlet.properties` goes
+to both outputs, exact uppercase `.MF`/`.SF`/`.RSA`/`.DSA` suffixes go to
+`key.jar`, and all other members go to the executable. `schema_contract=PROVED`
+identifies the recovered parser contract; `candidate_conforms` and
+`accepted_schema` separately report whether a particular input conforms. Every
+candidate still reports `installable=false`: structure does not establish issuer authority. The
+tree-census mode emits relative paths and canonical member-content fingerprints,
+not reconstructed archive bytes.
+
+The inspector validates conventional JAR signatures only as the recovered
+production authentication profile. A developer-token-bearing JAR without that
+signature shape reports `accepted_schema=AUTHENTICATION_PROFILE_UNKNOWN` and
+`candidate_conforms=null`; it does not claim that the token is valid or that
+signature metadata is mandatory on a developer-token-success path. A device
+token alone remains nonconforming without the conventional signature profile
+because the recovered device-token branch continues to certificate verification.
 
 ## Lua 5.1 and SWF/ABC inspection
 

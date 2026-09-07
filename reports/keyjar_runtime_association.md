@@ -201,7 +201,7 @@ resourceStreamFromUri(uri, "xlet.properties", null, authenticated)
 
 at `0x5C02CE..0x5C02D6`. `resourceStreamFromUri`, selector `0xAD7C08`, marker `0x8BAD`, method marker `0x5C01D7`, converts an optional key `File` only when non-null at `0x5C01EA..0x5C01F6`, constructs a `VerificationClassLoader` at `0x5C01FC..0x5C021C`, supplies `SecurityParameter` only when `authenticated` is true at `0x5C020C..0x5C0218`, and requests the resource stream at `0x5C0231..0x5C0237`.
 
-Because `xletPropertiesFromUri` passes null for the key file, incoming package-info preflight does not use the installed sibling `key.jar`. It follows the primary-URL signer path. Installed launch separately supplies the fixed sibling key URL when that file exists. The exact outer package layout that makes incoming primary-URL verification cover a detached signature remains unresolved.
+Because `xletPropertiesFromUri` passes null for the key file, incoming package-info preflight does not use the installed sibling `key.jar`. It follows the primary-URL authentication path over the direct incoming JAR; the recovered production form is conventionally signed, while a valid developer token can short-circuit certificate verification. `Installer.copyAndCheck` later splits that same archive into payload and fixed companion `key.jar`; installed launch then supplies the companion key URL. The complete split proof is in `reports/resident_incoming_jar_schema.md`.
 
 ## What is and is not proved
 
@@ -222,8 +222,8 @@ Not proved:
 3. `SigningKeys.verify(Object[])` chain building, accepted algorithms, ordering, revocation/time behavior, and `isFirstCheck` cache semantics.
 4. How verified signer objects become principals, `CodeSource`, `ProtectionDomain`, or final policy grants.
 5. Whether a missing `key.jar` could ever authenticate an unsigned payload. The structural fallback exists; acceptance does not follow from it.
-6. Which installer/unpacker creates, copies, renames, or deletes physical `key.jar` during a live external install.
+6. Original live ZIP serialization and authorized issuer tooling. Physical `key.jar` creation and member routing are now proved in `Installer.copyAndCheck`.
 
 ## Safe design implications
 
-The fixed sibling name is a platform contract, not an invitation to replace the stock file. A safe owner-authorized helper must use a legitimate issuance/package path that produces the expected payload/signature relationship. Renaming, substituting, omitting, or repacking `key.jar` is not justified; neither is relying on the missing-key fallback. No implementation should proceed until `SigningKeys`, signer-to-principal/policy assignment, incoming external package layout, and rollback behavior are proved or safely observed.
+The fixed sibling name is a platform contract, not an invitation to replace the stock file. A safe owner-authorized helper must use a legitimate issuance/package path that produces the expected payload/signature relationship. Renaming, substituting, omitting, or repacking `key.jar` is not justified; neither is relying on the missing-key fallback. No implementation should proceed until `SigningKeys`, signer-to-principal/policy assignment, authorized issuance, and cross-layer rollback behavior are proved or safely observed.

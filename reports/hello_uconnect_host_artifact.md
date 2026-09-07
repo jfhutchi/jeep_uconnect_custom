@@ -74,7 +74,7 @@ source.
 | ARM/QNX compiler | **PROVED not required for Hello** | None. There is no native artifact. If a later native component is justified, the requirement is a QNX 6.5-compatible ARM32 little-endian ABI/link contract, exact startup/link objects and imported-library versions. qcc itself remains **UNKNOWN**, not proved indispensable. |
 | Java/JamaicaVM/Xlet compilation | **PROVED host build; INFERRED target compatibility** | An ordinary pinned JDK 8 `javac` that emits major 48, Java SE compile classes and the reconstructed declaration classpath. No proprietary Jamaica compiler or bundled VM is used. JamaicaVM remains the stock target runtime and actual loading of this new identity is UNKNOWN. |
 | Stock API/stubs | **PROVED signatures; INFERRED sufficiency confirmed for host compilation** | Declaration-only Xlet/LWUIT types and exactly referenced members. Provenance is in `prototype/hello_uconnect/compile_api/PROVENANCE.md`. The stubs are compile-only, contain no vendor implementation, and the validator proves zero are bundled. Target permission/support for a new identity remains UNKNOWN. |
-| Package/descriptor | **PROVED logical descriptor fields; UNKNOWN accepted container** | A separate conservative `xlet.properties` draft with original UUIDv5 app ID, explicit main class, GUI true, daemon/audio false and no autostart or privilege field. The accepted incoming live-package layout/schema remains UNKNOWN; no KIM/BAR/ISO format is invented. |
+| Package/descriptor | **PROVED logical fields and accepted member schema; fixture intentionally absent** | A separate conservative `xlet.properties` draft with original UUIDv5 app ID, explicit main class, GUI true, daemon/audio false and no autostart or privilege field. AMS's signed single-JAR split is now proved; no signed or installable fixture is invented. |
 | Signing/identity | **PROVED external gate; UNKNOWN legitimate route** | Issuer-approved app ID, signer/certificate route, signer-to-principal/policy construction, and any DRM/developer entitlement. No `key.jar`, certificate, token, trust-store edit, stock signer or stock identity is generated or reused. |
 | Runtime/install | **PROVED stock lane; UNKNOWN custom acceptance** | Accepted install/register/uninstall acknowledgments, ordinary manual Apps launch, effective pause/stop/foreground/input behavior, bounded failure cleanup and documented app-specific rollback on an owner-authorized spare bench. Stock camera, climate, controls, critical/eCall, boot and recovery requirements remain unchanged. |
 
@@ -100,8 +100,7 @@ class.
 Before any target installation, obtain all of the following from a legitimate
 issuer/provider route:
 
-1. The accepted incoming package/container format and exact descriptor/member
-   placement.
+1. Authorized issuer output applying the proved signed-JAR member placement.
 2. The authorized app-ID issuance and signer/certificate process.
 3. The signer-to-principal and effective policy construction, including any
    required DRM or developer grant.
@@ -115,24 +114,27 @@ Until all five are satisfied, the generated JAR and descriptor are reviewable
 host artifacts only and must not be presented as target-installable.
 
 The [resident package format](resident_package_format.md),
+[incoming-JAR schema](resident_incoming_jar_schema.md),
 [identity model](resident_identity_model.md), [signing chain](resident_signing_chain.md),
 [policy/entitlement boundary](resident_policy_entitlements.md),
 [install lifecycle](resident_install_lifecycle.md), and
-[Hello gap matrix](hello_installability_gap.md) now specify those stages without
-treating the proved factory installed layout as the still-unknown accepted live
-single-JAR schema.
+[Hello gap matrix](hello_installability_gap.md) now specify the proved live
+single-JAR member contract separately from the still-unknown authorized issuance
+and runtime acceptance contract.
 
 ## Local verification
 
 - 16 focused artifact-tool tests pass, including synthetic rejection cases.
-- 185 `analysis_tools` tests pass from the recovered project virtual
-  environment, including 23 package-inspector tests.
+- 195 `analysis_tools` tests pass from the recovered project virtual
+  environment, including 33 package-inspector tests.
 - 20 resident-HMI Node tests pass.
-- Two complete clean Hello builds have identical JAR hashes and inventories;
-  the generated skeleton inventory is SHA-256
-  `af3518043de3cf65d61426114ce65e0c9009f88021f5d82a2d9e85ef4636a283`
-  and its non-installability report is SHA-256
-  `f9f713ec25ac3c442bcd619ed99aec1f8a578d2be13aad4c04ec59e35f84506d`
-  in both builds.
+- Two complete clean Hello builds have identical outputs: JAR SHA-256
+  `e3e7fa2cdffc179ea3b031f1744ad0d9958bb5a01b15fcdd3a253b777dc8bbb2`,
+  `jar-inventory.txt` SHA-256
+  `643cab20a7500e96fd48f5f49fbdad15ab5977c9ae43483c85cd7ef7235467b3`,
+  `SHA256SUMS` SHA-256
+  `e255390241abf63d19103736d9e4013bc2fb4d1ced7d219ebc8baa7324288015`,
+  and non-installability report SHA-256
+  `0f404300da92c3b434c793355c23f7b093fea6cb6e0b929fd97b7b2076faa27b`.
 - Python syntax compilation and `git diff --check` pass.
 - Generated output is ignored; no stock or recovered vendor binary is tracked.

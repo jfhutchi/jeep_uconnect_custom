@@ -481,8 +481,8 @@ def audit_artifact(jar_path: Path, descriptor_path: Path, policy_path: Path) -> 
         },
         "descriptor": descriptor,
         "installability": (
-            "NO - accepted live JAR schema and authorized app ID/signer/"
-            "principal/policy/DRM issuance unresolved"
+            "NO - authorized live package issuance, app ID, signer, "
+            "principal/policy, and DRM grant unresolved"
         ),
     }
     return report

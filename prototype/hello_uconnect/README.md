@@ -47,15 +47,16 @@ the proved factory post-install directory shape. It deliberately omits
 the payload-root signed descriptor and `prog/jars/key.jar` and is labeled
 `UNSIGNED / NON-INSTALLABLE / RESEARCH ARTIFACT`.
 `build/out/installed-layout-research-report.json` must classify it as an
-incomplete skeleton. This is not the still-unknown incoming single-JAR package
-accepted by AMS.
+incomplete skeleton. The live single-JAR member schema is now proved, but this
+build intentionally does not wrap or sign Hello and is not an issuer-produced
+package accepted by AMS.
 
 ## Gate boundary
 
 The host compile tests only the strong inference that recovered signatures are
 sufficient for ordinary Java source compilation. It does not create or imply an
 accepted incoming package. The following remain unresolved external/runtime
-gates: incoming container format, legitimate issuer/signing route,
+gates: legitimate issuer/package-signing route,
 signer-to-principal/policy construction, DRM/developer entitlement, app-ID
 issuance, install/uninstall, foreground ownership, lifecycle acceptance and
 completed stock recovery. Do not create a fake `key.jar`, reuse a stock identity,

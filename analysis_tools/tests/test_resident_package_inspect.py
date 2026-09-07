@@ -10,7 +10,9 @@ import zipfile
 
 from analysis_tools.resident_package_inspect import (
     PackageInspectionError,
+    inspect_installed_tree,
     inspect_path,
+    parse_java_properties,
     render_json,
 )
 
@@ -122,6 +124,8 @@ class ResidentPackageInspectTests(unittest.TestCase):
         report = self._inspect(self._write_layout(), hello_profile=True)
 
         self.assertEqual(report["classification"], "factory-installed-layout-analogue")
+        self.assertEqual(report["container"]["accepted_schema"], "STRUCTURALLY_CONFORMING")
+        self.assertTrue(report["container"]["candidate_conforms"])
         self.assertTrue(report["structure"]["valid"])
         self.assertTrue(report["structure"]["structurally_analogous_to_stock"])
         self.assertEqual(report["application"]["app_id"], APP_ID)
@@ -132,9 +136,31 @@ class ResidentPackageInspectTests(unittest.TestCase):
         self.assertEqual(report["authentication"]["signature_files"], ["META-INF/SYNTH.SF"])
         self.assertEqual(report["authentication"]["signature_blocks"], ["META-INF/SYNTH.RSA"])
         self.assertTrue(report["authentication"]["manifest_digest_matches"])
+        transformation = report["incoming_transformation"]
+        self.assertTrue(transformation["consistent_with_ams_split"])
+        self.assertEqual(
+            transformation["key_member_names"],
+            [
+                "META-INF/MANIFEST.MF",
+                "META-INF/SYNTH.RSA",
+                "META-INF/SYNTH.SF",
+                "xlet.properties",
+            ],
+        )
+        self.assertEqual(
+            transformation["payload_member_names"],
+            ["example/hello/HelloXlet.class", "xlet.properties"],
+        )
+        self.assertEqual(transformation["overlap_member_names"], ["xlet.properties"])
+        self.assertEqual(transformation["predicted_incoming_member_count"], 5)
+        self.assertEqual(len(transformation["content_set_sha256"]), 64)
         self.assertTrue(report["hello_profile"]["safe"])
         self.assertFalse(report["installability"]["installable"])
-        self.assertIn("accepted incoming single-JAR schema", report["installability"]["missing_requirements"])
+        self.assertNotIn("accepted incoming single-JAR schema", report["installability"]["missing_requirements"])
+        self.assertIn(
+            "authorized issuer-produced incoming JAR and authentication material",
+            report["installability"]["missing_requirements"],
+        )
 
     def test_installed_and_signed_descriptors_may_rename_payload_only(self):
         report = self._inspect(
@@ -163,6 +189,8 @@ class ResidentPackageInspectTests(unittest.TestCase):
         report = inspect_path(self._write_layout(include_key=False), hello_profile=True)
 
         self.assertEqual(report["classification"], "incomplete-installed-layout-skeleton")
+        self.assertEqual(report["container"]["accepted_schema"], "NONCONFORMING")
+        self.assertFalse(report["container"]["candidate_conforms"])
         self.assertFalse(report["structure"]["valid"])
         self.assertFalse(report["structure"]["structurally_analogous_to_stock"])
         self.assertIn("fixed sibling prog/jars/key.jar", report["structure"]["errors"])
@@ -206,6 +234,16 @@ class ResidentPackageInspectTests(unittest.TestCase):
         report = inspect_path(app_root)
         self.assertFalse(report["structure"]["valid"])
         self.assertIn("directory name does not match xlet.appId", report["structure"]["errors"])
+
+    def test_rejects_app_id_characters_that_ams_rejects(self):
+        report = inspect_path(
+            self._write_layout(
+                installed_overrides={"xlet.appId": "bad id"},
+                signed_overrides={"xlet.appId": "bad id"},
+            )
+        )
+        self.assertFalse(report["structure"]["valid"])
+        self.assertIn("xlet.appId uses characters rejected by AMS", report["structure"]["errors"])
 
     def test_rejects_descriptor_selected_payload_path_escape(self):
         app_root = self._write_layout(
@@ -407,16 +445,119 @@ class ResidentPackageInspectTests(unittest.TestCase):
             ],
         )
 
-    def test_single_jar_candidate_does_not_claim_incoming_schema(self):
+    def test_inverse_transform_rejects_members_that_ams_would_not_route_to_key(self):
+        app_root = self._write_layout()
+        key_path = app_root / "prog" / "jars" / "key.jar"
+        with zipfile.ZipFile(key_path, "a") as archive:
+            archive.writestr("nested/key-material.bin", b"not-an-ams-key-member")
+
+        report = self._inspect(app_root)
+
+        self.assertFalse(report["incoming_transformation"]["consistent_with_ams_split"])
+        self.assertIn(
+            "key.jar contains members AMS routes only to the payload JAR",
+            report["incoming_transformation"]["errors"],
+        )
+
+    def test_single_unsigned_jar_uses_proved_schema_but_does_not_claim_authorization(self):
         candidate = self.root / "candidate.jar"
         with zipfile.ZipFile(candidate, "w") as archive:
             archive.writestr("xlet.properties", self._properties())
             archive.writestr("example/hello/HelloXlet.class", b"class-48")
         report = inspect_path(candidate)
 
-        self.assertEqual(report["classification"], "single-jar-candidate")
+        self.assertEqual(report["classification"], "unsigned-live-schema-fixture")
         self.assertEqual(report["container"]["magic_hex"], "504b0304")
-        self.assertEqual(report["container"]["accepted_schema"], "UNKNOWN")
+        self.assertEqual(report["container"]["schema_contract"], "PROVED")
+        self.assertEqual(report["container"]["accepted_schema"], "NONCONFORMING")
+        self.assertFalse(report["container"]["candidate_conforms"])
+        self.assertFalse(report["structure"]["valid"])
+        self.assertIn("conventional JAR signature metadata", report["structure"]["errors"])
+        self.assertFalse(report["installability"]["installable"])
+
+    def test_single_token_only_jar_reports_unknown_authentication_profile(self):
+        candidate = self.root / "token-only.jar"
+        descriptor = self._properties(**{"xlet.developerToken": "opaque"})
+        with zipfile.ZipFile(candidate, "w") as archive:
+            archive.writestr("xlet.properties", descriptor)
+            archive.writestr("example/hello/HelloXlet.class", b"class-48")
+
+        report = inspect_path(candidate)
+
+        self.assertEqual(report["classification"], "unverified-token-authentication-profile")
+        self.assertEqual(
+            report["container"]["accepted_schema"],
+            "AUTHENTICATION_PROFILE_UNKNOWN",
+        )
+        self.assertIsNone(report["container"]["candidate_conforms"])
+        self.assertEqual(
+            report["authentication"]["profile"],
+            "TOKEN_BEARING_PROFILE_NOT_RECOVERED",
+        )
+        self.assertFalse(report["structure"]["valid"])
+        self.assertIn(
+            "token-only authentication profile is not recovered",
+            report["structure"]["errors"],
+        )
+        self.assertFalse(report["installability"]["installable"])
+
+    def test_single_device_token_without_signature_is_nonconforming(self):
+        candidate = self.root / "device-token-only.jar"
+        descriptor = self._properties(**{"xlet.deviceToken": "opaque"})
+        with zipfile.ZipFile(candidate, "w") as archive:
+            archive.writestr("xlet.properties", descriptor)
+            archive.writestr("example/hello/HelloXlet.class", b"class-48")
+
+        report = inspect_path(candidate)
+
+        self.assertEqual(report["classification"], "unsigned-live-schema-fixture")
+        self.assertEqual(report["container"]["accepted_schema"], "NONCONFORMING")
+        self.assertFalse(report["container"]["candidate_conforms"])
+        self.assertEqual(
+            report["authentication"]["profile"],
+            "DEVICE_TOKEN_WITHOUT_CONVENTIONAL_SIGNATURE",
+        )
+        self.assertIn("conventional JAR signature metadata", report["structure"]["errors"])
+        self.assertFalse(report["installability"]["installable"])
+
+    def test_single_signed_shape_reports_ams_destinations_without_verifying_authority(self):
+        candidate = self.root / "signed-shape.jar"
+        descriptor = self._properties()
+        payload = {
+            "example/hello/HelloXlet.class": b"class-48",
+            "xlet.properties": descriptor,
+        }
+        manifest = _manifest(payload, descriptor)
+        with zipfile.ZipFile(candidate, "w") as archive:
+            for name, data in sorted(payload.items()):
+                archive.writestr(name, data)
+            archive.writestr("META-INF/MANIFEST.MF", manifest)
+            archive.writestr("META-INF/SYNTH.SF", _signature_file(manifest))
+            archive.writestr("META-INF/SYNTH.RSA", b"synthetic-not-a-certificate")
+
+        malformed = inspect_path(candidate)
+        self.assertFalse(malformed["structure"]["valid"])
+        self.assertIn(
+            "incoming JAR PKCS#7 certificate metadata",
+            malformed["structure"]["errors"],
+        )
+
+        report = self._inspect(candidate)
+
+        self.assertEqual(report["classification"], "live-incoming-jar-structural-candidate")
+        self.assertTrue(report["structure"]["valid"])
+        self.assertEqual(report["container"]["accepted_schema"], "STRUCTURALLY_CONFORMING")
+        self.assertTrue(report["container"]["candidate_conforms"])
+        self.assertEqual(
+            report["incoming_transformation"]["key_member_names"],
+            [
+                "META-INF/MANIFEST.MF",
+                "META-INF/SYNTH.RSA",
+                "META-INF/SYNTH.SF",
+                "xlet.properties",
+            ],
+        )
+        self.assertFalse(report["authentication"]["signature_math_verified"])
         self.assertFalse(report["installability"]["installable"])
 
     def test_rejects_corrupt_zip_and_duplicate_members(self):
@@ -441,6 +582,65 @@ class ResidentPackageInspectTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual(json.loads(first), report)
         self.assertNotIn(str(self.root), first)
+
+    def test_installed_tree_census_is_deterministic_and_uses_relative_paths(self):
+        self._write_layout()
+        self._write_layout()
+        with mock.patch(
+            "analysis_tools.resident_package_inspect._certificate_metadata",
+            return_value=([{"certificate_sha256": "synthetic-test"}], []),
+        ):
+            first = inspect_installed_tree(self.root)
+            second = inspect_installed_tree(self.root)
+
+        self.assertEqual(first, second)
+        self.assertEqual(first["application_instances"], 2)
+        self.assertEqual(first["ams_split_consistent_instances"], 2)
+        self.assertEqual(first["ams_split_inconsistent_instances"], 0)
+        self.assertEqual(first["unique_content_sets"], 1)
+        self.assertEqual(
+            [record["path"] for record in first["records"]],
+            ["case-01/%s" % APP_ID, "case-02/%s" % APP_ID],
+        )
+        self.assertNotIn(str(self.root), render_json(first))
+
+    def test_installed_tree_census_fails_closed_for_empty_or_unrelated_root(self):
+        report = inspect_installed_tree(self.root)
+
+        self.assertEqual(report["application_instances"], 0)
+        self.assertFalse(report["structure"]["valid"])
+        self.assertEqual(
+            report["structure"]["errors"],
+            ["installed-tree census found no application directories"],
+        )
+
+    def test_installed_tree_census_detects_app_directory_missing_descriptor(self):
+        app_root = self.root / "KIM1" / "xlets" / APP_ID
+        (app_root / "prog" / "jars").mkdir(parents=True)
+
+        report = inspect_installed_tree(self.root)
+
+        self.assertEqual(report["application_instances"], 1)
+        self.assertFalse(report["structure"]["valid"])
+        self.assertEqual(report["inspection_failures"][0]["path"], "KIM1/xlets/%s" % APP_ID)
+        self.assertIn("prog/xlet.properties", report["inspection_failures"][0]["error"])
+
+    def test_single_jar_rejects_dot_segment_app_ids_as_unsafe(self):
+        for app_id in (".", ".."):
+            with self.subTest(app_id=app_id):
+                candidate = self.root / ("dot-%s.jar" % len(app_id))
+                with zipfile.ZipFile(candidate, "w") as archive:
+                    archive.writestr("xlet.properties", self._properties(**{"xlet.appId": app_id}))
+                    archive.writestr("example/hello/HelloXlet.class", b"class-48")
+                report = inspect_path(candidate)
+                self.assertFalse(report["structure"]["valid"])
+                self.assertIn("xlet.appId is not a safe directory leaf", report["structure"]["errors"])
+
+    def test_properties_duplicate_keys_follow_java_last_value_semantics(self):
+        self.assertEqual(
+            parse_java_properties(b"xlet.name=first\nxlet.name=second\n"),
+            {"xlet.name": "second"},
+        )
 
 
 if __name__ == "__main__":

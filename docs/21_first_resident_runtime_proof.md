@@ -13,20 +13,22 @@ The reproducible source, compile-only declarations and validator are now in
 [`prototype/hello_uconnect`](../prototype/hello_uconnect/README.md); the exact
 host result and remaining gate are recorded in the
 [Hello artifact report](../reports/hello_uconnect_host_artifact.md). The
-[package-format report](../reports/resident_package_format.md) proves the
-factory post-install layout and detached envelope but keeps the accepted live
-single-JAR schema unknown; the exact remaining stages are in the
+[package-format report](../reports/resident_package_format.md) and
+[incoming-JAR report](../reports/resident_incoming_jar_schema.md) prove the
+direct single-JAR parser, AMS split, and installed detached envelope; the exact remaining stages are in the
 [installability gap](../reports/hello_installability_gap.md).
 
 ## Artifact and package lane
 
 The first candidate is an independently authored, non-autostart **Kona/AMS
 Xlet control application**, delivered through the legitimately authorized stock
-application-package route. Use the supplier-approved signed package schema
-(Xlet code/JAR, descriptor, signer metadata and any required entitlement).
+application-package route. Use an authorized issuer's implementation of the
+proved package-member schema, including accepted signer or developer/device
+credential material and every required entitlement.
 Do not invent a KIM, BAR or ISO extension/manifest and claim the radio accepts
 it. KIM factory distribution is evidence for stock Xlets, not a template to
-modify. The exact acceptable live-package format is an EXTERNAL_PROVIDER_GATE.
+modify. The accepted authority, identity allocation, policy mapping, DRM grant,
+and byte-exact issuer serialization are an **EXTERNAL_PROVIDER_GATE**.
 
 The [placement decision](16_ra4_resident_placement_decision.md) and
 [manual launch evidence](../reports/app_launch_ui_path.md) justify this lane:

@@ -38,8 +38,9 @@ catalog response (schema partly recovered)
 ```
 
 CRC32 does not authenticate the application signer. Native catalog installation
-uses AMS `upgrade` even for the catalog's fresh-install task; whether AMS treats
-that method as a complete upsert is **UNKNOWN**.
+uses AMS `upgrade` even for the catalog's fresh-install task. AMS `upgrade`
+delegates to `install` when the target app directory is absent, so its upsert
+behavior is **PROVED**.
 
 ## Installation completion
 
@@ -57,11 +58,13 @@ authenticated package-info
   -> queue whole AppManager_JavaApps JSON persistence
 ```
 
-AMS separately creates/renames package program directories and owns a
-`prog.bak` recovery vocabulary. The exact backup parent, rename order,
-commit/discard behavior, and power-loss recovery are **UNKNOWN**. AppManager's
-filesystem/resource operations and whole-list QDB save are not one transaction
-with AMS package mutation.
+AMS stages under fixed `__newxlet__`, then creates a new app directory for
+install or swaps only `<appId>/prog` for upgrade. Upgrade renames current `prog`
+to `prog.bak`, promotes staged `prog`, and removes backup/staging after success;
+`data` persists. `recoverProgIfNeeded` restores `prog.bak` only if `prog` is
+missing. Exact power-loss durability and coordination with AppManager remain
+**UNKNOWN**. AppManager's filesystem/resource operations and whole-list QDB save
+are not one transaction with AMS package mutation.
 
 ## Registration and manual launch
 
@@ -110,7 +113,7 @@ gate closed even after a legitimate package is obtained.
 ## Legitimate shortest path
 
 The shortest technically supported future path is not direct copying. It is an
-authorized issuer producing the still-missing live single-JAR package and
+authorized issuer producing the now-schema-defined but still unauthorized signed JAR and
 identity/DRM/policy records, followed by the stock AppManager/AMS install path on
 a spare bench RA4, with a documented stock uninstall route and recovery plan.
 Service certificates, engineering gestures, direct Xlet/QDB edits, insecure AMS,

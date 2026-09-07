@@ -16,8 +16,8 @@ not an FCA-issued package or application identity.
 | Application ID (`xlet.appId`) | **PROVED** | Present in all 135 installed descriptors; equals the KIM application-directory name in all 135; agrees between signed and installed descriptors in all 135; is the AppManager start/uninstall/catalog key. |
 | DRM application ID (`appIdentifier`) | **PROVED** | Same-KIM correlation matches 131 DRM grants to application descriptors by case-insensitive app ID. It is the strongest visible DRM-to-app join. |
 | Main class (`xlet.mainClass`) | **PROVED** | Signed and installed descriptors agree in all 135 pairs where present; AMS reads it and loads the selected executable through the Xlet classloader. It identifies the entry class, not the package authority. |
-| Installed executable name (`xlet.jarFile`) | **PROVED stage-specific** | Selects the executable under `prog/jars`. It differs between signed and installed descriptor in 129/135 pairs, so filename is not the durable identity. |
-| Live installer filename | **PROVED stage-specific** | Catalog DRM and download metadata name an incoming representation. Vehicle User Guide uses `IVHClient_v1.0.4-FIT.jar`, signed descriptor `Help.jar`, and installed UUID filename for three distinct stages. |
+| Installed executable name (`xlet.jarFile`) | **PROVED stage-specific** | Selects the executable under `prog/jars`. Installer overwrites the external value with the incoming file basename; it differs between signed and installed descriptor in 129/135 pairs, so filename is not the durable identity. |
+| Live installer filename | **PROVED transformation input** | AMS copies non-signature members into an installed payload named with the incoming basename. Vehicle User Guide uses `IVHClient_v1.0.4-FIT.jar`, signed descriptor `Help.jar`, and installed UUID filename for three distinct stages. |
 | Application name/vendor/version | **PROVED metadata** | Signed and installed name/vendor agree across observed pairs; AppManager catalog stores/display uses app ID, app name and media name. These fields do not establish signer authority. |
 | Signer certificate | **PROVED authentication input** | Embedded in the detached PKCS#7 signature and presented to AMS signing-key verification. It authenticates the signed member set but is not itself the app ID. |
 | Developer ID/token | **PROVED consumer, issuer UNKNOWN** | The signed descriptor may contain `xlet.developerToken`; AMS compares its public-key-decoded content to runtime `developerId`. The legitimate ID provider and issuance process are absent. |
@@ -38,17 +38,16 @@ descriptor is `<appId>/prog/xlet.properties`.
 - **PROVED:** `xlet.developerToken` agrees in all six token-bearing pairs. The
   inspector therefore rejects a token mismatch between signed and installed
   forms; it does not expose or validate token content.
-- **PROVED:** `xlet.jarFile` differs in 129/135 and may be normalized during
-  installation.
+- **PROVED:** `xlet.jarFile` differs in 129/135. `createNewXlet` overwrites the
+  external value with the submitted JAR's basename before storing it.
 - **VALIDATOR CONSERVATIVE RULE:** identity, policy, developer/device-token and
   safety-relevant lifecycle/category fields must agree between signed and
   installed forms. Only `xlet.jarFile` is accepted as a stage-specific
   difference; this is a host structural rule, not a claim that every possible
   installer normalization has been enumerated.
-- **INFERRED:** the embedded copy is the package/authentication descriptor and
-  the external copy is installed state. The signer source is directly proved as
-  `key.jar!/xlet.properties`, but the complete install-time normalization method
-  remains unavailable.
+- **PROVED:** the incoming root copy is package/authentication metadata, is
+  duplicated into payload and `key.jar`, and the separately stored external
+  copy is normalized installed state.
 
 ## Best-supported identity chain
 

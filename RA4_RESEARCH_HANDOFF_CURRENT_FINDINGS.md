@@ -20,7 +20,61 @@ jobs existed when this instruction was received. This restriction supersedes
 earlier CI-related expectations. Do not automatically enable or run Actions
 when the calendar changes without considering the owner's latest instructions.
 
-### Current checkpoint: 2026-09-07 resident package and trust contract
+### Current checkpoint: 2026-09-07 live incoming-JAR transformation
+
+Started clean at `b2ff21d` on `codex/ra4-driver-temperature`. This continuation
+recovered the secure AMS `Installer` parser and resolves the remaining live
+container ambiguity without contacting a target or performing any signing,
+credential, trust, DRM, firmware, boot, or installation operation.
+
+**PROVED:** the live object is one direct payload JAR, not a wrapper around a
+nested executable JAR or nested `key.jar`. In the recovered production form it
+is conventionally signed. AMS opens the submitted file itself as `JarFile`,
+authenticates its root descriptor through the primary URL,
+and splits members. Exact root `xlet.properties` is copied to both outputs;
+exact case-sensitive `.MF`, `.SF`, `.RSA`, and `.DSA` suffix members go to fixed
+`key.jar`; all other members go to the executable named with the submitted
+basename. `createNewXlet` stores a normalized external descriptor after
+overwriting `xlet.jarFile` with that basename.
+
+Install promotes fixed `__newxlet__` to `<xlet.appId>`. Upgrade delegates to
+install when absent; otherwise it preserves `<appId>/data`, swaps only `prog`
+through sibling `prog.bak`, and removes backup/staging after success.
+`recoverProgIfNeeded` restores `prog.bak` only when `prog` is absent. AMS app IDs
+must be nonempty and use only ASCII alphanumerics plus `_`, `.`, and `-`.
+Installer does not create or consume `magic.txt`; `HB_CMC` is not an AMS
+`Installer` authentication input. Its factory/download or pre-Installer role
+remains unknown.
+
+The enhanced read-only inspector never reconstructs or signs an archive. It
+validates direct single-JAR member/digest/signature structure and inversely
+checks installed payload/key pairs. The deterministic KIM census proves 135/135
+split-consistent installed instances, zero invalid/unreadable cases, and 65
+distinct member content sets. Census SHA-256 is
+`03159b95b64606bb92f0941413a884e59653584c3c1c5c6d4e347da64687255e`.
+
+Fresh local verification: 195 analysis-tool Python tests, 33 focused inspector
+tests within that suite, 16 Hello tests, 20 resident-HMI Node tests, strict C99
+arbiter build/run, Python syntax compilation, two byte-identical census builds,
+and two byte-identical Hello builds pass. Hello's JAR remains unchanged at
+SHA-256 `e3e7fa2cdffc179ea3b031f1744ad0d9958bb5a01b15fcdd3a253b777dc8bbb2`.
+The workflow remains manual-only; no GitHub Action was dispatched.
+
+The [incoming-JAR schema](reports/resident_incoming_jar_schema.md) is the primary
+new evidence report. The single next hard gate is authorized issuance: an
+issuer/tool interface that allocates or accepts the app ID, signs this proved
+archive shape with an AMS-accepted authority or legitimately issues a
+developer/device credential, maps the signer to Principal/policy, and provisions
+matching DRM/manual-launch state. One genuine live package remains useful for
+byte-exact ZIP serialization comparison, but it is no longer required to know
+the member schema. Hello remains unsigned, unissued, non-installable, and was not
+wrapped into a structural fixture.
+
+### Preceding checkpoint: 2026-09-07 resident package and trust contract
+
+All sections from this heading onward are historical checkpoints unless a later
+precedence note explicitly incorporates them. The current checkpoint above and
+the finalized reports in section 15 supersede their older open-question wording.
 
 Started clean at `264e66f`, the deterministic Hello Uconnect host-artifact
 checkpoint. This continuation did not rebuild the broad firmware census or seek
@@ -1720,7 +1774,7 @@ The smallest defensible future design in [minimal_change_design.md](reports/mini
 - stock item-19 return to production; and
 - unmodified compatible OEM-signed update media retained only for last-resort recovery.
 
-Stop gates remain: native developer trust, live package format, policy-combination semantics, exhaustive per-app ownership/cleanup and uninstall interruption behavior, install atomicity/power-loss behavior, service-certificate issuance/renewal, read-only runtime state verification, and exact-unit authorized recovery procedure.
+Stop gates remain: authorized developer/signer issuance and native trust acceptance, policy-combination semantics, exhaustive per-app ownership/cleanup and uninstall interruption behavior, install atomicity/power-loss behavior, service-certificate issuance/renewal, read-only runtime state verification, and exact-unit authorized recovery procedure. The direct live-JAR member schema and AMS split are no longer stop gates.
 
 No current evidence supports modifying security.jar, cacerts, jvm.sh, AMS, AppManager, scv, public keys, update signatures, /fs/etfs/disableDRM, or /fs/etfs/enableEngMenu.
 
@@ -1745,10 +1799,10 @@ See [uas_comparison.md](reports/uas_comparison.md). Do not adapt or execute UAS 
 
 ### Blockers
 
-1. **Developer trust decision:** the fixed installed `key.jar` association, signer-object source, property-to-token-verifier graph, Base64/SunJCE `RSA/ECB/PKCS1Padding`/exact-ID predicate, and two-stage signer-key promotion are confirmed. The recovered corpus has no usable `Device` provider. Live overlay state, legitimate issuer, AOT certificate extraction/`SigningKeys`, incoming-package association, principal mapping, revocation/time behavior, and production/development policy combination remain unresolved.
-2. **Live package format:** the resident authenticated external dispatcher is proved, but no external manifest or usr/share/APPS reference package establishes the exact accepted container layout.
+1. **Developer trust decision:** the fixed installed `key.jar` association, signer-object source, property-to-token-verifier graph, Base64/SunJCE `RSA/ECB/PKCS1Padding`/exact-ID predicate, two-stage signer-key promotion, incoming direct-JAR association, and AMS split are confirmed. The recovered corpus has no usable `Device` provider. Live overlay state, legitimate issuer, AOT certificate extraction/`SigningKeys`, principal mapping, revocation/time behavior, and production/development policy combination remain unresolved.
+2. **Authorized issuance:** no recovered external manifest, issuer specification, service, or packaging utility establishes identity allocation, accepted authority, DRM grant, or byte-exact issuer serialization. A genuine incoming JAR remains useful for serialization comparison, not for recovering the semantic member schema.
 3. **Permission combination:** the rule combining security-configuration signer/revision, global policy, signed per-app policy, application signer, DRM grant, and optional developer token is unknown.
-4. **Registry and atomicity:** AppManager's QDB whole-list catalog and its post-AMS ordering are confirmed non-atomic with the surrounding lifecycle. `Installer.recoverProgIfNeeded` owns `prog.bak`, but its exact rename/restore semantics, hidden AMS registry schema, boot reconciliation, power-loss behavior, and any upstream launch suppression remain unknown. No explicit per-app enable/disable operation exists in the recovered native/Java surfaces.
+4. **Registry and atomicity:** AppManager's QDB whole-list catalog and its post-AMS ordering are confirmed non-atomic with the surrounding lifecycle. AMS's normal upgrade rename order and `recoverProgIfNeeded` restore condition are proved, but hidden AMS registry schema, exceptional rename failure handling, boot reconciliation, power-loss behavior, and any upstream launch suppression remain unknown. No explicit per-app enable/disable operation exists in the recovered native/Java surfaces.
 5. **Routine uninstall completeness:** the native stop/completion/Xlet-resource/per-app-RMS/native-map/QDB-save path is proved, but AMS payload disposition, interruption behavior, and exhaustive cleanup of registry state and all application-owned data remain unknown.
 6. **Return authorization:** the IOC session/state-4/allowance gate is proved, but the legitimate external challenge authority and service-certificate issuing/renewal process, supported live-state refresh/revocation path, and a validity window sufficient for verified production return are not documented.
 7. **Runtime activation observation:** file owner/mode, actual marker durability, live AMS argv/selected JAR, inherited PATH/user/capabilities, and a supported non-destructive restart boundary require owner-authorized read-only observation.
@@ -1795,6 +1849,7 @@ Work should not return to trying to prove the disproven anti-theft-PIN-to-develo
 | [minimal_change_design.md](reports/minimal_change_design.md) | Conditional least-change design and stop gates |
 | [rollback_recovery.md](reports/rollback_recovery.md) | Per-app/production return, failure matrix, and disaster-recovery boundary |
 | [uas_comparison.md](reports/uas_comparison.md) | Strict generation/provenance boundary for UAS 21.9 |
+| [resident_incoming_jar_schema.md](reports/resident_incoming_jar_schema.md) | Direct live-JAR parser, exact AMS member split, preflight/install/upgrade transformation, inverse census, and issuer boundary |
 
 Precedence notes:
 
@@ -1806,7 +1861,7 @@ Precedence notes:
 - keyjar_runtime_association.md supersedes the former unknown installed association: Installer constructs the fixed sibling, AMS propagates it to VerificationClassLoader, and signer lookup uses key.jar!/xlet.properties. AOT extraction/SigningKeys and principal assignment remain open.
 - the latest application_install_pipeline.md and usb_update_pipeline.md supersede the former unknown outer-media recognizer: resident detection, nested-ISO authentication, external manifest dispatch, and environment handoff are now confirmed.
 - the hidden-HBC inventory and independent signature replay supersede older usb_update_pipeline.md and rollback_recovery.md statements that /etc/keys/swdl.pub is not materialized; the recovered public key validates both signed header material and the public-recovered full-data hashes for all three stock nested ISOs, but cannot sign modified media.
-- appmanager_registry_atomicity.md supersedes the former hidden-AppManager-registry unknown: `AppManager_JavaApps` is a whole-list QDB record saved after AMS lifecycle completion. The cross-layer path is non-atomic; `Installer.recoverProgIfNeeded` directly owns `prog.bak`, while the exact rename/restore contract remains unresolved.
+- appmanager_registry_atomicity.md and resident_incoming_jar_schema.md supersede the former hidden-AppManager-registry and upgrade-transform unknowns: `AppManager_JavaApps` is a whole-list QDB record saved after AMS lifecycle completion. The cross-layer path is non-atomic; normal AMS upgrade rename order and the `recoverProgIfNeeded` restore condition are proved, while exceptional failure and power-loss behavior remain unresolved.
 - qkcp_kim_copy_semantics.md supersedes the former `qkcp -h` manifest/atomicity unknown: `-h` is progress-only, KIM uses no checkpoint recovery, `xletsdir_ref.txt` is not consumed by the recovered copier, and direct merge/overwrite is non-atomic.
 - app_launch_ui_path.md supersedes the former stock human-facing caller unknown: the generic `AppsMainScreen` item path reaches module `AppManager.startXlet`, emits native `startApp`, and retains native DRM checking; the separate Java API retains its own permission check. application_install_pipeline.md and kona_application_authorization.md remain authoritative for stopped install/autostart policy and the absence of an explicit per-app enable/disable operation in the recovered native/Java surfaces.
 - developer_token_analysis.md and signedid_jce_semantics.md supersede both the old metadata blocker and any implication that the 256-byte decoded value is passed to Java `Signature`. The exact VCL -> KeyVerifier -> SignedId branch, Base64/SunJCE `RSA/ECB/PKCS1Padding`/exact-ID predicate, internal-root bootstrap, and selected-security-JAR signer-key promotion are confirmed. The corpus-wide ID-provider census is negative; the live ID overlay, legitimate issuer, AOT certificate extraction/SigningKeys, and principal/policy mapping remain unresolved.
@@ -1829,6 +1884,6 @@ This handoff intentionally contains no raw developer token, authentication key v
 
 The RA4 development-security selector is real, factory-shipped, and fully traced from an authenticated Service-menu gate through item 19 to the next secure AMS launch. The authentication gate is a service certificate, not the anti-theft PIN. Both the SERVICEKEY media ingress and IOC-gated internal diagserv staging/finalize route converge on stock platform verification. The IOC requires a diagnostic session and proprietary state 4 with finite allowance; its legitimate external authority remains unresolved and is not an implementation shortcut. State 4 can authorize protected anti-theft comparator provisioning, but the PIN-success path is proved one-way separate and can only trigger the destructive `xletsReturnToNew` restoration/reset in the recovered HMI flow.
 
-The application path is also materially understood: resident USB detection authenticates the installer ISO and can dispatch an external installer; `key.jar` cryptographically binds all application bytes and signed descriptor metadata; installed AMS constructs its fixed sibling path and obtains signer objects from `key.jar!/xlet.properties`; native AppManager performs an enabled DRM gate and requests AMS authenticated package information; catalog install converges on AMS `upgrade`; AMS loads `xlet.developerToken` and evaluates it through `KeyVerifier`; ordinary non-autostart installation completes stopped; the generic stock Apps UI sends the explicit native DRM-checked launch request; and stock uninstall reaches AMS `uninstall`, then performs scoped resource/RMS/map cleanup followed by a queued whole-list QDB catalog save. That sequence is not atomic with AMS state. `Installer.recoverProgIfNeeded` owns `prog.bak`, but its recovery contract is incomplete. What remains is the missing runtime identity provider/encoding, AOT signer-key/principal rule, incoming live package exemplar, exact policy assignment, AMS payload/reconciliation behavior, and dynamically proved per-app rollback.
+The application path is also materially understood: resident USB detection authenticates the installer ISO and can dispatch an external installer; AppManager/AMS receive one direct JAR; AMS authenticated preflight reads its root descriptor; `Installer.copyAndCheck` verifies and splits its members into the executable payload and fixed detached `key.jar`; installed AMS obtains signer objects from `key.jar!/xlet.properties`; native AppManager performs an enabled DRM gate; catalog install converges on AMS `upgrade`; AMS loads `xlet.developerToken` and evaluates it through `KeyVerifier`; ordinary non-autostart installation completes stopped; the generic stock Apps UI sends the explicit native DRM-checked launch request; and stock uninstall reaches AMS `uninstall`, then performs scoped resource/RMS/map cleanup followed by a queued whole-list QDB catalog save. That sequence is not atomic with AMS state. Normal upgrade rename order and `recoverProgIfNeeded`'s restore condition are proved; exceptional failure recovery is incomplete. What remains is the authorized issuer interface and byte-exact serialization, runtime identity provider/encoding, AOT signer-key/principal rule, exact policy assignment, hidden AMS reconciliation state, and dynamically proved per-app rollback.
 
 Until those stop gates are closed with owner-authorized credentials and non-mutating evidence, the safe implementation is no implementation. Preserve every factory security boundary and continue with the next highest-value unresolved dependency rather than reviving the disproven PIN-to-developer premise.
