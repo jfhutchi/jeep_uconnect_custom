@@ -38,6 +38,8 @@ DIRECT_SOURCE_KINDS = frozenset(
     }
 )
 
+TARGET_PATH_PREFIXES = ("/fs", "/usr", "/etc", "/dev", "/proc", "/tmp", "/var")
+
 
 def validate_evidence(record: Mapping[str, Any]) -> None:
     """Validate one classified claim without promoting inferential evidence."""
@@ -82,6 +84,9 @@ def validate_activation_ladder(ladder: Mapping[str, Any]) -> None:
 
 def _is_absolute_path(value: str) -> bool:
     if "://" in value:
+        return False
+    if any(value == prefix or value.startswith(prefix + "/")
+           for prefix in TARGET_PATH_PREFIXES):
         return False
     return ntpath.isabs(value) or posixpath.isabs(value)
 

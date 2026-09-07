@@ -81,6 +81,20 @@ class EvidenceModelTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "absolute path"):
                 write_json(target, {"input": "/vendor/secret.jar"})
 
+    def test_writer_allows_known_target_filesystem_paths(self):
+        with tempfile.TemporaryDirectory() as root:
+            target = Path(root) / "out.json"
+            write_json(
+                target,
+                {
+                    "target_paths": [
+                        "/fs/mmc1/xletsdir", "/usr/var/qdb/key_value",
+                        "/etc/security/service.cert", "/dev/socket/service",
+                    ]
+                },
+            )
+            self.assertIn("/fs/mmc1/xletsdir", target.read_text(encoding="utf-8"))
+
     def test_writer_sorts_set_like_record_lists(self):
         with tempfile.TemporaryDirectory() as root:
             target = Path(root) / "out.json"
