@@ -57,4 +57,4 @@
 - [x] Scan the diff for private keys, credentials, recovered certificates, tokens, and proprietary binaries.
 - [x] Request an independent final-diff review for unsupported claims and accidental sensitive/binary inclusion.
 - [x] Resolve all review findings and rerun affected verification.
-- [ ] Commit, push the existing branch, and update draft PR #14 without merging it.
+- [x] Commit, push the existing branch, and update draft PR #14 without merging it.
