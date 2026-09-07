@@ -169,6 +169,14 @@ especially callback timeout/error behavior while AMS retains ownership. The
 watchdog's enabled state, permitted app registration and timing need separate
 qualification. A lifecycle timeout name is not independent failure containment.
 
+**Callback follow-up:** the [result-completion trace](ra4_xlet_result_completion.md)
+now shows stop-specific normalization of three AMS errors and a separate
+NoReply mapping that remains nonzero. Stop bookkeeping can still mark the app
+stopped on that failure. A malformed successful reply can also produce a
+zero-code app event while the controller retains a failed-parse flag. Raw
+response evidence and physical container/input cleanup must be distinguished
+from normalized events and AppManager inventory.
+
 Reproduce native anchors using the existing `ArmElfAnalyzer`, `Elf32Image`,
 `disassemble(start, end)`, `plt_imports()`, `word_xrefs()` and `memory_offsets()`.
 Inspect both PC-relative literals and paired MOVW/MOVT values. Account for

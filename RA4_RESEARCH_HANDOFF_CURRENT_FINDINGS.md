@@ -8,7 +8,51 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 pause policy and per-app watchdog
+### Current checkpoint: 2026-09-06 callback results versus cleanup
+
+Started clean at `e1f12c5` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding goal turn made progress on pause
+policy and watchdog queueing. This continuation traces the supplied callback
+and the app-level result handler, rather than assuming an event proves cleanup.
+
+**STATIC_PROVED:** callback `0x14ADE8` classifies NoReply separately and maps
+it to result 34. For stop, AMS integer errCode 8, 12 or 20 can instead normalize
+to success; their semantic names remain unproved. NoReply has no extracted AMS
+error object and is not accepted by that normalization helper.
+
+**STATIC_PROVED bookkeeping limit:** the app-level stop-result branch calls
+switchToStop even for a nonzero result. It can remove the app from native
+paused/running lists, announce appListUpdated and mark its status stopped,
+then emit appStopped with the error code intact. Those are AppManager state
+changes, not proof that AMS terminated a hung Xlet or released its container.
+
+**STATIC_PROVED malformed-reply limit:** successful-transport JSON parse failure
+clears the controller's success flag but retains mapped result zero. The
+app-level event can therefore have code zero before later controller logic
+uses the failed-parse flag. This does not prove the original request's final
+outcome or that a malformed reply occurred on the radio. HMI appPaused handling
+checks errorCode before dispatching APP_PAUSED versus START_XLET_ERROR.
+The [result-completion report](reports/ra4_xlet_result_completion.md) records
+the separate response objects, jump tables, mappings and native/HMI anchors.
+
+The resident proof now requires raw response category, raw AMS error when
+present, parse validity and normalized result correlated with app/operation,
+plus independent lifecycle, visibility and input completion. No runtime gate
+passes, no measured resident limit fails, and external compute is not selected.
+
+**Next technical target:** actual AMS pause/destroy implementation and its
+callback-timeout consumer through AWT/Screen container and input cleanup when
+an app fails to return, while AMS retains ownership. More native bookkeeping
+labels cannot substitute for that downstream proof. PR #14 remains draft/open;
+main and independent PR #15 are preserved. Only original documentation changed;
+there were no radio/vehicle actions, vendor payload commits or provider contact.
+
+Fresh verification: **150 host Python tests pass, no skips**; two artifact
+identities, 102 native instructions, two complete tables, nine literals, four
+imports and 14 SWF instructions match, including ABC base/method count.
+All 102 local links in the seven changed Markdown documents resolve.
+
+### Preceding checkpoint: 2026-09-06 pause policy and per-app watchdog
 
 Started clean at `71a054a` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. The preceding turn made progress on native display

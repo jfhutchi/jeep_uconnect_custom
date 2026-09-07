@@ -56,6 +56,12 @@ it does not directly reclaim the window/input in that timer handler. Live
 activation, supported custom registration, timing and completed recovery remain
 unproved. Do not count a queued stop or conditional daemon restart as fail-open
 recovery or healthy session preservation.
+The [result-completion trace](../reports/ra4_xlet_result_completion.md) also
+shows that stop bookkeeping can advance despite a NoReply error, selected AMS
+stop errors can be normalized to zero, and failed JSON parsing can coexist with
+a zero-code app event. Require raw response/error and parse-validity evidence
+alongside the normalized event. Neither an app inventory state nor that event
+alone proves lifecycle completion, display/input release or failure containment.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
@@ -74,7 +80,7 @@ qualify a supported isolated native package rather than injecting a surface.
 | Return/session continuity | Supported action and effective PauseAllowed for the new identity; legitimate engine session owner survives permitted pause | STATIC_PROVED false/default selects stop and wrappers submit asynchronously; UNKNOWN custom permissions, completion and engine continuity |
 | Failure containment | No boot dependency or autostart; bounded resources; stock-owned reclaim on exit, disappearance and unresponsive app; distinguish app failure with AMS alive from AMS owner loss/hang | STATIC_PROVED AMS owner-change hide/order and enabled-watch expiry stop queue; UNKNOWN live activation, bounded completion, input reclaim and target guarantee |
 | Baseline and storage | Exact-unit stock health baseline, current writable free blocks, package manifest and allocated-block accounting; update state idle | UNKNOWN future measurement |
-| Recovery authority | Supported app-specific stop/uninstall remains reachable without the custom view or process; registry/data reconciliation documented | UNKNOWN complete runtime rollback |
+| Recovery authority | Supported app-specific stop/uninstall remains reachable without the custom view or process; raw errors, parse validity, normalized result and registry/data reconciliation documented | STATIC_PROVED callback/state bookkeeping can advance despite errors; UNKNOWN completed runtime rollback |
 | Experiment setting | Owner-authorized spare bench unit and supplier-supported camera/critical-state validation method, stable power and recovery provisions | External prerequisite; no vehicle operation authorized here |
 
 Expected semantic APIs: Xlet initialize/start/pause/destroy lifecycle, authorized
@@ -144,6 +150,10 @@ This sequence is a design; there are no executable radio commands here.
    Then use explicit Close/stop and verify the app is stopped. A background
    request's zero response, a dispatched Resume, or navigation alone does not
    establish those completion states. Release only app-owned resources.
+   Correlate app identity and operation with raw response category, raw AMS
+   error when present, reply parse validity and normalized event code. An
+   AppManager stopped record or appStopped/appPaused event is insufficient
+   without confirmed lifecycle and presentation/input completion.
 7. **Failure containment:** only after documented isolation exists, test the
    approved app-only failure/unresponsive scenario on the spare bench. Stock
    must reclaim presentation without relying on custom cleanup. Never terminate

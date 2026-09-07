@@ -9,6 +9,7 @@ Current decision artifacts: [transport gate matrix](docs/20_projection_transport
 [Xlet foreground admission and return/release handoff](reports/ra4_xlet_foreground_handoff.md),
 [native display visibility and AMS owner-change boundary](reports/ra4_display_owner_reclaim.md),
 [Xlet pause policy and watchdog stop-request boundary](reports/ra4_xlet_pause_watchdog.md),
+[Xlet result normalization and stopped-state limits](reports/ra4_xlet_result_completion.md),
 and [first future resident proof](docs/21_first_resident_runtime_proof.md).
 The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
 canonical draft PR status. No radio deployment is authorized by these reports.

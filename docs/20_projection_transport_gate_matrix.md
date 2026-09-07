@@ -20,7 +20,7 @@ provides hashes, boundaries and the expected backend interface.
 | Touch/input | Dashboard-to-launcher tap over ADB | Stock touch infrastructure and host ownership model | PROVED PC/ADB; UNKNOWN RA4 | Input delivery to authorized app/engine, focus release and no stolen stock input |
 | Audio / microphone | Audio quality not independently validated | Stock audio services and HMI status contracts | UNKNOWN | Supported audio focus, call/voice paths, latency and restoration |
 | Foreground ownership | PC window offers no vehicle-arbiter proof | Native Boolean admission check, HMI state checks, 640x480 app-screen pause and `ams` display-release request | STATIC_PROVED stock calls; UNKNOWN custom app and completed reclaim | Supported foreground identity with camera/critical/comfort priority; background API's SuperApp restriction resolved through permitted custom interface |
-| Disconnect/recovery | Clean ADB session exits; second session after tunnel recreation; normal USB after owner reconnect | Host leases/fail-open model only | PROVED limited PC behavior; UNKNOWN RA4 | No stale ownership, bounded cleanup and automatic stock restoration |
+| Disconnect/recovery | Clean ADB session exits; second session after tunnel recreation; normal USB after owner reconnect | Host fail-open model; native watchdog stop queue and callback bookkeeping, including stopped-state updates on NoReply | PROVED limited PC behavior; STATIC_PROVED stock request/state paths; UNKNOWN RA4 recovery | Raw errors/parse validity, bounded app cleanup, native input release and automatic stock restoration; no inference from inventory/event alone |
 | Return to Uconnect | Not tested by PC/DHU | Stock Xlet screen exit requests pause/display release; native pauseApp selects stop if PauseAllowed is false; Close explicitly stops; re-entry can dispatch Resume | STATIC_PROVED policy and asynchronous requests; UNKNOWN engine continuity | Supported custom Return, effective pause policy and engine continuity; distinct completion acknowledgments for return/resume/stop |
 | Camera takeover | No vehicle in bench | Stock HMI camera priority and host arbiter model | STATIC_PROVED stock paths; UNKNOWN custom coexistence | Camera remains independent through app launch, hang, exit and removal |
 | Critical/eCall and HVAC | No vehicle in bench | Existing priority/overlay model and stock evidence | UNKNOWN custom coexistence | Authorized integration yields correctly; no emergency-call trial improvised |
@@ -64,3 +64,9 @@ selects stop. Its enabled per-app watchdog expiry queues stopApp; conditional
 daemon restart is a different operation from preserving a healthy session.
 Asynchronous IPC submission and queued recovery requests do not establish
 bounded stop, native visibility or input reclaim while AMS remains registered.
+
+The [callback/result trace](../reports/ra4_xlet_result_completion.md) establishes
+why app-state observations need qualification: stopped bookkeeping can advance
+on NoReply, selected AMS stop errors normalize to zero, and malformed successful
+reply parsing can yield a zero-code app event with a separate failure flag.
+Physical cleanup remains unproved; no gate is closed by those notifications.

@@ -183,6 +183,13 @@ Xlet/VM is unresponsive. Keep camera, critical/eCall and comfort priority under
 the stock owners. No target failure injection or deployment is authorized by
 these static findings.
 
+The [result-completion follow-up](ra4_xlet_result_completion.md) now separates
+native response classification, parse validity, normalized result, app inventory
+and emitted lifecycle events. The HMI appPaused consumer checks errorCode,
+but native normalization and a malformed-reply path limit what a zero event
+alone proves. Stock stopped-state bookkeeping can advance on a NoReply failure.
+The remaining target is actual AMS lifecycle/container/input cleanup.
+
 ## Reproduction and validation
 
 Use the existing host tools without executing recovered code:
