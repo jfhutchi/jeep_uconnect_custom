@@ -5,6 +5,11 @@ after fetch. Local static analysis only; no radio execution or GitHub Actions.
 
 ## Decision
 
+Later follow-up: the [compiled-method and factory trace](ra4_screen_factory_lifetime.md)
+identifies the six non-inline entries, distinguishes their two press-state byte
+stores from pumpEvents, and connects new screen creation to a graphics device
+and retained daemon runnable. A supported stop/release transition remains open.
+
 **STATIC_PROVED:** the five-byte GLESPlatformScreen.access$800 body uses a
 fused D7/D0 operation. D7 obtains its receiver from local variable zero and
 consumes the following opcode and two-byte operand. For operand 46, the D0

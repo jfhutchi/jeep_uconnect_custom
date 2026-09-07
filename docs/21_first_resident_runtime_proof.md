@@ -117,6 +117,15 @@ and native/dynamic behavior remain outside that writer check. The supported
 stop writer remains unproved. Qualify the lifecycle API rather than treating
 a recovered field location as a control interface. Cross-thread observation
 and completed native release still need their own evidence.
+The [factory/compiled-method trace](../reports/ra4_screen_factory_lifetime.md)
+identifies the six non-inline implementations. Its two inspected byte stores
+update stillPressed, not pumpEvents. getInstance(Window) allocates a new screen;
+GLESGraphicsDevice.setWindow stores it, and the daemon runnable retains it.
+Window.init invokes the base GraphicsDevice.setWindow method; the GLES device
+supplies the matching override, with effective runtime receiver still unobserved.
+Identify the approved app's frame/device ownership and supported screen lifetime;
+neither one screen per Xlet nor a singleton follows from those method names.
+Per-app container removal remains separate from frame/device/native teardown.
 The event-loop/release report also traces AMS's dynamic symbol formatter and library
 lookup: zero AOT entries alone cannot reject dynamic binding, but ordinary
 short/signature-qualified lookup does not remove the observed class-name

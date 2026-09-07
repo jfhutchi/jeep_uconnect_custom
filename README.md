@@ -19,6 +19,7 @@ Current decision artifacts: [transport gate matrix](docs/20_projection_transport
 [Screen loop exit and native event release](reports/ra4_screen_loop_release_boundary.md),
 [JNI native-registration limit](reports/ra4_jni_registration_limit.md),
 [Screen-loop quick-field semantics](reports/ra4_screen_quick_field_semantics.md),
+[Screen factory and compiled-method boundary](reports/ra4_screen_factory_lifetime.md),
 and [first future resident proof](docs/21_first_resident_runtime_proof.md).
 The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
 canonical draft PR status. No radio deployment is authorized by these reports.

@@ -20,7 +20,47 @@ jobs existed when this instruction was received. This restriction supersedes
 earlier CI-related expectations. Do not automatically enable or run Actions
 when the calendar changes without considering the owner's latest instructions.
 
-### Current checkpoint: 2026-09-06 pumpEvents layout reconstruction
+### Current checkpoint: 2026-09-06 remaining Screen methods and factory ownership
+
+Started clean at `52c44e5`; fetched origin with no divergence. The previous
+goal turn made concrete progress by reconstructing pumpEvents placement and
+checking the inline writers. This continuation identifies the six non-inline
+implementations and the screen factory's ownership chain. The goal stays active.
+
+**STATIC_PROVED:** the six methods bind to graphics configuration, pixel-depth,
+event conversion and three native image/EGL wrappers. The selected native
+implementations attach the image library or read native handle fields. The
+six listed compiled intervals contain two STRB-family candidates, both verified
+as stillPressed writes at next block +0x13; these do not clear pumpEvents at
++0x12. Transitive calls and computed/wider stores remain outside that census.
+
+**STATIC_PROVED:** getInstance(Window) allocates a new GLESPlatformScreen;
+GLESGraphicsDevice.setWindow stores its result in screen; the initializer
+runnable retains that screen in this$0 and is passed to the daemon thread.
+Window.init invokes the base GraphicsDevice.setWindow method, and the GLES
+device supplies its matching override. This is not evidence of a cached
+singleton or one thread/native context per Xlet. **UNKNOWN:** the effective
+runtime device type and invocation count, approved
+app frame/device ownership, supported stop writer and completed native release.
+See the [factory and compiled-method report](reports/ra4_screen_factory_lifetime.md).
+
+Fresh verification reran the artifact chain and checked 46 ARM anchors, six
+method/adapter bindings, six storage literals, three native targets, two imports,
+two byte stores, six ROM bodies, seven resolved references, the device
+superclass/override relationship and a 4122-pool
+factory-reference census. No target/phone test, executable product change,
+provider contact or GitHub Actions run. The earlier 162-test suite is historical.
+USB, transport, engine, authorization and resource gates remain unchanged.
+All 120 local links across five changed Markdown files resolve; whitespace
+checks pass. The remote workflow retains the verified manual-only blob.
+
+Next useful ownership trace is Window.init's relationship to the approved
+Xlet's frame factory and the corresponding disposal path. Do not
+create app isolation by repeatedly invoking an unqualified screen factory or
+destroying shared stock resources. No measured local failure or external-compute
+fallback is established.
+
+### Preceding checkpoint: 2026-09-06 pumpEvents layout reconstruction
 
 Started clean at `f26a3e7`; fetched origin with no divergence. The previous
 goal turn made concrete progress by resolving the accessor's read mechanics.
