@@ -1,6 +1,6 @@
 # 10 - Evidence gates and acquisition manifest
 
-Updated 2026-09-06. This is the exact evidence still needed to turn the current
+Updated 2026-09-07. This is the exact evidence still needed to turn the current
 static/model architecture into a deployable OEM-style projection application.
 It separates work that is locally present but temporarily inaccessible from
 evidence that does not exist in the current corpus.
@@ -8,6 +8,46 @@ evidence that does not exist in the current corpus.
 This document is not a radio-write, flashing, credential, signing, activation,
 or license-extraction procedure. Vendor artifacts remain ignored and must never
 be committed.
+
+## Current next-action decision
+
+The highest-value next input is an approved RA4/QNX 6.5/Kona build or package
+contract, not another repetition of the completed firmware census. The
+[transport matrix](20_projection_transport_gate_matrix.md) still has no RA4
+runtime pass, and the [engine qualification](11_projection_engine_feasibility.md)
+has no confirmed compatible receiver build. Further static lifecycle work can
+refine requirements but cannot supply a toolchain entitlement, approved package
+identity, provider support or observed stock recovery.
+
+The 2026-09-07 host audit at `930fffd` found no qcc, q++ or javac on the
+current process PATH and no QNX_HOST/QNX_TARGET configuration. This is a
+bounded environment observation, not proof that no SDK exists elsewhere on
+the owner's machine. No approved SDK/provider-document location has been
+supplied for this continuation. Inspect such a location read-only when provided;
+do not install a generic newer QNX SDK and infer RA4 compatibility.
+
+Keep the next inputs small and separate their effects:
+
+| New evidence | Minimum useful content | Work it unlocks |
+| --- | --- | --- |
+| Authorized compatible build kit | Exact QNX 6.5 ARM32 little-endian/Kona target support, compiler/runtime version, permitted API stubs/headers/libraries and build-use scope | Original host compilation and dependency/size inspection of the no-engine shell; no target execution |
+| Issuer-supported package route | Accepted schema and entry point, non-autostart semantics, allowed app identity/permissions, supported signing/issuance process and install/uninstall format | Reviewable package integration using that documented route; no credential material is needed in Git or chat |
+| Supported lifecycle/ownership contract | Effective frame/device ownership, permitted foreground/Return action, pause policy, app-only failure containment, raw errors versus completed cleanup and independent stock input recovery | Complete the resident test's integration and acceptance design; a separate bench authorization is still required |
+| Existing passive C2 topology evidence | Identified unpowered C2 D+/D- net through board connectors to an identified PHY/controller on authorized spare hardware, or equivalent existing correlated topology evidence | Select the cabin host path without inferring it from generic port numbers; does not pass AOA transport |
+| Authorized receiver/provider response | Separate Android Auto/CarPlay component manifests, exact ABI, permitted transport/video/audio interfaces, rights and target resource figures | Evaluate the actual local engine; neither PC DHU nor a generic QNX product description substitutes |
+
+The first host compile does not require a phone engine or a physical radio.
+It does require a real compatible build kit and API contract; compiling an
+invented shim against the host platform would not close that gate. Package
+assembly, target execution and full engine qualification are later, separate
+decisions. The <=3 MB no-engine and <=15 MB full-product caps remain unchanged.
+
+The provider questions already exist in the engine report; no provider has
+been contacted. A location for existing authorized materials can unlock the
+read-only compatibility check immediately. Until then, preserve the current
+research checkpoint and the full objective. Do not manufacture progress by
+rerunning the same scans or treating notification/error normalization as a
+runtime pass. Remaining static questions are not declared universally solved.
 
 ## Gate classes
 
@@ -19,13 +59,21 @@ be committed.
 | SPARE_HARDWARE_REQUIRED | Static/model evidence cannot prove runtime priority, timing, resource use or crash fallback | Use only a separately authorized spare RA4 bench after the lifecycle gate is legitimate |
 | MEASUREMENT_REQUIRED | A build or runtime exists but exact bytes/CPU/RAM/latency are unknown | Measure before accepting the feature; never consume the 45 MB stock reserve |
 
-## Gate A - local static closure
+## Gate A - completed local baseline and bounded follow-ups
 
 These artifacts are already represented by hashes and derived evidence in the
 repository. The runner recovered after reboot. The
 [checkpoint](../reports/ra4_post_reboot_checkpoint.md) records executed host tests,
 strict C99 build, 122-marker census and HMI XREFs. Remaining static questions
 are evidence gaps, not command-runner blockers.
+
+The table below records the original acquisition queries. The current
+[structured census](../reports/ra4_usb_stack_backend_census.md),
+[gateway dispatch trace](../reports/ra4_projection_gateway_dispatch.md),
+[field/loop trace](../reports/ra4_screen_quick_field_semantics.md) and
+[frame/disposal trace](../reports/ra4_screen_factory_lifetime.md) supersede its
+older open-ended instructions. Do not repeat a query against unchanged inputs
+without a new hypothesis that can change an unresolved product decision.
 
 | Artifact | Expected SHA-256 | Required read-only query | Closure supplied |
 | --- | --- | --- | --- |
@@ -45,7 +93,8 @@ Required tools are already tracked:
 - analysis_tools/qnx_media_runtime_probe.py
 - analysis_tools/qnx_runtime_correlation.py
 
-Run `qnx_media_runtime_probe.py` first, then pass its redacted JSON to
+For a new, materially different authorized corpus, run
+`qnx_media_runtime_probe.py` first, then pass its redacted JSON to
 `qnx_runtime_correlation.py`. Inspect tier-1 configuration, startup and
 stock-specific candidates before cross-family and single-family candidates.
 The correlator's tier is only a deterministic inspection order: a positive hit
@@ -59,6 +108,10 @@ and tool version/commit. A string hit alone is not a consumer or ABI proof.
 Complete disassemblies and vendor files do not belong in Git.
 
 ## Gate B - historical Synctool correlation
+
+This is a separate historical research question, not a prerequisite for
+building the original no-engine projection shell. Do not divert the projection
+critical path into repeated map-license correlation work.
 
 The exact numerical relationship for the successful
 Harman_CMC_VP4_NA_VP4_2017Q2_UPDATE_MY14_REVA.lyc selection needs one
@@ -110,15 +163,15 @@ or vendor/provider documentation:
 | Contract | Exact missing evidence |
 | --- | --- |
 | phoneProjectionService | registration name, interface/version, transport framing, owner-death and reconnect semantics |
-| stock app/screen lifecycle | accepted package identity, descriptor/entry point, foreground request caller and deterministic unload/crash fallback; census `bar-descriptor.xml`, `Qnx/Elf`, `run_native`, app-installer and service-start markers, but do not assume QNX reference BAR acceptance |
+| stock app/screen lifecycle | accepted package identity, descriptor/entry point, effective frame/device ownership, supported foreground caller and completed unload/crash fallback; secure AMS/AppManager and Xlet/AWT/LWUIT static paths are traced, but no custom package is approved and QNX reference BAR acceptance is not established |
 | QNX CAR reference services | whether `/pps/system/navigator`, Launcher/Authman, HNM, UI Core, QtQnxCar2, Audio Manager, Now Playing, `io-acoustic` or mm services are installed/started; official names alone are not a stock contract |
-| Return to Uconnect | complete PROJECTION_BACKTO_CAR consumer and previous-stock-branch rule |
+| Return to Uconnect | supported action for the new identity, effective PauseAllowed and demonstrated engine continuity; recovered consumer and pause/stop requests do not prove completed native release or a surviving session |
 | native presentation policy | supported volatile/default-open gate for ordinary call popup/goto, SMS popup and SMS TTS; if HNM exists, prove its HandsFreePhone policy/plugin relationship to the traced Harman SWF paths without editing the policy |
 | video surface | start from confirmed graphics.conf 640x480 OMAP3730/SGX530 plus `video_hmi`; prove stock group owner/name, window type, z-order, buffer format/count/stride, post synchronization, lifecycle and owner-death |
 | touch | start from confirmed CMC mtouch/scaling and factory Screen event use; prove focus/sensitivity owner, coordinate transform, cancellation at preemption, and delivery only to selected projection |
 | audio | start from confirmed `P/share/audioDSP/audioMgrCMC.conf:24-29` `audioApp` -> MME mapping; prove AudioCtrlSvc/MME registration, source types, media/prompt/call priority, ducking versus pause/resume callbacks, mic/speaker ownership, owner-death and stock restoration |
 | USB/authentication | legitimate CarPlay/Android Auto device/session/authentication interface; QNX 7 documents projection-aware Android/Apple `usblauncher_otg` modules, but RA4 equivalence is unknown |
-| projection engine | authorized ARM32/QNX-compatible implementation and redistribution/runtime requirements; QNX Smartphone Connectivity is the identified candidate family, not yet a compatible build |
+| projection engine | authorized QNX 6.5 ARM32-compatible implementation and redistribution/runtime requirements; QNX and Cinemo are documented qualification candidates, with no confirmed compatible build; a Java/JNI adapter must not assume the recovered aborting RegisterNatives stubs work |
 | hardware video decode | installed decoder/DSP server and supported client ABI, boot reservation, licensing, buffer contract and measured CPU/RAM; OMAP3730 silicon capability alone is insufficient |
 | USB device role | BE2800, data-hub/cable and HIGH D2784B circuit mapping are identified; the [stock ULPI trace](../reports/ra4_usb_phy_power_control.md) proves Mentor reset/VBUS-drive requests, and the [startup trace](../reports/ra4_startup_usb_phy_identity.md) names intended USB83340-family EHCI support separately; still require fitted PHY/power-switch and active hub identity, electrical VBUS behavior, D2784B-to-controller route, compatible DCD/function driver and host/device transition; neither the weak ID check nor utility exit status proves hardware success |
 
@@ -126,6 +179,13 @@ No direct localhost socket, SWF/native address call, guessed ModuleLink field,
 generic QNX CAR PPS write copied from a reference manual, monolithic Full
 Screen HMI replacement, persistent disable preference or unsigned/development
 package is an acceptable substitute.
+
+Completion evidence must account for the recovered distinctions: normalized
+stop results and stopped bookkeeping can coexist with failure; worker done
+can come from a timeout fallback; finite Screen waits do not bound the whole
+loop; and off-dispatch Window disposal can reach WINDOW_CLOSED posting after
+logged interruption/invocation errors. Neither a generic success event nor
+static entry-point presence closes cleanup, native input or stock recovery.
 
 ## Gate D - spare-hardware proof
 

@@ -4,6 +4,12 @@ Date: 2026-09-06. **Specification only. No target package has been created,
 authorized, deployed or executed.** Work remains on the host until the gates
 below are resolved and a future target experiment is separately authorized.
 
+The [next-action decision](10_evidence_gates.md#current-next-action-decision)
+lists the minimum inputs that separately unlock host compilation, package
+integration and a future bench trial. A compatible approved build kit can
+advance the original host build before a receiver engine is available; it
+does not authorize target execution or pass a runtime acceptance gate.
+
 ## Artifact and package lane
 
 The first candidate is an independently authored, non-autostart **Kona/AMS

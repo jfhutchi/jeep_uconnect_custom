@@ -1,10 +1,16 @@
 # PC reference versus RA4 projection gates
 
-Date: 2026-09-06. Decision artifact for canonical draft PR #14. Status explicitly
+Updated: 2026-09-07. Decision artifact for canonical draft PR #14. Status explicitly
 separates reference observations from the RA4's static and runtime evidence.
 The [bench contract](../reports/android_auto_reference_contract.md) preserves
 PR #15's provenance and limits; the [RA4 census](../reports/ra4_usb_stack_backend_census.md)
 provides hashes, boundaries and the expected backend interface.
+
+The [next-action decision](10_evidence_gates.md#current-next-action-decision)
+separates the inputs needed for host compilation, package integration, a future
+bench trial and engine qualification. No RA4 runtime gate has passed. The
+recent frame/disposal traces improve the acceptance criteria; they do not
+replace an approved build kit, lifecycle contract or target measurements.
 
 | Gate | PC/DHU reference | RA4 evidence | Status | Missing proof |
 | --- | --- | --- | --- | --- |
@@ -20,13 +26,13 @@ provides hashes, boundaries and the expected backend interface.
 | Touch/input | Dashboard-to-launcher tap over ADB | Stock touch infrastructure and host ownership model | PROVED PC/ADB; UNKNOWN RA4 | Input delivery to authorized app/engine, focus release and no stolen stock input |
 | Audio / microphone | Audio quality not independently validated | Stock audio services and HMI status contracts | UNKNOWN | Supported audio focus, call/voice paths, latency and restoration |
 | Foreground ownership | PC window offers no vehicle-arbiter proof | Native Boolean admission check, HMI state checks, 640x480 app-screen pause and `ams` display-release request | STATIC_PROVED stock calls; UNKNOWN custom app and completed reclaim | Supported foreground identity with camera/critical/comfort priority; background API's SuperApp restriction resolved through permitted custom interface |
-| Disconnect/recovery | Clean ADB session exits; second session after tunnel recreation; normal USB after owner reconnect | Host fail-open model; native watchdog stop queue and callback bookkeeping, including stopped-state updates on NoReply | PROVED limited PC behavior; STATIC_PROVED stock request/state paths; UNKNOWN RA4 recovery | Raw errors/parse validity, bounded app cleanup, native input release and automatic stock restoration; no inference from inventory/event alone |
+| Disconnect/recovery | Clean ADB session exits; second session after tunnel recreation; normal USB after owner reconnect | Host fail-open model; stopped-state updates on NoReply; done can follow timeout and WINDOW_CLOSED can follow a disposal error | PROVED limited PC behavior; STATIC_PROVED stock request/state/error paths; UNKNOWN RA4 recovery | Raw errors/parse validity, actual action completion and late work, bounded native input release and stock restoration; inventory, done or closed events alone are insufficient |
 | Return to Uconnect | Not tested by PC/DHU | Stock Xlet screen exit requests pause/display release; native pauseApp selects stop if PauseAllowed is false; Close explicitly stops; re-entry can dispatch Resume | STATIC_PROVED policy and asynchronous requests; UNKNOWN engine continuity | Supported custom Return, effective pause policy and engine continuity; distinct completion acknowledgments for return/resume/stop |
 | Camera takeover | No vehicle in bench | Stock HMI camera priority and host arbiter model | STATIC_PROVED stock paths; UNKNOWN custom coexistence | Camera remains independent through app launch, hang, exit and removal |
 | Critical/eCall and HVAC | No vehicle in bench | Existing priority/overlay model and stock evidence | UNKNOWN custom coexistence | Authorized integration yields correctly; no emergency-call trial improvised |
 | USB device/function stack | Not required for host-side AOA | No named DCD/function bundle in bounded census | UNKNOWN complete board/device capability; EXTERNAL_PROVIDER_GATE for missing components | Exact QNX 6.5 OMAP DCD, descriptors and reversible cabin route if chosen CarPlay transport needs them |
 | Stock projection backend | Google DHU services the PC session | HMI names `phoneProjectionService` and `DeviceConnectionManager`; recovered gateway rejects both in normal dispatch | STATIC_PROVED client/gateway routing gap; EXTERNAL_PROVIDER_GATE implementation | Matching supported bridge/build or separate permitted API, provider/package identity, service registration and screen |
-| Resident launch and authorization | Windows DHU proves none | Secure AMS/AppManager manual launch; stock Xlet/AWT/LWUIT view callers and AMS metadata | STATIC_PROVED lifecycle/view references; EXTERNAL_PROVIDER_GATE custom app | Legitimate package identity, compatible SDK and supported foreground/surface lifecycle |
+| Resident launch and authorization | Windows DHU proves none | Secure AMS/AppManager manual launch; stock Xlet/AWT/LWUIT callers; conditional cached default frame reaches Window/Screen initialization | STATIC_PROVED conditional stock paths; EXTERNAL_PROVIDER_GATE custom app | Approved QNX 6.5/Kona build kit and package route, effective frame/device ownership, permitted foreground/Return and independent recovery |
 | Resource fit | PC RAM/CPU/storage is inapplicable | Approx. 77 MB historical free space; budget unchanged | UNKNOWN measured product fit | <=15 MB installed, <=4 MB growth, <=8 MB extra staging, >=45 MB reserve and >=5 MB residual |
 | Rollback | PC/phone returned to ordinary USB state | Stock per-app lifecycle traced; no custom package trial | UNKNOWN RA4 runtime rollback | Package-local uninstall, registry reconciliation, clean reboot and stock baseline |
 

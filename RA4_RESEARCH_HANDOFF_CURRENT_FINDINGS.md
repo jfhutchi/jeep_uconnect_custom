@@ -20,7 +20,43 @@ jobs existed when this instruction was received. This restriction supersedes
 earlier CI-related expectations. Do not automatically enable or run Actions
 when the calendar changes without considering the owner's latest instructions.
 
-### Current checkpoint: 2026-09-07 default frame and disposal completion boundary
+### Current checkpoint: 2026-09-07 product readiness and next inputs
+
+Started clean at `930fffd`; fetched origin with no divergence. The preceding
+continuation connected the default frame and qualified disposal completion.
+This checkpoint separates the remaining build inputs from package and runtime
+acceptance. The full resident-first objective remains active.
+
+**EXTERNAL_PROVIDER_GATE:** no confirmed RA4-compatible receiver or approved
+custom-package contract is present in the project evidence. The current shell
+has no qcc, q++ or javac on PATH and no QNX_HOST/QNX_TARGET configuration.
+This is a bounded process-environment observation, not a whole-machine SDK
+search or proof of absence. No approved SDK/document location has been supplied
+for this continuation; the owner was asked for the location of existing
+authorized materials. No provider was contacted.
+
+The [next-action decision](docs/10_evidence_gates.md#current-next-action-decision)
+now identifies minimum useful inputs and what each unlocks. Compatible build
+tools and permitted API materials can unlock an original no-engine host build
+without a receiver or radio. Package issuance, effective ownership, runtime
+recovery and engine qualification remain separate gates. Passive C2 topology
+evidence remains the highest-value hardware input.
+
+The older acquisition queries are labeled as historical baseline work, with
+repetition reserved for materially different inputs or a new product-relevant
+hypothesis. Synctool correlation is not a prerequisite for the projection shell.
+The transport matrix now incorporates the latest notification/completion limits.
+Further static questions remain, but repeated scans cannot supply an authorized
+ABI contract or target measurements. No RA4 runtime gate advanced in this audit.
+
+This checkpoint changes documentation only. Local checks cover the changed
+documents and repository state; the earlier 162-test suite and preceding
+artifact verification remain historical. No target or phone connection,
+compiler installation, engine acquisition, external-compute selection or
+hosted workflow occurred. The next build depends on an existing approved
+materials location or a supported provider contract.
+
+### Preceding checkpoint: 2026-09-07 default frame and disposal completion boundary
 
 Started clean at `1d38c28`; fetched origin with no divergence. The prior goal
 turn established the Screen factory's relationship to Window initialization.
