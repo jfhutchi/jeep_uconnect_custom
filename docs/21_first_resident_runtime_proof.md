@@ -12,7 +12,11 @@ does not authorize target execution or pass a runtime acceptance gate.
 The reproducible source, compile-only declarations and validator are now in
 [`prototype/hello_uconnect`](../prototype/hello_uconnect/README.md); the exact
 host result and remaining gate are recorded in the
-[Hello artifact report](../reports/hello_uconnect_host_artifact.md).
+[Hello artifact report](../reports/hello_uconnect_host_artifact.md). The
+[package-format report](../reports/resident_package_format.md) proves the
+factory post-install layout and detached envelope but keeps the accepted live
+single-JAR schema unknown; the exact remaining stages are in the
+[installability gap](../reports/hello_installability_gap.md).
 
 ## Artifact and package lane
 

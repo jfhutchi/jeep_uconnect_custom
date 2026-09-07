@@ -21,6 +21,12 @@ Current decision artifacts: [transport gate matrix](docs/20_projection_transport
 [Screen-loop quick-field semantics](reports/ra4_screen_quick_field_semantics.md),
 [Screen factory and compiled-method boundary](reports/ra4_screen_factory_lifetime.md),
 the [independently authored Hello Uconnect host artifact](reports/hello_uconnect_host_artifact.md),
+the [resident package format](reports/resident_package_format.md),
+[application identity model](reports/resident_identity_model.md),
+[detached signing chain](reports/resident_signing_chain.md),
+[policy/entitlement boundary](reports/resident_policy_entitlements.md),
+[stock install lifecycle](reports/resident_install_lifecycle.md),
+[Hello installability gap](reports/hello_installability_gap.md),
 and [first future resident proof](docs/21_first_resident_runtime_proof.md).
 The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
 canonical draft PR status. No radio deployment is authorized by these reports.

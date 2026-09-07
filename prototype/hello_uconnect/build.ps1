@@ -96,6 +96,25 @@ try {
     if ($LASTEXITCODE -ne 0) {
         throw "Artifact validation failed with exit code $LASTEXITCODE"
     }
+    $researchLayout = Join-Path $buildRoot 'research-installed-layout'
+    & $Python -m prototype.hello_uconnect.tools.build_installed_layout_skeleton `
+        $jarPath `
+        (Join-Path $output 'xlet.properties') `
+        $researchLayout | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "Installed-layout skeleton build failed with exit code $LASTEXITCODE"
+    }
+    $researchApp = Join-Path $researchLayout '4e9838d7-d08f-5f3a-be95-b309114fc22e'
+    & $Python -m analysis_tools.resident_package_inspect `
+        $researchApp `
+        --hello-profile `
+        --pretty `
+        --output (Join-Path $output 'installed-layout-research-report.json')
+    if ($LASTEXITCODE -ne 1) {
+        throw "Unsigned skeleton must fail installability inspection with exit code 1; got $LASTEXITCODE"
+    }
+    # Exit 1 is the expected non-installability result, not a host-build failure.
+    $global:LASTEXITCODE = 0
 } finally {
     Pop-Location
 }

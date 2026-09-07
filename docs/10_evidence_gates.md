@@ -13,6 +13,10 @@ be committed.
 
 The highest-value external input is an issuer-supported RA4 package/identity
 contract, not another repetition of the completed firmware census. The
+[resident package format](../reports/resident_package_format.md) now separates
+the proved factory installed layout from the still-unknown live single-JAR
+schema. The [Hello gap matrix](../reports/hello_installability_gap.md) records
+the exact identity, signer/principal, policy/DRM and installer requirements. The
 [transport matrix](20_projection_transport_gate_matrix.md) still has no RA4
 runtime pass, and the [engine qualification](11_projection_engine_feasibility.md)
 has no confirmed compatible receiver build. Host Java compilation is a separate

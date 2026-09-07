@@ -36,7 +36,7 @@ Autostart:                          false
 Daemon:                             false
 Audio app:                          false
 Unexpected API references:          0
-Artifact installability:            NO - legitimate signing/package identity unresolved
+Artifact installability:            NO - accepted live JAR schema and authorized app ID/signer/principal/policy/DRM issuance unresolved
 ```
 
 | Measurement | Actual value |
@@ -114,12 +114,25 @@ issuer/provider route:
 Until all five are satisfied, the generated JAR and descriptor are reviewable
 host artifacts only and must not be presented as target-installable.
 
+The [resident package format](resident_package_format.md),
+[identity model](resident_identity_model.md), [signing chain](resident_signing_chain.md),
+[policy/entitlement boundary](resident_policy_entitlements.md),
+[install lifecycle](resident_install_lifecycle.md), and
+[Hello gap matrix](hello_installability_gap.md) now specify those stages without
+treating the proved factory installed layout as the still-unknown accepted live
+single-JAR schema.
+
 ## Local verification
 
-- 13 focused artifact-tool tests pass, including synthetic rejection cases.
-- 162 existing `analysis_tools` tests pass from the recovered project virtual
-  environment.
+- 16 focused artifact-tool tests pass, including synthetic rejection cases.
+- 185 `analysis_tools` tests pass from the recovered project virtual
+  environment, including 23 package-inspector tests.
 - 20 resident-HMI Node tests pass.
-- Two complete clean Hello builds have identical JAR hashes and inventories.
+- Two complete clean Hello builds have identical JAR hashes and inventories;
+  the generated skeleton inventory is SHA-256
+  `af3518043de3cf65d61426114ce65e0c9009f88021f5d82a2d9e85ef4636a283`
+  and its non-installability report is SHA-256
+  `f9f713ec25ac3c442bcd619ed99aec1f8a578d2be13aad4c04ec59e35f84506d`
+  in both builds.
 - Python syntax compilation and `git diff --check` pass.
 - Generated output is ignored; no stock or recovered vendor binary is tracked.

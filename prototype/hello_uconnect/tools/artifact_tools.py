@@ -480,7 +480,10 @@ def audit_artifact(jar_path: Path, descriptor_path: Path, policy_path: Path) -> 
             "allowed_member_references": [list(value) for value in sorted(all_member_references)],
         },
         "descriptor": descriptor,
-        "installability": "NO - legitimate signing/package identity unresolved",
+        "installability": (
+            "NO - accepted live JAR schema and authorized app ID/signer/"
+            "principal/policy/DRM issuance unresolved"
+        ),
     }
     return report
 

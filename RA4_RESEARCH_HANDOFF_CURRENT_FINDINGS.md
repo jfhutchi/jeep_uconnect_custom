@@ -20,7 +20,54 @@ jobs existed when this instruction was received. This restriction supersedes
 earlier CI-related expectations. Do not automatically enable or run Actions
 when the calendar changes without considering the owner's latest instructions.
 
-### Current checkpoint: 2026-09-07 product readiness and next inputs
+### Current checkpoint: 2026-09-07 resident package and trust contract
+
+Started clean at `264e66f`, the deterministic Hello Uconnect host-artifact
+checkpoint. This continuation did not rebuild the broad firmware census or seek
+a Kona/QNX SDK. It bounded the remaining package/trust problem using the
+already-extracted KIM, installer, AMS, AppManager, signature, policy and DRM
+evidence.
+
+**PROVED:** live app-media and catalog installation both submit one local JAR to
+the AppManager/secure-AMS boundary. The exact live JAR schema remains absent.
+Separately, all 135 factory KIM application instances prove the installed
+external descriptor, executable JAR, fixed companion `key.jar`, and `magic.txt`
+shape. `key.jar` is the detached signed envelope: its manifest binds every
+executable member and the signed descriptor, `.SF` binds the manifest, and the
+PKCS#7 `.RSA` block carries the application signer certificate.
+
+The new read-only `resident_package_inspect.py` reproduces that relationship. It
+classifies KIM1 Slacker and KIM3 Application Manager as factory installed-layout
+analogues, covers 513/513 and 580/580 payload members respectively, finds zero
+digest mismatch, verifies their `.SF` full-manifest digests, and extracts only
+public signer metadata. It never signs or installs. Synthetic rejection tests
+cover malformed ZIPs, missing or incorrect `magic.txt`, identity/token
+mismatch, ambiguous same-name payload/envelope members, escaped executable
+paths, incomplete/bad digests, decoupled or malformed signature metadata,
+unsafe signed/installed Hello entitlement flags, unsafe skeleton paths and
+deterministic output.
+
+The Hello build remains byte-identical at SHA-256
+`e3e7fa2cdffc179ea3b031f1744ad0d9958bb5a01b15fcdd3a253b777dc8bbb2`.
+It now generates an ignored installed-layout research skeleton containing only
+the original JAR, logical descriptor, proved sentinel and explicit status. It
+deliberately omits the payload-root signed descriptor and `key.jar` and is
+machine-classified
+`incomplete-installed-layout-skeleton`, `installable=false`.
+
+The [package format](reports/resident_package_format.md),
+[identity model](reports/resident_identity_model.md),
+[signing chain](reports/resident_signing_chain.md),
+[policy/entitlement split](reports/resident_policy_entitlements.md),
+[install lifecycle](reports/resident_install_lifecycle.md), and
+[Hello gap matrix](reports/hello_installability_gap.md) replace the broad
+"signing/package identity unresolved" phrase with the exact remaining boundary.
+The next hard gate is an authorized live single-JAR sample/specification plus
+application-ID, signer/credential, principal/policy and DRM issuance for a new
+identity. No target action, trust change, credential creation or stock identity
+reuse is authorized.
+
+### Preceding checkpoint: 2026-09-07 product readiness and next inputs
 
 Started clean at `930fffd`; fetched origin with no divergence. The preceding
 continuation connected the default frame and qualified disposal completion.

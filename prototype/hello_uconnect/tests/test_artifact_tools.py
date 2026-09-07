@@ -12,6 +12,9 @@ from prototype.hello_uconnect.tools.artifact_tools import (
     validate_descriptor,
     write_deterministic_jar,
 )
+from prototype.hello_uconnect.tools.build_installed_layout_skeleton import (
+    build_installed_layout_skeleton,
+)
 
 
 def _u1(value):
@@ -345,6 +348,56 @@ class ArtifactToolsTests(unittest.TestCase):
                         ),
                         expected_app_id="4e9838d7-d08f-5f3a-be95-b309114fc22e",
                     )
+
+    def test_builds_deterministic_unsigned_installed_layout_skeleton(self):
+        application_jar = self._write_jar(_minimal_class())
+        output = self.root / "research-layout"
+
+        first = build_installed_layout_skeleton(
+            application_jar, self.descriptor_path, output
+        )
+        app_root = output / "4e9838d7-d08f-5f3a-be95-b309114fc22e"
+        payload = app_root / "prog" / "jars" / "hello-uconnect.jar"
+        self.assertEqual(payload.read_bytes(), application_jar.read_bytes())
+        self.assertEqual(
+            (app_root / "prog" / "xlet.properties").read_bytes(),
+            self.descriptor_path.read_bytes(),
+        )
+        self.assertEqual(
+            (app_root / "prog" / "jars" / "magic.txt").read_bytes(), b"HB_CMC"
+        )
+        self.assertFalse((app_root / "prog" / "jars" / "key.jar").exists())
+        self.assertFalse(first["installable"])
+        self.assertEqual(
+            first["missing"],
+            ["payload JAR root xlet.properties", "prog/jars/key.jar"],
+        )
+        self.assertIn(
+            "UNSIGNED / NON-INSTALLABLE / RESEARCH ARTIFACT",
+            (output / "RESEARCH-STATUS.txt").read_text(encoding="ascii"),
+        )
+
+    def test_skeleton_rejects_parent_directory_app_id(self):
+        application_jar = self._write_jar(_minimal_class())
+        self._write_safe_descriptor({"xlet.appId": ".."})
+
+        with self.assertRaisesRegex(ValueError, "safe directory name"):
+            build_installed_layout_skeleton(
+                application_jar,
+                self.descriptor_path,
+                self.root / "research-layout",
+            )
+
+    def test_skeleton_rejects_windows_ads_jar_filename(self):
+        application_jar = self._write_jar(_minimal_class())
+        self._write_safe_descriptor({"xlet.jarFile": "foo:bar.jar"})
+
+        with self.assertRaisesRegex(ValueError, "safe JAR filename"):
+            build_installed_layout_skeleton(
+                application_jar,
+                self.descriptor_path,
+                self.root / "research-layout",
+            )
 
 
 if __name__ == "__main__":

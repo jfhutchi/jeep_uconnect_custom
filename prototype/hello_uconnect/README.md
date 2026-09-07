@@ -42,6 +42,14 @@ Generated output is ignored by Git. `reports/hello_uconnect_host_artifact.md`
 records the verified reproducible hash and measurements from the committed
 source instead of committing a binary.
 
+The build also writes `build/research-installed-layout`, a host-only model of
+the proved factory post-install directory shape. It deliberately omits
+the payload-root signed descriptor and `prog/jars/key.jar` and is labeled
+`UNSIGNED / NON-INSTALLABLE / RESEARCH ARTIFACT`.
+`build/out/installed-layout-research-report.json` must classify it as an
+incomplete skeleton. This is not the still-unknown incoming single-JAR package
+accepted by AMS.
+
 ## Gate boundary
 
 The host compile tests only the strong inference that recovered signatures are
