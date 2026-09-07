@@ -8,7 +8,50 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 compiled AMS timeout and finally dispatch
+### Current checkpoint: 2026-09-06 queued worker and interruption consumer
+
+Started clean at `f3943db` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The previous checkpoint made progress on AOT
+lookup and timeout/finally dispatch. This continuation follows the worker and
+interruption consumer. The full projection goal remains active.
+
+**STATIC_PROVED:** XletThread.run polls an action, builds TimedFromPool and
+an Interruptible callback, invokes the timed body, then on its normal path
+marks done, notifies and returns to its queue loop. TimedFromPool reaches
+javax.realtime.Timed, which starts a timer and calls the AIE dispatcher.
+The dispatcher has concrete run and selected interruptAction calls; the
+AMS interruption callback constructs error 12 and stores it on the action.
+
+**STATIC_PROVED:** XletAction.done only sets its done_ Boolean. Both the
+worker's normal return and the caller's timeout fallback invoke it. Two
+distinct paths now produce AMSError TIMEOUT. Neither that error nor done_
+alone proves action exit or identifies which timeout path occurred. See the
+[worker/interruption report](reports/ra4_ams_worker_interruption.md).
+
+**UNKNOWN:** live interrupt delivery, actual action exit, late activity or
+overlap with caller cleanup, bounded finally-hook completion and native
+visibility/contact recovery. A reusable stock worker differs from surviving
+app-created threads. The future resident proof now requires action-level
+entry/exit and timeout-origin evidence, plus absence of late ownership or
+disposed-resource access. No runtime gate passes, no measured local limit
+fails, and USB/transport/provider/engine/resource gates remain unchanged.
+
+**Next local target:** VM interruption delivery/defer handling reached by
+AIE.fire and the compiled action path, especially shared monitors and native
+calls. Generic RTSJ documentation is contextual, not proof of this build's
+conformance. A legitimate compatible SDK/package and native stock recovery
+remain separate requirements. No target deployment or execution is authorized.
+
+Fresh artifact checks match one identity, five native method bindings,
+13 method-storage bindings, 60 native instruction anchors, four pointer/table
+words, four complete inline bodies and five resolved ROM references. No
+committed implementation/test changed; the preceding 162 host tests are
+historical. All 114 local links across six changed Markdown files resolve.
+No vehicle/radio/phone run, provider contact or payload commit
+occurred. This host-only checkpoint adds no target footprint. PR #14 stays
+draft; main and independent PR #15 remain preserved.
+
+### Preceding checkpoint: 2026-09-06 compiled AMS timeout and finally dispatch
 
 Started clean at `61fb2b2` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. The preceding turn made progress on Java container

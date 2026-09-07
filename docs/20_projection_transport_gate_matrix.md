@@ -75,7 +75,7 @@ The [AMS destroy/cleanup trace](../reports/ra4_ams_destroy_cleanup_contract.md)
 identifies the normalized errors as Xlet exception, AMS timeout and incomplete
 thread termination. It follows actual LWUIT/GLES cleanup and Xlet-container
 removal calls, including selected exception paths. The timeout action runner
-has no inline ROM body; completed native visibility/input recovery and the
+is now mapped to native code; completed native visibility/input recovery and the
 effective deadlines remain UNKNOWN. These findings narrow resident recovery
 requirements without changing any USB, transport or engine gate.
 
@@ -89,3 +89,10 @@ The [compiled AMS timeout trace](../reports/ra4_ams_aot_timeout_runner.md) now
 maps native action/timeout bodies and normal/exception finally dispatch. It
 establishes implemented timed waiting, not bounded worker termination or a
 deadline for a synchronous cleanup hook. No transport/runtime gate changes.
+
+The [queued worker trace](../reports/ra4_ams_worker_interruption.md) follows
+the timed interruption wrapper into run/interruptAction dispatch. Its normal
+path marks done, notifies and returns to the worker queue. The caller's
+timeout fallback also sets done, so neither that flag nor raw AMS TIMEOUT
+certifies action exit. Late activity and cleanup overlap require separate
+evidence; no live overlap or measured interruption bound is established.

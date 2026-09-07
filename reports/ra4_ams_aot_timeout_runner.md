@@ -170,3 +170,9 @@ reported done, and how it interacts with a blocked finally hook. Runtime
 shared-VM isolation, native input cancellation and usable stock restoration
 remain required before any separately authorized resident trial. No external
 compute fallback is selected on the basis of this static trace.
+
+Follow-up: the [queued worker and interruption trace](ra4_ams_worker_interruption.md)
+now follows TimedFromPool through timer start, AIE run/interruptAction dispatch
+and normal worker reuse. It proves that both the worker and caller fallback
+can set the same done flag, and that two distinct paths construct TIMEOUT.
+Actual action exit, late work and native recovery remain separately unproved.

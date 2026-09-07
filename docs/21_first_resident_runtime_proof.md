@@ -66,8 +66,8 @@ The [AMS cleanup trace](../reports/ra4_ams_destroy_cleanup_contract.md) resolves
 the normalized stop errors as Xlet exception (8), AMS TIMEOUT (12) and incomplete
 thread termination (20). It traces stock LWUIT/GLES cleanup and explicit Xlet
 container removal, including selected exception paths. The timeout runner's
-AOT implementation and native input/window effects remain unproved. Retain
-raw errors even when the normalized result is zero; the existence of cleanup
+AOT entry and selected paths are now traced; native input/window effects remain
+unproved. Retain raw errors even when the normalized result is zero; cleanup
 calls and compiled timeout defaults cannot substitute for completed recovery.
 The [container/focus follow-up](../reports/ra4_xlet_container_focus_cleanup.md)
 identifies the conditional default frame and its AWT detachment/focus cleanup.
@@ -79,6 +79,11 @@ normal and selected exception dispatch to runFinally, alongside action timed
 waiting and an AMS TIMEOUT producer. Require separate completion evidence for
 the worker action and synchronous finally hook; a wait ending or a hook being
 called cannot certify that the worker terminated or shared UI cleanup returned.
+The [worker/interruption trace](../reports/ra4_ams_worker_interruption.md) also
+shows that both worker return and the caller's timeout fallback can set the
+same done flag. The worker normally continues to its queue after an action.
+Require evidence of actual action exit, interruption/fallback origin and late
+activity, distinguishing worker reuse from app-created thread termination.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
@@ -187,6 +192,13 @@ This sequence is a design; there are no executable radio commands here.
    removal independently of native visibility/input release. Retain raw AMS
    8/12/20 and distinguish AMS TIMEOUT from D-Bus NoReply. Record configured
    and effective timeout values separately from measured elapsed recovery.
+   Correlate worker-action entry/exit, interruption callback, caller timeout
+   fallback and finally-hook entry/exit by action identity. Raw AMS TIMEOUT
+   does not distinguish its two traced producers; record unknown origin when
+   evidence is absent. Do not substitute done_ for actual action exit. Verify
+   that late work cannot reacquire display/input or access disposed app
+   resources. A continuing stock action worker is distinct from surviving
+   app-created threads; record both without requiring the shared worker to die.
    Identify the effective main-frame implementation and observe child detachment
    and Java focus cleanup separately from native contact cancellation. Supplier
    isolation evidence must cover shared AWT locks as well as app lifecycle calls;
