@@ -51,7 +51,7 @@ build orchestration.
 - Modify: `prototype/hello_uconnect/tests/test_artifact_tools.py`
 - Modify: `prototype/hello_uconnect/tools/artifact_tools.py`
 
-- [ ] **Step 1: Write failing optional-policy tests**
+- [x] **Step 1: Write failing optional-policy tests**
 
 Add tests that construct a synthetic major-48 class referencing
 `java/net/ServerSocket.<init>()V` and assert this policy behavior:
@@ -72,7 +72,7 @@ Add a second assertion that a missing required member raises
 Hello policy's absent optional fields still yields its current label and report
 shape.
 
-- [ ] **Step 2: Run the focused test and observe RED**
+- [x] **Step 2: Run the focused test and observe RED**
 
 Run:
 
@@ -83,7 +83,7 @@ Run:
 Expected: the new test fails because `artifact_label`, `required_members` and
 `observed_owner_prefixes` are not implemented.
 
-- [ ] **Step 3: Implement the minimal generic audit extension**
+- [x] **Step 3: Implement the minimal generic audit extension**
 
 In `audit_artifact`, parse optional required-member and observed-prefix policy
 fields, compare required triples to `all_member_references`, count unique
@@ -98,11 +98,11 @@ report["dependencies"]["observed_api_references"] = observed_counts
 
 Raise a deterministic error naming the first sorted missing required member.
 Use the report label in `write_reports`; append sorted observed-category counts
-only when configured. Existing Hello output remains byte-for-byte unchanged
-except for JSON's intentional new empty `observed_api_references` mapping if the
-test contract chooses to expose it.
+only when configured. Existing Hello values remain unchanged; review clarifies
+the legacy networking count as `prohibited_networking_references`, and JSON
+intentionally adds an empty `observed_api_references` mapping when none exist.
 
-- [ ] **Step 4: Run focused and full existing tests to GREEN**
+- [x] **Step 4: Run focused and full existing tests to GREEN**
 
 Run the focused Hello suite, then `unittest discover -s analysis_tools/tests`.
 Expected: 16+ focused tests and 195 analysis tests pass with zero failures.
@@ -117,7 +117,7 @@ Expected: 16+ focused tests and 195 analysis tests pass with zero failures.
 - Create: `prototype/network_probe/src/com/jfhutchi/uconnect/networkprobe/NetworkProbeServer.java`
 - Create: `prototype/network_probe/network_probe_client.py`
 
-- [ ] **Step 1: Write failing real-socket tests**
+- [x] **Step 1: Write failing real-socket tests**
 
 The Python suite compiles the Java server and host entry point with
 `-source 1.4 -target 1.4`, starts `NetworkProbeHost 0`, reads its `PORT <n>`
@@ -138,7 +138,7 @@ Add Python-client tests for one successful exchange, a message over 256 encoded
 ASCII bytes, non-ASCII input, timeout and connection refusal. Errors must be
 bounded and produce a nonzero CLI exit.
 
-- [ ] **Step 2: Run the probe suite and observe RED**
+- [x] **Step 2: Run the probe suite and observe RED**
 
 Run:
 
@@ -149,7 +149,7 @@ Run:
 Expected: compilation/import fails because the production server and client do
 not exist.
 
-- [ ] **Step 3: Implement the minimal server and client**
+- [x] **Step 3: Implement the minimal server and client**
 
 `NetworkProbeListener` exposes only:
 
@@ -173,7 +173,7 @@ worker remains alive. The Python client validates its encoded byte count before
 connecting, sends LF, reads one bounded reply line and reports timeout/refusal
 without a traceback.
 
-- [ ] **Step 4: Run protocol tests to GREEN**
+- [x] **Step 4: Run protocol tests to GREEN**
 
 Run the focused Python suite. Expected: every socket, client-error and shutdown
 case passes using the production Java server.
@@ -187,7 +187,7 @@ case passes using the production Java server.
 - Create: `prototype/network_probe/test_support/src/com/jfhutchi/uconnect/networkprobe/NetworkProbeLifecycleTest.java`
 - Create: `prototype/network_probe/src/com/jfhutchi/uconnect/networkprobe/NetworkProbeXlet.java`
 
-- [ ] **Step 1: Write the failing lifecycle race runner**
+- [x] **Step 1: Write the failing lifecycle race runner**
 
 Executable host doubles implement only the already recovered declarations.
 Their `Display.callSerially` queues runnables until the test explicitly drains
@@ -208,12 +208,12 @@ Also assert Stop calls `notifyDestroyed()` once, all UI mutations occur while
 the fake display is draining its serial queue, and destruction never starts a
 new worker.
 
-- [ ] **Step 2: Run the lifecycle test and observe RED**
+- [x] **Step 2: Run the lifecycle test and observe RED**
 
 Run the Python test that compiles/runs `NetworkProbeLifecycleTest`. Expected:
 failure because `NetworkProbeXlet` is absent.
 
-- [ ] **Step 3: Implement the smallest Xlet UI adapter**
+- [x] **Step 3: Implement the smallest Xlet UI adapter**
 
 Follow Hello's exact initialization pattern. Use the existing recovered
 `Form`, `Label`, `Button` and `BorderLayout` surface. Display the requested
@@ -224,7 +224,7 @@ runnable checks `destroyed` before touching any label. Stop calls server
 closing sockets and clearing references. No network wait or join occurs on the
 LWUIT thread.
 
-- [ ] **Step 4: Run lifecycle and protocol tests to GREEN**
+- [x] **Step 4: Run lifecycle and protocol tests to GREEN**
 
 Expected: queued-callback, repeated-destroy, Stop and real-socket tests all pass.
 
@@ -239,7 +239,7 @@ Expected: queued-callback, repeated-destroy, Stop and real-socket tests all pass
 - Create: `prototype/network_probe/build.ps1`
 - Extend: `prototype/network_probe/tests/test_network_probe.py`
 
-- [ ] **Step 1: Add failing artifact acceptance tests**
+- [x] **Step 1: Add failing artifact acceptance tests**
 
 Run the build from a clean generated directory and require:
 
@@ -257,11 +257,11 @@ flags, and deterministic JAR bytes across two builds. Inject a synthetic
 Java-6+ `java/util/concurrent` reference and prove the exact API allowlist
 rejects it even when its classfile major is 48.
 
-- [ ] **Step 2: Run the artifact test and observe RED**
+- [x] **Step 2: Run the artifact test and observe RED**
 
 Expected: failure because the build, policy and descriptor do not exist.
 
-- [ ] **Step 3: Implement the build and compatibility policy**
+- [x] **Step 3: Implement the build and compatibility policy**
 
 Pin `javac 1.8.0_504`, compile with `-source 1.4 -target 1.4 -encoding
 US-ASCII`, compile shared independent Xlet/LWUIT declarations to a temporary
@@ -277,7 +277,7 @@ compiled source, requires the networking/lifecycle members central to the
 probe, and records observed `java/net/` references rather than prohibiting
 them. `build/` is the only generated directory and is ignored.
 
-- [ ] **Step 4: Run artifact and regression tests to GREEN**
+- [x] **Step 4: Run artifact and regression tests to GREEN**
 
 Run two clean builds, compare JAR SHA-256 and inventory, run the complete probe,
 Hello, analysis and resident-HMI suites, and require no warnings other than the
@@ -291,14 +291,14 @@ it.
 - Create: `prototype/network_probe/README.md`
 - Create: `docs/network_probe_xlet.md`
 
-- [ ] **Step 1: Write the focused documentation**
+- [x] **Step 1: Write the focused documentation**
 
 Record the goal, ASCII byte protocol, architecture diagram, worker/UI ownership,
 shutdown behavior, exact build/client/test commands, actual classfile major,
 actual JAR inventory/hash, and actual localhost transcript. Include explicit
 `PROVED`, `STRONGLY INFERRED`, `UNKNOWN` and `DISPROVED` sections.
 
-- [ ] **Step 2: Preserve the target boundary**
+- [x] **Step 2: Preserve the target boundary**
 
 Document but do not execute the seven-step authorized target experiment from
 the design. State that localhost behavior cannot establish bind permission,
@@ -306,7 +306,7 @@ interface visibility, firewalling, hotspot isolation, routing, AMS policy or
 phone reachability. Describe only the later custom-projection phase sequence;
 do not claim CarPlay or Android Auto compatibility.
 
-- [ ] **Step 3: Run documentation sanity checks**
+- [x] **Step 3: Run documentation sanity checks**
 
 Check relative links, ASCII encoding, placeholders, generated values against
 fresh build reports, and source wording for any claim that implies target
@@ -316,7 +316,7 @@ execution.
 
 **Files:** All intentional network-probe and shared-auditor files from Tasks 1-5.
 
-- [ ] **Step 1: Run a fresh verification pass**
+- [x] **Step 1: Run a fresh verification pass**
 
 Run the complete relevant tests, clean build twice, JAR inventory, classfile
 audit, localhost round-trip, overlong/disconnect/shutdown cases, `git
@@ -325,7 +325,7 @@ Search the untracked/staged set for proprietary binaries, firmware, images,
 certificates, keys, extracted OEM JARs and large blobs. Generated build output
 must remain ignored and unstaged.
 
-- [ ] **Step 2: Review as an upstream maintainer**
+- [x] **Step 2: Review as an upstream maintainer**
 
 Check newer APIs, UI-thread access, accept/read/destroy races, socket/thread
 leaks, unbounded reads/errors, dead code, speculative abstractions, proprietary

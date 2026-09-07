@@ -342,6 +342,11 @@ def audit_artifact(jar_path: Path, descriptor_path: Path, policy_path: Path) -> 
     application_prefix = str(policy["application_prefix"])
     allowed_classes = set(str(value) for value in policy["allowed_class_owners"])
     allowed_members = _member_set(policy["allowed_members"])
+    required_members = _member_set(policy.get("required_members", ()))
+    observed_prefixes = {
+        str(category): tuple(str(value) for value in prefixes)
+        for category, prefixes in policy.get("observed_owner_prefixes", {}).items()
+    }
     prohibited_prefixes = {
         str(category): tuple(str(value) for value in prefixes)
         for category, prefixes in policy.get("prohibited_owner_prefixes", {}).items()
@@ -444,6 +449,21 @@ def audit_artifact(jar_path: Path, descriptor_path: Path, policy_path: Path) -> 
             raise ValidationError("application contains %s reference(s): %d" % (category, count))
     if unexpected_references:
         raise ValidationError("unexpected API member or owner: %s" % unexpected_references[0])
+    missing_required = sorted(required_members - all_member_references)
+    if missing_required:
+        owner, name, descriptor = missing_required[0]
+        raise ValidationError(
+            "required API member is missing: %s.%s%s" % (owner, name, descriptor)
+        )
+
+    observed_counts = {
+        category: sum(
+            1
+            for owner, _name, _descriptor in all_member_references
+            if owner.startswith(prefixes)
+        )
+        for category, prefixes in observed_prefixes.items()
+    }
 
     descriptor = validate_descriptor(
         descriptor_path,
@@ -453,6 +473,9 @@ def audit_artifact(jar_path: Path, descriptor_path: Path, policy_path: Path) -> 
     jar_bytes = jar_path.read_bytes()
     report = {
         "artifact": {
+            "label": str(
+                policy.get("artifact_label", "Hello Uconnect host artifact")
+            ),
             "jar": jar_path.name,
             "jar_bytes": len(jar_bytes),
             "jar_sha256": hashlib.sha256(jar_bytes).hexdigest(),
@@ -472,11 +495,12 @@ def audit_artifact(jar_path: Path, descriptor_path: Path, policy_path: Path) -> 
             "bundled_vendor_runtime_classes": len(runtime_members),
             "custom_native_libraries": len(native_members),
             "jni_references": category_counts.get("jni", 0),
-            "networking_references": category_counts.get("networking", 0),
+            "prohibited_networking_references": category_counts.get("networking", 0),
             "usb_references": category_counts.get("usb", 0),
             "vehicle_service_references": category_counts.get("vehicle_service", 0),
             "appmanager_privilege_references": category_counts.get("appmanager_privilege", 0),
             "unexpected_api_references": len(unexpected_references),
+            "observed_api_references": observed_counts,
             "allowed_member_references": [list(value) for value in sorted(all_member_references)],
         },
         "descriptor": descriptor,
@@ -523,7 +547,7 @@ def write_reports(report: dict[str, Any], output_dir: Path) -> None:
     summary = [
         STATUS_MARKER,
         "",
-        "Hello Uconnect host artifact",
+        report["artifact"]["label"],
         "",
         "Application classfile major:        %s" % report["bytecode"]["application_classfile_majors"][0],
         "Application native methods:         %d" % report["bytecode"]["native_methods"],
@@ -532,7 +556,7 @@ def write_reports(report: dict[str, Any], output_dir: Path) -> None:
         "Bundled vendor runtime classes:     %d" % report["dependencies"]["bundled_vendor_runtime_classes"],
         "Custom native libraries:            %d" % report["dependencies"]["custom_native_libraries"],
         "JNI references:                     %d" % report["dependencies"]["jni_references"],
-        "Networking references:              %d" % report["dependencies"]["networking_references"],
+        "Prohibited networking references:  %d" % report["dependencies"]["prohibited_networking_references"],
         "USB references:                     %d" % report["dependencies"]["usb_references"],
         "Vehicle-service references:         %d" % report["dependencies"]["vehicle_service_references"],
         "AppManager privilege references:    %d" % report["dependencies"]["appmanager_privilege_references"],
@@ -540,6 +564,11 @@ def write_reports(report: dict[str, Any], output_dir: Path) -> None:
         "Daemon:                             %s" % str(report["descriptor"]["daemon"]).lower(),
         "Audio app:                          %s" % str(report["descriptor"]["audio_app"]).lower(),
         "Unexpected API references:          %d" % report["dependencies"]["unexpected_api_references"],
-        "Artifact installability:            %s" % report["installability"],
     ]
+    for category, count in sorted(
+        report["dependencies"].get("observed_api_references", {}).items()
+    ):
+        label = "Observed %s references:" % category
+        summary.append("%-36s%d" % (label, count))
+    summary.append("Artifact installability:            %s" % report["installability"])
     (output_dir / "BUILD-STATUS.txt").write_text("\n".join(summary) + "\n", encoding="ascii")

@@ -1,0 +1,119 @@
+param(
+    [string]$JdkHome = $env:JAVA_HOME,
+    [string]$Python = $env:NETWORK_PROBE_PYTHON
+)
+
+$ErrorActionPreference = 'Stop'
+$root = [System.IO.Path]::GetFullPath($PSScriptRoot)
+$repoRoot = [System.IO.Path]::GetFullPath((Join-Path $root '..\..'))
+$buildRoot = [System.IO.Path]::GetFullPath((Join-Path $root 'build'))
+if (-not $buildRoot.StartsWith($root + [System.IO.Path]::DirectorySeparatorChar)) {
+    throw 'Refusing to use a build directory outside the Network Probe project.'
+}
+
+if ([string]::IsNullOrWhiteSpace($JdkHome)) {
+    $javacCommand = Get-Command javac -ErrorAction SilentlyContinue
+    if ($null -eq $javacCommand) {
+        throw 'JDK 8 javac is required. Pass -JdkHome or set JAVA_HOME.'
+    }
+    $javac = $javacCommand.Source
+} else {
+    $javac = Join-Path $JdkHome 'bin\javac.exe'
+    if (-not (Test-Path -LiteralPath $javac)) {
+        $javac = Join-Path $JdkHome 'bin\javac'
+    }
+}
+if (-not (Test-Path -LiteralPath $javac)) {
+    throw "javac was not found at $javac"
+}
+$toolchain = Get-Content -Raw -LiteralPath (Join-Path $root 'toolchain.json') |
+    ConvertFrom-Json
+$javacVersion = ((& $javac -version 2>&1) -join '').Trim()
+if ($LASTEXITCODE -ne 0) {
+    throw "javac version check failed with exit code $LASTEXITCODE"
+}
+if ($javacVersion -ne $toolchain.javac_version) {
+    throw "Unpinned compiler '$javacVersion'; expected '$($toolchain.javac_version)'."
+}
+
+if ([string]::IsNullOrWhiteSpace($Python)) {
+    $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
+    if ($null -eq $pythonCommand) {
+        throw 'Python 3 is required. Pass -Python or set NETWORK_PROBE_PYTHON.'
+    }
+    $Python = $pythonCommand.Source
+}
+if (-not (Test-Path -LiteralPath $Python)) {
+    throw "Python was not found at $Python"
+}
+
+if (Test-Path -LiteralPath $buildRoot) {
+    Remove-Item -LiteralPath $buildRoot -Recurse -Force
+}
+$compileApiClasses = Join-Path $buildRoot 'work\compile-api-classes'
+$applicationClasses = Join-Path $buildRoot 'work\application-classes'
+$hostClasses = Join-Path $buildRoot 'work\host-classes'
+$output = Join-Path $buildRoot 'out'
+New-Item -ItemType Directory -Path `
+    $compileApiClasses, $applicationClasses, $hostClasses, $output | Out-Null
+
+$compileApiSources = @(
+    Get-ChildItem -LiteralPath `
+        (Join-Path $repoRoot 'prototype\hello_uconnect\compile_api\src') `
+        -Recurse -Filter '*.java' |
+        Sort-Object FullName |
+        ForEach-Object FullName
+)
+$applicationSources = @(
+    Get-ChildItem -LiteralPath (Join-Path $root 'src') -Recurse -Filter '*.java' |
+        Sort-Object FullName |
+        ForEach-Object FullName
+)
+$hostSources = @(
+    Get-ChildItem -LiteralPath (Join-Path $root 'host_src') -Recurse -Filter '*.java' |
+        Sort-Object FullName |
+        ForEach-Object FullName
+)
+if ($compileApiSources.Count -eq 0 -or $applicationSources.Count -eq 0 -or
+        $hostSources.Count -eq 0) {
+    throw 'Compile API, application or host Java sources are missing.'
+}
+
+& $javac -source 1.4 -target 1.4 -encoding US-ASCII `
+    -d $compileApiClasses $compileApiSources
+if ($LASTEXITCODE -ne 0) {
+    throw "Compile API javac failed with exit code $LASTEXITCODE"
+}
+& $javac -source 1.4 -target 1.4 -encoding US-ASCII `
+    -classpath $compileApiClasses -d $applicationClasses $applicationSources
+if ($LASTEXITCODE -ne 0) {
+    throw "Application javac failed with exit code $LASTEXITCODE"
+}
+& $javac -source 1.4 -target 1.4 -encoding US-ASCII `
+    -classpath $applicationClasses -d $hostClasses $hostSources
+if ($LASTEXITCODE -ne 0) {
+    throw "Host harness javac failed with exit code $LASTEXITCODE"
+}
+
+$jarPath = Join-Path $output 'network-probe-xlet.jar'
+Push-Location $repoRoot
+try {
+    & $Python -m prototype.hello_uconnect.tools.build_artifact `
+        $applicationClasses $jarPath | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw "Deterministic JAR build failed with exit code $LASTEXITCODE"
+    }
+    Copy-Item -LiteralPath (Join-Path $root 'descriptor\xlet.properties') `
+        -Destination $output
+    Copy-Item -LiteralPath (Join-Path $root 'toolchain.json') -Destination $output
+    & $Python -m prototype.hello_uconnect.tools.validate_artifact `
+        $jarPath `
+        (Join-Path $output 'xlet.properties') `
+        (Join-Path $root 'api-allowlist.json') `
+        $output
+    if ($LASTEXITCODE -ne 0) {
+        throw "Artifact validation failed with exit code $LASTEXITCODE"
+    }
+} finally {
+    Pop-Location
+}

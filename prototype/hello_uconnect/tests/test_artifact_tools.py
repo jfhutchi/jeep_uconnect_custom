@@ -194,6 +194,13 @@ class ArtifactToolsTests(unittest.TestCase):
         )
         self.descriptor_path.write_text(content, encoding="ascii")
 
+    def _update_policy(self, updates):
+        policy = json.loads(self.policy_path.read_text(encoding="ascii"))
+        policy.update(updates)
+        self.policy_path.write_text(
+            json.dumps(policy, sort_keys=True), encoding="ascii"
+        )
+
     def _write_jar(
         self,
         class_bytes=None,
@@ -226,9 +233,55 @@ class ArtifactToolsTests(unittest.TestCase):
 
     def test_accepts_minimal_major_48_application_class(self):
         report = self._audit(_minimal_class())
+        self.assertEqual(
+            report["artifact"]["label"], "Hello Uconnect host artifact"
+        )
         self.assertEqual(report["bytecode"]["application_classfile_majors"], [48])
         self.assertEqual(report["bytecode"]["native_methods"], 0)
         self.assertEqual(report["dependencies"]["unexpected_api_references"], 0)
+        self.assertEqual(
+            report["dependencies"]["prohibited_networking_references"], 0
+        )
+        self.assertNotIn("networking_references", report["dependencies"])
+        self.assertEqual(report["dependencies"]["observed_api_references"], {})
+
+    def test_reports_required_intentional_api_references(self):
+        server_socket_init = ("java/net/ServerSocket", "<init>", "()V")
+        self._update_policy(
+            {
+                "artifact_label": "Uconnect Network Probe host artifact",
+                "allowed_class_owners": [
+                    "java/lang/Object",
+                    "java/net/ServerSocket",
+                ],
+                "allowed_members": [list(server_socket_init)],
+                "required_members": [list(server_socket_init)],
+                "observed_owner_prefixes": {"networking": ["java/net/"]},
+                "prohibited_owner_prefixes": {},
+            }
+        )
+
+        report = self._audit(_minimal_class(method_refs=(server_socket_init,)))
+
+        self.assertEqual(
+            report["artifact"]["label"], "Uconnect Network Probe host artifact"
+        )
+        self.assertEqual(
+            report["dependencies"]["observed_api_references"],
+            {"networking": 1},
+        )
+
+    def test_rejects_missing_required_api_member(self):
+        self._update_policy(
+            {
+                "required_members": [
+                    ["java/net/ServerSocket", "accept", "()Ljava/net/Socket;"]
+                ]
+            }
+        )
+
+        with self.assertRaisesRegex(ValidationError, "required API member"):
+            self._audit(_minimal_class())
 
     def test_rejects_wrong_classfile_version(self):
         with self.assertRaisesRegex(ValidationError, "major.*49"):
