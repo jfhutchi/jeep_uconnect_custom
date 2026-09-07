@@ -334,3 +334,83 @@ runtime support. Output contains relative filenames/member names and selected
 symbols, which may still be sensitive; keep it ignored and review before any
 publication. [Executed RA4 census and limits](../reports/ra4_usb_stack_backend_census.md).
 
+## Stock extension-surface evidence ladder
+
+These standard-library analyzers census recovered resident Java structure and
+candidate-led native endpoint metadata without loading a class, extracting an
+archive, or executing a recovered artifact. Outputs contain hashes, relative
+metadata paths, parsed names, structural edges, bounded offsets, and explicit
+`PROVED`, `STRONGLY INFERRED`, or `UNKNOWN` judgments. They must not contain
+class/resource payloads or absolute corpus paths.
+
+Run the focused socket analysis before the broad census:
+
+```powershell
+$CorpusRoot = 'E:/explicit/read-only/recovered-root'
+python -m analysis_tools.resident_surface_census `
+  --root "resident=$CorpusRoot/work/secondary_iso/usr/share/XLETS" `
+  --focus-class 'com/tweddle/test/input/SocketCommandSource' `
+  --output-dir reports/stock_extension_surface
+```
+
+After reviewing the focused activation, listener, protocol, and gate evidence,
+run the complete resident surface census:
+
+```powershell
+python -m analysis_tools.resident_surface_census `
+  --root "resident=$CorpusRoot/work/secondary_iso/usr/share/XLETS" `
+  --focus-class 'com/tweddle/test/input/SocketCommandSource' `
+  --broad `
+  --output-dir reports/stock_extension_surface
+```
+
+The broad census reports static observations for dynamic loading, reflection,
+configured class names, factories/providers, resources/packages, scripting,
+URLs/protocols, browser-like APIs, structured data, network services, IPC,
+media/import, files/resources, and plugin/registry mechanisms. A count or API
+edge never establishes external origin, activation, execution, capability, or
+reachability.
+
+Use native correlation only with candidate names selected by the Java or
+existing repository evidence:
+
+```powershell
+python -m analysis_tools.native_endpoint_census `
+  --root "hbc=$CorpusRoot/work/hidden_hbc_ifs" `
+  --candidate '127.0.0.1' `
+  --candidate '11111' `
+  --candidate 'TGTCore-CommandLooperThread' `
+  --candidate 'SocketCommandSource' `
+  --output reports/stock_extension_surface/native_socket_correlation.json
+```
+
+The native tool skips archive-like files, follows no links, enforces file/count
+limits, and never treats a raw API word as an import or call. Structured ELF
+imports/exports require optional `pyelftools`; without it, the output records
+that dependency limitation and retains only bounded string presence.
+
+Render the required reports only from a validated, metadata-only ledger:
+
+```powershell
+python -m analysis_tools.render_stock_extension_reports `
+  --ledger reports/stock_extension_surface/evidence_ledger.json `
+  --docs-dir docs
+```
+
+Run the deterministic synthetic tests:
+
+```powershell
+python -m unittest `
+  analysis_tools.tests.test_evidence_model `
+  analysis_tools.tests.test_java_classfile `
+  analysis_tools.tests.test_activation_graph `
+  analysis_tools.tests.test_resident_surface_census `
+  analysis_tools.tests.test_native_endpoint_census `
+  analysis_tools.tests.test_render_stock_extension_reports -v
+```
+
+For deterministic regeneration, run a command twice and compare SHA-256 maps
+for all relative output paths. Review every generated JSON/Markdown file before
+committing it. Never commit recovered JARs, classes, resources, filesystem
+payloads, native binaries, credentials, or other proprietary content.
+

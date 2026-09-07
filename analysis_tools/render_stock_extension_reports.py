@@ -142,6 +142,10 @@ def _table_value(value: Any) -> str:
     return str(value).replace("|", "\\|").replace("\n", " ")
 
 
+def _sentence(value: Any) -> str:
+    return str(value).rstrip(".") + "."
+
+
 def _render_controlling(ledger: Mapping[str, Any]) -> str:
     socket = ledger["socket_command_source"]
     lines = [
@@ -196,15 +200,15 @@ def _render_controlling(ledger: Mapping[str, Any]) -> str:
         lines.extend([
             f"### Rank {candidate['rank']} - {candidate['component']}",
             "",
-            f"{_label(classification)} Component: {candidate['component']}.",
-            f"{_label(classification)} Activation path: {candidate['activation_path']}.",
-            f"{_label(classification)} User-controlled input: {candidate['user_controlled_input']}.",
+            f"{_label(classification)} Component: {_sentence(candidate['component'])}",
+            f"{_label(classification)} Activation path: {_sentence(candidate['activation_path'])}",
+            f"{_label(classification)} User-controlled input: {_sentence(candidate['user_controlled_input'])}",
             f"{_label(classification)} Useful resulting capability: "
-            f"{candidate['useful_resulting_capability']}.",
-            f"{_label(classification)} Prerequisites: {_join(candidate['prerequisites'])}.",
-            f"**UNKNOWN** Unresolved unknowns: {_join(candidate['unresolved_unknowns'])}.",
+            f"{_sentence(candidate['useful_resulting_capability'])}",
+            f"{_label(classification)} Prerequisites: {_sentence(_join(candidate['prerequisites']))}",
+            f"**UNKNOWN** Unresolved unknowns: {_sentence(_join(candidate['unresolved_unknowns']))}",
             f"{_label(classification)} New-package authorization required: "
-            f"{candidate['new_package_authorization_required']}.",
+            f"{_sentence(candidate['new_package_authorization_required'])}",
             "",
         ])
     return "\n".join(lines).rstrip() + "\n"
