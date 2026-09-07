@@ -156,6 +156,12 @@ recover a stalled shared VM. The supplier-supported package, engine and
 isolation contracts remain external prerequisites. No local capability gate
 has been measured to fail, so external compute is not selected.
 
+The [compiled runner follow-up](ra4_ams_aot_timeout_runner.md) now resolves that
+entry and its normal/exception runFinally dispatch. The hook is a synchronous
+call within the wrapper; timed action waiting does not independently establish
+that a hook blocked on AWT cleanup completes. The queued worker/interruption
+path is the next static target.
+
 Fresh verification matched three artifact identities, ten complete selected
 method tables, 23 direct call anchors and the symbolic discardKeyEvents
 reference, plus the factory branch, parent detachment, false event-cleanup

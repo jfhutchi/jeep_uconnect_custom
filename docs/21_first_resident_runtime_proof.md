@@ -74,6 +74,11 @@ identifies the conditional default frame and its AWT detachment/focus cleanup.
 Confirm the effective frame factory for the approved package. Shared tree-lock
 acquisition, conditional focus transfer and selective event removal must not
 be mistaken for bounded native input cancellation or stock foreground recovery.
+The [compiled timeout trace](../reports/ra4_ams_aot_timeout_runner.md) now proves
+normal and selected exception dispatch to runFinally, alongside action timed
+waiting and an AMS TIMEOUT producer. Require separate completion evidence for
+the worker action and synchronous finally hook; a wait ending or a hook being
+called cannot certify that the worker terminated or shared UI cleanup returned.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;

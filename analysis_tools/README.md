@@ -71,6 +71,30 @@ and the Jamaica ROM/AOT format are not resolved. This is not a JVM verifier or
 an arbitrary-input sandbox. No target class is loaded or executed. See the
 [resident view trace](../reports/ra4_resident_xlet_view_path.md).
 
+## Jamaica AOT registration inventory
+
+`jamaica_aot_registry.py` reads a caller-specified table using the existing
+ELF32/ARM dependency. It supports the observed 24-byte class and 32-byte member
+layout, with kind 1 method records and kind 2 field records. Fields and methods
+may share an ordinal. It validates the entire selected range before filtering
+output and preserves null adapter/function entries. Java names, live BSS
+contents and execution are not inferred.
+
+```powershell
+python -m analysis_tools.jamaica_aot_registry PATH_TO_AMS --registry-va 0xc21424 --class-count 1138 --class-slot 439 --class-slot 401
+python -m unittest analysis_tools.tests.test_jamaica_aot_registry -v
+```
+
+The example addresses/count belong only to the hash-bound image in the
+[compiled timeout report](../reports/ra4_ams_aot_timeout_runner.md). Do not
+reuse them for a different release without identifying its table. All pointers
+use PT_LOAD translation: code/ROM and writable data can have different VA/file
+offset differences. BSS pointers are reported but never read as file data.
+Reserved-word, kind, bounds, executable-target and pairing failures stop the
+reader; an absent requested class is an error rather than a successful empty
+result. Default total member limit is 100,000. Output is original metadata,
+not target payloads. No firmware fixtures are included in the tests.
+
 ## ELF32 / ARM inspection
 
 `arm_elf_analysis.py` uses Python 3.10+ and Capstone (`python -m pip install capstone`

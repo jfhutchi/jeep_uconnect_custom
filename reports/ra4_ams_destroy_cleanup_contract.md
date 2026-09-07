@@ -171,6 +171,12 @@ unsupported ROM attributes rather than inventing instruction semantics. These
 boundaries remain AOT/native investigation targets; their absence from the
 inline bytecode is not absence from the installed executable.
 
+The [compiled timeout follow-up](ra4_ams_aot_timeout_runner.md) now maps the
+action runner to ARM `0x1AA05C` and its no-finally helper to `0x1A8EE8`.
+Native normal and selected exception paths dispatch runFinally; the helper
+contains timed waits and an AMS TIMEOUT producer. Hook completion, worker
+termination and bounded shared-VM recovery still require separate proof.
+
 ## Product consequence and validation
 
 The [resident proof](../docs/21_first_resident_runtime_proof.md) must retain

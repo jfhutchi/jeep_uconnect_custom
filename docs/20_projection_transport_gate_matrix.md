@@ -84,3 +84,8 @@ follows the default frame through AWT detachment, recursive removeNotify,
 conditional focus transfer and selected event cleanup. It preserves the
 distinction between Java focus/mouse state and native input contacts; shared
 window visibility and usable stock foreground still require separate evidence.
+
+The [compiled AMS timeout trace](../reports/ra4_ams_aot_timeout_runner.md) now
+maps native action/timeout bodies and normal/exception finally dispatch. It
+establishes implemented timed waiting, not bounded worker termination or a
+deadline for a synchronous cleanup hook. No transport/runtime gate changes.

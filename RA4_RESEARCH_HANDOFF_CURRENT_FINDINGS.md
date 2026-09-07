@@ -8,7 +8,51 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 default frame and Java focus cleanup
+### Current checkpoint: 2026-09-06 compiled AMS timeout and finally dispatch
+
+Started clean at `61fb2b2` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding turn made progress on Java container
+and focus cleanup. This continuation resolves native method bodies and adds an
+original bounded registry reader with synthetic tests. The full goal stays active.
+
+**STATIC_PROVED:** the selected registration table maps XletThread
+actionWithTimeout to ARM `0x1AA05C`, actionWithTimeoutNoFinally to `0x1A8EE8`,
+the queued run loop to `0x1A60A8`, and XletCallback.action to `0x1B7DD8`.
+The table has 1,138 class records and 6,668 member records: 6,292 methods and
+376 fields, with 4,102 compiled method pointers. Field/method ordinals are
+separate namespaces. PT_LOAD translation is essential: code/ROM differs from
+file offsets by `0x100000`, writable data by `0x101000`.
+
+**STATIC_PROVED:** the native action wrapper calls its no-finally helper with
+false, then dispatches XletAction.runFinally through its virtual slot. A traced
+phase-1 exception handler also dispatches that hook. The helper checks action
+isDone/thread functional state, calls Wait.wait with clock-based remaining
+time, and constructs AMS error 12 on its selected failure path. See the
+[compiled timeout report](reports/ra4_ams_aot_timeout_runner.md) for method
+registrations, the complete six-entry exception table and native call anchors.
+
+**UNKNOWN:** hard deadlines, actual worker/thread termination, interruption
+delivery and completion of a finally hook that blocks on shared UI state.
+The hook is a synchronous call in the wrapper; an action wait ending does not
+prove hook completion or native visibility/contact release. The future resident
+proof now explicitly distinguishes worker-action and finally-hook completion.
+No runtime gate passes; no measured local limit fails. USB, phone transport,
+provider authorization, engine and resource gates remain unchanged.
+
+**Next technical target:** XletThread.run at `0x1A60A8` and its timed-action /
+interruption consumer, including whether an action is terminated or only marked
+done. Main and independent PR #15 remain preserved, and PR #14 remains draft.
+No radio/vehicle/phone execution, provider contact or protected payload commit
+occurred. The registry reader runs only on the host and adds no target footprint.
+
+Fresh static validation matches the AMS artifact, complete selected registry,
+four named method bindings, 47 native instructions, six exception-table words,
+two descriptor literals and the _setjmp import. All **162 host Python tests
+pass, no skips**, including 12 synthetic registry-reader tests. The actual
+artifact CLI reproduces the registry counts, and all 120 local links across
+the eight changed Markdown files resolve. These are host/static checks only.
+
+### Preceding checkpoint: 2026-09-06 default frame and Java focus cleanup
 
 Started clean at `a658023` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. The preceding turn made progress on AMS destroy
