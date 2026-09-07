@@ -194,7 +194,7 @@ KIM1's `analysis_ra4_18.45.01/work/secondary_iso/usr/share/XLETS/kim_packages/KI
 
 ## AMS lifecycle and running Xlets
 
-**[CONFIRMED]** `ams.properties` configures start, init, pause, and destroy timeouts and priorities (`analysis_ra4_18.45.01/work/secondary_iso/usr/share/XLETS/base/kona/data/ams.properties:1-10`, SHA-256 `790847a3a00a62cf0886565f49d103f5a16fd20fe975fced96d3427cafd0fde0`).
+**[CONFIRMED]** `ams.properties` contains start/init/pause timeout keys and a default callback timeout, plus init/start/pause/destroy/callback priorities (`analysis_ra4_18.45.01/work/secondary_iso/usr/share/XLETS/base/kona/data/ams.properties:1-11`, SHA-256 `790847a3a00a62cf0886565f49d103f5a16fd20fe975fced96d3427cafd0fde0`). It has no explicit destroy-timeout key; use of the default callback timeout for destroy is not established. The [pause/watchdog trace](ra4_xlet_pause_watchdog.md) separates these configuration values from native request submission and completed recovery.
 
 **[CONFIRMED]** `AMSClient` is 3,593,200 bytes with SHA-256 `12439c3e2554d388c43ca7f1023e96ad2183f5ae22a20991041b833eaa4eec9`. Its compiled constant pool contains an install example `install { "uri":"file:test.jar"}` at `0x2d6a85`, `package-info` at `0x2ef308`, `factory is already installed` at `0x2f1906`, `StartXlets` at `0x3102c4`, a command-form `remove` at `0x323672`, `auth` at `0x323d56`, and list-related strings at `0x32a574` and `0x32a8b0`.
 

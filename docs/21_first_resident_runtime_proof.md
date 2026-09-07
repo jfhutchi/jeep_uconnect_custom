@@ -35,7 +35,11 @@ Xlet/AWT/LWUIT the concrete candidate view API family. Custom-app acceptance,
 usable display area, input focus and failure isolation remain unproved. A
 supplier must confirm compatible API support and stock foreground registration.
 The [stock handoff trace](../reports/ra4_xlet_foreground_handoff.md) distinguishes
-screen exit (pause plus release of the `ams` display request) from Close (stop).
+screen exit (a pause request plus release of the `ams` display request) from
+Close (an explicit stop request). The [native pause-policy trace](../reports/ra4_xlet_pause_watchdog.md)
+shows that pauseApp itself selects stop when `xlet.PauseAllowed` is false;
+the recovered field default is false. Require supported descriptor semantics
+and the effective value for the legitimate new app before the Return trial.
 The Java wrapper checks `AppMgrPermission("appMgr")`; that is an observed
 permission check, not authorization for a custom app. The normal native
 `requestBackground(appId)` event uses the configured SuperApp UUID, so it must
@@ -47,6 +51,11 @@ reacts to AMS service-owner changes by hiding the AMS window key and restoring
 default layer orders. That watches the shared service, not each Xlet; it cannot
 establish recovery from an app hang while AMS remains registered. The policy's
 returned grant does not validate the discarded device write/read results.
+The native per-app watchdog can queue stopApp after an enabled watch expires;
+it does not directly reclaim the window/input in that timer handler. Live
+activation, supported custom registration, timing and completed recovery remain
+unproved. Do not count a queued stop or conditional daemon restart as fail-open
+recovery or healthy session preservation.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
@@ -61,8 +70,9 @@ qualify a supported isolated native package rather than injecting a surface.
 | Stock install/register/uninstall | Exact supplier-supported interfaces and acknowledgments, non-autostart descriptor semantics and per-app rollback contract | STATIC_PROVED stock chain; UNKNOWN custom runtime |
 | Manual launch | Package appears in stock `getAppList`; ordinary Apps entry uses factory DRM-checked launch | STATIC_PROVED stock route; UNKNOWN custom acceptance |
 | View and input | Supported app-owned 640x480 area, focus/release semantics and identity recognized by stock foreground arbiter | STATIC_PROVED stock Xlet/AWT/LWUIT calls and AMS metadata; UNKNOWN custom dimensions, permission and arbitration |
-| Foreground priority | Camera, critical/eCall and comfort-overlay precedence enforced outside the custom app; denial/loss events cannot be vetoed by it | STATIC_PROVED stock admission, pause and display-request release; UNKNOWN custom integration and completed reclaim |
-| Failure containment | No boot dependency or autostart; bounded resources; stock-owned reclaim on exit, disappearance and unresponsive app; distinguish app failure with AMS alive from AMS owner loss/hang | STATIC_PROVED AMS owner-change hide/order callback; UNKNOWN per-Xlet detection, input reclaim and target guarantee |
+| Foreground priority | Camera, critical/eCall and comfort-overlay precedence enforced outside the custom app; denial/loss events cannot be vetoed by it | STATIC_PROVED admission, conditional pause/stop and display-release request; UNKNOWN custom integration and completed reclaim |
+| Return/session continuity | Supported action and effective PauseAllowed for the new identity; legitimate engine session owner survives permitted pause | STATIC_PROVED false/default selects stop and wrappers submit asynchronously; UNKNOWN custom permissions, completion and engine continuity |
+| Failure containment | No boot dependency or autostart; bounded resources; stock-owned reclaim on exit, disappearance and unresponsive app; distinguish app failure with AMS alive from AMS owner loss/hang | STATIC_PROVED AMS owner-change hide/order and enabled-watch expiry stop queue; UNKNOWN live activation, bounded completion, input reclaim and target guarantee |
 | Baseline and storage | Exact-unit stock health baseline, current writable free blocks, package manifest and allocated-block accounting; update state idle | UNKNOWN future measurement |
 | Recovery authority | Supported app-specific stop/uninstall remains reachable without the custom view or process; registry/data reconciliation documented | UNKNOWN complete runtime rollback |
 | Experiment setting | Owner-authorized spare bench unit and supplier-supported camera/critical-state validation method, stable power and recovery provisions | External prerequisite; no vehicle operation authorized here |
@@ -127,8 +137,9 @@ This sequence is a design; there are no executable radio commands here.
    calls or inject CAN to manufacture a state. If that proof is unavailable,
    the trial does not pass the coexistence gate.
 6. **Return, resume and explicit close:** use the supported Return action for
-   the new identity; record pause and display-release completion independently
-   and observe stock foreground/input restoration. Re-enter through the ordinary
+   the new identity with qualified effective PauseAllowed; record which
+   lifecycle action was selected. Record pause and display-release completion
+   independently, and observe stock foreground/input restoration. Re-enter through the ordinary
    supported app route and check the counter/state and resume acknowledgment.
    Then use explicit Close/stop and verify the app is stopped. A background
    request's zero response, a dispatched Resume, or navigation alone does not
@@ -142,6 +153,9 @@ This sequence is a design; there are no executable radio commands here.
    input/contact release and stock interaction separately from a policy grant.
    AMS disappearance or VM-hang recovery needs separate supplier evidence and
    cannot be substituted for this app-specific result.
+   If a supported per-app watchdog is used, record its enabled state and
+   expiry-to-stop-completion and input-reclaim timing. A queued stop request,
+   timer counter, successful IPC submission or daemon restart is insufficient.
 8. **Uninstall:** use supported app-specific removal; confirm absence from both
    AMS and AppManager inventory and verify the documented disposition of its
    own data/staging. A tile disappearing alone is not successful rollback.

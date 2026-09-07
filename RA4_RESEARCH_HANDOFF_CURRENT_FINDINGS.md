@@ -8,7 +8,52 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 display visibility and AMS owner scope
+### Current checkpoint: 2026-09-06 pause policy and per-app watchdog
+
+Started clean at `71a054a` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding turn made progress on native display
+visibility and AMS owner-change scope. This continuation advances per-app
+lifecycle evidence; the full projection goal remains active.
+
+**STATIC_PROVED:** native pauseApp tests the app's `xlet.PauseAllowed` byte.
+True selects pause; false selects stop. The properties subobject initialization
+and extraction reset set the field false. The named parser consumes a string
+property; the named serializer emits a JSON Boolean. Two stock packages supply
+true/false examples. Both action wrappers call SVCIPC_asyncInvoke, so immediate
+submission success is not lifecycle completion. The
+[pause/watchdog report](reports/ra4_xlet_pause_watchdog.md) records identities,
+subobject arithmetic, parser/default evidence and exact branch/call anchors.
+
+**STATIC_PROVED recovery candidate:** AppManager's watchdog loop checks enabled
+per-app counters. Expiry clears the app's watch and queues stopApp on the core
+request queue; a conditional daemon branch also queues startApp. The handler
+does not directly reclaim the window/input. App constructors initialize watches
+disabled, and set-watch processing can fail if the watchdog is not running.
+Live activation and permitted custom-app registration are unproved.
+
+**UNKNOWN:** bounded stop/callback completion when a Xlet/VM hangs, effective
+watchdog deadlines, container/input removal and healthy engine continuity.
+The first resident proof now requires qualified effective PauseAllowed, selected
+lifecycle action, and separate completion observations. Queued stop, successful
+IPC submission and daemon restart do not satisfy session preservation or
+fail-open recovery. The older installation report's destroy-timeout claim is
+corrected: AMS has a default callback timeout but no explicit destroy-timeout
+key in the recovered properties. Its consumer remains to be traced.
+
+**Next technical target:** callback `0x14ADE8`, queued stopApp dispatch and the
+AMS pause/destroy consumer through timeout/error handling into container/input
+cleanup while AMS retains ownership. No runtime gate passed; no measured local
+capability failed and external compute is not selected. PR #14 stays draft/open;
+main and independent PR #15 are preserved. All changes are original documents,
+with zero target bytes, target actions or provider contact.
+
+Fresh validation: **150 host Python tests pass, no skips**. Four artifact
+hashes/sizes, 110 native instructions, 13 literals, four pointer records and
+five import resolutions match. The two stock property lines, subobject offsets
+and exact AMS timeout-key set were checked. All 98 local links in the eight
+changed Markdown files resolve. No analysis-tool code changed.
+
+### Preceding checkpoint: 2026-09-06 display visibility and AMS owner scope
 
 Started clean at `7b16ef1` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. The previous turn made progress on pause, Return,

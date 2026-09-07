@@ -11,6 +11,12 @@ Xlet, when applicable, and then releases the `ams` display request. Its Close
 handler instead sends a stop request and marks the app stopped to avoid the
 ordinary exit pause. Re-entry can request the last paused app through `Resume`.
 
+**Follow-up qualification:** the [native pause-policy trace](ra4_xlet_pause_watchdog.md)
+proves `pauseApp` selects `stop` when the effective `xlet.PauseAllowed` field
+is false. Its recovered default is false. The screen requests a pause, but the
+downstream action is conditional; Return cannot be assumed to preserve every
+Xlet or a future engine session.
+
 The foreground API reaches a native HMI-admission check. The HMI rejects for
 rear camera, display off, blocking popup or its eCall error-screen state. A
 positive response permits native processing to continue into the existing
@@ -169,7 +175,10 @@ not establish per-Xlet failure detection while AMS stays present.
 
 **Remaining technical target:** AMS/AppManager's per-Xlet pause/resume/error
 acknowledgments and container/input removal while the shared service remains
-alive. Determine whether display reclaim can complete independently when the
+alive. The [pause/watchdog follow-up](ra4_xlet_pause_watchdog.md) resolves
+the pause-versus-stop policy and asynchronous submission, and identifies an
+enabled per-app watchdog's queued stop request. It does not prove completion.
+Determine whether display reclaim can complete independently when the
 Xlet/VM is unresponsive. Keep camera, critical/eCall and comfort priority under
 the stock owners. No target failure injection or deployment is authorized by
 these static findings.

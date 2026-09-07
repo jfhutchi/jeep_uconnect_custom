@@ -176,6 +176,12 @@ AMS service stays present. Follow that into focus/input ownership and any
 stock-owned timeout. The service-owner callback found here answers a different
 failure scope and cannot close the full fail-open requirement.
 
+**Follow-up:** the [per-Xlet pause/watchdog trace](ra4_xlet_pause_watchdog.md)
+identifies a native enabled-watch counter and expiry path that queues stopApp,
+with conditional daemon restart. It also establishes that pauseApp can select
+stop when PauseAllowed is false. These are lifecycle requests, not completed
+container/input reclaim; live activation and bounded recovery remain unproved.
+
 The existing host-only tools reproduce the relevant bodies:
 
 ```powershell
