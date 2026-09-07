@@ -10,8 +10,10 @@ classification, a local success/parse flag, a mapped result code, and app
 bookkeeping. Those are not interchangeable completion evidence.
 
 For a stop operation, three integer AMS error codes can be normalized to
-success. A `NoReply` error is not one of those normalized cases; it maps to
-nonzero result 34. Nevertheless the app-level result handler reaches its
+success. The [AMS cleanup follow-up](ra4_ams_destroy_cleanup_contract.md) now
+resolves them as Xlet exception (8), AMS TIMEOUT (12), and failure to stop all
+Xlet threads on destroy (20). A `NoReply` error is not one of those normalized
+cases; it maps to nonzero result 34. Nevertheless the app-level result handler reaches its
 stop bookkeeping for that failure: it selects `appStopped`, calls
 `switchToStop`, and later sends the nonzero result in `errorCode`.
 
@@ -86,13 +88,16 @@ The helper checks a non-null JSON value and integer `errCode`
 **12, 8 or 20**, using comparisons at `0x144EE4`, `0x144EE8`, `0x144EF0`
 and branches at `0x144EEC` / `0x144EF4`. The accepted return is true at
 `0x144FDC`; null, wrong-type or other values return false at `0x144FC0`.
-The semantic names of these AMS-internal codes are not established here.
+Their semantic names, initially unresolved in this native trace, are now
+established by the [AMS field/cleanup trace](ra4_ams_destroy_cleanup_contract.md):
+Xlet exception (8), AMS TIMEOUT (12) and incomplete thread termination (20).
 
 Accepted normalization sets mapped result zero and the local success flag
 true at `0x14B3F4` / `0x14B3F8`. Other errors preserve their mapping.
 `NoReply` has category 3, so the category-1 error extraction is skipped; the
-null error object fails ignoreError. Its mapped result stays 34. No blanket
-claim that AppManager suppresses timeouts is supported by this trace.
+null error object fails ignoreError. Its mapped result stays 34. Thus AMS
+TIMEOUT can be normalized on stop, while D-Bus NoReply remains nonzero;
+a blanket claim that AppManager suppresses every timeout is unsupported.
 
 ## App stopped-state updates do not require a zero result
 

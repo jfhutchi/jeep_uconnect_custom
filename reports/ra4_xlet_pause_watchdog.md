@@ -155,6 +155,12 @@ distinguish these facts. These values do not establish effective target
 deadlines, default-timeout use for destroy, or a connection to AppManagerCore
 field `0x288` without tracing their consumers.
 
+The [AMS destroy/cleanup follow-up](ra4_ams_destroy_cleanup_contract.md) now
+resolves separate compiled defaults: destroy 10000, destroy-on-error 4000 and
+thread cleanup 200. It also distinguishes the compiled callback default 1000
+from the external file's 10000. These stored values still do not establish
+effective deadlines, live configuration or bounded input/display recovery.
+
 ## Product consequence and next evidence
 
 The [resident milestone](../docs/21_first_resident_runtime_proof.md) must record

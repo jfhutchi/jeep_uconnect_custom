@@ -8,7 +8,59 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 callback results versus cleanup
+### Current checkpoint: 2026-09-06 AMS destroy and container cleanup
+
+Started clean at `51b5a78` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding goal turn made progress on result
+normalization. This continuation advances the actual AMS lifecycle/cleanup
+trace. The full projection goal remains active.
+
+**STATIC_PROVED:** the normalized AMS stop codes are 8,
+`XLET_CAUSED_JAVA_EXCEPTION`; 12, `TIMEOUT`; and 20,
+`XLET_DID_NOT_STOP_ALL_THREADS_ON_DESTROY`. They are constant-valued AMSError
+fields, and the destroy/thread-check bodies have concrete producers for 8/20.
+D-Bus NoReply remains the separate nonzero result 34. Even zero-code stopped
+events cannot certify complete thread termination or physical cleanup.
+
+**STATIC_PROVED:** AMSProperties has separate compiled defaults for destroy
+(10000), destroy-on-error (4000), and thread cleanup (200). The compiled
+callback default is 1000, whereas the external file specifies 10000. These
+stored values are not live or measured deadlines. Ordered field records are
+essential: visible, verbose and secure Boolean fields precede the timeout fields.
+
+**STATIC_PROVED:** the destroy wrapper invokes a timeout-managed destroy
+action, then a separate cleanup action, with exception paths into cleanup.
+The cleanup action reaches LWUIT deinitialization, GLES canvas destruction,
+thread checks and explicit XletContext finalization. That finalizer calls
+`XletMainFrame.removeChild(XletContainer)`. The thread-check exception path
+still attempts context finalization. See the
+[AMS destroy/cleanup contract](reports/ra4_ams_destroy_cleanup_contract.md)
+for artifact identities, method ordinals, constants and exception-table anchors.
+
+**UNKNOWN:** whether these calls complete when an app hangs; the timeout
+runner's AOT/native behavior; concrete main-frame removal's native window,
+focus and input effects; and supported custom-app failure containment. The
+resident proof now requires raw errors, action completion, thread disposition,
+container removal and native presentation/input recovery as distinct evidence.
+No runtime gate passes; no measured local limit fails; external compute is
+not selected. USB topology, phone transport and legitimate engine gates are
+unchanged. PR #15's incorporated reference evidence and independent history
+remain intact; PR #14 remains draft and main is preserved.
+
+**Next technical target:** the concrete XletMainFrame removeChild implementation
+and its native window/focus/input effects, followed by the AOT timeout runner's
+completion hooks. No radio/vehicle/phone actions, provider contact or vendor
+payload commits occurred. Only original analysis/specifications changed.
+
+Fresh evidence validation matched three artifact identities, three named error
+constants, seven constructor defaults, four external timeout keys, seven selected
+complete method tables and 21 resolved call anchors, plus selected byte and
+exception-table checks. The prior callback's 102 native and 14 HMI instruction
+checks also pass. The full host Python suite passes **150 tests, no skips**;
+all **105 local Markdown links in seven changed documents** resolve. These
+are static/host checks, not target recovery measurements.
+
+### Preceding checkpoint: 2026-09-06 callback results versus cleanup
 
 Started clean at `e1f12c5` on canonical `codex/ra4-driver-temperature`; fetched
 origin without divergence. The preceding goal turn made progress on pause

@@ -62,6 +62,13 @@ stop errors can be normalized to zero, and failed JSON parsing can coexist with
 a zero-code app event. Require raw response/error and parse-validity evidence
 alongside the normalized event. Neither an app inventory state nor that event
 alone proves lifecycle completion, display/input release or failure containment.
+The [AMS cleanup trace](../reports/ra4_ams_destroy_cleanup_contract.md) resolves
+the normalized stop errors as Xlet exception (8), AMS TIMEOUT (12) and incomplete
+thread termination (20). It traces stock LWUIT/GLES cleanup and explicit Xlet
+container removal, including selected exception paths. The timeout runner's
+AOT implementation and native input/window effects remain unproved. Retain
+raw errors even when the normalized result is zero; the existence of cleanup
+calls and compiled timeout defaults cannot substitute for completed recovery.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
@@ -166,6 +173,10 @@ This sequence is a design; there are no executable radio commands here.
    If a supported per-app watchdog is used, record its enabled state and
    expiry-to-stop-completion and input-reclaim timing. A queued stop request,
    timer counter, successful IPC submission or daemon restart is insufficient.
+   Record action completion, app-thread disposition and main-frame container
+   removal independently of native visibility/input release. Retain raw AMS
+   8/12/20 and distinguish AMS TIMEOUT from D-Bus NoReply. Record configured
+   and effective timeout values separately from measured elapsed recovery.
 8. **Uninstall:** use supported app-specific removal; confirm absence from both
    AMS and AppManager inventory and verify the documented disposition of its
    own data/staging. A tile disappearing alone is not successful rollback.

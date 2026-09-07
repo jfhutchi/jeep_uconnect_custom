@@ -70,3 +70,11 @@ why app-state observations need qualification: stopped bookkeeping can advance
 on NoReply, selected AMS stop errors normalize to zero, and malformed successful
 reply parsing can yield a zero-code app event with a separate failure flag.
 Physical cleanup remains unproved; no gate is closed by those notifications.
+
+The [AMS destroy/cleanup trace](../reports/ra4_ams_destroy_cleanup_contract.md)
+identifies the normalized errors as Xlet exception, AMS timeout and incomplete
+thread termination. It follows actual LWUIT/GLES cleanup and Xlet-container
+removal calls, including selected exception paths. The timeout action runner
+has no inline ROM body; completed native visibility/input recovery and the
+effective deadlines remain UNKNOWN. These findings narrow resident recovery
+requirements without changing any USB, transport or engine gate.
