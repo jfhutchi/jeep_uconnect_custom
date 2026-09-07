@@ -40,6 +40,14 @@ legitimate compatible build.
 
 ## Current provider qualification matrix
 
+For any candidate **Java/JNI adapter**, require the exact supported native
+binding mechanism in addition to QNX/ARM compatibility. The local
+[AMS JNI registration trace](../reports/ra4_jni_registration_limit.md) shows
+both recovered RegisterNatives entries reaching an internal not-implemented
+helper and abort. A generic JNI registration-based SDK cannot be assumed
+compatible. This does not reject engines using other supported interfaces or
+prove a measured local resource failure; do not replace or patch the stock VM.
+
 Checked 2026-09-06 against primary provider/program sources. Every candidate
 must preserve the existing Uconnect HMI and independent camera/critical paths;
 CarPlay Ultra or a replacement digital cockpit is outside this project's scope.

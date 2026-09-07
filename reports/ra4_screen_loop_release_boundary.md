@@ -5,6 +5,12 @@ with origin after fetch. Read-only host artifact analysis; no target execution.
 
 ## Decision
 
+Later qualification: the [JNI registration trace](ra4_jni_registration_limit.md)
+proves that both recovered standard RegisterNatives entries call an aborting
+not-implemented helper. The generic explicit-registration possibility discussed
+below is therefore not a supported explanation through those tables. Other
+build-specific binding or release mechanisms remain unproved.
+
 **STATIC_PROVED:** the stock platform-screen initializer starts a named daemon
 thread. Its compiled run body checks the Boolean returned by access$800
 before the native event wait. False reaches a normal return. The event

@@ -20,7 +20,53 @@ jobs existed when this instruction was received. This restriction supersedes
 earlier CI-related expectations. Do not automatically enable or run Actions
 when the calendar changes without considering the owner's latest instructions.
 
-### Current checkpoint: 2026-09-06 dynamic native lookup qualification
+### Current checkpoint: 2026-09-06 standard JNI registration limit
+
+Started clean at `37b1351`; fetched origin without divergence on canonical
+`codex/ra4-driver-temperature`. The previous turn narrowed dynamic lookup;
+this continuation checks the explicit-registration hypothesis. The full
+resident-first projection goal remains active. All verification remains local.
+
+**STATIC_PROVED:** both recovered JNI interface tables have RegisterNatives
+at index 215 pointing to 0x6207CC and UnregisterNatives at index 216 pointing
+to 0x6207B4. Both entries call the internal not-implemented helper, which
+reaches the imported abort function. These bodies do not process a native
+method-registration array. A following zero-return instruction is not a
+successful registration acknowledgment after that abort call.
+
+**STATIC_PROVED:** initialization obtains both table pointers through their
+getters and stores them in configuration. Both tables expose the same
+GetVersion function returning 0x00010004. Effective selection for a particular
+live caller is unobserved, but neither inspected registration entry is usable
+as a supported standard registration implementation. See the
+[JNI registration report](reports/ra4_jni_registration_limit.md).
+
+The standard RegisterNatives hypothesis is closed for these tables. The
+preceding event-free mismatch cannot be explained by citing generic JNI
+registration. **UNKNOWN:** alternative build-specific binding, another matched
+component/release implementation, event-free invocation and actual native
+release. No runtime crash/leak or measured local capability failure is claimed.
+
+The resident proof and engine-provider requirements now explicitly qualify
+any Java/JNI adapter's binding mechanism on the exact stock VM build. Native
+packages using other supported interfaces are not rejected by this finding.
+Do not modify the stock VM or execute an aborting compatibility probe. USB,
+transport, authorization, engine availability, video/audio and resource gates
+remain open or unchanged. External compute is not selected.
+
+Fresh local checks reran preceding artifact verification and matched 25 new
+ARM anchors, two table headers, six table entries, four literals, the abort
+import and two getter call-site censuses. The earlier 162-test suite remains
+historical; no committed executable code/test changes. No target execution,
+provider contact, protected payload commit or GitHub Actions dispatch/retry.
+All 118 local links across six changed Markdown files resolve; whitespace
+checks pass. The remote workflow remains the verified manual-only blob.
+
+Next useful evidence is the Screen-loop accessor's quick-op field semantics
+and lifecycle control, or a concrete alternative event-release path. Do not
+reopen standard registration through these tables without new evidence.
+
+### Preceding checkpoint: 2026-09-06 dynamic native lookup qualification
 
 Started clean at `c99f917` on canonical `codex/ra4-driver-temperature`.
 The prior goal response handled the owner's no-Actions constraint; this

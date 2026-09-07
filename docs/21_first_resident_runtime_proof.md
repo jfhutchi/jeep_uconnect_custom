@@ -112,6 +112,12 @@ lookup: zero AOT entries alone cannot reject dynamic binding, but ordinary
 short/signature-qualified lookup does not remove the observed class-name
 difference. Require the effective event-free registration or another supported
 release implementation in the exact Java/native component set.
+The [JNI registration trace](../reports/ra4_jni_registration_limit.md) now
+shows that both recovered standard RegisterNatives/UnregisterNatives table
+entries call an internal not-implemented helper that reaches abort. A proposed
+Java/JNI adapter must use an exact-build supported binding mechanism; generic
+RegisterNatives compatibility is insufficient. Do not execute a registration
+probe against this stub or modify the stock VM to make an adapter fit.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
