@@ -92,6 +92,14 @@ not prove that a new project can obtain a valid signer/token/DRM grant, that an
 Xlet can own the required Screen surface, or that it can bind the projection
 backend.
 
+The subsequent [resident view trace](../reports/ra4_resident_xlet_view_path.md)
+proves stock XletContext.getContainer/AWT/LWUIT callers and matching AMS ROM
+class objects. This narrows the control-shell view to a concrete API family;
+custom foreground ownership, usable dimensions and native video-surface import
+remain unproved. Use the existing app lane's supported view contract when
+qualified; the stock projection gateway's missing destinations remain a separate
+compatibility issue.
+
 ### Stock-facing service lane
 
 ModuleLink, a configured localhost endpoint, servicebroker,

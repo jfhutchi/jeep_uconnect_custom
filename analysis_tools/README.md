@@ -49,6 +49,28 @@ Fixtures in `fixtures/ra4_driver_temperature_cases.json` are original examples,
 not captures or a deployable decoder. No payload or vendor asset is bundled.
 These PC-only tools add zero resident dependencies or radio storage usage.
 
+## JVM invocation inventory
+
+`jvm_call_inventory.py` uses Python 3.11+ and host-only `jawa==2.2.0`
+(`python -m pip install jawa==2.2.0`). It opens selected `.class` members in a
+JAR in memory and reports actual invocation instructions with caller signatures,
+bytecode indices, target owner/method/descriptors and class hashes. It emits no
+resource bodies, string constants or complete bytecode. Member, owner and method
+selectors are regular expressions. A constant-pool reference alone is not a hit.
+
+```powershell
+python -m analysis_tools.jvm_call_inventory PATH.jar --member 'Xlet.class$' --owner 'javax/microedition/xlet|com/sun/lwuit/Display'
+python -m unittest analysis_tools.tests.test_jvm_call_inventory -v
+```
+
+Selected classes are fully decoded before output, with 8 MiB per-class and
+256 MiB total uncompressed-class limits. Read/parse errors propagate instead of
+returning a successful partial inventory. `invokedynamic` sites are explicitly
+counted as unresolved; reflection, JNI, virtual target selection, reachability
+and the Jamaica ROM/AOT format are not resolved. This is not a JVM verifier or
+an arbitrary-input sandbox. No target class is loaded or executed. See the
+[resident view trace](../reports/ra4_resident_xlet_view_path.md).
+
 ## ELF32 / ARM inspection
 
 `arm_elf_analysis.py` uses Python 3.10+ and Capstone (`python -m pip install capstone`

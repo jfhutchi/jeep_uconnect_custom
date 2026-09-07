@@ -8,7 +8,42 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 native projection gateway routing
+### Current checkpoint: 2026-09-06 resident Xlet view path
+
+Started clean at `1484f88` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. Previous goal turn made progress by establishing
+the native gateway incompatibility. The full projection product remains
+unachieved; this continuation advances its independent resident view lane.
+
+**STATIC_PROVED:** Registration and user-guide application classes call
+XletContext.getContainer, AWT Container.setVisible, LWUIT Display.init and
+Display.callSerially. The user guide also constructs/shows a Form and registers
+a Button action listener. Hash-bound AMS ROM class objects identify XletContext,
+Container, Display and aicas GLESCanvas. **HIGH:** stock Xlet/AWT/LWUIT is the
+concrete graphics API family for a candidate control shell. The
+[view report](reports/ra4_resident_xlet_view_path.md) records exact signatures,
+method BCIs, class hashes and ROM ownership anchors.
+
+**UNKNOWN:** custom app acceptance, usable 640x480 area, input/foreground
+arbitration, camera/critical priority, native video-buffer integration and
+hung-app reclaim. The first sample's filename says 800X480 and does not prove
+the Jeep's usable app dimensions. The sampled pause/destroy methods differ;
+they do not establish a universal cleanup recipe. Supported SDK/package access
+and legitimate authorization remain **EXTERNAL_PROVIDER_GATE**.
+
+Added an original host JVM invocation inventory using `jawa==2.2.0`. It reports
+actual instruction references instead of treating constant-pool strings as calls;
+resources/full bytecode are not emitted. Eight selected stock class members
+were parsed, with zero unresolved invokedynamic. Fresh full Python suite:
+**150 tests pass, no skips**, including five new synthetic tests; compileall
+passes. No target package, vehicle/radio/phone operation or provider contact.
+
+The next technical target is the AMS container visibility/focus owner and
+AppManager-to-AMS foreground/reclaim handoff. Transport, engine, authorization,
+resource measurements and rollback runtime gates remain open. All additions
+have zero installed radio bytes; the goal remains active.
+
+### Preceding checkpoint: 2026-09-06 native projection gateway routing
 
 Started clean at `1708c4f` on canonical `codex/ra4-driver-temperature`; fetched
 origin with no divergence. PR #14 remains open/draft. PR #15's independent

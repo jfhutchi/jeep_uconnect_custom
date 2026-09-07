@@ -28,9 +28,13 @@ Use existing permitted fonts or a tiny original asset. No phone engine, USB
 client, audio source, background networking, vehicle controls or automatic
 launch. Do not load code into the stock main SWF or assume another ADL process.
 
-An Xlet lifecycle does **not** yet prove a drawing surface, input focus or
-failure isolation. A supplier must identify the exact compatible view API and
-stock foreground registration. If the approved Xlet shares a VM with critical
+The [stock Xlet view trace](../reports/ra4_resident_xlet_view_path.md) now proves
+two application callers of XletContext.getContainer, AWT visibility and LWUIT
+Display/Form APIs, corroborated by matching AMS ROM class metadata. This makes
+Xlet/AWT/LWUIT the concrete candidate view API family. Custom-app acceptance,
+usable display area, input focus and failure isolation remain unproved. A
+supplier must confirm compatible API support and stock foreground registration.
+If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
 qualify a supported isolated native package rather than injecting a surface.
@@ -43,7 +47,7 @@ qualify a supported isolated native package rather than injecting a surface.
 | Compatible build | Authorized QNX 6.5 ARM32 / Kona toolchain and API stubs; reproducible source build; documented permitted stock dependencies | EXTERNAL_PROVIDER_GATE |
 | Stock install/register/uninstall | Exact supplier-supported interfaces and acknowledgments, non-autostart descriptor semantics and per-app rollback contract | STATIC_PROVED stock chain; UNKNOWN custom runtime |
 | Manual launch | Package appears in stock `getAppList`; ordinary Apps entry uses factory DRM-checked launch | STATIC_PROVED stock route; UNKNOWN custom acceptance |
-| View and input | Supported app-owned 640x480 surface, focus events and release API; explicit identity recognized by stock foreground arbiter | UNKNOWN exact binding; no guessed Screen/PPS call |
+| View and input | Supported app-owned 640x480 area, focus/release semantics and identity recognized by stock foreground arbiter | STATIC_PROVED stock Xlet/AWT/LWUIT calls and AMS metadata; UNKNOWN custom dimensions, permission and arbitration |
 | Foreground priority | Camera, critical/eCall and comfort-overlay precedence enforced outside the custom app; denial/loss events cannot be vetoed by it | UNKNOWN custom integration |
 | Failure containment | No boot dependency or autostart; bounded resources; stock-owned reclaim on exit, disappearance and unresponsive app; shared-VM risks resolved | UNKNOWN target guarantee |
 | Baseline and storage | Exact-unit stock health baseline, current writable free blocks, package manifest and allocated-block accounting; update state idle | UNKNOWN future measurement |
@@ -53,9 +57,10 @@ qualify a supported isolated native package rather than injecting a surface.
 Expected semantic APIs: Xlet initialize/start/pause/destroy lifecycle, authorized
 AppManager install/list/start/stop/uninstall, stock app identity and foreground
 request/loss notifications, permitted view create/draw/input/release, and
-bounded app-local state if needed. Exact function signatures, IPC paths,
-surface handles and permission identifiers must come from the compatible SDK;
-this document supplies none by guesswork.
+bounded app-local state if needed. The view trace records observed Java method
+signatures, but a compatible SDK must confirm their supported use, lifecycle
+and permissions. IPC paths, native surface handles and foreground permission
+identifiers remain unresolved.
 
 ## Installed-size estimate and resource accounting
 
