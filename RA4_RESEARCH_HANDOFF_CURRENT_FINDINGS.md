@@ -8,7 +8,62 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 Screen loop exit and event-release boundary
+### September 2026 execution restriction
+
+The owner has exhausted GitHub Actions credits for September. Do not dispatch
+workflows, retry jobs, or perform an action that would trigger a hosted run
+during this period. Verification stays local. Before an otherwise-authorized
+push or PR update, verify applicable workflow triggers remain manual-only;
+if that cannot be established, retain local commits without pushing. The
+repository's sole workflow was verified manual-only and no queued/running
+jobs existed when this instruction was received. This restriction supersedes
+earlier CI-related expectations. Do not automatically enable or run Actions
+when the calendar changes without considering the owner's latest instructions.
+
+### Current checkpoint: 2026-09-06 dynamic native lookup qualification
+
+Started clean at `c99f917` on canonical `codex/ra4-driver-temperature`.
+The prior goal response handled the owner's no-Actions constraint; this
+continuation resumes substantive local research. The full projection goal
+remains active.
+
+**STATIC_PROVED:** AMS has a native-symbol formatter and loaded-library lookup
+path reaching dlsym. It formats a Java_ name and conditionally retries with an
+argument signature. Lookup traverses Runtime.dynamicLibraries using nativeHandle
+and next. Zero AOT entries or missing AMS imports alone cannot reject dynamic
+native binding. A separate caller looks up JNI_OnLoad.
+
+**INFERRED from the verified formatter and declaration:** ordinary short or
+signature-qualified KSEventAtom.nativeKSFreeEvent lookup does not match the
+inspected library's KSEvent-named export. The ASCII encoder preserves Atom;
+adding __J cannot resolve that class-name difference. Neither candidate nor
+JNI_OnLoad is exported by this library. Explicit registration elsewhere,
+different loaded components or another supported release path remain possible.
+See the [expanded native-release report](reports/ra4_screen_loop_release_boundary.md).
+
+**UNKNOWN:** effective event-free registration and actual release, the loop
+accessor's quick-op field semantics, and completed stock input recovery. No
+runtime link failure, leak or local capability failure is claimed. The resident
+proof now requires a supported matching Java/native component set and qualified
+event-free registration or alternate release implementation. USB, engine,
+authorization, video/audio and resource gates are unchanged; no external
+compute fallback is selected.
+
+Fresh local checks reran the preceding I/O/Screen and loop checks and matched
+46 additional ARM anchors, seven literals, three imports, two direct-call
+censuses and four symbol-name checks. The earlier 162-test suite remains
+historical; no committed executable code/test changes. No GitHub Actions
+workflow was dispatched or retried. The remote canonical workflow blob matches
+the inspected manual-only local file; main has no workflow files. No target
+execution, provider contact or protected payload commit occurred.
+All 69 local links across the three changed Markdown files resolve; whitespace
+checks pass. PR #14 stays draft; main and independent PR #15 remain preserved.
+
+The next evidence target is effective explicit native registration or a
+supported alternative event-release path, alongside accessor field semantics.
+These remain requirements to qualify, not reasons to modify vendor code.
+
+### Preceding checkpoint: 2026-09-06 Screen loop exit and event-release boundary
 
 Started clean at `9d16fe2`; fetched origin with no divergence on canonical
 `codex/ra4-driver-temperature`. The preceding native wait/callback checkpoint

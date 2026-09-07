@@ -129,6 +129,68 @@ event/window/contact release is established by these artifacts alone.
 
 ## Resident proof consequence and verification
 
+### Follow-up: dynamic native lookup, 2026-09-06
+
+Starting head `c99f917`. A targeted dlsym cross-reference resolves a real AMS
+dynamic native lookup path. The only direct call to the dlsym import is at
+0x5CAA2C, in wrapper 0x5CAA28. It stores the returned function pointer at
+0x5CAA38 and returns a non-null test. The wrapper has two direct callers:
+0x5E70B8 in native-method lookup and 0x61A7DC in a JNI_OnLoad lookup path.
+Thus absence from AMS's import table or a zero AOT entry alone cannot reject
+all legitimate dynamic binding.
+
+The native-name formatter at 0x5E6D80 copies the Java_ prefix, formats
+metadata-derived class and method names, and optionally appends two underscores
+plus the argument signature between '(' and ')'. Its selected encoder at
+0x615234 preserves ASCII letters/digits and replaces '/' with '_'. The
+driver calls the formatter at 0x5FBA48 and library lookup at 0x5FBA68. A
+conditional fallback calls the formatter with its signature flag set at
+0x5FBACC and repeats lookup at 0x5FBAEC. The initial format mode is selected
+by a helper result; this trace does not claim every method always tries the
+same two names in the same order.
+
+The library-lookup body at 0x5E6EFC resolves literals java/lang/Runtime,
+dynamicLibraries, java/lang/DynamicLibraries, nativeHandle and next. It
+iterates the linked library entries, obtains a handle, calls the dlsym
+wrapper at 0x5E70B8, copies its pointer/result metadata out, and stops on
+success or exhaustion. Effective library-list contents and a call for this
+particular event-free method remain unobserved.
+
+**INFERRED from the verified formatter and declaration:** ordinary symbol
+lookup for KSEventAtom.nativeKSFreeEvent(J)V would use the short candidate
+Java_com_aicas_kodescreen_KSEventAtom_nativeKSFreeEvent and, when signature
+qualification is used, the corresponding name ending __J. Neither candidate
+is exported by the inspected libKSLinked.so. Its KSEvent-named export cannot
+become a KSEventAtom match merely by adding the signature suffix: the verified
+ASCII encoding preserves the letters Atom. This narrows the mismatch beyond
+a comparison of source-level names. The
+[JNI naming specification](https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/design.html#resolving_native_method_names)
+describes the same short/argument-qualified naming distinction and separately
+allows explicit RegisterNatives registration. That specification is context;
+it is not evidence that this build invokes or resolves the event-free method.
+
+AMS also has a concrete JNI_OnLoad name lookup at 0x61A7DC. No JNI_OnLoad
+export is present in this libKSLinked.so's dynamic symbols. That excludes
+this library supplying that specifically named hook in the inspected image;
+it does not exclude explicit registration elsewhere, different loaded
+components, ELF initialization, another supported release path or unused
+methods. No universal missing-native or runtime failure claim follows.
+
+**Decision:** the ordinary dynamic-name fallback does not explain the class
+name difference. Effective explicit registration or another event-release
+implementation remains the evidence needed. Do not patch aliases, rename
+vendor exports or deploy a speculative replacement. Qualify a supported,
+matched Java/native component set through the legitimate SDK/provider path.
+The accessor's effective quick-op semantics remain independently unresolved.
+
+This follow-up uses local verification only. The owner's September GitHub
+Actions restriction is recorded in the current handoff. No hosted workflow
+was dispatched or retried.
+Fresh local follow-up checks reran the preceding artifact verification and
+matched 46 new ARM anchors, seven literals, three imports, two direct-call
+censuses and four symbol-name checks. These verify static instructions and
+lookup candidates, not runtime resolution of the event-free method.
+
 The [future resident proof](../docs/21_first_resident_runtime_proof.md) now
 requires a supplier-supported event ownership/release contract and a supported
 per-app lifecycle contract for any shared platform-screen thread. Qualify

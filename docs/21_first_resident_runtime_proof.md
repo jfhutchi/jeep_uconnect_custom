@@ -107,6 +107,11 @@ inspected library remains unresolved. Require supported native event ownership
 and release, and document whether the relevant platform-screen thread should
 exit or intentionally survive app Return/stop. Do not equate consumed state,
 thread return, AWT detachment and successful native resource release.
+The same follow-up now traces AMS's dynamic symbol formatter and library
+lookup: zero AOT entries alone cannot reject dynamic binding, but ordinary
+short/signature-qualified lookup does not remove the observed class-name
+difference. Require the effective event-free registration or another supported
+release implementation in the exact Java/native component set.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;
