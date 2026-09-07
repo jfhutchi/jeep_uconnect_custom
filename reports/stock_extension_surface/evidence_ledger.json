@@ -1,0 +1,334 @@
+{
+  "schema_version": 1,
+  "corpus": {
+    "summary": "Read-only recovered RA4 18.45.01 resident Java, installed descriptors, existing source-addressed repository findings, and candidate-led hidden-HBC metadata",
+    "coverage": "300 resident archives; 72,507 class occurrences; 13,272 unique class hashes; 1,528 parsed small resources; 832 candidate-led hidden-HBC files"
+  },
+  "socket_command_source": {
+    "verdict_classification": "STRONGLY INFERRED",
+    "verdict": "The recovered code is lifecycle-activatable local test automation rather than unreferenced residue, but target execution is unproved and the only recovered factory path binds IPv4 loopback.",
+    "activation_ladder": {
+      "class_exists": {
+        "classification": "PROVED",
+        "conclusion": "Five recovered resident JAR occurrences contain the same SocketCommandSource class hash.",
+        "sources": [
+          {
+            "kind": "parsed_structure",
+            "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+            "member": "com/tweddle/test/input/SocketCommandSource.class",
+            "offset": 0
+          }
+        ]
+      },
+      "statically_reachable": {
+        "classification": "PROVED",
+        "conclusion": "Concrete Xlet init paths reach the no-argument constructor, and CommandLooper.run has a superclass virtual-dispatch candidate to the concrete wait method.",
+        "sources": [
+          {
+            "kind": "bytecode_edge",
+            "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+            "member": "com/tweddle/core/AbstractHUXlet.class",
+            "offset": 154
+          },
+          {
+            "kind": "bytecode_edge",
+            "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+            "member": "com/tweddle/test/input/CommandLooper.class",
+            "offset": 19
+          }
+        ]
+      },
+      "activation_mechanism_exists": {
+        "classification": "PROVED",
+        "conclusion": "Normal Xlet start starts the CommandLooper HU thread; its run loop calls the command source until normal destroy stops it and closes the listener.",
+        "sources": [
+          {
+            "kind": "bytecode_edge",
+            "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+            "member": "com/tweddle/test/input/CommandLooper.class",
+            "offset": 19
+          },
+          {
+            "kind": "bytecode_edge",
+            "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+            "member": "com/tweddle/core/AbstractHUXlet.class",
+            "offset": 22
+          }
+        ]
+      },
+      "activation_configured": {
+        "classification": "STRONGLY INFERRED",
+        "conclusion": "Yelp, iHeart, and Application Manager descriptors select concrete AbstractHUXlet subclasses whose recovered init path creates the looper without a discovered feature/configuration gate.",
+        "sources": [
+          {
+            "kind": "resource_structure",
+            "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/xlet.properties",
+            "member": "xlet.mainClass",
+            "offset": 0
+          },
+          {
+            "kind": "bytecode_edge",
+            "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+            "member": "com/tweddle/core/AbstractHUXlet.class",
+            "offset": 154
+          }
+        ]
+      },
+      "production_enabled": {
+        "classification": "STRONGLY INFERRED",
+        "conclusion": "The framework is embedded in recovered production application copies, but these are normal non-daemon or non-autostart applications and listener enablement is conditional on application launch.",
+        "sources": [
+          {
+            "kind": "resource_structure",
+            "artifact": "resident/kim_packages/KIM3/xlets/c1d77320-6335-48b2-aa22-21912f657311/prog/xlet.properties",
+            "member": "xlet.daemon=false",
+            "offset": 0
+          }
+        ]
+      },
+      "listener_executable": {
+        "classification": "UNKNOWN",
+        "conclusion": "No target run establishes successful policy checks, bind, port availability, accept, or command effects.",
+        "sources": []
+      },
+      "externally_reachable": {
+        "classification": "UNKNOWN",
+        "conclusion": "The recovered factory path is loopback-only and the bounded native pass found no candidate-specific forwarder; any off-unit route remains unproved.",
+        "sources": [
+          {
+            "kind": "parsed_structure",
+            "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+            "member": "com/tweddle/test/input/SocketCommandSource.class",
+            "offset": 12
+          }
+        ]
+      }
+    }
+  },
+  "java_surface_summary": [
+    {"category": "browser_webkit", "observations": 370, "components": 20, "classification": "PROVED", "boundary": "static member-reference census only"},
+    {"category": "configured_class", "observations": 69, "components": 69, "classification": "PROVED", "boundary": "parsed small-resource class-like values; false positives retained"},
+    {"category": "dynamic_loading", "observations": 601, "components": 447, "classification": "PROVED", "boundary": "load/define/forName/newInstance references; runtime target unresolved"},
+    {"category": "factory_provider", "observations": 8375, "components": 909, "classification": "PROVED", "boundary": "name and member-reference candidates; many ordinary factories"},
+    {"category": "ipc_service", "observations": 1049, "components": 238, "classification": "PROVED", "boundary": "SvcIPC/service-like references; registration and runtime use separate"},
+    {"category": "media_import", "observations": 703, "components": 134, "classification": "PROVED", "boundary": "media/import-like parser and player references"},
+    {"category": "network_service", "observations": 125, "components": 31, "classification": "PROVED", "boundary": "socket API references; only SocketCommandSource has a recovered listener chain"},
+    {"category": "plugin_registration", "observations": 45, "components": 26, "classification": "PROVED", "boundary": "registry/provider references; no generic third-party plugin ingress proved"},
+    {"category": "reflection", "observations": 339, "components": 94, "classification": "PROVED", "boundary": "reflection API calls; supplied names and receiver types require separate tracing"},
+    {"category": "resource_package_loading", "observations": 487, "components": 173, "classification": "PROVED", "boundary": "JAR/ZIP/resource/package API references"},
+    {"category": "scripting_interpreter", "observations": 5, "components": 2, "classification": "PROVED", "boundary": "lexical candidates only; no resident general-purpose script interpreter chain proved"},
+    {"category": "structured_data", "observations": 4970, "components": 517, "classification": "PROVED", "boundary": "XML/JSON/properties API references; external origin not inherited"},
+    {"category": "url_protocol", "observations": 243, "components": 91, "classification": "PROVED", "boundary": "URL/URI API references; handler/dispatch capability unresolved per record"},
+    {"category": "user_file_resource", "observations": 2525, "components": 522, "classification": "PROVED", "boundary": "file/stream/reader references; user control not inferred from File APIs"}
+  ],
+  "network_endpoints": [
+    {
+      "component": "Tweddle SocketCommandSource",
+      "endpoint": "127.0.0.1:11111/TCP",
+      "behavior": "Recovered one-line-per-connection JSON test-command listener with single-threaded blocking accept and LF-terminated non-null replies.",
+      "classification": "PROVED",
+      "unknowns": ["target bind success", "effective Java socket permission", "port availability", "off-unit forwarding"],
+      "sources": [
+        {"kind": "bytecode_edge", "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar", "member": "com/tweddle/test/input/SocketCommandSource.class", "offset": 38}
+      ]
+    },
+    {
+      "component": "Kona AppManagerImpl",
+      "endpoint": "SvcIPC com.harman.service.AppManager",
+      "behavior": "Permission-checked Java proxy submits install, uninstall, start, pause, stop, query, and chain operations to the resident native AppManager service.",
+      "classification": "PROVED",
+      "unknowns": ["live service registration", "caller principal and effective policy", "operation completion"],
+      "sources": [
+        {"kind": "bytecode_edge", "artifact": "resident/kona/Kona.jar", "member": "com/harman/appManager/AppManagerImpl.class", "offset": 13744}
+      ]
+    },
+    {
+      "component": "Native AppManager AMS adapter",
+      "endpoint": "SvcIPC com.aicas.xlet.manager.AMS",
+      "behavior": "Recovered native request construction delegates authenticated package inspection and Xlet lifecycle operations to secure AMS.",
+      "classification": "PROVED",
+      "unknowns": ["live request outcome", "AMS internal registry reconciliation"],
+      "sources": [
+        {"kind": "native_call_edge", "artifact": "native/appManager", "member": "getPackageInfo adapter", "offset": 1648760}
+      ]
+    },
+    {
+      "component": "swdlMediaDetect external-installer path",
+      "endpoint": "SvcIPC com.harman.service.SoftwareInstaller",
+      "behavior": "Authenticated installer-media script registers the software-installer service and waits for AMS before staged package inspection/install.",
+      "classification": "PROVED",
+      "unknowns": ["external application-media manifest sample", "live service registration"],
+      "sources": [
+        {"kind": "resource_structure", "artifact": "native/installer_iso/usr/share/scripts/app-install/us-app-install.lua", "member": "service literal", "offset": 654}
+      ]
+    },
+    {
+      "component": "KIM3 Application Manager catalog client",
+      "endpoint": "configured remote downloadUrl/hu-url",
+      "behavior": "Catalog metadata supplies a download URL; the resident client stages bytes, validates expected CRC32, and hands the file to native AppManager for separate secure validation.",
+      "classification": "STRONGLY INFERRED",
+      "unknowns": ["production endpoint value", "server authorization", "live download", "complete catalog response sample"],
+      "sources": [
+        {"kind": "parsed_structure", "artifact": "resident/kim_packages/KIM3/xlets/c1d77320-6335-48b2-aa22-21912f657311/prog/jars/c1d77320-6335-48b2-aa22-21912f657311.jar", "member": "com/tweddle/updatemanager/model/UpdateAppDataResponseModel.class", "offset": 0}
+      ]
+    }
+  ],
+  "input_surfaces": [
+    {
+      "origin": "user selection on the stock Apps screen",
+      "signed_component": "AppsMainScreen/MainSupplement plus native AppManager",
+      "parser_dispatcher": "selected appId -> AppManager startApp JSON command -> DRM-checked native dispatch -> AMS start",
+      "capability": "Request normal lifecycle start of an already-installed authorized resident Xlet.",
+      "classification": "PROVED",
+      "missing_links": ["target-visible outcome", "new app discovery/rendering"],
+      "sources": [
+        {"kind": "native_call_edge", "artifact": "resident/hmi/AppsMainScreen.swf", "member": "onItem", "offset": 49638},
+        {"kind": "native_call_edge", "artifact": "native/appManager", "member": "startApp dispatch", "offset": 343504}
+      ]
+    },
+    {
+      "origin": "one line from a local IPv4 loopback TCP client",
+      "signed_component": "Tweddle SocketCommandSource and JsonCommandTranslator",
+      "parser_dispatcher": "platform-default text decode -> readLine -> JSON command/args dispatch -> CommandListenerWrapper",
+      "capability": "Local test automation for resident UI, input, state inspection, settings, and bounded public wrapper invocation.",
+      "classification": "STRONGLY INFERRED",
+      "missing_links": ["target bind/accept observation", "effective policy", "successful handler observation"],
+      "sources": [
+        {"kind": "bytecode_edge", "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar", "member": "com/tweddle/test/input/SocketCommandSource.class", "offset": 42},
+        {"kind": "parsed_structure", "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar", "member": "com/tweddle/test/input/JsonCommandTranslator.class", "offset": 0}
+      ]
+    },
+    {
+      "origin": "authenticated external software-update/application media",
+      "signed_component": "swdlMediaDetect loader plus signed installer-selected application script",
+      "parser_dispatcher": "media rule -> signed image/header/data verification -> manifest.external.start_script -> staged JAR -> secure AMS install/upgrade",
+      "capability": "Install or upgrade an issuer-authorized resident Java application through stock package handling.",
+      "classification": "STRONGLY INFERRED",
+      "missing_links": ["recovered external application manifest sample", "authorized new package and issuer", "target install outcome"],
+      "sources": [
+        {"kind": "resource_structure", "artifact": "native/hidden_hbc/usr/bin/cmc/service/swdlMediaDetect/swdlMediaDetect.lua", "member": "processManifest", "offset": 242},
+        {"kind": "resource_structure", "artifact": "native/installer_iso/usr/share/scripts/app-install/us-app-install.lua", "member": "install/upgrade dispatch", "offset": 5996}
+      ]
+    },
+    {
+      "origin": "remote catalog metadata and package bytes selected through resident Application Manager flow",
+      "signed_component": "KIM3 UpdateManagerXlet and native AppManager",
+      "parser_dispatcher": "JSON update model -> HTTP download -> CRC32 transport check -> installApp -> authenticated AMS package preflight/upgrade",
+      "capability": "Catalog-mediated install, update, or removal of issuer-authorized resident applications.",
+      "classification": "STRONGLY INFERRED",
+      "missing_links": ["production server response", "complete downloaded package sample", "live service outcome"],
+      "sources": [
+        {"kind": "parsed_structure", "artifact": "resident/kim_packages/KIM3/xlets/c1d77320-6335-48b2-aa22-21912f657311/prog/jars/c1d77320-6335-48b2-aa22-21912f657311.jar", "member": "com/tweddle/updatemanager/util/InstallHelper.class", "offset": 0},
+        {"kind": "native_call_edge", "artifact": "native/appManager", "member": "installNow", "offset": 596032}
+      ]
+    },
+    {
+      "origin": "operation parameters from an already-running permissioned resident Java caller",
+      "signed_component": "Kona AppManagerImpl",
+      "parser_dispatcher": "public Java method -> AppMgrPermission check -> SvcIPC operation -> native AppManager dispatcher",
+      "capability": "Query and manage normal lifecycle state for installed resident applications.",
+      "classification": "PROVED",
+      "missing_links": ["human/user-controlled upstream for each caller", "live principal and policy", "operation completion"],
+      "sources": [
+        {"kind": "bytecode_edge", "artifact": "resident/kona/Kona.jar", "member": "com/harman/appManager/AppManagerImpl.class", "offset": 13744}
+      ]
+    },
+    {
+      "origin": "remote HTTP JSON supplied to Tweddle application clients",
+      "signed_component": "Tweddle JSONModelResponseProcessor",
+      "parser_dispatcher": "JSON object/array parse -> configured model class resolution -> reflected field/constructor population",
+      "capability": "Populate resident application model objects for service-backed UI flows.",
+      "classification": "STRONGLY INFERRED",
+      "missing_links": ["bounded production endpoint for each model", "user influence over class choice", "specific resulting screen/action"],
+      "sources": [
+        {"kind": "bytecode_edge", "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar", "member": "com/tweddle/core/http/model/JSONModelResponseProcessor.class", "offset": 0}
+      ]
+    },
+    {
+      "origin": "generic files, resources, URLs, configured names, or reflection inputs counted by the broad census",
+      "signed_component": "multiple recovered resident components",
+      "parser_dispatcher": "various File, URL, XML, JSON, properties, reflection, ClassLoader, factory, registry, and media APIs",
+      "capability": "No common resulting capability is established from API presence alone.",
+      "classification": "UNKNOWN",
+      "missing_links": ["external/user-controlled origin", "activation root", "runtime receiver/handler", "useful resulting capability"],
+      "sources": []
+    }
+  ],
+  "candidates": [
+    {
+      "rank": 1,
+      "component": "Stock Apps UI to native AppManager/AMS launch path",
+      "activation_path": "AppsMainScreen item selection -> MainSupplement AppManager.startXlet -> native startApp dispatch with DRM checking -> AMS start",
+      "user_controlled_input": "selection of an already-listed installed application",
+      "useful_resulting_capability": "Request normal stock lifecycle launch of an already-authorized resident Xlet.",
+      "prerequisites": ["application already installed and listed", "DRM launcher entitlement permits start", "AppManager and secure AMS active"],
+      "evidence_classification": "PROVED",
+      "unresolved_unknowns": ["target-visible result", "whether any newly authorized app appears correctly in the stock list", "completion and foreground outcome"],
+      "new_package_authorization_required": "no",
+      "sources": [
+        {"kind": "native_call_edge", "artifact": "resident/hmi/AppsMainScreen.swf", "member": "onItem", "offset": 49638},
+        {"kind": "native_call_edge", "artifact": "native/appManager", "member": "startApp dispatch", "offset": 343504}
+      ]
+    },
+    {
+      "rank": 2,
+      "component": "Tweddle SocketCommandSource local test-input framework",
+      "activation_path": "resident Yelp/iHeart/Application Manager Xlet init -> AbstractHUXlet initCommandLooper -> CommandSource factory -> normal Xlet start -> HU thread accept loop",
+      "user_controlled_input": "one line of JSON from an on-unit IPv4 loopback TCP client",
+      "useful_resulting_capability": "Drive and inspect resident Tweddle UI/test functions without introducing a new resident package.",
+      "prerequisites": ["one containing stock Xlet is launched", "socket policy permits bind", "127.0.0.1 port 11111 is available", "an already-authorized on-unit client exists"],
+      "evidence_classification": "STRONGLY INFERRED",
+      "unresolved_unknowns": ["target execution", "effective socket permission", "port collision", "successful command behavior", "any authorized on-unit client path"],
+      "new_package_authorization_required": "no",
+      "sources": [
+        {"kind": "bytecode_edge", "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar", "member": "com/tweddle/core/AbstractHUXlet.class", "offset": 154},
+        {"kind": "bytecode_edge", "artifact": "resident/kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar", "member": "com/tweddle/test/input/SocketCommandSource.class", "offset": 38}
+      ]
+    },
+    {
+      "rank": 3,
+      "component": "Authenticated USB application-media installer",
+      "activation_path": "SWDL media detection -> signed nested-image verification -> installer manifest external script -> application JAR staging -> secure AMS install/upgrade",
+      "user_controlled_input": "issuer-authorized signed application media inserted through the stock update-media path",
+      "useful_resulting_capability": "Install or upgrade an authorized resident Java application using the stock package split, validation, and lifecycle services.",
+      "prerequisites": ["legitimately signed installer media", "legitimately authorized application package", "compatible package metadata", "secure AMS and installer services active"],
+      "evidence_classification": "STRONGLY INFERRED",
+      "unresolved_unknowns": ["external application manifest sample", "legitimate issuer/tool availability", "target transaction and rollback outcome"],
+      "new_package_authorization_required": "yes",
+      "sources": [
+        {"kind": "resource_structure", "artifact": "native/hidden_hbc/usr/bin/cmc/service/swdlMediaDetect/swdlMediaDetect.lua", "member": "processManifest", "offset": 242},
+        {"kind": "native_call_edge", "artifact": "native/appManager", "member": "authenticated package preflight", "offset": 1648760}
+      ]
+    },
+    {
+      "rank": 4,
+      "component": "KIM3 Application Manager remote catalog pipeline",
+      "activation_path": "UpdateManagerXlet task -> catalog JSON model -> staged download and CRC check -> native installApp -> authenticated AMS preflight/upgrade",
+      "user_controlled_input": "stock catalog install/update/remove selection plus remote catalog response and package bytes",
+      "useful_resulting_capability": "Catalog-mediated lifecycle management for issuer-authorized resident applications.",
+      "prerequisites": ["production catalog service and entitlement", "authorized package", "network connectivity", "native AppManager and secure AMS active"],
+      "evidence_classification": "STRONGLY INFERRED",
+      "unresolved_unknowns": ["production endpoint and response", "complete catalog package sample", "server-side authorization", "target outcome"],
+      "new_package_authorization_required": "yes",
+      "sources": [
+        {"kind": "parsed_structure", "artifact": "resident/kim_packages/KIM3/xlets/c1d77320-6335-48b2-aa22-21912f657311/prog/jars/c1d77320-6335-48b2-aa22-21912f657311.jar", "member": "com/tweddle/updatemanager/util/InstallHelper.class", "offset": 0},
+        {"kind": "native_call_edge", "artifact": "native/appManager", "member": "installNow", "offset": 596032}
+      ]
+    },
+    {
+      "rank": 5,
+      "component": "Permissioned Kona AppManager Java/SvcIPC API",
+      "activation_path": "already-running signed Xlet method call -> AppMgrPermission check -> SvcIPC AppManager operation -> native dispatcher -> AMS lifecycle helper",
+      "user_controlled_input": "application ID and operation parameters supplied by a permissioned resident caller; any human upstream is caller-specific",
+      "useful_resulting_capability": "Query, start, pause, stop, install, uninstall, or chain installed applications through resident service contracts.",
+      "prerequisites": ["already-authorized resident caller", "effective AppMgrPermission appMgr", "SvcIPC AppManager and secure AMS active"],
+      "evidence_classification": "STRONGLY INFERRED",
+      "unresolved_unknowns": ["which stock callers expose each operation to a user", "live principal/policy", "service result and completion semantics"],
+      "new_package_authorization_required": "no",
+      "sources": [
+        {"kind": "bytecode_edge", "artifact": "resident/kona/Kona.jar", "member": "com/harman/appManager/AppManagerImpl.class", "offset": 13744},
+        {"kind": "native_call_edge", "artifact": "native/appManager", "member": "parseRequest", "offset": 343504}
+      ]
+    }
+  ]
+}

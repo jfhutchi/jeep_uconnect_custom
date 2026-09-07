@@ -869,6 +869,12 @@ def census_roots(
         }
         for surface in surfaces
     ]
+    category_counts: dict[str, int] = {}
+    category_components: dict[str, set[str]] = {}
+    for surface in surfaces:
+        category = surface["category"]
+        category_counts[category] = category_counts.get(category, 0) + 1
+        category_components.setdefault(category, set()).add(surface["component"])
     base = {
         "schema_version": 1,
         "tool_version": TOOL_VERSION,
@@ -911,7 +917,15 @@ def census_roots(
     }
     return {
         "activation_call_paths": activation,
-        "java_extension_surfaces": {**base, "surfaces": surfaces},
+        "java_extension_surfaces": {
+            **base,
+            "category_counts": dict(sorted(category_counts.items())),
+            "unique_component_counts": {
+                category: len(components)
+                for category, components in sorted(category_components.items())
+            },
+            "surfaces": surfaces,
+        },
         "network_ipc_endpoints": {**base, "endpoints": network_surfaces},
         "user_controlled_input_surfaces": {**base, "surfaces": user_surfaces},
         "coverage": base["coverage"],

@@ -124,6 +124,10 @@ class ResidentSurfaceCensusTests(unittest.TestCase):
                 item["category"] == "network_service"
                 for item in result["surfaces"]
             ))
+            self.assertEqual(
+                result["java_extension_surfaces"]["category_counts"]["network_service"],
+                1,
+            )
             network = next(
                 item for item in result["surfaces"]
                 if item["category"] == "network_service"

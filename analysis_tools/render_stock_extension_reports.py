@@ -83,6 +83,17 @@ def validate_ledger(ledger: Mapping[str, Any]) -> None:
             raise ValueError(f"activation state {state} must be an object")
         _validate_classified(judgment, "conclusion")
 
+    java_summary = ledger.get("java_surface_summary")
+    if not isinstance(java_summary, list) or not java_summary:
+        raise ValueError("java_surface_summary must be a nonempty list")
+    for record in java_summary:
+        if record.get("classification") not in CLASSIFICATIONS:
+            raise ValueError("invalid Java surface summary classification")
+        if not isinstance(record.get("observations"), int) or record["observations"] < 0:
+            raise ValueError("Java surface observations must be a nonnegative integer")
+        if not isinstance(record.get("components"), int) or record["components"] < 0:
+            raise ValueError("Java surface components must be a nonnegative integer")
+
     candidates = ledger.get("candidates")
     if not isinstance(candidates, list) or len(candidates) != 5:
         raise ValueError("ledger must contain exactly five candidates")
@@ -150,13 +161,29 @@ def _render_controlling(ledger: Mapping[str, Any]) -> str:
         f"**PROVED** {_table_value(ledger['corpus']['summary'])}. Coverage: "
         f"{_table_value(ledger['corpus']['coverage'])}.",
         "",
+        "## Java Extension-Surface Census",
+        "",
+        "| Category | Observations | Components | Classification | Boundary |",
+        "|---|---:|---:|---|---|",
+    ]
+    for record in ledger["java_surface_summary"]:
+        lines.append(
+            f"| {_table_value(record['category'])} | {record['observations']} | "
+            f"{record['components']} | {record['classification']} | "
+            f"{_table_value(record['boundary'])} |"
+        )
+    lines.extend([
+        "",
+        "**UNKNOWN** Counts establish static observations only. Each category still "
+        "requires a separate origin-to-capability path.",
+        "",
         "## SocketCommandSource verdict",
         "",
         f"{_label(socket['verdict_classification'])} {socket['verdict']}",
         "",
         "| Activation state | Classification | Conclusion |",
         "|---|---|---|",
-    ]
+    ])
     for state in ACTIVATION_STATES:
         judgment = socket["activation_ladder"][state]
         lines.append(

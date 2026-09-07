@@ -63,6 +63,15 @@ def ledger():
             "verdict": "Lifecycle-activatable local test surface; target execution unproved.",
             "activation_ladder": ladder,
         },
+        "java_surface_summary": [
+            {
+                "category": "network_service",
+                "observations": 1,
+                "components": 1,
+                "classification": "PROVED",
+                "boundary": "static member-reference census only",
+            }
+        ],
         "network_endpoints": [
             {
                 "component": "Component 1",
@@ -124,6 +133,7 @@ class RenderStockExtensionReportsTests(unittest.TestCase):
                 self.assertIn(classification, controlling)
             for state in ACTIVATION_STATES:
                 self.assertIn(state.replace("_", " ").title(), controlling)
+            self.assertIn("Java Extension-Surface Census", controlling)
 
     def test_rejects_candidate_count_missing_fields_and_bad_authorization_value(self):
         data = ledger()

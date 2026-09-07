@@ -32030,7 +32030,7 @@
   ],
   "coverage": {
     "archives": 300,
-    "broad": false,
+    "broad": true,
     "class_occurrences": 72507,
     "resources": 1528,
     "unique_classes": 13272
