@@ -16,6 +16,7 @@ Current decision artifacts: [transport gate matrix](docs/20_projection_transport
 [queued worker interruption and completion-flag limits](reports/ra4_ams_worker_interruption.md),
 [interruption requests and thread-cleanup escalation](reports/ra4_ams_interrupt_request_cleanup.md),
 [native I/O callbacks and stock Screen wait](reports/ra4_native_io_screen_wait.md),
+[Screen loop exit and native event release](reports/ra4_screen_loop_release_boundary.md),
 and [first future resident proof](docs/21_first_resident_runtime_proof.md).
 The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
 canonical draft PR status. No radio deployment is authorized by these reports.

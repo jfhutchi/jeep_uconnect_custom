@@ -99,6 +99,14 @@ event-post method throws unsupported-operation, and native window/context
 destruction differs from app-container detachment. Require the supported
 per-operation cancellation contract, actual event-loop return and restored
 stock contacts/focus; do not use whole-context destruction as a Return action.
+The [event-loop/release trace](../reports/ra4_screen_loop_release_boundary.md)
+identifies the daemon-thread setup and the loop's Boolean exit check. The
+event-dispatch path repeats; visibility changes do not establish loop exit.
+Java consumed state is set before a native-free call whose binding to the
+inspected library remains unresolved. Require supported native event ownership
+and release, and document whether the relevant platform-screen thread should
+exit or intentionally survive app Return/stop. Do not equate consumed state,
+thread return, AWT detachment and successful native resource release.
 If the approved Xlet shares a VM with critical
 stock apps, obtain bounded scheduling/memory and failure-containment evidence
 before use. If those cannot be established, reject this implementation lane;

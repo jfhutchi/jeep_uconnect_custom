@@ -177,3 +177,8 @@ remain historical; this checkpoint uses fresh artifact and document checks.
 The check matched 74 ARM anchors, 13 imports, three AOT bindings, three
 library exports, two inline ROM bodies and four ROM references. All 121
 local links across the six changed Markdown files resolve.
+
+Follow-up: the [Screen loop and event-release trace](ra4_screen_loop_release_boundary.md)
+now follows the Boolean normal-exit branch, repeated dispatch, daemon-thread
+setup and consumed-state/native-free boundary. Event-free binding, supported
+per-app loop control and completed native teardown remain unresolved.

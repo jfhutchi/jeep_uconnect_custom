@@ -8,7 +8,52 @@
 
 ## 1. Mission and corrected premise
 
-### Current checkpoint: 2026-09-06 native I/O callbacks and stock Screen wait
+### Current checkpoint: 2026-09-06 Screen loop exit and event-release boundary
+
+Started clean at `9d16fe2`; fetched origin with no divergence on canonical
+`codex/ra4-driver-temperature`. The preceding native wait/callback checkpoint
+was progress. This continuation follows event-loop lifetime and ownership;
+the full resident-first projection goal remains active.
+
+**STATIC_PROVED:** initKSWindowData starts a named daemon thread. The compiled
+initializer run checks a Boolean accessor before the native wait; false
+reaches a normal return, while selected event conversion/dispatch loops back.
+The accessor's quick-op field operand is not assigned guessed semantics.
+Separately, the constructor initializes pumpEvents true and setVisible writes
+a different named visibility field. Hiding does not establish loop termination.
+
+**STATIC_PROVED:** KSEventAtom.consume writes consumed before calling its
+nativeKSFreeEvent declaration. The selected native registration has no AOT
+function/adapter entry. libKSLinked exports an event-free function under the
+different KSEvent class name and calls screen_destroy_event there; AMS has no
+FreeEvent dynamic symbol. The effective Java-to-native free binding remains
+unresolved. A 4122-class constant-pool search finds no direct resolved reference
+to consume or the no-argument KSWindow destructor within its explicit boundary.
+See the [event-loop/release report](reports/ra4_screen_loop_release_boundary.md).
+
+**UNKNOWN:** supported per-app loop termination, exact native event ownership/
+release, completed teardown and stock contact recovery. No leak, runtime link
+failure, resource-consumption rate or measured local capability failure is
+claimed. No external-compute fallback is selected. The future resident proof
+requires the shared-thread lifetime and event-release contracts independently
+of visibility, consumed flags, loop return and app AWT detachment.
+
+Next evidence target: accessor field semantics and native event-free
+registration, or their legitimate exact-build SDK/provider contract. Pending
+AIE delivery and effective strictRTSJ remain open. USB topology, role/stack,
+AOA/Android Auto transport, engine/provider, authorization, video/audio and
+resource-budget gates remain unchanged; native input/rollback requirements
+are more precise but no runtime gate passes.
+
+Fresh verification reran the preceding I/O/Screen checks and matched 22 new
+ARM anchors, four storage bindings, seven inline ROM bodies, eight resolved
+references, all 4122 constant pools and selected dynamic symbols. No committed
+executable code/test changes; the earlier 162 host tests remain historical.
+All 123 local links in six changed Markdown files resolve; whitespace checks pass.
+No radio/vehicle/phone execution, provider contact or protected payload commit.
+PR #14 remains draft; main and independent PR #15 remain preserved.
+
+### Preceding checkpoint: 2026-09-06 native I/O callbacks and stock Screen wait
 
 Started clean at `a75f790` on canonical `codex/ra4-driver-temperature`;
 origin had no divergence. This continuation follows the I/O registration and

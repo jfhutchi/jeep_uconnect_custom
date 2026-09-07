@@ -113,3 +113,10 @@ The linked event-post method is unsupported; window/context destruction is
 separate from per-app AWT detachment. Finite per-call waiting and callback
 success cannot certify end-to-end UI/input recovery. Runtime, topology,
 transport and legitimate provider gates remain unchanged.
+
+The [Screen loop/release trace](../reports/ra4_screen_loop_release_boundary.md)
+identifies a Boolean normal-exit branch and repeated event dispatch. A consumed
+flag precedes the Java native-free call, and that declaration's binding to the
+library export is unresolved. These findings sharpen the required event
+ownership and shared-thread lifecycle contracts; they prove no runtime leak,
+measured resource failure or completed native input recovery.
