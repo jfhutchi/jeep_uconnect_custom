@@ -126,6 +126,15 @@ supplies the matching override, with effective runtime receiver still unobserved
 Identify the approved app's frame/device ownership and supported screen lifetime;
 neither one screen per Xlet nor a singleton follows from those method names.
 Per-app container removal remains separate from frame/device/native teardown.
+The same trace now connects the cached default main frame's constructor through
+Frame to Window.init. Qualify that effective factory and ownership boundary;
+do not dispose a shared frame as a per-app Return or removal shortcut. If the
+supported lifecycle disposes a separately owned window, preserve raw disposal
+errors and observe the action's actual completion and any late work. The
+off-dispatch doDispose path catches interruption/invocation failures yet can
+still call the WINDOW_CLOSED helper; event eligibility and delivery are also
+conditional. Neither that event nor a returned request proves native cleanup
+or stock input recovery. The inspected invokeAndWait supplies no wait deadline.
 The event-loop/release report also traces AMS's dynamic symbol formatter and library
 lookup: zero AOT entries alone cannot reject dynamic binding, but ordinary
 short/signature-qualified lookup does not remove the observed class-name

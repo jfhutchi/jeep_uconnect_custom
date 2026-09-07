@@ -20,7 +20,51 @@ jobs existed when this instruction was received. This restriction supersedes
 earlier CI-related expectations. Do not automatically enable or run Actions
 when the calendar changes without considering the owner's latest instructions.
 
-### Current checkpoint: 2026-09-06 remaining Screen methods and factory ownership
+### Current checkpoint: 2026-09-07 default frame and disposal completion boundary
+
+Started clean at `1d38c28`; fetched origin with no divergence. The prior goal
+turn established the Screen factory's relationship to Window initialization.
+This continuation connects the conditional default frame and checks disposal
+completion semantics. The full resident-first goal remains active.
+
+**STATIC_PROVED conditional default path:** the frame factory caches
+UndecoratedXletMainFrame; its constructor chain reaches Frame, Window.init
+and the graphics-device setWindow call. The default frame cache is distinct
+from the lower-level screen factory's fresh allocation. A per-app container
+does not thereby own a separate top-level frame or native Screen context.
+
+**STATIC_PROVED:** Window.doDispose's off-dispatch invokeAndWait call is covered
+by InterruptedException and InvocationTargetException handlers that log and
+can still reach postWindowEvent(WINDOW_CLOSED). Event posting is conditional
+on eligibility. Neither call-site reachability nor an eligible closed event
+certifies successful disposal. invokeAndWait posts work before an untimed
+Object.wait. **INFERRED:** an interrupted caller can finish while disposal
+work remains pending; actual timing/late work is unobserved.
+
+Window$1.run requests hiding, Container.removeNotify, input-context disposal
+and Java focus-root cleanup. The body has no explicit pumpEvents write or
+native Screen destruction call; transitive effects remain outside that bound.
+**UNKNOWN:** effective custom factory/device ownership, supported pump lifetime,
+native release and stock input recovery. See the
+[expanded frame/disposal report](reports/ra4_screen_factory_lifetime.md).
+
+Fresh checks reran the preceding artifact chain, rechecked startup/initializer
+hashes and verified 15 ROM bodies, 22 direct resolved call anchors, three
+symbolic references, two superclass links, both disposal exception handlers
+and WINDOW_CLOSED's value. No target/phone test, hosted workflow, provider
+contact or executable product change. The earlier 162-test suite is historical.
+USB, transport, engine, authorization and resource gates remain unchanged.
+All 83 local links across four changed Markdown files resolve; whitespace
+checks pass. The workflow remains the verified manual-only blob; the owner's
+September no-Actions restriction remains in force.
+
+The next meaningful completion gate is a supported native-release and stock
+input recovery contract correlated with actual action completion. Preserve
+raw disposal failures and late-work observations; do not treat a shared-frame
+dispose or closed event as a per-app recovery shortcut. No local capability
+failure or external-compute fallback has been established.
+
+### Preceding checkpoint: 2026-09-06 remaining Screen methods and factory ownership
 
 Started clean at `52c44e5`; fetched origin with no divergence. The previous
 goal turn made concrete progress by reconstructing pumpEvents placement and

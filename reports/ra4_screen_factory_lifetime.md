@@ -20,6 +20,17 @@ named daemon thread. Window.init calls the base GraphicsDevice.setWindow
 method, and GLESGraphicsDevice supplies its matching override. The factory
 name is not evidence of singleton caching.
 
+**STATIC_PROVED conditional default-frame chain:** the cached
+UndecoratedXletMainFrame constructor reaches Frame and Window initialization.
+The default Xlet frame is cached even though the lower-level screen factory
+allocates a new screen on each invocation. A particular Xlet's child container
+must not be equated with a newly constructed top-level frame.
+
+**STATIC_PROVED disposal-result limit:** off the event-dispatch thread,
+Window.doDispose catches interruption/invocation failures, logs them, and can
+still call postWindowEvent with WINDOW_CLOSED. That call or an eligible queued
+closed event is not sufficient evidence that the disposal action completed.
+
 **UNKNOWN:** the effective custom-app frame/device ownership, supported pump
 termination or intentional survival, complete native teardown and restored
 stock input. A fresh screen object per factory invocation does not establish
@@ -126,7 +137,88 @@ lifetime and native resources. Do not assume one per app, destroy a shared
 context as Return, or invoke setWindow repeatedly to manufacture app isolation.
 Existing per-app container removal remains distinct from frame/device teardown.
 
-## Verification and next evidence
+## Follow-up: cached frame construction and whole-window disposal
+
+Starting head `1d38c28`; follow-up verified 2026-09-07. The
+[default-frame/container trace](ra4_xlet_container_focus_cleanup.md) already
+establishes the conditional default factory and per-app removeChild path.
+The startup script and initializer hashes were rechecked unchanged for this
+follow-up; effective live factory selection remains unobserved.
+
+The factory at ROM 0x5C262C checks its cached field, constructs the default
+frame only when null, stores it at 0x5C263C and returns it. The creation path
+now connects to the previously traced Screen factory through these constructor
+calls (all positions in this section are ROM file offsets):
+
+| Caller | Call position | Target |
+| --- | --- | --- |
+| Default frame factory | 0x5C2639 | UndecoratedXletMainFrame bridge constructor |
+| Bridge constructor | 0x5C2592 | Primary UndecoratedXletMainFrame constructor |
+| Primary constructor | 0x5C24F9 | Frame() |
+| Frame() | 0x636809 | Frame(String) |
+| Frame(String) | 0x636835 | Frame(String, GraphicsConfiguration) |
+| Frame(String, GraphicsConfiguration) | 0x636847 | Window(GraphicsConfiguration) |
+| Window(GraphicsConfiguration) | 0x644403 | Window.init(GraphicsConfiguration) |
+| Window.init | 0x644456 | Virtual GraphicsDevice.setWindow(Window) |
+
+Frame(String) obtains the default screen device/configuration through symbolic
+member references whose class-CP indices and global member selectors were
+verified separately. They are not resolved class-slot/ordinal pairs. The
+selected device's effective runtime class remains an independent condition
+for entering GLESGraphicsDevice's screen-creating override. The constructor
+chain does not prove that every app constructs a frame or owns native resources.
+
+Window.dispose at 0x64461C calls doDispose. The latter constructs Window$1,
+checks EventQueue.isDispatchThread, and either runs the action directly at
+0x64464A or calls EventQueue.invokeAndWait at 0x644651. Its exception table
+covers the off-dispatch invocation, with handlers for InterruptedException
+and InvocationTargetException at 0x644657 and 0x644667. Both log diagnostics
+and reach the shared tail at 0x644674. The tail supplies event ID 202 at
+0x644675 and calls postWindowEvent at 0x644678. The recovered WindowEvent
+constant identifies 202 as WINDOW_CLOSED. A direct action exception on the
+event-dispatch branch is outside those two catch ranges; this report does
+not claim all disposal failures reach that tail.
+
+postWindowEvent itself checks listener/event-mask eligibility before creating
+and posting an event at 0x6445F5-0x644603. Reaching its call site is therefore
+not proof that an event was queued or delivered. Even an eligible WINDOW_CLOSED
+event after an off-dispatch failure cannot certify completed teardown.
+
+EventQueue.invokeAndWait posts an InvocationEvent at 0x6352CD, calls the
+no-argument Object.wait at 0x6352D1, and then inspects getThrowable, wrapping a
+non-null result in InvocationTargetException. The inspected body supplies no
+wait deadline. **INFERRED consequence of the selected interrupted-wait path:**
+the caller may return after logging while queued disposal work has not yet
+finished. No event cancellation occurs in the inspected Window catch body.
+Actual scheduling, late execution and cleanup duration remain unmeasured.
+
+Window$1.run has 106 bytes at 0x644E58. It conditionally clears the device's
+full-screen Window association, requests setVisible(false), sets the named
+beforeFirstShow flag, calls Container.removeNotify, disposes a non-null input
+context under its lock and clears that reference, then clears the current
+focus-cycle root. These are whole-window Java cleanup actions. The inspected
+body contains no explicit pumpEvents assignment or native Screen destruction
+call; transitive virtual/native effects are not excluded. The earlier
+per-app removeChild path does not invoke this whole-window disposal sequence.
+
+For an approved package, qualify the effective shared-frame factory and
+ownership boundary. Do not dispose the cached shared frame as an app Return
+or child-removal shortcut. If the provider's supported lifecycle uses whole
+window disposal for a separately owned frame, retain raw interruption and
+action errors, observe actual action completion and possible late work, then
+independently verify native release and usable stock focus/contacts. A closed
+event, request return and native recovery are separate observations.
+
+Fresh follow-up checks reran the preceding artifact chain, rechecked the
+startup-script and initializer hashes, and verified 15 ROM bodies, 22 resolved
+call anchors, three symbolic references, two frame superclass links, both
+disposal exception handlers and WINDOW_CLOSED's value. No target execution,
+new runtime acceptance or measured local failure follows.
+All 83 local links across four changed Markdown files resolve; whitespace
+checks pass. The workflow remains the verified manual-only blob, and the
+owner's September no-Actions restriction remains in force.
+
+## Initial checkpoint verification
 
 Fresh local verification reran the previous artifact chain and checked 46 new
 ARM anchors, six method/adapter bindings, six storage literals, three direct
@@ -138,8 +230,8 @@ changed; the earlier 162-test host-suite result remains historical.
 All 120 local links across five changed Markdown files resolve; whitespace
 checks pass. The remote workflow retains the verified manual-only blob.
 
-The next useful ownership trace is Window.init's relationship to the approved
-Xlet's frame factory and the corresponding disposal path. Stop/release still
-requires a supplier-supported exact build contract. USB routing, transport,
-authorization, engine availability
-and resource gates remain unchanged; external compute is not selected.
+The follow-up above connects the default frame constructor and narrows whole
+window disposal. Its remaining native-release/stock-input completion and
+effective package ownership still require an exact-build supported contract.
+USB routing, transport, authorization, engine availability and resource gates
+remain unchanged; external compute is not selected.

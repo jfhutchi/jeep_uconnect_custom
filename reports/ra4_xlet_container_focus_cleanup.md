@@ -142,6 +142,12 @@ its own completion evidence.
 
 ## Acceptance consequence and next target
 
+The [frame/Screen follow-up](ra4_screen_factory_lifetime.md) now connects the
+cached default frame constructor to Window.init and the graphics-device call.
+Whole-window disposal is separate from this child-removal path. Off-dispatch
+disposal errors can still reach WINDOW_CLOSED posting, so that event alone
+does not certify completed action, native release or stock input recovery.
+
 The [resident proof](../docs/21_first_resident_runtime_proof.md) must identify
 the effective main-frame implementation, observe actual child detachment and
 Java focus cleanup, and then independently verify native visibility, contact
