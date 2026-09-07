@@ -20,7 +20,43 @@ jobs existed when this instruction was received. This restriction supersedes
 earlier CI-related expectations. Do not automatically enable or run Actions
 when the calendar changes without considering the owner's latest instructions.
 
-### Current checkpoint: 2026-09-06 standard JNI registration limit
+### Current checkpoint: 2026-09-06 Screen-loop quick-field semantics
+
+Started clean at `1ac0ba2`; fetched origin with no divergence on canonical
+`codex/ra4-driver-temperature`. The full resident-first goal remains active.
+Verification stays local under the owner's September no-Actions restriction.
+
+**STATIC_PROVED:** access$800 uses fused D7/D0: local variable zero supplies
+the receiver, and operand 46 selects a segmented signed-byte read. It follows
+one object-block link at +0x1C, then reads at +0x12 in the next block. The
+operand is neither a constant-pool index nor a flat object offset. Both fused
+dispatch variants share their byte handler with D7/D1 and do not apply the
+one-bit mask found in standalone D0. The method's descriptor is Boolean.
+See the [quick-field report](reports/ra4_screen_quick_field_semantics.md).
+
+**STATIC_PROVED:** the selected ordinary putfield path obtains type and
+location from a resolved field descriptor, then uses a segmented byte store
+for B/Z. **UNKNOWN:** class 914 CP4's effective descriptor/location, a proved
+location-46-to-pumpEvents mapping, and the supported false-writing lifecycle
+caller. Hiding an app still does not establish loop exit or native release.
+Do not turn the recovered field location into a direct mutation interface.
+
+Fresh checks reran the previous artifact chain and matched 58 new ARM anchors,
+ten dispatch entries, one literal and five accessor bytes; checked two
+unmasked load spans and six host address examples. No target or VM execution,
+phone bench test, hosted workflow, provider contact or executable product
+change. The earlier 162-test suite remains historical. USB topology, transport,
+engine, authorization and resource gates are unchanged; no external compute.
+All 117 local links across five changed Markdown files resolve; whitespace
+checks pass. The remote workflow retains the verified manual-only blob.
+
+Next useful local target: follow the resolved-field descriptor producer for
+class 914 CP4 and identify a supported lifecycle writer. Avoid repeating the
+completed native lookup or standard-registration investigation without new
+evidence. Passive C2 routing evidence and a legitimate SDK/engine remain
+independent external gates.
+
+### Preceding checkpoint: 2026-09-06 standard JNI registration limit
 
 Started clean at `37b1351`; fetched origin without divergence on canonical
 `codex/ra4-driver-temperature`. The previous turn narrowed dynamic lookup;

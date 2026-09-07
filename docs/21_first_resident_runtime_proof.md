@@ -107,7 +107,14 @@ inspected library remains unresolved. Require supported native event ownership
 and release, and document whether the relevant platform-screen thread should
 exit or intentionally survive app Return/stop. Do not equate consumed state,
 thread return, AWT detachment and successful native resource release.
-The same follow-up now traces AMS's dynamic symbol formatter and library
+The [quick-field follow-up](../reports/ra4_screen_quick_field_semantics.md)
+resolves the loop accessor as a fused local-zero receiver and segmented byte
+read. Location 46 follows one object-block link and reads at +0x12 in the
+next block; its named-field binding and supported stop writer remain unproved.
+Qualify the lifecycle API rather than treating a recovered field location as
+a control interface. Visibility, cross-thread observation and completed native
+release still need their own evidence.
+The event-loop/release report also traces AMS's dynamic symbol formatter and library
 lookup: zero AOT entries alone cannot reject dynamic binding, but ordinary
 short/signature-qualified lookup does not remove the observed class-name
 difference. Require the effective event-free registration or another supported
