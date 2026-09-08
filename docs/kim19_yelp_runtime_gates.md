@@ -29,4 +29,3 @@ behavior is not proved by the Yelp method.
 `com.harman.network.InterfacePermission "ppp0"`. Whether inherited/default
 policy and signer grants add capabilities on the target is **TARGET OBSERVATION
 REQUIRED**; the policy file alone must not be treated as the effective grant set.
-

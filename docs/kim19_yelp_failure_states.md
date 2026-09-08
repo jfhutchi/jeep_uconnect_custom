@@ -36,4 +36,3 @@ over-reading a generic service dialog.
 backend acceptance, certificate validity, speech service, phone pairing, and
 OpenNav activation. A target photograph can classify the visible branch but
 cannot prove the exact installed binary or hidden transport cause.
-

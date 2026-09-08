@@ -8,6 +8,12 @@
 
 **Tech Stack:** Python 3.11+, existing `analysis_tools.java_classfile`, ZIP/JAR and JSON standard libraries, JDK 8 `javap`, unittest, Markdown, Git.
 
+**Execution status (2026-09-08):** Tasks 1-7 are **Done**. The isolated source
+boundary, test-first generator, seven reports, eight required Yelp documents,
+capability/verification updates, full tests, deterministic checks, link/schema/
+credential audits, independent `javap` review, commits, and authorized branch
+push were completed. No target or endpoint operation was performed.
+
 ---
 
 ### Task 1: Preserve the isolated evidence checkpoint

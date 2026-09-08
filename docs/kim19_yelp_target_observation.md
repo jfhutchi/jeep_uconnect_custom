@@ -40,4 +40,3 @@ mutate local search/RMS history.
 The static branches used to interpret the record are in
 [launch graph](kim19_yelp_launch_graph.md), [runtime gates](kim19_yelp_runtime_gates.md),
 and [failure states](kim19_yelp_failure_states.md).
-

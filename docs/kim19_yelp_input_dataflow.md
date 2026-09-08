@@ -64,4 +64,3 @@ currently not available”; no persisted POI favorite sink was found.
 **PROVED scoped negative:** the complete Yelp JAR class/reference census found
 no SocketCommandSource, CommandLooper, browser/WebView, HTML/JavaScript engine,
 process launch, VSB/SDP client, media-launch API, or arbitrary class-loading sink.
-

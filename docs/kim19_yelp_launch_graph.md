@@ -40,4 +40,3 @@ screen. These are distinct outcomes, not one generic “launch failed” state.
 the three RMS datasets; it ignores its boolean argument and does not visibly call
 `notifyDestroyed`. Those facts are **PROVED** but do not establish what AMS shows
 after pause/destruction on a live target.
-

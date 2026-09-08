@@ -52,4 +52,3 @@ Resident native/HMI completion is still **TARGET OBSERVATION REQUIRED**.
   CommandLooper, command socket, IXC command receiver, browser/WebView, or media
   handoff. Compared with the separate SocketCommandSource surface, it shares
   KIM19/AMS and kona libraries, not the command transport or dispatcher.
-

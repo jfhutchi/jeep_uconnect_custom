@@ -34,4 +34,3 @@ distance/geocode logic, phone, and navigation. They do not reach a WebView,
 HTML/JavaScript parser, shell/process launcher, class loader, media player, or
 SocketCommandSource. This rejects an executable-content interpretation of the
 legacy JSON response within the recovered Yelp code.
-

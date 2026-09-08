@@ -53,4 +53,3 @@ there is no alternate HTML or active-content parser. The common layer regards
 store, certificate validity, and server behavior. Current endpoint reachability,
 authorization acceptance, subscription state, and schema are **TARGET
 OBSERVATION REQUIRED**.
-
