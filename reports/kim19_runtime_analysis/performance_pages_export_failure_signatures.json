@@ -1,0 +1,274 @@
+{
+  "evidence_labels": [
+    "PROVED",
+    "INFERRED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "input_sha256": {
+    "producer_notes": "5acc42487cb0bff66cabec5a8a91df07edb569cb164ad1a08cec1a950f194cdc"
+  },
+  "schema_version": 1,
+  "scope": "Packaged Performance Pages export failure signatures and static lifecycle evidence.",
+  "signatures": [
+    {
+      "caller": "TimerSavingData.saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "device-path-absent",
+      "inferred_meaning": "Selected removable-media root is unavailable; status 23 does not distinguish this branch from FileNotFoundException.",
+      "packaged_string": "Viper/Jeep en_US: Cannot Save Run / [type] unava|lable.; L-Series en_US: Cannot Save Run / [type] unavailable.",
+      "partial_file_state": "No report file is created by this invocation.",
+      "provenance": {
+        "class_function": "TimerSavingData.saveDataTo and common timer setTextWithSaveStatus",
+        "evidence_binding_ids": [
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "File.exists false -> 23 -> cannotSave/NotFound resources"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_NotFound",
+      "resulting_ui": "Requests the localized cannot-save status and unavailable information with [type] replaced by the localized media name; the old packaged information string retains its vertical-bar character in this method.",
+      "retry": "No automatic retry; the user can dismiss with OK and invoke Save again.",
+      "trigger": "The selected enum device path fails File.exists; saveDataTo returns 23."
+    },
+    {
+      "caller": "TimerSavingData.saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "directory-create-false",
+      "inferred_meaning": "The UI says full, but status 24 also represents directory-creation and IOException branches; actual fullness is not established.",
+      "packaged_string": "Cannot Save Run / [type] full",
+      "partial_file_state": "No report file is created by this invocation.",
+      "provenance": {
+        "class_function": "TimerSavingData.saveDataTo and common timer setTextWithSaveStatus",
+        "evidence_binding_ids": [
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "mkdir false -> 24 -> cannotSave/full resources"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_full",
+      "resulting_ui": "Localized cannot-save status and [type] full information.",
+      "retry": "No automatic retry; manual retry is possible after OK.",
+      "trigger": "The timersResult directory is absent and File.mkdir returns false; saveDataTo returns 24."
+    },
+    {
+      "caller": "TimerSavingData.createUpdateDownloadFile/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "existing-name-false-success",
+      "inferred_meaning": "Name collision is reported as successful export even though this invocation writes nothing.",
+      "packaged_string": "SAVE SUCCESSFUL",
+      "partial_file_state": "The pre-existing file remains untouched; no new report bytes are written.",
+      "provenance": {
+        "class_function": "TimerSavingData.createUpdateDownloadFile/saveDataTo",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-save-status-ui",
+          "jeep-create",
+          "jeep-save-status-ui",
+          "lseries-create",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "createNewFile false -> skip updateHTML -> return File -> status 13"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_succeed",
+      "resulting_ui": "updateHTML is skipped, yet saveDataTo returns 13 and the success status is displayed.",
+      "retry": "No automatic alternate name or retry; a repeated attempt at the same generated name repeats the false-success path.",
+      "trigger": "File.createNewFile returns false because the generated final path already exists."
+    },
+    {
+      "caller": "TimerSavingData.updateHTML/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "file-open-not-found",
+      "inferred_meaning": "The packaged UI conflates missing media with a lower file-open failure.",
+      "packaged_string": "Viper/Jeep en_US: Cannot Save Run / [type] unava|lable.; L-Series en_US: Cannot Save Run / [type] unavailable.",
+      "partial_file_state": "The preceding createNewFile can already have created an empty file before the open failure.",
+      "provenance": {
+        "class_function": "TimerSavingData.createUpdateDownloadFile/updateHTML/saveDataTo",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-write",
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-create",
+          "jeep-write",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-create",
+          "lseries-write",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "createNewFile true -> FileOutputStream throws -> rethrow -> catch FileNotFoundException -> 23"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_NotFound",
+      "resulting_ui": "Requests the localized cannot-save status and unavailable information with [type] replaced by the localized media name; the old packaged information string retains its vertical-bar character in this method.",
+      "retry": "No automatic retry; manual retry is possible after OK.",
+      "trigger": "FileOutputStream construction raises FileNotFoundException; updateHTML rethrows and saveDataTo maps it to 23."
+    },
+    {
+      "caller": "TimerSavingData.createUpdateDownloadFile/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "final-file-create-ioexception",
+      "inferred_meaning": "The packaged full message does not establish that capacity exhaustion caused the final-file creation failure.",
+      "packaged_string": "Cannot Save Run / [type] full",
+      "partial_file_state": "No successful create result is returned; exact filesystem residue from the failed create operation is platform-dependent and UNKNOWN.",
+      "provenance": {
+        "class_function": "TimerSavingData.createUpdateDownloadFile/saveDataTo",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-create",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-create",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "File.createNewFile IOException -> catch IOException -> 24 -> cannotSave/full resources"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_full",
+      "resulting_ui": "Same localized cannot-save/full status as directory-creation and write/flush failures.",
+      "retry": "No automatic retry; manual retry is possible after OK.",
+      "trigger": "File.createNewFile raises IOException while attempting the generated final .html path; saveDataTo maps it to 24."
+    },
+    {
+      "caller": "TimerSavingData.updateHTML/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "stream-close-ioexception-suppressed",
+      "inferred_meaning": "Close-only IOException is deliberately suppressed; open, write, and flush failures are rethrown instead.",
+      "packaged_string": "SAVE SUCCESSFUL",
+      "partial_file_state": "The file was created and write/flush completed on the normal-close branch, but final media state is not statically guaranteed after close failure.",
+      "provenance": {
+        "class_function": "TimerSavingData.updateHTML",
+        "evidence_binding_ids": [
+          "viper-write",
+          "viper-save-status-ui",
+          "jeep-write",
+          "jeep-save-status-ui",
+          "lseries-write",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "write + flush -> FileOutputStream.close IOException -> log only -> status 13"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_succeed",
+      "resulting_ui": "On the normal write/flush branch, saveDataTo returns 13 and displays success despite the logged close failure. Cleanup-close errors preserve the original 23/24 failure mapping.",
+      "retry": "No retry is requested; user may manually export again.",
+      "trigger": "FileOutputStream.close raises IOException after the normal Writer.write and Writer.flush sequence; updateHTML logs the close error and suppresses it. A cleanup-close error likewise does not replace an already pending open/write/flush failure."
+    },
+    {
+      "caller": "TimerSavingData.updateHTML/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "write-or-flush-ioexception",
+      "inferred_meaning": "The packaged full message is broader than storage-full evidence and can represent a lower write/flush failure.",
+      "packaged_string": "Cannot Save Run / [type] full",
+      "partial_file_state": "An empty, truncated, or partially written .html file can remain; no rollback or delete is recovered.",
+      "provenance": {
+        "class_function": "TimerSavingData.updateHTML/saveDataTo",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-write",
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-create",
+          "jeep-write",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-create",
+          "lseries-write",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "Writer.write/flush IOException -> rethrow -> catch IOException -> 24"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_full",
+      "resulting_ui": "Same localized cannot-save/full status as a directory-creation failure.",
+      "retry": "No automatic retry; manual retry is possible after OK.",
+      "trigger": "Writer.write or Writer.flush raises IOException; updateHTML rethrows and saveDataTo maps it to 24."
+    }
+  ],
+  "source_artifacts": [
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "description": "Recovered KIM19 Jeep Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-jeep-jar",
+      "sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "description": "Recovered KIM19 L-Series Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-lseries-jar",
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "description": "Recovered KIM19 Viper Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-viper-jar",
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    }
+  ]
+}

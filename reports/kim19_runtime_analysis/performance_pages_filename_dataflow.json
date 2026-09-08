@@ -1,0 +1,273 @@
+{
+  "classification": "system_derived",
+  "collision_behavior": "If File.createNewFile returns false because the name already exists, updateHTML is skipped but the File is returned and saveDataTo reports status 13 (success).",
+  "destination_source": "User selects one of two fixed media enums; the enum supplies a packaged device-root configuration and getSaveFolder supplies the fixed timersResult name.",
+  "evidence_labels": [
+    "PROVED",
+    "INFERRED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "input_sha256": {
+    "producer_notes": "5acc42487cb0bff66cabec5a8a91df07edb569cb164ad1a08cec1a950f194cdc"
+  },
+  "overwrite_behavior": "Existing files are not overwritten, incremented, or replaced; no temporary filename or atomic rename is used.",
+  "path_components": [
+    {
+      "component": "Selected media device root: packaged USB or SD configuration value.",
+      "control": "user-controlled",
+      "order": 1,
+      "provenance": {
+        "class_function": "TimerSaveOptionsEnum.<clinit>",
+        "evidence_binding_ids": [
+          "viper-destinations",
+          "jeep-destinations",
+          "lseries-destinations"
+        ],
+        "invocation_dataflow": [
+          "fixed USB/SD button -> fixed enum -> packaged path"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "transforms": []
+    },
+    {
+      "component": "timersResult directory name from embedded resource-key properties.",
+      "control": "fixed",
+      "order": 2,
+      "provenance": {
+        "class_function": "TimerSavingData.saveDataTo",
+        "evidence_binding_ids": [
+          "viper-save",
+          "jeep-save",
+          "lseries-save"
+        ],
+        "invocation_dataflow": [
+          "getSaveFolder -> File(devicePath, folder)"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "transforms": [
+        "Joined as child of the selected device root by java.io.File(String,String)."
+      ]
+    },
+    {
+      "component": "Localized timer-state label selected from the finite packaged Best, Last, and Current/Recent timer states.",
+      "control": "user-controlled",
+      "order": 3,
+      "provenance": {
+        "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+        "evidence_binding_ids": [
+          "viper-filename",
+          "jeep-filename",
+          "lseries-filename"
+        ],
+        "invocation_dataflow": [
+          "fixed timer state -> packaged localized label -> | to i replacement"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "transforms": [
+        "Prefix resource lookup key with timer_state_.",
+        "Replace every vertical bar with lowercase i."
+      ]
+    },
+    {
+      "component": "Literal underscore separator.",
+      "control": "fixed",
+      "order": 4,
+      "provenance": {
+        "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+        "evidence_binding_ids": [
+          "viper-filename",
+          "jeep-filename",
+          "lseries-filename"
+        ],
+        "invocation_dataflow": [
+          "append underscore"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "transforms": []
+    },
+    {
+      "component": "Export Date formatted with ddMMMMMyyyy_hhmma using the platform current locale, with default-locale fallback on PlatformException.",
+      "control": "platform-controlled",
+      "order": 5,
+      "provenance": {
+        "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+        "evidence_binding_ids": [
+          "viper-filename",
+          "jeep-filename",
+          "lseries-filename"
+        ],
+        "invocation_dataflow": [
+          "same export Date + platform locale -> formatted timestamp"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "transforms": [
+        "SimpleDateFormat locale-dependent formatting."
+      ]
+    },
+    {
+      "component": "Literal underscore separator.",
+      "control": "fixed",
+      "order": 6,
+      "provenance": {
+        "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+        "evidence_binding_ids": [
+          "viper-filename",
+          "jeep-filename",
+          "lseries-filename"
+        ],
+        "invocation_dataflow": [
+          "append underscore"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "transforms": []
+    },
+    {
+      "component": "Vehicle-line display name: packaged mapping in old variants and fixed VehicleLineEnum display name in L-Series.",
+      "control": "vehicle-controlled",
+      "order": 7,
+      "provenance": {
+        "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+        "evidence_binding_ids": [
+          "viper-filename",
+          "jeep-filename",
+          "lseries-filename"
+        ],
+        "invocation_dataflow": [
+          "vehicle-line state -> fixed display-name lookup -> append"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "transforms": []
+    },
+    {
+      "component": "Mandatory literal .html suffix.",
+      "control": "fixed",
+      "order": 8,
+      "provenance": {
+        "class_function": "TimerSavingData.createUpdateDownloadFile/getSuffix",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-suffix",
+          "jeep-create",
+          "jeep-suffix",
+          "lseries-create",
+          "lseries-suffix"
+        ],
+        "invocation_dataflow": [
+          "generated basename + .html -> final File"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "transforms": [
+        "Appended after basename construction by TimerSavingData."
+      ]
+    }
+  ],
+  "provenance": {
+    "class_function": "Common timer filename methods and TimerSavingData.createUpdateDownloadFile/getSuffix",
+    "evidence_binding_ids": [
+      "viper-filename",
+      "viper-create",
+      "viper-suffix",
+      "jeep-filename",
+      "jeep-create",
+      "jeep-suffix",
+      "lseries-filename",
+      "lseries-create",
+      "lseries-suffix"
+    ],
+    "invocation_dataflow": [
+      "finite timer state + locale date + vehicle line -> basename",
+      "fixed folder + basename + .html -> File"
+    ],
+    "label": "PROVED",
+    "source_ids": [
+      "kim19-viper-jar",
+      "kim19-jeep-jar",
+      "kim19-lseries-jar"
+    ],
+    "uncertainty": "The implementation contains no containment defense. A universal no-escape claim remains UNKNOWN because platform locale month/AM-PM output is a runtime dependency not fully enumerated in the recovered JARs."
+  },
+  "sanitization": [
+    "Only the localized timer-state component receives a vertical-bar-to-lowercase-i replacement.",
+    "No separator removal, invalid-character rejection, length limit, canonicalization, or post-join containment check was recovered.",
+    "All 13 packaged L-Series timer-state locale values and all fixed vehicle display names were reviewed and contain no slash or backslash; no ordinary text-entry field reaches the basename."
+  ],
+  "schema_version": 1,
+  "scope": "Performance Pages export filename and destination dataflow.",
+  "source_artifacts": [
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "description": "Recovered KIM19 Jeep Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-jeep-jar",
+      "sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "description": "Recovered KIM19 L-Series Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-lseries-jar",
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "description": "Recovered KIM19 Viper Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-viper-jar",
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    }
+  ]
+}

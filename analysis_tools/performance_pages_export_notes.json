@@ -1,0 +1,4444 @@
+{
+  "class_evidence_selections": [
+    {
+      "class_name": "com/sprint/gskills/view/timerview/TimerTypeButtonsContainer$4",
+      "class_sha256": "e4ef73654c590a34b0e7959ef73d455c6114582f39f76562e8f266869b389629",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "viper-ui-save",
+      "instruction_count": 9,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 11,
+          "descriptor": "(Lcom/sprint/gskills/view/timerview/TimerTypeButtonsContainer;)Lcom/sprint/gskills/controller/GSkillsViewController;",
+          "kind": "member",
+          "name": "access$200",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/view/timerview/TimerTypeButtonsContainer"
+        },
+        {
+          "bci": 14,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "SAVE",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 17,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "notifyDisplayViewChanged",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/controller/GSkillsViewController"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timerview/TimerSaveButtonContainer$1",
+      "class_sha256": "1198f0485604a06824d59f13734031a62fa82a13ee1dbf2b72107fcce4f973fa",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "viper-ui-usb",
+      "instruction_count": 9,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 14,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "USB",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 17,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateRightScreen",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/mainview/MainView"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timerview/TimerSaveButtonContainer$2",
+      "class_sha256": "1623d2d278cb27b37cb045fb1c4f6a35edbb3fdf9228810abdc1a14ab51883e4",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "viper-ui-sd",
+      "instruction_count": 9,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 14,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "SDCard",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 17,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateRightScreen",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/mainview/MainView"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+      "id": "viper-export-dispatch",
+      "instruction_count": 120,
+      "method_name": "updateDialogAndButtons",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/util/Date"
+        },
+        {
+          "bci": 189,
+          "descriptor": "()Lcom/sprint/gskills/controller/savetimerrun/TimerSavingData;",
+          "kind": "member",
+          "name": "getTimerSavingData",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/GSkillsProjectFactory"
+        },
+        {
+          "bci": 195,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "convertDataToHtml",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        },
+        {
+          "bci": 200,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getFileName",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        },
+        {
+          "bci": 203,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;Ljava/lang/String;Ljava/lang/String;)I",
+          "kind": "member",
+          "name": "saveDataTo",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 210,
+          "descriptor": "(ILcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateViewWithSaveStatus",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+      "id": "viper-filename",
+      "instruction_count": 61,
+      "method_name": "getFileName",
+      "selected_instructions": [
+        {
+          "bci": 21,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_state_"
+        },
+        {
+          "bci": 30,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getTitleName",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/constants/TimersDisplayStatusEnum"
+        },
+        {
+          "bci": 39,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonViewResourceManager"
+        },
+        {
+          "bci": 42,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "|"
+        },
+        {
+          "bci": 44,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "i"
+        },
+        {
+          "bci": 46,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "replaceTimerType",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        },
+        {
+          "bci": 54,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "_"
+        },
+        {
+          "bci": 64,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "ddMMMMMyyyy_hhmma"
+        },
+        {
+          "bci": 66,
+          "descriptor": "()Lkona/platform/PlatformInfo;",
+          "kind": "member",
+          "name": "getPlatformInfo",
+          "opcode": "invokestatic",
+          "owner": "kona/platform/PlatformInfo"
+        },
+        {
+          "bci": 69,
+          "descriptor": "()Ljava/util/Locale;",
+          "kind": "member",
+          "name": "getCurrentLocale",
+          "opcode": "invokevirtual",
+          "owner": "kona/platform/PlatformInfo"
+        },
+        {
+          "bci": 72,
+          "descriptor": "(Ljava/lang/String;Ljava/util/Locale;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/text/SimpleDateFormat"
+        },
+        {
+          "bci": 85,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "ddMMMMMyyyy_hhmma"
+        },
+        {
+          "bci": 87,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/text/SimpleDateFormat"
+        },
+        {
+          "bci": 94,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "format",
+          "opcode": "invokevirtual",
+          "owner": "java/text/DateFormat"
+        },
+        {
+          "bci": 102,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "_"
+        },
+        {
+          "bci": 109,
+          "descriptor": "()Lcom/sprint/gskills/view/common/GSkillsStateManager;",
+          "kind": "member",
+          "name": "getInstance",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/view/common/GSkillsStateManager"
+        },
+        {
+          "bci": 112,
+          "descriptor": "()I",
+          "kind": "member",
+          "name": "getVehicleLine",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/GSkillsStateManager"
+        },
+        {
+          "bci": 115,
+          "descriptor": "(I)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getVehicleLineName",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 118,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/StringBuffer;",
+          "kind": "member",
+          "name": "append",
+          "opcode": "invokevirtual",
+          "owner": "java/lang/StringBuffer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+      "id": "viper-html",
+      "instruction_count": 306,
+      "method_name": "convertDataToHtml",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "MM/d/yy h:mm a"
+        },
+        {
+          "bci": 12,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "format",
+          "opcode": "invokevirtual",
+          "owner": "java/text/DateFormat"
+        },
+        {
+          "bci": 58,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<html>"
+        },
+        {
+          "bci": 82,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_save_file_title"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonViewResourceManager"
+        },
+        {
+          "bci": 104,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"></meta>"
+        },
+        {
+          "bci": 160,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<table  border=\"1\" frame = \"border\">"
+        },
+        {
+          "bci": 224,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<tr><td>"
+        },
+        {
+          "bci": 233,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonLabel"
+        },
+        {
+          "bci": 248,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonLabel"
+        },
+        {
+          "bci": 264,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonLabel"
+        },
+        {
+          "bci": 700,
+          "kind": "string",
+          "opcode": "ldc_w",
+          "value": "</table>"
+        },
+        {
+          "bci": 718,
+          "kind": "string",
+          "opcode": "ldc_w",
+          "value": "</html>"
+        },
+        {
+          "bci": 731,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "|"
+        },
+        {
+          "bci": 733,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "i"
+        },
+        {
+          "bci": 735,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "replaceTimerType",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "()V",
+      "id": "viper-save-status-ui",
+      "instruction_count": 134,
+      "method_name": "setTextWithSaveStatus",
+      "selected_instructions": [
+        {
+          "bci": 116,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_succeed"
+        },
+        {
+          "bci": 118,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonViewResourceManager"
+        },
+        {
+          "bci": 170,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_error_cannotSave"
+        },
+        {
+          "bci": 187,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_info_NotFound"
+        },
+        {
+          "bci": 192,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "[type]"
+        },
+        {
+          "bci": 225,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_error_cannotSave"
+        },
+        {
+          "bci": 242,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_info_full"
+        },
+        {
+          "bci": 247,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "[type]"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;Ljava/lang/String;Ljava/lang/String;)I",
+      "id": "viper-save",
+      "instruction_count": 49,
+      "method_name": "saveDataTo",
+      "selected_instructions": [
+        {
+          "bci": 1,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getDevicePath",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 9,
+          "descriptor": "(Ljava/lang/String;)Z",
+          "kind": "member",
+          "name": "isDeviceAvailable",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 53,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSaveFolder",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 56,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 63,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "exists",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 71,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "mkdir",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 85,
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;",
+          "kind": "member",
+          "name": "createUpdateDownloadFile",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;",
+      "id": "viper-create",
+      "instruction_count": 33,
+      "method_name": "createUpdateDownloadFile",
+      "selected_instructions": [
+        {
+          "bci": 8,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "mkdirs",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 24,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getAbsolutePath",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 40,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSuffix",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 49,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 56,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "createNewFile",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 66,
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "updateHTML",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+      "id": "viper-write",
+      "instruction_count": 78,
+      "method_name": "updateHTML",
+      "selected_instructions": [
+        {
+          "bci": 7,
+          "descriptor": "(Ljava/io/File;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 16,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "UTF8"
+        },
+        {
+          "bci": 18,
+          "descriptor": "(Ljava/io/OutputStream;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/OutputStreamWriter"
+        },
+        {
+          "bci": 26,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "write",
+          "opcode": "invokevirtual",
+          "owner": "java/io/Writer"
+        },
+        {
+          "bci": 31,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "flush",
+          "opcode": "invokevirtual",
+          "owner": "java/io/Writer"
+        },
+        {
+          "bci": 39,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "close",
+          "opcode": "invokevirtual",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 51,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error closing file stream "
+        },
+        {
+          "bci": 55,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 81,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": " not found "
+        },
+        {
+          "bci": 94,
+          "descriptor": "(Ljava/lang/Object;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 113,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error updating file "
+        },
+        {
+          "bci": 130,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 143,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "close",
+          "opcode": "invokevirtual",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 155,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error closing file stream "
+        },
+        {
+          "bci": 159,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "()Ljava/lang/String;",
+      "id": "viper-suffix",
+      "instruction_count": 2,
+      "method_name": "getSuffix",
+      "selected_instructions": [
+        {
+          "bci": 0,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": ".html"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/constants/TimerSaveOptionsEnum",
+      "class_sha256": "073c6998a7233c42b7a4fb2116341cadf1caae41161cf119161fbd78368ddcb2",
+      "descriptor": "()V",
+      "id": "viper-destinations",
+      "instruction_count": 43,
+      "method_name": "<clinit>",
+      "selected_instructions": [
+        {
+          "bci": 7,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getUSBSavePath",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 10,
+          "descriptor": "(ILjava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 23,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSDSavePath",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 26,
+          "descriptor": "(ILjava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timerview/TimerTypeButtonsContainer$4",
+      "class_sha256": "e4ef73654c590a34b0e7959ef73d455c6114582f39f76562e8f266869b389629",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "jeep-ui-save",
+      "instruction_count": 9,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 11,
+          "descriptor": "(Lcom/sprint/gskills/view/timerview/TimerTypeButtonsContainer;)Lcom/sprint/gskills/controller/GSkillsViewController;",
+          "kind": "member",
+          "name": "access$200",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/view/timerview/TimerTypeButtonsContainer"
+        },
+        {
+          "bci": 14,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "SAVE",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 17,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "notifyDisplayViewChanged",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/controller/GSkillsViewController"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timerview/TimerSaveButtonContainer$1",
+      "class_sha256": "1198f0485604a06824d59f13734031a62fa82a13ee1dbf2b72107fcce4f973fa",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "jeep-ui-usb",
+      "instruction_count": 9,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 14,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "USB",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 17,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateRightScreen",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/mainview/MainView"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timerview/TimerSaveButtonContainer$2",
+      "class_sha256": "1623d2d278cb27b37cb045fb1c4f6a35edbb3fdf9228810abdc1a14ab51883e4",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "jeep-ui-sd",
+      "instruction_count": 9,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 14,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "SDCard",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 17,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateRightScreen",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/mainview/MainView"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+      "id": "jeep-export-dispatch",
+      "instruction_count": 120,
+      "method_name": "updateDialogAndButtons",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/util/Date"
+        },
+        {
+          "bci": 189,
+          "descriptor": "()Lcom/sprint/gskills/controller/savetimerrun/TimerSavingData;",
+          "kind": "member",
+          "name": "getTimerSavingData",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/GSkillsProjectFactory"
+        },
+        {
+          "bci": 195,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "convertDataToHtml",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        },
+        {
+          "bci": 200,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getFileName",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        },
+        {
+          "bci": 203,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;Ljava/lang/String;Ljava/lang/String;)I",
+          "kind": "member",
+          "name": "saveDataTo",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 210,
+          "descriptor": "(ILcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateViewWithSaveStatus",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+      "id": "jeep-filename",
+      "instruction_count": 61,
+      "method_name": "getFileName",
+      "selected_instructions": [
+        {
+          "bci": 21,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_state_"
+        },
+        {
+          "bci": 30,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getTitleName",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/constants/TimersDisplayStatusEnum"
+        },
+        {
+          "bci": 39,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonViewResourceManager"
+        },
+        {
+          "bci": 42,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "|"
+        },
+        {
+          "bci": 44,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "i"
+        },
+        {
+          "bci": 46,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "replaceTimerType",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        },
+        {
+          "bci": 54,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "_"
+        },
+        {
+          "bci": 64,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "ddMMMMMyyyy_hhmma"
+        },
+        {
+          "bci": 66,
+          "descriptor": "()Lkona/platform/PlatformInfo;",
+          "kind": "member",
+          "name": "getPlatformInfo",
+          "opcode": "invokestatic",
+          "owner": "kona/platform/PlatformInfo"
+        },
+        {
+          "bci": 69,
+          "descriptor": "()Ljava/util/Locale;",
+          "kind": "member",
+          "name": "getCurrentLocale",
+          "opcode": "invokevirtual",
+          "owner": "kona/platform/PlatformInfo"
+        },
+        {
+          "bci": 72,
+          "descriptor": "(Ljava/lang/String;Ljava/util/Locale;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/text/SimpleDateFormat"
+        },
+        {
+          "bci": 85,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "ddMMMMMyyyy_hhmma"
+        },
+        {
+          "bci": 87,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/text/SimpleDateFormat"
+        },
+        {
+          "bci": 94,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "format",
+          "opcode": "invokevirtual",
+          "owner": "java/text/DateFormat"
+        },
+        {
+          "bci": 102,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "_"
+        },
+        {
+          "bci": 109,
+          "descriptor": "()Lcom/sprint/gskills/view/common/GSkillsStateManager;",
+          "kind": "member",
+          "name": "getInstance",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/view/common/GSkillsStateManager"
+        },
+        {
+          "bci": 112,
+          "descriptor": "()I",
+          "kind": "member",
+          "name": "getVehicleLine",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/GSkillsStateManager"
+        },
+        {
+          "bci": 115,
+          "descriptor": "(I)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getVehicleLineName",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 118,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/StringBuffer;",
+          "kind": "member",
+          "name": "append",
+          "opcode": "invokevirtual",
+          "owner": "java/lang/StringBuffer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+      "id": "jeep-html",
+      "instruction_count": 306,
+      "method_name": "convertDataToHtml",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "MM/d/yy h:mm a"
+        },
+        {
+          "bci": 12,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "format",
+          "opcode": "invokevirtual",
+          "owner": "java/text/DateFormat"
+        },
+        {
+          "bci": 58,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<html>"
+        },
+        {
+          "bci": 82,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_save_file_title"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonViewResourceManager"
+        },
+        {
+          "bci": 104,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"></meta>"
+        },
+        {
+          "bci": 160,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<table  border=\"1\" frame = \"border\">"
+        },
+        {
+          "bci": 224,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<tr><td>"
+        },
+        {
+          "bci": 233,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonLabel"
+        },
+        {
+          "bci": 248,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonLabel"
+        },
+        {
+          "bci": 264,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonLabel"
+        },
+        {
+          "bci": 700,
+          "kind": "string",
+          "opcode": "ldc_w",
+          "value": "</table>"
+        },
+        {
+          "bci": 718,
+          "kind": "string",
+          "opcode": "ldc_w",
+          "value": "</html>"
+        },
+        {
+          "bci": 731,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "|"
+        },
+        {
+          "bci": 733,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "i"
+        },
+        {
+          "bci": 735,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "replaceTimerType",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "()V",
+      "id": "jeep-save-status-ui",
+      "instruction_count": 134,
+      "method_name": "setTextWithSaveStatus",
+      "selected_instructions": [
+        {
+          "bci": 116,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_succeed"
+        },
+        {
+          "bci": 118,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonViewResourceManager"
+        },
+        {
+          "bci": 170,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_error_cannotSave"
+        },
+        {
+          "bci": 187,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_info_NotFound"
+        },
+        {
+          "bci": 192,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "[type]"
+        },
+        {
+          "bci": 225,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_error_cannotSave"
+        },
+        {
+          "bci": 242,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_info_full"
+        },
+        {
+          "bci": 247,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "[type]"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;Ljava/lang/String;Ljava/lang/String;)I",
+      "id": "jeep-save",
+      "instruction_count": 49,
+      "method_name": "saveDataTo",
+      "selected_instructions": [
+        {
+          "bci": 1,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getDevicePath",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 9,
+          "descriptor": "(Ljava/lang/String;)Z",
+          "kind": "member",
+          "name": "isDeviceAvailable",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 53,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSaveFolder",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 56,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 63,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "exists",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 71,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "mkdir",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 85,
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;",
+          "kind": "member",
+          "name": "createUpdateDownloadFile",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;",
+      "id": "jeep-create",
+      "instruction_count": 33,
+      "method_name": "createUpdateDownloadFile",
+      "selected_instructions": [
+        {
+          "bci": 8,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "mkdirs",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 24,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getAbsolutePath",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 40,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSuffix",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 49,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 56,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "createNewFile",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 66,
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "updateHTML",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+      "id": "jeep-write",
+      "instruction_count": 78,
+      "method_name": "updateHTML",
+      "selected_instructions": [
+        {
+          "bci": 7,
+          "descriptor": "(Ljava/io/File;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 16,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "UTF8"
+        },
+        {
+          "bci": 18,
+          "descriptor": "(Ljava/io/OutputStream;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/OutputStreamWriter"
+        },
+        {
+          "bci": 26,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "write",
+          "opcode": "invokevirtual",
+          "owner": "java/io/Writer"
+        },
+        {
+          "bci": 31,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "flush",
+          "opcode": "invokevirtual",
+          "owner": "java/io/Writer"
+        },
+        {
+          "bci": 39,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "close",
+          "opcode": "invokevirtual",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 51,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error closing file stream "
+        },
+        {
+          "bci": 55,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 81,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": " not found "
+        },
+        {
+          "bci": 94,
+          "descriptor": "(Ljava/lang/Object;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 113,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error updating file "
+        },
+        {
+          "bci": 130,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 143,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "close",
+          "opcode": "invokevirtual",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 155,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error closing file stream "
+        },
+        {
+          "bci": 159,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "()Ljava/lang/String;",
+      "id": "jeep-suffix",
+      "instruction_count": 2,
+      "method_name": "getSuffix",
+      "selected_instructions": [
+        {
+          "bci": 0,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": ".html"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/constants/TimerSaveOptionsEnum",
+      "class_sha256": "073c6998a7233c42b7a4fb2116341cadf1caae41161cf119161fbd78368ddcb2",
+      "descriptor": "()V",
+      "id": "jeep-destinations",
+      "instruction_count": 43,
+      "method_name": "<clinit>",
+      "selected_instructions": [
+        {
+          "bci": 7,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getUSBSavePath",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 10,
+          "descriptor": "(ILjava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 23,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSDSavePath",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 26,
+          "descriptor": "(ILjava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/components/TimerTypeButtonsContainer$1",
+      "class_sha256": "bddd0b32093d4f6ca5ae53b3c185184dab8b0477976ff7edddf914cf1830509d",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "lseries-ui-save",
+      "instruction_count": 8,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 10,
+          "descriptor": "(Lcom/sprint/gskills/view/timers/components/TimerTypeButtonsContainer;)Lcom/sprint/gskills/controller/GSkillsViewController;",
+          "kind": "member",
+          "name": "access$100",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/view/timers/components/TimerTypeButtonsContainer"
+        },
+        {
+          "bci": 13,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "SAVE",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 16,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "notifyDisplayViewChanged",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/controller/GSkillsViewController"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/components/TimerSaveButtonContainer$1",
+      "class_sha256": "1da0508df417b39cad872af51b2ab7bd15ca4fdded61006db145171e8c387121",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "lseries-ui-usb",
+      "instruction_count": 6,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 9,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "USB",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 12,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateRightScreen",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/mainview/MainView"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/components/TimerSaveButtonContainer$2",
+      "class_sha256": "6ce797c9c394706c67b3ccec27d01e83c2850c5920d79c2d55640f2da0634635",
+      "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+      "id": "lseries-ui-sd",
+      "instruction_count": 6,
+      "method_name": "actionPerformed",
+      "selected_instructions": [
+        {
+          "bci": 9,
+          "descriptor": "Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;",
+          "kind": "member",
+          "name": "SDCARD",
+          "opcode": "getstatic",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 12,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateRightScreen",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/mainview/MainView"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+      "id": "lseries-export-dispatch",
+      "instruction_count": 120,
+      "method_name": "updateDialogAndButtons",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/util/Date"
+        },
+        {
+          "bci": 193,
+          "descriptor": "()Lcom/sprint/gskills/controller/savetimerrun/TimerSavingData;",
+          "kind": "member",
+          "name": "getInstance",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 199,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "convertDataToHtml",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/timers/CommonTimerView"
+        },
+        {
+          "bci": 204,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "toString",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/timers/CommonTimerView"
+        },
+        {
+          "bci": 207,
+          "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;Ljava/lang/String;Ljava/lang/String;)I",
+          "kind": "member",
+          "name": "saveDataTo",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 214,
+          "descriptor": "(ILcom/sprint/gskills/constants/TimerSaveOptionsEnum;)V",
+          "kind": "member",
+          "name": "updateViewWithSaveStatus",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/timers/CommonTimerView"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+      "id": "lseries-filename",
+      "instruction_count": 61,
+      "method_name": "toString",
+      "selected_instructions": [
+        {
+          "bci": 21,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_state_"
+        },
+        {
+          "bci": 30,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "toString",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/constants/TimersDisplayStatusEnum"
+        },
+        {
+          "bci": 39,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/GSkillsResourceManager"
+        },
+        {
+          "bci": 42,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "|"
+        },
+        {
+          "bci": 44,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "i"
+        },
+        {
+          "bci": 46,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "replaceTimerType",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/timers/CommonTimerView"
+        },
+        {
+          "bci": 54,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "_"
+        },
+        {
+          "bci": 64,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "ddMMMMMyyyy_hhmma"
+        },
+        {
+          "bci": 66,
+          "descriptor": "()Lkona/platform/PlatformInfo;",
+          "kind": "member",
+          "name": "getPlatformInfo",
+          "opcode": "invokestatic",
+          "owner": "kona/platform/PlatformInfo"
+        },
+        {
+          "bci": 69,
+          "descriptor": "()Ljava/util/Locale;",
+          "kind": "member",
+          "name": "getCurrentLocale",
+          "opcode": "invokevirtual",
+          "owner": "kona/platform/PlatformInfo"
+        },
+        {
+          "bci": 72,
+          "descriptor": "(Ljava/lang/String;Ljava/util/Locale;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/text/SimpleDateFormat"
+        },
+        {
+          "bci": 85,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "ddMMMMMyyyy_hhmma"
+        },
+        {
+          "bci": 87,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/text/SimpleDateFormat"
+        },
+        {
+          "bci": 94,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "format",
+          "opcode": "invokevirtual",
+          "owner": "java/text/DateFormat"
+        },
+        {
+          "bci": 102,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "_"
+        },
+        {
+          "bci": 109,
+          "descriptor": "()Lcom/sprint/gskills/view/common/GSkillsStateManager;",
+          "kind": "member",
+          "name": "getInstance",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/view/common/GSkillsStateManager"
+        },
+        {
+          "bci": 112,
+          "descriptor": "()Lcom/sprint/gskills/constants/VehicleLineEnum;",
+          "kind": "member",
+          "name": "getVehicleLine",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/GSkillsStateManager"
+        },
+        {
+          "bci": 115,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getDisplayName",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/constants/VehicleLineEnum"
+        },
+        {
+          "bci": 118,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/StringBuffer;",
+          "kind": "member",
+          "name": "append",
+          "opcode": "invokevirtual",
+          "owner": "java/lang/StringBuffer"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+      "id": "lseries-html",
+      "instruction_count": 390,
+      "method_name": "convertDataToHtml",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "MM/d/yy h:mm a"
+        },
+        {
+          "bci": 12,
+          "descriptor": "(Ljava/util/Date;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "format",
+          "opcode": "invokevirtual",
+          "owner": "java/text/DateFormat"
+        },
+        {
+          "bci": 58,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<html>"
+        },
+        {
+          "bci": 82,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_save_file_title"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/GSkillsResourceManager"
+        },
+        {
+          "bci": 104,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"></meta>"
+        },
+        {
+          "bci": 160,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<table  border=\"1\" frame = \"border\">"
+        },
+        {
+          "bci": 223,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "<tr><td>"
+        },
+        {
+          "bci": 232,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonLabel"
+        },
+        {
+          "bci": 247,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        },
+        {
+          "bci": 262,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/CommonLabel"
+        },
+        {
+          "bci": 890,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "</table>"
+        },
+        {
+          "bci": 906,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "</html>"
+        },
+        {
+          "bci": 918,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "|"
+        },
+        {
+          "bci": 920,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "i"
+        },
+        {
+          "bci": 922,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "replaceTimerType",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/view/timers/CommonTimerView"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "()V",
+      "id": "lseries-save-status-ui",
+      "instruction_count": 135,
+      "method_name": "setTextWithSaveStatus",
+      "selected_instructions": [
+        {
+          "bci": 116,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_succeed"
+        },
+        {
+          "bci": 118,
+          "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+          "kind": "member",
+          "name": "getLanguageResByKey",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/GSkillsResourceManager"
+        },
+        {
+          "bci": 170,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_error_cannotSave"
+        },
+        {
+          "bci": 187,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_info_NotFound"
+        },
+        {
+          "bci": 192,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "[type]"
+        },
+        {
+          "bci": 225,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_error_cannotSave"
+        },
+        {
+          "bci": 242,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "timer_mes_info_full"
+        },
+        {
+          "bci": 247,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "[type]"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "d8cd498fc1cd7d9a2bcd622c3f11c0e754d4f2d9a19d73d15f3d0fe628be63c0",
+      "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;Ljava/lang/String;Ljava/lang/String;)I",
+      "id": "lseries-save",
+      "instruction_count": 48,
+      "method_name": "saveDataTo",
+      "selected_instructions": [
+        {
+          "bci": 1,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getDevicePath",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 9,
+          "descriptor": "(Ljava/lang/String;)Z",
+          "kind": "member",
+          "name": "isDeviceAvailable",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 52,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSaveFolder",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 55,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 62,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "exists",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 70,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "mkdir",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;",
+          "kind": "member",
+          "name": "createUpdateDownloadFile",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "d8cd498fc1cd7d9a2bcd622c3f11c0e754d4f2d9a19d73d15f3d0fe628be63c0",
+      "descriptor": "(Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;",
+      "id": "lseries-create",
+      "instruction_count": 33,
+      "method_name": "createUpdateDownloadFile",
+      "selected_instructions": [
+        {
+          "bci": 8,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "mkdirs",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 24,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getAbsolutePath",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 40,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSuffix",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 49,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 56,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "createNewFile",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 66,
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "updateHTML",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "d8cd498fc1cd7d9a2bcd622c3f11c0e754d4f2d9a19d73d15f3d0fe628be63c0",
+      "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+      "id": "lseries-write",
+      "instruction_count": 74,
+      "method_name": "updateHTML",
+      "selected_instructions": [
+        {
+          "bci": 7,
+          "descriptor": "(Ljava/io/File;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 16,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "UTF8"
+        },
+        {
+          "bci": 18,
+          "descriptor": "(Ljava/io/OutputStream;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/OutputStreamWriter"
+        },
+        {
+          "bci": 26,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "write",
+          "opcode": "invokevirtual",
+          "owner": "java/io/Writer"
+        },
+        {
+          "bci": 31,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "flush",
+          "opcode": "invokevirtual",
+          "owner": "java/io/Writer"
+        },
+        {
+          "bci": 39,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "close",
+          "opcode": "invokevirtual",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 50,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error closing file stream "
+        },
+        {
+          "bci": 54,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 79,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": " not found "
+        },
+        {
+          "bci": 92,
+          "descriptor": "(Ljava/lang/Object;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 110,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error updating file "
+        },
+        {
+          "bci": 127,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        },
+        {
+          "bci": 140,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "close",
+          "opcode": "invokevirtual",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 151,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "error closing file stream "
+        },
+        {
+          "bci": 155,
+          "descriptor": "(Ljava/lang/Object;Ljava/lang/Throwable;)V",
+          "kind": "member",
+          "name": "error",
+          "opcode": "invokevirtual",
+          "owner": "net/sf/microlog/core/Logger"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "d8cd498fc1cd7d9a2bcd622c3f11c0e754d4f2d9a19d73d15f3d0fe628be63c0",
+      "descriptor": "()Ljava/lang/String;",
+      "id": "lseries-suffix",
+      "instruction_count": 2,
+      "method_name": "getSuffix",
+      "selected_instructions": [
+        {
+          "bci": 0,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": ".html"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/constants/TimerSaveOptionsEnum",
+      "class_sha256": "49b685bda44bd6d40e5ddaec48e3b3a0a3b5846838b27587f4b86eac8129b8ab",
+      "descriptor": "()V",
+      "id": "lseries-destinations",
+      "instruction_count": 43,
+      "method_name": "<clinit>",
+      "selected_instructions": [
+        {
+          "bci": 7,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getUSBSavePath",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 10,
+          "descriptor": "(ILjava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 23,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSDSavePath",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 26,
+          "descriptor": "(ILjava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "viper-setZeroToSixtyValue",
+      "instruction_count": 4,
+      "method_name": "setZeroToSixtyValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "zeroToSixtyValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "viper-setEighthEValue",
+      "instruction_count": 4,
+      "method_name": "setEighthEValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "eighthEValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "viper-setEighthMphValue",
+      "instruction_count": 4,
+      "method_name": "setEighthMphValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "eighthMphValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "viper-setQuaterEtValue",
+      "instruction_count": 4,
+      "method_name": "setQuaterEtValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "quaterEtValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "viper-setQuaterMphValue",
+      "instruction_count": 4,
+      "method_name": "setQuaterMphValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "quaterMphValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "viper-setBrakeDistValue",
+      "instruction_count": 4,
+      "method_name": "setBrakeDistValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "brakeDistValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "viper-setBrakeSpeedValue",
+      "instruction_count": 4,
+      "method_name": "setBrakeSpeedValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "brakeSpeedValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-viper-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "jeep-setZeroToSixtyValue",
+      "instruction_count": 4,
+      "method_name": "setZeroToSixtyValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "zeroToSixtyValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "jeep-setEighthEValue",
+      "instruction_count": 4,
+      "method_name": "setEighthEValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "eighthEValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "jeep-setEighthMphValue",
+      "instruction_count": 4,
+      "method_name": "setEighthMphValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "eighthMphValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "jeep-setQuaterEtValue",
+      "instruction_count": 4,
+      "method_name": "setQuaterEtValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "quaterEtValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "jeep-setQuaterMphValue",
+      "instruction_count": 4,
+      "method_name": "setQuaterMphValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "quaterMphValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "jeep-setBrakeDistValue",
+      "instruction_count": 4,
+      "method_name": "setBrakeDistValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "brakeDistValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/CommonTimerViewContainer",
+      "class_sha256": "5f84b61804730940e54f74c6b0be624af1a9dae24ad9b4c9e537b0a8bb2033af",
+      "descriptor": "(Ljava/lang/String;)V",
+      "id": "jeep-setBrakeSpeedValue",
+      "instruction_count": 4,
+      "method_name": "setBrakeSpeedValue",
+      "selected_instructions": [
+        {
+          "bci": 2,
+          "descriptor": "Ljava/lang/String;",
+          "kind": "member",
+          "name": "brakeSpeedValue",
+          "opcode": "putfield",
+          "owner": "com/sprint/gskills/view/CommonTimerViewContainer"
+        }
+      ],
+      "source_id": "kim19-jeep-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "()V",
+      "id": "lseries-setReactionTime",
+      "instruction_count": 72,
+      "method_name": "setReactionTime",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getReactionTimeValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 45,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 82,
+          "kind": "string",
+          "opcode": "ldc_w",
+          "value": "#0.00"
+        },
+        {
+          "bci": 85,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/text/DecimalFormat"
+        },
+        {
+          "bci": 94,
+          "descriptor": "(D)Ljava/lang/String;",
+          "kind": "member",
+          "name": "format",
+          "opcode": "invokevirtual",
+          "owner": "java/text/DecimalFormat"
+        },
+        {
+          "bci": 107,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "()V",
+      "id": "lseries-setZeroToSixtyValue",
+      "instruction_count": 63,
+      "method_name": "setZeroToSixtyValue",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getZeroToSixtyValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 45,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 53,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/lang/Double"
+        },
+        {
+          "bci": 58,
+          "descriptor": "()D",
+          "kind": "member",
+          "name": "doubleValue",
+          "opcode": "invokevirtual",
+          "owner": "java/lang/Double"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "()V",
+      "id": "lseries-setZeroToHunderedValue",
+      "instruction_count": 63,
+      "method_name": "setZeroToHunderedValue",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getZeroToHundredValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 45,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 53,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/lang/Double"
+        },
+        {
+          "bci": 58,
+          "descriptor": "()D",
+          "kind": "member",
+          "name": "doubleValue",
+          "opcode": "invokevirtual",
+          "owner": "java/lang/Double"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "()V",
+      "id": "lseries-setEigthValue",
+      "instruction_count": 118,
+      "method_name": "setEigthValue",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getEighthTimeValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 45,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        },
+        {
+          "bci": 141,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getEighthSpeedValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 184,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 190,
+          "descriptor": "(Ljava/lang/String;)I",
+          "kind": "member",
+          "name": "parseInt",
+          "opcode": "invokestatic",
+          "owner": "java/lang/Integer"
+        },
+        {
+          "bci": 218,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "()V",
+      "id": "lseries-setQuarterValue",
+      "instruction_count": 121,
+      "method_name": "setQuarterValue",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getQuarterTimeValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 54,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        },
+        {
+          "bci": 141,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getQuarterSpeedValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 186,
+          "descriptor": "(Ljava/lang/String;)I",
+          "kind": "member",
+          "name": "parseInt",
+          "opcode": "invokestatic",
+          "owner": "java/lang/Integer"
+        },
+        {
+          "bci": 194,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 227,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "()V",
+      "id": "lseries-setSixtyFeetValue",
+      "instruction_count": 63,
+      "method_name": "setSixtyFeetValue",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSixtyFeetValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 54,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 84,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    },
+    {
+      "class_name": "com/sprint/gskills/view/timers/CommonTimerView",
+      "class_sha256": "a07323202b8ed43ccc49b72108f70c387a86adc5b6e847631e5c5401d74c2a1b",
+      "descriptor": "()V",
+      "id": "lseries-setBrakeDistance",
+      "instruction_count": 128,
+      "method_name": "setBrakeDistance",
+      "selected_instructions": [
+        {
+          "bci": 4,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getBrakeDistValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 46,
+          "descriptor": "(Ljava/lang/String;)I",
+          "kind": "member",
+          "name": "parseInt",
+          "opcode": "invokestatic",
+          "owner": "java/lang/Integer"
+        },
+        {
+          "bci": 53,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 79,
+          "descriptor": "()Lcom/sprint/gskills/unit/SpeedUnitEnum;",
+          "kind": "member",
+          "name": "getSpeedUnit",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/GSkillsStateManager"
+        },
+        {
+          "bci": 91,
+          "descriptor": "(I)Ljava/lang/String;",
+          "kind": "member",
+          "name": "toString",
+          "opcode": "invokestatic",
+          "owner": "java/lang/Integer"
+        },
+        {
+          "bci": 105,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        },
+        {
+          "bci": 162,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getBrakeSpeedValue",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/model/timers/CommonTimerModel"
+        },
+        {
+          "bci": 169,
+          "descriptor": "(Ljava/lang/String;)I",
+          "kind": "member",
+          "name": "parseInt",
+          "opcode": "invokestatic",
+          "owner": "java/lang/Integer"
+        },
+        {
+          "bci": 215,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": "--"
+        },
+        {
+          "bci": 248,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "setText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/view/common/FastNumberLabel"
+        }
+      ],
+      "source_id": "kim19-lseries-jar"
+    }
+  ],
+  "evidence_labels": [
+    "PROVED",
+    "INFERRED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "export_reachability": {
+    "call_chain": [
+      {
+        "operation": "The timer summary Save listener sends TimerSaveOptionsEnum.SAVE to the view controller.",
+        "provenance": {
+          "class_function": "TimerTypeButtonsContainer action listeners",
+          "evidence_binding_ids": [
+            "viper-ui-save",
+            "jeep-ui-save",
+            "lseries-ui-save"
+          ],
+          "invocation_dataflow": [
+            "actionPerformed -> GSkillsViewController.notifyDisplayViewChanged(SAVE)"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "operation": "The view transition displays the fixed USB/SD save options; either media listener sends the corresponding fixed enum to MainView.",
+        "provenance": {
+          "class_function": "TimerSaveButtonContainer action listeners",
+          "evidence_binding_ids": [
+            "viper-ui-usb",
+            "viper-ui-sd",
+            "jeep-ui-usb",
+            "jeep-ui-sd",
+            "lseries-ui-usb",
+            "lseries-ui-sd"
+          ],
+          "invocation_dataflow": [
+            "USB listener -> MainView.updateRightScreen(USB)",
+            "SD listener -> MainView.updateRightScreen(SD)"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "operation": "The common timer view creates one Date object and supplies it to both HTML and basename generation.",
+        "provenance": {
+          "class_function": "CommonTimerViewContainer/CommonTimerView.updateDialogAndButtons",
+          "evidence_binding_ids": [
+            "viper-export-dispatch",
+            "jeep-export-dispatch",
+            "lseries-export-dispatch"
+          ],
+          "invocation_dataflow": [
+            "new Date -> convertDataToHtml(Date)",
+            "same Date -> getFileName(Date) or toString(Date)"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "operation": "The selected enum, generated HTML, and generated basename are passed to TimerSavingData.saveDataTo.",
+        "provenance": {
+          "class_function": "CommonTimerViewContainer/CommonTimerView.updateDialogAndButtons",
+          "evidence_binding_ids": [
+            "viper-export-dispatch",
+            "jeep-export-dispatch",
+            "lseries-export-dispatch"
+          ],
+          "invocation_dataflow": [
+            "selected media + HTML + basename -> TimerSavingData.saveDataTo"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "operation": "TimerSavingData joins the fixed media root and configured timersResult folder, creates the directory if absent, and delegates file construction.",
+        "provenance": {
+          "class_function": "TimerSavingData.saveDataTo",
+          "evidence_binding_ids": [
+            "viper-save",
+            "jeep-save",
+            "lseries-save"
+          ],
+          "invocation_dataflow": [
+            "enum.getDevicePath -> isDeviceAvailable",
+            "new File(devicePath, getSaveFolder())",
+            "mkdir -> createUpdateDownloadFile"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "operation": "createUpdateDownloadFile joins absolute directory, generated basename, and mandatory .html suffix; createNewFile gates updateHTML.",
+        "provenance": {
+          "class_function": "TimerSavingData.createUpdateDownloadFile/getSuffix",
+          "evidence_binding_ids": [
+            "viper-create",
+            "viper-suffix",
+            "jeep-create",
+            "jeep-suffix",
+            "lseries-create",
+            "lseries-suffix"
+          ],
+          "invocation_dataflow": [
+            "directory absolute path + slash + basename + .html -> File",
+            "File.createNewFile true -> updateHTML"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "operation": "updateHTML opens FileOutputStream, wraps it in OutputStreamWriter using UTF8, writes the complete String, flushes, and closes the underlying stream.",
+        "provenance": {
+          "class_function": "TimerSavingData.updateHTML",
+          "evidence_binding_ids": [
+            "viper-write",
+            "jeep-write",
+            "lseries-write"
+          ],
+          "invocation_dataflow": [
+            "File -> FileOutputStream",
+            "stream + UTF8 -> OutputStreamWriter",
+            "Writer.write -> Writer.flush -> FileOutputStream.close"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "operation": "The integer status from saveDataTo is mapped to localized status and information resource IDs and displayed with an OK button.",
+        "provenance": {
+          "class_function": "CommonTimerViewContainer/CommonTimerView.updateViewWithSaveStatus and setTextWithSaveStatus",
+          "evidence_binding_ids": [
+            "viper-export-dispatch",
+            "viper-save-status-ui",
+            "jeep-export-dispatch",
+            "jeep-save-status-ui",
+            "lseries-export-dispatch",
+            "lseries-save-status-ui"
+          ],
+          "invocation_dataflow": [
+            "saveDataTo status -> updateViewWithSaveStatus",
+            "status switch -> localized TextArea strings"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      }
+    ],
+    "entry_point": "User-visible timer summary Save action followed by the USB or SD choice.",
+    "gates": [
+      {
+        "condition": "VC_PP_Prsnt equals 1 and VC_VEH_LINE matches the variant-specific xlet.showConditions value.",
+        "effect": "Controls ordinary Xlet visibility/activation before the in-app export path is available.",
+        "id": "xlet-feature-vehicle-condition",
+        "provenance": {
+          "class_function": "xlet.properties xlet.showConditions",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "feature and vehicle-line predicates -> Xlet visibility"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-xlet-properties",
+            "kim19-jeep-xlet-properties",
+            "kim19-lseries-xlet-properties"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "condition": "The user chooses the packaged USB or SD save option.",
+        "effect": "Selects one of two application-defined TimerSaveOptionsEnum destinations; it does not accept a path or filename.",
+        "id": "fixed-media-choice",
+        "provenance": {
+          "class_function": "TimerSaveButtonContainer listeners and TimerSaveOptionsEnum.<clinit>",
+          "evidence_binding_ids": [
+            "viper-ui-usb",
+            "viper-ui-sd",
+            "jeep-ui-usb",
+            "jeep-ui-sd",
+            "lseries-ui-usb",
+            "lseries-ui-sd",
+            "viper-destinations",
+            "jeep-destinations",
+            "lseries-destinations"
+          ],
+          "invocation_dataflow": [
+            "button -> fixed enum",
+            "enum -> configured device path"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      },
+      {
+        "condition": "new File(selected device path).exists() returns true.",
+        "effect": "Allows directory and file creation to be attempted; no writable or free-space precheck is present in TimerSavingData.",
+        "id": "device-path-exists",
+        "provenance": {
+          "class_function": "TimerSavingData.saveDataTo/isDeviceAvailable",
+          "evidence_binding_ids": [
+            "viper-save",
+            "jeep-save",
+            "lseries-save"
+          ],
+          "invocation_dataflow": [
+            "enum device path -> File.exists -> save attempt"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        }
+      }
+    ],
+    "provenance": {
+      "class_function": "Performance Pages producer call chain",
+      "evidence_binding_ids": [
+        "viper-ui-save",
+        "viper-export-dispatch",
+        "viper-filename",
+        "viper-html",
+        "viper-save",
+        "viper-create",
+        "viper-write",
+        "viper-suffix",
+        "viper-destinations",
+        "jeep-ui-save",
+        "jeep-export-dispatch",
+        "jeep-filename",
+        "jeep-html",
+        "jeep-save",
+        "jeep-create",
+        "jeep-write",
+        "jeep-suffix",
+        "jeep-destinations",
+        "lseries-ui-save",
+        "lseries-export-dispatch",
+        "lseries-filename",
+        "lseries-html",
+        "lseries-save",
+        "lseries-create",
+        "lseries-write",
+        "lseries-suffix",
+        "lseries-destinations"
+      ],
+      "invocation_dataflow": [
+        "Save UI -> fixed media enum -> fixed-template generation -> TimerSavingData -> java.io file writer"
+      ],
+      "label": "PROVED",
+      "source_ids": [
+        "kim19-viper-jar",
+        "kim19-jeep-jar",
+        "kim19-lseries-jar"
+      ],
+      "uncertainty": "Static reachability is proved after the Xlet and media gates; execution on a target was not performed."
+    },
+    "status": "statically_gated"
+  },
+  "failure_signatures": [
+    {
+      "caller": "TimerSavingData.saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "device-path-absent",
+      "inferred_meaning": "Selected removable-media root is unavailable; status 23 does not distinguish this branch from FileNotFoundException.",
+      "packaged_string": "Viper/Jeep en_US: Cannot Save Run / [type] unava|lable.; L-Series en_US: Cannot Save Run / [type] unavailable.",
+      "partial_file_state": "No report file is created by this invocation.",
+      "provenance": {
+        "class_function": "TimerSavingData.saveDataTo and common timer setTextWithSaveStatus",
+        "evidence_binding_ids": [
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "File.exists false -> 23 -> cannotSave/NotFound resources"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_NotFound",
+      "resulting_ui": "Requests the localized cannot-save status and unavailable information with [type] replaced by the localized media name; the old packaged information string retains its vertical-bar character in this method.",
+      "retry": "No automatic retry; the user can dismiss with OK and invoke Save again.",
+      "trigger": "The selected enum device path fails File.exists; saveDataTo returns 23."
+    },
+    {
+      "caller": "TimerSavingData.updateHTML/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "file-open-not-found",
+      "inferred_meaning": "The packaged UI conflates missing media with a lower file-open failure.",
+      "packaged_string": "Viper/Jeep en_US: Cannot Save Run / [type] unava|lable.; L-Series en_US: Cannot Save Run / [type] unavailable.",
+      "partial_file_state": "The preceding createNewFile can already have created an empty file before the open failure.",
+      "provenance": {
+        "class_function": "TimerSavingData.createUpdateDownloadFile/updateHTML/saveDataTo",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-write",
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-create",
+          "jeep-write",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-create",
+          "lseries-write",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "createNewFile true -> FileOutputStream throws -> rethrow -> catch FileNotFoundException -> 23"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_NotFound",
+      "resulting_ui": "Requests the localized cannot-save status and unavailable information with [type] replaced by the localized media name; the old packaged information string retains its vertical-bar character in this method.",
+      "retry": "No automatic retry; manual retry is possible after OK.",
+      "trigger": "FileOutputStream construction raises FileNotFoundException; updateHTML rethrows and saveDataTo maps it to 23."
+    },
+    {
+      "caller": "TimerSavingData.saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "directory-create-false",
+      "inferred_meaning": "The UI says full, but status 24 also represents directory-creation and IOException branches; actual fullness is not established.",
+      "packaged_string": "Cannot Save Run / [type] full",
+      "partial_file_state": "No report file is created by this invocation.",
+      "provenance": {
+        "class_function": "TimerSavingData.saveDataTo and common timer setTextWithSaveStatus",
+        "evidence_binding_ids": [
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "mkdir false -> 24 -> cannotSave/full resources"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_full",
+      "resulting_ui": "Localized cannot-save status and [type] full information.",
+      "retry": "No automatic retry; manual retry is possible after OK.",
+      "trigger": "The timersResult directory is absent and File.mkdir returns false; saveDataTo returns 24."
+    },
+    {
+      "caller": "TimerSavingData.createUpdateDownloadFile/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "final-file-create-ioexception",
+      "inferred_meaning": "The packaged full message does not establish that capacity exhaustion caused the final-file creation failure.",
+      "packaged_string": "Cannot Save Run / [type] full",
+      "partial_file_state": "No successful create result is returned; exact filesystem residue from the failed create operation is platform-dependent and UNKNOWN.",
+      "provenance": {
+        "class_function": "TimerSavingData.createUpdateDownloadFile/saveDataTo",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-create",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-create",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "File.createNewFile IOException -> catch IOException -> 24 -> cannotSave/full resources"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_full",
+      "resulting_ui": "Same localized cannot-save/full status as directory-creation and write/flush failures.",
+      "retry": "No automatic retry; manual retry is possible after OK.",
+      "trigger": "File.createNewFile raises IOException while attempting the generated final .html path; saveDataTo maps it to 24."
+    },
+    {
+      "caller": "TimerSavingData.updateHTML/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "write-or-flush-ioexception",
+      "inferred_meaning": "The packaged full message is broader than storage-full evidence and can represent a lower write/flush failure.",
+      "packaged_string": "Cannot Save Run / [type] full",
+      "partial_file_state": "An empty, truncated, or partially written .html file can remain; no rollback or delete is recovered.",
+      "provenance": {
+        "class_function": "TimerSavingData.updateHTML/saveDataTo",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-write",
+          "viper-save",
+          "viper-save-status-ui",
+          "jeep-create",
+          "jeep-write",
+          "jeep-save",
+          "jeep-save-status-ui",
+          "lseries-create",
+          "lseries-write",
+          "lseries-save",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "Writer.write/flush IOException -> rethrow -> catch IOException -> 24"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_error_cannotSave + timer_mes_info_full",
+      "resulting_ui": "Same localized cannot-save/full status as a directory-creation failure.",
+      "retry": "No automatic retry; manual retry is possible after OK.",
+      "trigger": "Writer.write or Writer.flush raises IOException; updateHTML rethrows and saveDataTo maps it to 24."
+    },
+    {
+      "caller": "TimerSavingData.updateHTML/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "stream-close-ioexception-suppressed",
+      "inferred_meaning": "Close-only IOException is deliberately suppressed; open, write, and flush failures are rethrown instead.",
+      "packaged_string": "SAVE SUCCESSFUL",
+      "partial_file_state": "The file was created and write/flush completed on the normal-close branch, but final media state is not statically guaranteed after close failure.",
+      "provenance": {
+        "class_function": "TimerSavingData.updateHTML",
+        "evidence_binding_ids": [
+          "viper-write",
+          "viper-save-status-ui",
+          "jeep-write",
+          "jeep-save-status-ui",
+          "lseries-write",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "write + flush -> FileOutputStream.close IOException -> log only -> status 13"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_succeed",
+      "resulting_ui": "On the normal write/flush branch, saveDataTo returns 13 and displays success despite the logged close failure. Cleanup-close errors preserve the original 23/24 failure mapping.",
+      "retry": "No retry is requested; user may manually export again.",
+      "trigger": "FileOutputStream.close raises IOException after the normal Writer.write and Writer.flush sequence; updateHTML logs the close error and suppresses it. A cleanup-close error likewise does not replace an already pending open/write/flush failure."
+    },
+    {
+      "caller": "TimerSavingData.createUpdateDownloadFile/saveDataTo -> common timer setTextWithSaveStatus",
+      "id": "existing-name-false-success",
+      "inferred_meaning": "Name collision is reported as successful export even though this invocation writes nothing.",
+      "packaged_string": "SAVE SUCCESSFUL",
+      "partial_file_state": "The pre-existing file remains untouched; no new report bytes are written.",
+      "provenance": {
+        "class_function": "TimerSavingData.createUpdateDownloadFile/saveDataTo",
+        "evidence_binding_ids": [
+          "viper-create",
+          "viper-save-status-ui",
+          "jeep-create",
+          "jeep-save-status-ui",
+          "lseries-create",
+          "lseries-save-status-ui"
+        ],
+        "invocation_dataflow": [
+          "createNewFile false -> skip updateHTML -> return File -> status 13"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "resource_id": "timer_mes_succeed",
+      "resulting_ui": "updateHTML is skipped, yet saveDataTo returns 13 and the success status is displayed.",
+      "retry": "No automatic alternate name or retry; a repeated attempt at the same generated name repeats the false-success path.",
+      "trigger": "File.createNewFile returns false because the generated final path already exists."
+    }
+  ],
+  "filename_dataflow": {
+    "classification": "system_derived",
+    "collision_behavior": "If File.createNewFile returns false because the name already exists, updateHTML is skipped but the File is returned and saveDataTo reports status 13 (success).",
+    "destination_source": "User selects one of two fixed media enums; the enum supplies a packaged device-root configuration and getSaveFolder supplies the fixed timersResult name.",
+    "overwrite_behavior": "Existing files are not overwritten, incremented, or replaced; no temporary filename or atomic rename is used.",
+    "path_components": [
+      {
+        "component": "Selected media device root: packaged USB or SD configuration value.",
+        "control": "user-controlled",
+        "order": 1,
+        "provenance": {
+          "class_function": "TimerSaveOptionsEnum.<clinit>",
+          "evidence_binding_ids": [
+            "viper-destinations",
+            "jeep-destinations",
+            "lseries-destinations"
+          ],
+          "invocation_dataflow": [
+            "fixed USB/SD button -> fixed enum -> packaged path"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "transforms": []
+      },
+      {
+        "component": "timersResult directory name from embedded resource-key properties.",
+        "control": "fixed",
+        "order": 2,
+        "provenance": {
+          "class_function": "TimerSavingData.saveDataTo",
+          "evidence_binding_ids": [
+            "viper-save",
+            "jeep-save",
+            "lseries-save"
+          ],
+          "invocation_dataflow": [
+            "getSaveFolder -> File(devicePath, folder)"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "transforms": [
+          "Joined as child of the selected device root by java.io.File(String,String)."
+        ]
+      },
+      {
+        "component": "Localized timer-state label selected from the finite packaged Best, Last, and Current/Recent timer states.",
+        "control": "user-controlled",
+        "order": 3,
+        "provenance": {
+          "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+          "evidence_binding_ids": [
+            "viper-filename",
+            "jeep-filename",
+            "lseries-filename"
+          ],
+          "invocation_dataflow": [
+            "fixed timer state -> packaged localized label -> | to i replacement"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "transforms": [
+          "Prefix resource lookup key with timer_state_.",
+          "Replace every vertical bar with lowercase i."
+        ]
+      },
+      {
+        "component": "Literal underscore separator.",
+        "control": "fixed",
+        "order": 4,
+        "provenance": {
+          "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+          "evidence_binding_ids": [
+            "viper-filename",
+            "jeep-filename",
+            "lseries-filename"
+          ],
+          "invocation_dataflow": [
+            "append underscore"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "transforms": []
+      },
+      {
+        "component": "Export Date formatted with ddMMMMMyyyy_hhmma using the platform current locale, with default-locale fallback on PlatformException.",
+        "control": "platform-controlled",
+        "order": 5,
+        "provenance": {
+          "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+          "evidence_binding_ids": [
+            "viper-filename",
+            "jeep-filename",
+            "lseries-filename"
+          ],
+          "invocation_dataflow": [
+            "same export Date + platform locale -> formatted timestamp"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "transforms": [
+          "SimpleDateFormat locale-dependent formatting."
+        ]
+      },
+      {
+        "component": "Literal underscore separator.",
+        "control": "fixed",
+        "order": 6,
+        "provenance": {
+          "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+          "evidence_binding_ids": [
+            "viper-filename",
+            "jeep-filename",
+            "lseries-filename"
+          ],
+          "invocation_dataflow": [
+            "append underscore"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "transforms": []
+      },
+      {
+        "component": "Vehicle-line display name: packaged mapping in old variants and fixed VehicleLineEnum display name in L-Series.",
+        "control": "vehicle-controlled",
+        "order": 7,
+        "provenance": {
+          "class_function": "CommonTimerViewContainer.getFileName/CommonTimerView.toString",
+          "evidence_binding_ids": [
+            "viper-filename",
+            "jeep-filename",
+            "lseries-filename"
+          ],
+          "invocation_dataflow": [
+            "vehicle-line state -> fixed display-name lookup -> append"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "transforms": []
+      },
+      {
+        "component": "Mandatory literal .html suffix.",
+        "control": "fixed",
+        "order": 8,
+        "provenance": {
+          "class_function": "TimerSavingData.createUpdateDownloadFile/getSuffix",
+          "evidence_binding_ids": [
+            "viper-create",
+            "viper-suffix",
+            "jeep-create",
+            "jeep-suffix",
+            "lseries-create",
+            "lseries-suffix"
+          ],
+          "invocation_dataflow": [
+            "generated basename + .html -> final File"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "transforms": [
+          "Appended after basename construction by TimerSavingData."
+        ]
+      }
+    ],
+    "provenance": {
+      "class_function": "Common timer filename methods and TimerSavingData.createUpdateDownloadFile/getSuffix",
+      "evidence_binding_ids": [
+        "viper-filename",
+        "viper-create",
+        "viper-suffix",
+        "jeep-filename",
+        "jeep-create",
+        "jeep-suffix",
+        "lseries-filename",
+        "lseries-create",
+        "lseries-suffix"
+      ],
+      "invocation_dataflow": [
+        "finite timer state + locale date + vehicle line -> basename",
+        "fixed folder + basename + .html -> File"
+      ],
+      "label": "PROVED",
+      "source_ids": [
+        "kim19-viper-jar",
+        "kim19-jeep-jar",
+        "kim19-lseries-jar"
+      ],
+      "uncertainty": "The implementation contains no containment defense. A universal no-escape claim remains UNKNOWN because platform locale month/AM-PM output is a runtime dependency not fully enumerated in the recovered JARs."
+    },
+    "sanitization": [
+      "Only the localized timer-state component receives a vertical-bar-to-lowercase-i replacement.",
+      "No separator removal, invalid-character rejection, length limit, canonicalization, or post-join containment check was recovered.",
+      "All 13 packaged L-Series timer-state locale values and all fixed vehicle display names were reviewed and contain no slash or backslash; no ordinary text-entry field reaches the basename."
+    ]
+  },
+  "html_generation": {
+    "classification": "fixed_template_runtime_values",
+    "fields": [
+      {
+        "control": "fixed",
+        "encoding_or_escaping": "Literal tags; no CSS, script, link, form, external resource, or newline is emitted.",
+        "id": "document-structure",
+        "output_context": "HTML tags and table structure",
+        "provenance": {
+          "class_function": "CommonTimerViewContainer/CommonTimerView.convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html"
+          ],
+          "invocation_dataflow": [
+            "fixed literals -> StringBuilder -> one HTML String"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "String literals in convertDataToHtml"
+      },
+      {
+        "control": "platform-controlled",
+        "encoding_or_escaping": "No HTML entity escaping; final whole-document vertical-bar-to-lowercase-i substitution.",
+        "id": "document-title",
+        "output_context": "title element text",
+        "provenance": {
+          "class_function": "CommonTimerViewContainer/CommonTimerView.convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html"
+          ],
+          "invocation_dataflow": [
+            "fixed resource ID -> localized string -> title text"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "The L-Series packaged localization resource does not contain timer_save_file_title; external UIManager behavior for the empty default is UNKNOWN."
+        },
+        "value_source": "Packaged timer_save_file_title localization selected by platform locale"
+      },
+      {
+        "control": "platform-controlled",
+        "encoding_or_escaping": "Date formatter output is appended without HTML entity escaping.",
+        "id": "export-time",
+        "output_context": "h2 text before the separator",
+        "provenance": {
+          "class_function": "updateDialogAndButtons and convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-export-dispatch",
+            "viper-html",
+            "jeep-export-dispatch",
+            "jeep-html",
+            "lseries-export-dispatch",
+            "lseries-html"
+          ],
+          "invocation_dataflow": [
+            "one Date -> default-locale formatter -> h2 text"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Same Date object used for the basename, formatted with MM/d/yy h:mm a using SimpleDateFormat default locale"
+      },
+      {
+        "control": "platform-controlled",
+        "encoding_or_escaping": "Appended without HTML entity escaping.",
+        "id": "timezone",
+        "output_context": "h2 text after literal double hyphen",
+        "provenance": {
+          "class_function": "CommonTimerViewContainer/CommonTimerView.convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html"
+          ],
+          "invocation_dataflow": [
+            "formatter timezone display name -> substring(3) -> append after UTC"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "UTC prefix plus default TimeZone display name substring beginning at index 3"
+      },
+      {
+        "control": "platform-controlled",
+        "encoding_or_escaping": "No HTML entity escaping; the completed document receives only vertical-bar-to-lowercase-i replacement.",
+        "id": "localized-labels-and-units",
+        "output_context": "table header, row-label, and unit text cells",
+        "provenance": {
+          "class_function": "CommonTimerViewContainer/CommonTimerView.convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html"
+          ],
+          "invocation_dataflow": [
+            "fixed resource IDs and localized label text -> table text cells"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Platform-locale-selected packaged strings for timer column; reaction; 0-60; 0-100; eighth-mile time and speed; quarter-mile time and speed; 60-foot time; braking distance and speed; seconds, distance, and speed units. Viper/Jeep omit reaction, 0-100, and 60-foot."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Numeric/placeholder display formatting, then unescaped HTML text.",
+        "id": "reaction-time-lseries",
+        "output_context": "L-Series reaction-time value cell",
+        "provenance": {
+          "class_function": "CommonTimerView.setReactionTime/convertDataToHtml",
+          "evidence_binding_ids": [
+            "lseries-html",
+            "lseries-setReactionTime"
+          ],
+          "invocation_dataflow": [
+            "timer model getter -> numeric transformation/label -> reaction table cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "CommonTimerModel.getReactionTimeValue -> setReactionTime; subtracts 1.26 when raw value is below 2.53, formats with DecimalFormat #0.00, otherwise displays --; convertDataToHtml reads _reactionTimeValueLabel."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+        "id": "zero-to-sixty",
+        "output_context": "Viper/Jeep and L-Series 0-60 value cell",
+        "provenance": {
+          "class_function": "Common timer 0-60 setters and convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html",
+            "viper-setZeroToSixtyValue",
+            "jeep-setZeroToSixtyValue",
+            "lseries-setZeroToSixtyValue"
+          ],
+          "invocation_dataflow": [
+            "timer model/listener -> value label -> 0-60 table cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Old view listeners call CommonTimerViewContainer.setZeroToSixtyValue(String); L-Series CommonTimerModel.getZeroToSixtyValue -> setZeroToSixtyValue, which retains values above 0 and below 25.3 or displays --; HTML reads the corresponding value label."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+        "id": "zero-to-one-hundred-lseries",
+        "output_context": "L-Series 0-100 value cell",
+        "provenance": {
+          "class_function": "CommonTimerView.setZeroToHunderedValue/convertDataToHtml",
+          "evidence_binding_ids": [
+            "lseries-html",
+            "lseries-setZeroToHunderedValue"
+          ],
+          "invocation_dataflow": [
+            "timer model getter -> value label -> 0-100 table cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "CommonTimerModel.getZeroToHundredValue -> setZeroToHunderedValue; retains values above 0 and below 25.3 or displays --; HTML reads _zeroToHundredValueLabel."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+        "id": "eighth-mile-time",
+        "output_context": "Viper/Jeep and L-Series eighth-mile elapsed-time value cell",
+        "provenance": {
+          "class_function": "Common timer eighth-mile setters and convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html",
+            "viper-setEighthEValue",
+            "jeep-setEighthEValue",
+            "lseries-setEigthValue"
+          ],
+          "invocation_dataflow": [
+            "timer model/listener -> elapsed label -> eighth-mile time cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Old view listeners call setEighthEValue(String); L-Series CommonTimerModel.getEighthTimeValue -> setEigthValue, which retains values above 0 and below 25.3 or displays --; HTML reads the elapsed-time value label."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application integer range/placeholder formatting, then unescaped HTML text.",
+        "id": "eighth-mile-speed",
+        "output_context": "Viper/Jeep and L-Series eighth-mile speed value cell",
+        "provenance": {
+          "class_function": "Common timer eighth-mile setters and convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html",
+            "viper-setEighthMphValue",
+            "jeep-setEighthMphValue",
+            "lseries-setEigthValue"
+          ],
+          "invocation_dataflow": [
+            "timer model/listener -> speed label -> eighth-mile speed cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Old view listeners call setEighthMphValue(String); L-Series CommonTimerModel.getEighthSpeedValue -> setEigthValue, parses an integer and retains values above 0 and below 253 or displays --; HTML reads the speed value label."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+        "id": "quarter-mile-time",
+        "output_context": "Viper/Jeep and L-Series quarter-mile elapsed-time value cell",
+        "provenance": {
+          "class_function": "Common timer quarter-mile setters and convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html",
+            "viper-setQuaterEtValue",
+            "jeep-setQuaterEtValue",
+            "lseries-setQuarterValue"
+          ],
+          "invocation_dataflow": [
+            "timer model/listener -> elapsed label -> quarter-mile time cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Old view listeners call setQuaterEtValue(String); L-Series CommonTimerModel.getQuarterTimeValue -> setQuarterValue, which retains values above 0 and below 25.3 or displays --; HTML reads the elapsed-time value label."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application integer range/placeholder formatting, then unescaped HTML text.",
+        "id": "quarter-mile-speed",
+        "output_context": "Viper/Jeep and L-Series quarter-mile speed value cell",
+        "provenance": {
+          "class_function": "Common timer quarter-mile setters and convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html",
+            "viper-setQuaterMphValue",
+            "jeep-setQuaterMphValue",
+            "lseries-setQuarterValue"
+          ],
+          "invocation_dataflow": [
+            "timer model/listener -> speed label -> quarter-mile speed cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Old view listeners call setQuaterMphValue(String); L-Series CommonTimerModel.getQuarterSpeedValue -> setQuarterValue, parses an integer and retains values above 0 and below 253 or displays --; HTML reads the speed value label."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+        "id": "sixty-foot-time-lseries",
+        "output_context": "Conditional L-Series 60-foot elapsed-time value cell",
+        "provenance": {
+          "class_function": "CommonTimerView.setSixtyFeetValue/convertDataToHtml",
+          "evidence_binding_ids": [
+            "lseries-html",
+            "lseries-setSixtyFeetValue"
+          ],
+          "invocation_dataflow": [
+            "timer model getter and feature flag -> value label/row gate -> 60-foot cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "CommonTimerModel.getSixtyFeetValue -> setSixtyFeetValue; retains values above 0 and at most 5.0 or displays --; HTML includes the fixed row only when _is60ftTimerAvailable is true."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application unit/range/placeholder formatting, then unescaped HTML text.",
+        "id": "braking-distance",
+        "output_context": "Conditional Viper/Jeep and L-Series braking-distance value cell",
+        "provenance": {
+          "class_function": "Common timer braking setters and convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html",
+            "viper-setBrakeDistValue",
+            "jeep-setBrakeDistValue",
+            "lseries-setBrakeDistance"
+          ],
+          "invocation_dataflow": [
+            "timer model/listener + speed-unit state -> distance label/row gate -> braking-distance cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Old view listeners call setBrakeDistValue(String); L-Series CommonTimerModel.getBrakeDistValue -> setBrakeDistance, parses an integer, range-checks 0..252, and multiplies by 3 for the MPH unit branch; the row exists only when its label is available."
+      },
+      {
+        "control": "vehicle-controlled",
+        "encoding_or_escaping": "Application integer range/placeholder formatting, then unescaped HTML text.",
+        "id": "braking-speed",
+        "output_context": "Conditional Viper/Jeep and L-Series braking-speed value cell",
+        "provenance": {
+          "class_function": "Common timer braking setters and convertDataToHtml",
+          "evidence_binding_ids": [
+            "viper-html",
+            "jeep-html",
+            "lseries-html",
+            "viper-setBrakeSpeedValue",
+            "jeep-setBrakeSpeedValue",
+            "lseries-setBrakeDistance"
+          ],
+          "invocation_dataflow": [
+            "timer model/listener -> speed label/row gate -> braking-speed cell"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Old view listeners call setBrakeSpeedValue(String); L-Series CommonTimerModel.getBrakeSpeedValue -> setBrakeDistance, parses an integer and retains values above 0 and below 253 or displays --; the row exists only when the braking label is available."
+      },
+      {
+        "control": "fixed",
+        "encoding_or_escaping": "OutputStreamWriter encoding name UTF8; writer.flush then underlying FileOutputStream.close; no BOM or newline-normalization call is present.",
+        "id": "output-encoding",
+        "output_context": "file bytes",
+        "provenance": {
+          "class_function": "TimerSavingData.updateHTML",
+          "evidence_binding_ids": [
+            "viper-write",
+            "jeep-write",
+            "lseries-write"
+          ],
+          "invocation_dataflow": [
+            "HTML String -> OutputStreamWriter(UTF8) -> write -> flush -> close"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim19-viper-jar",
+            "kim19-jeep-jar",
+            "kim19-lseries-jar"
+          ],
+          "uncertainty": "None within the recovered static artifacts."
+        },
+        "value_source": "Complete generated Java String"
+      }
+    ],
+    "provenance": {
+      "class_function": "Common timer convertDataToHtml and TimerSavingData.updateHTML",
+      "evidence_binding_ids": [
+        "viper-html",
+        "viper-write",
+        "jeep-html",
+        "jeep-write",
+        "lseries-html",
+        "lseries-write"
+      ],
+      "invocation_dataflow": [
+        "fixed template + localized labels + timer values + time -> String",
+        "String -> UTF8 writer -> file"
+      ],
+      "label": "PROVED",
+      "source_ids": [
+        "kim19-viper-jar",
+        "kim19-jeep-jar",
+        "kim19-lseries-jar"
+      ],
+      "uncertainty": "No executable behavior is inferred from the presence of HTML."
+    },
+    "template_owner": "Performance Pages common timer view; a fixed concatenated HTML table template is passed as one String to TimerSavingData."
+  },
+  "schema_version": 1,
+  "scope": "Static producer-side evidence for the signed KIM19 Performance Pages timer export; excludes storage-service and consumer conclusions.",
+  "source_artifacts": [
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "description": "Recovered KIM19 Jeep Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-jeep-jar",
+      "sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/xlet.properties",
+      "description": "Recovered KIM19 Jeep Performance Pages Xlet identity and activation configuration.",
+      "id": "kim19-jeep-xlet-properties",
+      "sha256": "7e906bf83fad01f2dec412b8ec79b51d34e96af979bae5e7289afc6d9c21c9b8"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "description": "Recovered KIM19 L-Series Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-lseries-jar",
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/xlet.properties",
+      "description": "Recovered KIM19 L-Series Performance Pages Xlet identity and activation configuration.",
+      "id": "kim19-lseries-xlet-properties",
+      "sha256": "e970a65dd160828a505d1695d926d27932bb598b75a656f6fb3014de8cc1d619"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "description": "Recovered KIM19 Viper Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-viper-jar",
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/xlet.properties",
+      "description": "Recovered KIM19 Viper Performance Pages Xlet identity and activation configuration.",
+      "id": "kim19-viper-xlet-properties",
+      "sha256": "31b87d65595efefc4bb15837b6cbeeb599212f115350b84a3c2d82fa40d4ebd1"
+    }
+  ],
+  "unresolved_gates": [
+    {
+      "gate": "Complete character set produced by the platform's SimpleDateFormat month and AM/PM data for every runtime locale.",
+      "id": "runtime-locale-path-alphabet",
+      "provenance": {
+        "class_function": "Common timer filename method",
+        "evidence_binding_ids": [
+          "viper-filename",
+          "jeep-filename",
+          "lseries-filename"
+        ],
+        "invocation_dataflow": [
+          "platform current/default locale -> ddMMMMMyyyy_hhmma output -> basename"
+        ],
+        "label": "UNKNOWN",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "The packaged timer-state and vehicle strings were bounded, but the platform locale tables are outside these JARs."
+      },
+      "required_observation": "A benign platform-runtime inventory or documentation confirming the actual locale-data outputs; no crafted filename or target write is required."
+    },
+    {
+      "gate": "UIManager behavior when timer_save_file_title is absent from the packaged L-Series localization resource and the caller supplies an empty default.",
+      "id": "lseries-missing-title-resource",
+      "provenance": {
+        "class_function": "CommonTimerView.convertDataToHtml and GSkillsResourceManager",
+        "evidence_binding_ids": [
+          "lseries-html"
+        ],
+        "invocation_dataflow": [
+          "missing fixed resource key -> UIManager.localize(key, empty default) -> title text"
+        ],
+        "label": "UNKNOWN",
+        "source_ids": [
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "The title value cannot be fixed from the L-Series JAR alone."
+      },
+      "required_observation": "Static recovery of the exact external UIManager implementation or harmless runtime observation of an exported L-Series title."
+    },
+    {
+      "gate": "Final on-media file state if media is removed or a close-only IOException occurs after a successful write and flush.",
+      "id": "runtime-removal-and-close-state",
+      "provenance": {
+        "class_function": "TimerSavingData.updateHTML",
+        "evidence_binding_ids": [
+          "viper-write",
+          "jeep-write",
+          "lseries-write"
+        ],
+        "invocation_dataflow": [
+          "write/flush succeeds -> close fails or media changes -> logged close error"
+        ],
+        "label": "TARGET OBSERVATION REQUIRED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "The code suppresses close errors and cannot prove persistence after hardware/runtime failure."
+      },
+      "required_observation": "Harmless target observation with ordinary media handling; no crafted content is required."
+    }
+  ],
+  "variants": [
+    {
+      "display_name": "SRT Performance Pages",
+      "export_role": "Local USB/SD fixed-template timer-report producer; old-generation implementation byte-identical to Viper for every class file.",
+      "id": "jeep-01.57.01",
+      "package_id": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+      "provenance": {
+        "class_function": "com.sprint.gskills.xlet.GSkillsXlet and producer classes",
+        "evidence_binding_ids": [
+          "jeep-export-dispatch",
+          "jeep-filename",
+          "jeep-html",
+          "jeep-save"
+        ],
+        "invocation_dataflow": [
+          "xlet.showConditions requires Performance Pages present and vehicle line 1",
+          "Save UI reaches TimerSavingData.saveDataTo"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-jeep-xlet-properties",
+          "kim19-jeep-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      }
+    },
+    {
+      "display_name": "Performance Pages",
+      "export_role": "Local USB/SD fixed-template timer-report producer; redesigned timer model adds reaction, 0-100, and conditional 60-foot rows.",
+      "id": "lseries-02.01.01",
+      "package_id": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+      "provenance": {
+        "class_function": "com.sprint.gskills.xlet.GSkillsXlet and producer classes",
+        "evidence_binding_ids": [
+          "lseries-export-dispatch",
+          "lseries-filename",
+          "lseries-html",
+          "lseries-save"
+        ],
+        "invocation_dataflow": [
+          "xlet.showConditions requires Performance Pages present and vehicle line 44, 41, or 2",
+          "Save UI reaches TimerSavingData.saveDataTo"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-lseries-xlet-properties",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      }
+    },
+    {
+      "display_name": "SRT Performance Pages",
+      "export_role": "Local USB/SD fixed-template timer-report producer; old-generation implementation byte-identical to Jeep for every class file.",
+      "id": "viper-01.23.01",
+      "package_id": "52c79381-6719-11e1-b86c-0800200c9a66",
+      "provenance": {
+        "class_function": "com.sprint.gskills.xlet.GSkillsXlet and producer classes",
+        "evidence_binding_ids": [
+          "viper-export-dispatch",
+          "viper-filename",
+          "viper-html",
+          "viper-save"
+        ],
+        "invocation_dataflow": [
+          "xlet.showConditions requires Performance Pages present and vehicle line 43",
+          "Save UI reaches TimerSavingData.saveDataTo"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-xlet-properties",
+          "kim19-viper-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      }
+    }
+  ]
+}

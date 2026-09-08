@@ -1,0 +1,474 @@
+{
+  "classification": "fixed_template_runtime_values",
+  "evidence_labels": [
+    "PROVED",
+    "INFERRED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "fields": [
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application unit/range/placeholder formatting, then unescaped HTML text.",
+      "id": "braking-distance",
+      "output_context": "Conditional Viper/Jeep and L-Series braking-distance value cell",
+      "provenance": {
+        "class_function": "Common timer braking setters and convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html",
+          "viper-setBrakeDistValue",
+          "jeep-setBrakeDistValue",
+          "lseries-setBrakeDistance"
+        ],
+        "invocation_dataflow": [
+          "timer model/listener + speed-unit state -> distance label/row gate -> braking-distance cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Old view listeners call setBrakeDistValue(String); L-Series CommonTimerModel.getBrakeDistValue -> setBrakeDistance, parses an integer, range-checks 0..252, and multiplies by 3 for the MPH unit branch; the row exists only when its label is available."
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application integer range/placeholder formatting, then unescaped HTML text.",
+      "id": "braking-speed",
+      "output_context": "Conditional Viper/Jeep and L-Series braking-speed value cell",
+      "provenance": {
+        "class_function": "Common timer braking setters and convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html",
+          "viper-setBrakeSpeedValue",
+          "jeep-setBrakeSpeedValue",
+          "lseries-setBrakeDistance"
+        ],
+        "invocation_dataflow": [
+          "timer model/listener -> speed label/row gate -> braking-speed cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Old view listeners call setBrakeSpeedValue(String); L-Series CommonTimerModel.getBrakeSpeedValue -> setBrakeDistance, parses an integer and retains values above 0 and below 253 or displays --; the row exists only when the braking label is available."
+    },
+    {
+      "control": "fixed",
+      "encoding_or_escaping": "Literal tags; no CSS, script, link, form, external resource, or newline is emitted.",
+      "id": "document-structure",
+      "output_context": "HTML tags and table structure",
+      "provenance": {
+        "class_function": "CommonTimerViewContainer/CommonTimerView.convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html"
+        ],
+        "invocation_dataflow": [
+          "fixed literals -> StringBuilder -> one HTML String"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "String literals in convertDataToHtml"
+    },
+    {
+      "control": "platform-controlled",
+      "encoding_or_escaping": "No HTML entity escaping; final whole-document vertical-bar-to-lowercase-i substitution.",
+      "id": "document-title",
+      "output_context": "title element text",
+      "provenance": {
+        "class_function": "CommonTimerViewContainer/CommonTimerView.convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html"
+        ],
+        "invocation_dataflow": [
+          "fixed resource ID -> localized string -> title text"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "The L-Series packaged localization resource does not contain timer_save_file_title; external UIManager behavior for the empty default is UNKNOWN."
+      },
+      "value_source": "Packaged timer_save_file_title localization selected by platform locale"
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application integer range/placeholder formatting, then unescaped HTML text.",
+      "id": "eighth-mile-speed",
+      "output_context": "Viper/Jeep and L-Series eighth-mile speed value cell",
+      "provenance": {
+        "class_function": "Common timer eighth-mile setters and convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html",
+          "viper-setEighthMphValue",
+          "jeep-setEighthMphValue",
+          "lseries-setEigthValue"
+        ],
+        "invocation_dataflow": [
+          "timer model/listener -> speed label -> eighth-mile speed cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Old view listeners call setEighthMphValue(String); L-Series CommonTimerModel.getEighthSpeedValue -> setEigthValue, parses an integer and retains values above 0 and below 253 or displays --; HTML reads the speed value label."
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+      "id": "eighth-mile-time",
+      "output_context": "Viper/Jeep and L-Series eighth-mile elapsed-time value cell",
+      "provenance": {
+        "class_function": "Common timer eighth-mile setters and convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html",
+          "viper-setEighthEValue",
+          "jeep-setEighthEValue",
+          "lseries-setEigthValue"
+        ],
+        "invocation_dataflow": [
+          "timer model/listener -> elapsed label -> eighth-mile time cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Old view listeners call setEighthEValue(String); L-Series CommonTimerModel.getEighthTimeValue -> setEigthValue, which retains values above 0 and below 25.3 or displays --; HTML reads the elapsed-time value label."
+    },
+    {
+      "control": "platform-controlled",
+      "encoding_or_escaping": "Date formatter output is appended without HTML entity escaping.",
+      "id": "export-time",
+      "output_context": "h2 text before the separator",
+      "provenance": {
+        "class_function": "updateDialogAndButtons and convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-export-dispatch",
+          "viper-html",
+          "jeep-export-dispatch",
+          "jeep-html",
+          "lseries-export-dispatch",
+          "lseries-html"
+        ],
+        "invocation_dataflow": [
+          "one Date -> default-locale formatter -> h2 text"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Same Date object used for the basename, formatted with MM/d/yy h:mm a using SimpleDateFormat default locale"
+    },
+    {
+      "control": "platform-controlled",
+      "encoding_or_escaping": "No HTML entity escaping; the completed document receives only vertical-bar-to-lowercase-i replacement.",
+      "id": "localized-labels-and-units",
+      "output_context": "table header, row-label, and unit text cells",
+      "provenance": {
+        "class_function": "CommonTimerViewContainer/CommonTimerView.convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html"
+        ],
+        "invocation_dataflow": [
+          "fixed resource IDs and localized label text -> table text cells"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Platform-locale-selected packaged strings for timer column; reaction; 0-60; 0-100; eighth-mile time and speed; quarter-mile time and speed; 60-foot time; braking distance and speed; seconds, distance, and speed units. Viper/Jeep omit reaction, 0-100, and 60-foot."
+    },
+    {
+      "control": "fixed",
+      "encoding_or_escaping": "OutputStreamWriter encoding name UTF8; writer.flush then underlying FileOutputStream.close; no BOM or newline-normalization call is present.",
+      "id": "output-encoding",
+      "output_context": "file bytes",
+      "provenance": {
+        "class_function": "TimerSavingData.updateHTML",
+        "evidence_binding_ids": [
+          "viper-write",
+          "jeep-write",
+          "lseries-write"
+        ],
+        "invocation_dataflow": [
+          "HTML String -> OutputStreamWriter(UTF8) -> write -> flush -> close"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Complete generated Java String"
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application integer range/placeholder formatting, then unescaped HTML text.",
+      "id": "quarter-mile-speed",
+      "output_context": "Viper/Jeep and L-Series quarter-mile speed value cell",
+      "provenance": {
+        "class_function": "Common timer quarter-mile setters and convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html",
+          "viper-setQuaterMphValue",
+          "jeep-setQuaterMphValue",
+          "lseries-setQuarterValue"
+        ],
+        "invocation_dataflow": [
+          "timer model/listener -> speed label -> quarter-mile speed cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Old view listeners call setQuaterMphValue(String); L-Series CommonTimerModel.getQuarterSpeedValue -> setQuarterValue, parses an integer and retains values above 0 and below 253 or displays --; HTML reads the speed value label."
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+      "id": "quarter-mile-time",
+      "output_context": "Viper/Jeep and L-Series quarter-mile elapsed-time value cell",
+      "provenance": {
+        "class_function": "Common timer quarter-mile setters and convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html",
+          "viper-setQuaterEtValue",
+          "jeep-setQuaterEtValue",
+          "lseries-setQuarterValue"
+        ],
+        "invocation_dataflow": [
+          "timer model/listener -> elapsed label -> quarter-mile time cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Old view listeners call setQuaterEtValue(String); L-Series CommonTimerModel.getQuarterTimeValue -> setQuarterValue, which retains values above 0 and below 25.3 or displays --; HTML reads the elapsed-time value label."
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Numeric/placeholder display formatting, then unescaped HTML text.",
+      "id": "reaction-time-lseries",
+      "output_context": "L-Series reaction-time value cell",
+      "provenance": {
+        "class_function": "CommonTimerView.setReactionTime/convertDataToHtml",
+        "evidence_binding_ids": [
+          "lseries-html",
+          "lseries-setReactionTime"
+        ],
+        "invocation_dataflow": [
+          "timer model getter -> numeric transformation/label -> reaction table cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "CommonTimerModel.getReactionTimeValue -> setReactionTime; subtracts 1.26 when raw value is below 2.53, formats with DecimalFormat #0.00, otherwise displays --; convertDataToHtml reads _reactionTimeValueLabel."
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+      "id": "sixty-foot-time-lseries",
+      "output_context": "Conditional L-Series 60-foot elapsed-time value cell",
+      "provenance": {
+        "class_function": "CommonTimerView.setSixtyFeetValue/convertDataToHtml",
+        "evidence_binding_ids": [
+          "lseries-html",
+          "lseries-setSixtyFeetValue"
+        ],
+        "invocation_dataflow": [
+          "timer model getter and feature flag -> value label/row gate -> 60-foot cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "CommonTimerModel.getSixtyFeetValue -> setSixtyFeetValue; retains values above 0 and at most 5.0 or displays --; HTML includes the fixed row only when _is60ftTimerAvailable is true."
+    },
+    {
+      "control": "platform-controlled",
+      "encoding_or_escaping": "Appended without HTML entity escaping.",
+      "id": "timezone",
+      "output_context": "h2 text after literal double hyphen",
+      "provenance": {
+        "class_function": "CommonTimerViewContainer/CommonTimerView.convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html"
+        ],
+        "invocation_dataflow": [
+          "formatter timezone display name -> substring(3) -> append after UTC"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "UTC prefix plus default TimeZone display name substring beginning at index 3"
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+      "id": "zero-to-one-hundred-lseries",
+      "output_context": "L-Series 0-100 value cell",
+      "provenance": {
+        "class_function": "CommonTimerView.setZeroToHunderedValue/convertDataToHtml",
+        "evidence_binding_ids": [
+          "lseries-html",
+          "lseries-setZeroToHunderedValue"
+        ],
+        "invocation_dataflow": [
+          "timer model getter -> value label -> 0-100 table cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "CommonTimerModel.getZeroToHundredValue -> setZeroToHunderedValue; retains values above 0 and below 25.3 or displays --; HTML reads _zeroToHundredValueLabel."
+    },
+    {
+      "control": "vehicle-controlled",
+      "encoding_or_escaping": "Application range/placeholder formatting, then unescaped HTML text.",
+      "id": "zero-to-sixty",
+      "output_context": "Viper/Jeep and L-Series 0-60 value cell",
+      "provenance": {
+        "class_function": "Common timer 0-60 setters and convertDataToHtml",
+        "evidence_binding_ids": [
+          "viper-html",
+          "jeep-html",
+          "lseries-html",
+          "viper-setZeroToSixtyValue",
+          "jeep-setZeroToSixtyValue",
+          "lseries-setZeroToSixtyValue"
+        ],
+        "invocation_dataflow": [
+          "timer model/listener -> value label -> 0-60 table cell"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim19-viper-jar",
+          "kim19-jeep-jar",
+          "kim19-lseries-jar"
+        ],
+        "uncertainty": "None within the recovered static artifacts."
+      },
+      "value_source": "Old view listeners call CommonTimerViewContainer.setZeroToSixtyValue(String); L-Series CommonTimerModel.getZeroToSixtyValue -> setZeroToSixtyValue, which retains values above 0 and below 25.3 or displays --; HTML reads the corresponding value label."
+    }
+  ],
+  "input_sha256": {
+    "producer_notes": "5acc42487cb0bff66cabec5a8a91df07edb569cb164ad1a08cec1a950f194cdc"
+  },
+  "provenance": {
+    "class_function": "Common timer convertDataToHtml and TimerSavingData.updateHTML",
+    "evidence_binding_ids": [
+      "viper-html",
+      "viper-write",
+      "jeep-html",
+      "jeep-write",
+      "lseries-html",
+      "lseries-write"
+    ],
+    "invocation_dataflow": [
+      "fixed template + localized labels + timer values + time -> String",
+      "String -> UTF8 writer -> file"
+    ],
+    "label": "PROVED",
+    "source_ids": [
+      "kim19-viper-jar",
+      "kim19-jeep-jar",
+      "kim19-lseries-jar"
+    ],
+    "uncertainty": "No executable behavior is inferred from the presence of HTML."
+  },
+  "schema_version": 1,
+  "scope": "Performance Pages fixed template and runtime HTML field dataflow.",
+  "source_artifacts": [
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "description": "Recovered KIM19 Jeep Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-jeep-jar",
+      "sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "description": "Recovered KIM19 L-Series Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-lseries-jar",
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "description": "Recovered KIM19 Viper Performance Pages JAR; application classes, embedded configuration, and localized resources.",
+      "id": "kim19-viper-jar",
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    }
+  ],
+  "template_owner": "Performance Pages common timer view; a fixed concatenated HTML table template is passed as one String to TimerSavingData."
+}

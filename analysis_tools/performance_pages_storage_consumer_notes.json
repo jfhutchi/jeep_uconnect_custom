@@ -1,0 +1,1428 @@
+{
+  "class_evidence_selections": [
+    {
+      "class_name": "com/sprint/gskills/constants/TimerSaveOptionsEnum",
+      "class_sha256": "073c6998a7233c42b7a4fb2116341cadf1caae41161cf119161fbd78368ddcb2",
+      "descriptor": "()V",
+      "id": "viper-enum-storage-paths",
+      "instruction_count": 43,
+      "method_name": "<clinit>",
+      "selected_instructions": [
+        {
+          "bci": 7,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getUSBSavePath",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 23,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSDSavePath",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        }
+      ],
+      "source_id": "kim-gskills-viper"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Lcom/sprint/gskills/constants/TimerSaveOptionsEnum;Ljava/lang/String;Ljava/lang/String;)I",
+      "id": "viper-save-data-to",
+      "instruction_count": 49,
+      "method_name": "saveDataTo",
+      "selected_instructions": [
+        {
+          "bci": 1,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getDevicePath",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/gskills/constants/TimerSaveOptionsEnum"
+        },
+        {
+          "bci": 9,
+          "descriptor": "(Ljava/lang/String;)Z",
+          "kind": "member",
+          "name": "isDeviceAvailable",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 53,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSaveFolder",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/gskills/factory/ResKeyPropertiesFactory"
+        },
+        {
+          "bci": 56,
+          "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 63,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "exists",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 71,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "mkdir",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 85,
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;",
+          "kind": "member",
+          "name": "createUpdateDownloadFile",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        }
+      ],
+      "source_id": "kim-gskills-viper"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Ljava/io/File;Ljava/lang/String;Ljava/lang/String;)Ljava/io/File;",
+      "id": "viper-create-export-file",
+      "instruction_count": 33,
+      "method_name": "createUpdateDownloadFile",
+      "selected_instructions": [
+        {
+          "bci": 8,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "mkdirs",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 24,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getAbsolutePath",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 40,
+          "descriptor": "()Ljava/lang/String;",
+          "kind": "member",
+          "name": "getSuffix",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        },
+        {
+          "bci": 49,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 56,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "createNewFile",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 66,
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "updateHTML",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/gskills/controller/savetimerrun/TimerSavingData"
+        }
+      ],
+      "source_id": "kim-gskills-viper"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+      "id": "viper-write-html",
+      "instruction_count": 78,
+      "method_name": "updateHTML",
+      "selected_instructions": [
+        {
+          "bci": 7,
+          "descriptor": "(Ljava/io/File;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/FileOutputStream"
+        },
+        {
+          "bci": 18,
+          "descriptor": "(Ljava/io/OutputStream;Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/OutputStreamWriter"
+        },
+        {
+          "bci": 26,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "write",
+          "opcode": "invokevirtual",
+          "owner": "java/io/Writer"
+        },
+        {
+          "bci": 31,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "flush",
+          "opcode": "invokevirtual",
+          "owner": "java/io/Writer"
+        },
+        {
+          "bci": 39,
+          "descriptor": "()V",
+          "kind": "member",
+          "name": "close",
+          "opcode": "invokevirtual",
+          "owner": "java/io/FileOutputStream"
+        }
+      ],
+      "source_id": "kim-gskills-viper"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "()Ljava/lang/String;",
+      "id": "viper-html-suffix",
+      "instruction_count": 2,
+      "method_name": "getSuffix",
+      "selected_instructions": [
+        {
+          "bci": 0,
+          "kind": "string",
+          "opcode": "ldc",
+          "value": ".html"
+        }
+      ],
+      "source_id": "kim-gskills-viper"
+    },
+    {
+      "class_name": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+      "descriptor": "(Ljava/lang/String;)Z",
+      "id": "viper-device-exists",
+      "instruction_count": 12,
+      "method_name": "isDeviceAvailable",
+      "selected_instructions": [
+        {
+          "bci": 5,
+          "descriptor": "(Ljava/lang/String;)V",
+          "kind": "member",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "java/io/File"
+        },
+        {
+          "bci": 10,
+          "descriptor": "()Z",
+          "kind": "member",
+          "name": "exists",
+          "opcode": "invokevirtual",
+          "owner": "java/io/File"
+        }
+      ],
+      "source_id": "kim-gskills-viper"
+    }
+  ],
+  "consumers": [
+    {
+      "application": "Performance Pages",
+      "filename_or_content_match": "Writer owns .html suffix and timersResult path; no reader match.",
+      "id": "performance-self",
+      "read_behavior": "No reopen or local file reader was found in the selected export chain.",
+      "runtime_reachability": {
+        "provenance": {
+          "class_function": "Performance Pages runtime reader",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "would require a constructed file input or viewer edge",
+            "no such edge is proved"
+          ],
+          "label": "UNKNOWN",
+          "source_ids": [
+            "kim-gskills-viper",
+            "kim-gskills-jeep",
+            "kim-gskills-lseries"
+          ],
+          "uncertainty": "Target observation cannot promote a reader without a supported selection path."
+        },
+        "status": "unknown"
+      },
+      "static_reference": {
+        "provenance": {
+          "class_function": "Performance Pages selected reader search",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "scan variant classes for exact path, suffix, and file-input calls",
+            "review selected save chain"
+          ],
+          "label": "UNKNOWN",
+          "source_ids": [
+            "kim-gskills-viper",
+            "kim-gskills-jeep",
+            "kim-gskills-lseries"
+          ],
+          "uncertainty": "No positive reader edge was found; global absence is not claimed."
+        },
+        "status": "unknown"
+      }
+    },
+    {
+      "application": "DRMSync",
+      "filename_or_content_match": "No /fs/usb0, /mnt/sd0, timersResult, or timer .html match.",
+      "id": "drmsync",
+      "read_behavior": "Concrete readers exist for fixed internal MMC1 files.",
+      "runtime_reachability": {
+        "provenance": {
+          "class_function": "Focused 23-archive class/resource invocation census",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "enumerate every class entry",
+            "match exact roots, timersResult, HTML/file APIs",
+            "classify direct callers and candidate consumers"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "source-kim-packages-kim19-drm-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+            "kim-drmsync",
+            "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+            "kim-gskills-viper",
+            "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+            "kim-store",
+            "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+            "kim-gskills-jeep",
+            "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+            "kim-gskills-lseries",
+            "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+            "source-base-kona-extension-ams-initializer-jar",
+            "base-kona",
+            "source-base-kona-security-development-security-jar",
+            "source-base-kona-security-security-jar"
+          ],
+          "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+        },
+        "status": "not_proved"
+      },
+      "static_reference": {
+        "provenance": {
+          "class_function": "DRMSync fixed-path file consumers",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "construct /fs/mmc1/download paths",
+            "read fixed internal files"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim-drmsync"
+          ],
+          "uncertainty": "Presence is unrelated to the timer path."
+        },
+        "status": "present"
+      }
+    },
+    {
+      "application": "Uconnect Store Base64 helper",
+      "filename_or_content_match": "No removable root, timer directory, filename, or HTML-content match.",
+      "id": "store-base64",
+      "read_behavior": "Generic public file encode/decode methods use file streams.",
+      "runtime_reachability": {
+        "provenance": {
+          "class_function": "Focused 23-archive class/resource invocation census",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "enumerate every class entry",
+            "match exact roots, timersResult, HTML/file APIs",
+            "classify direct callers and candidate consumers"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "source-kim-packages-kim19-drm-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+            "kim-drmsync",
+            "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+            "kim-gskills-viper",
+            "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+            "kim-store",
+            "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+            "kim-gskills-jeep",
+            "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+            "kim-gskills-lseries",
+            "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+            "source-base-kona-extension-ams-initializer-jar",
+            "base-kona",
+            "source-base-kona-security-development-security-jar",
+            "source-base-kona-security-security-jar"
+          ],
+          "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+        },
+        "status": "not_proved"
+      },
+      "static_reference": {
+        "provenance": {
+          "class_function": "com.sprint.chrysler.storefront.communications.Base64 file helpers",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "file helper accepts caller filename",
+            "FileInputStream reads bytes"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim-store"
+          ],
+          "uncertainty": "The census found only utility self-calls."
+        },
+        "status": "present"
+      }
+    },
+    {
+      "application": "Kona Apache HTML DOM and serializer libraries",
+      "filename_or_content_match": "HTML type names match the format generically; exact path/filename and render edge do not.",
+      "id": "kona-html",
+      "read_behavior": "HTML parser/DOM/serializer primitives are present without a timer file loader or display construction.",
+      "runtime_reachability": {
+        "provenance": {
+          "class_function": "Focused 23-archive class/resource invocation census",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "enumerate every class entry",
+            "match exact roots, timersResult, HTML/file APIs",
+            "classify direct callers and candidate consumers"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "source-kim-packages-kim19-drm-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+            "kim-drmsync",
+            "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+            "kim-gskills-viper",
+            "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+            "kim-store",
+            "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+            "kim-gskills-jeep",
+            "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+            "kim-gskills-lseries",
+            "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+            "source-base-kona-extension-ams-initializer-jar",
+            "base-kona",
+            "source-base-kona-security-development-security-jar",
+            "source-base-kona-security-security-jar"
+          ],
+          "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+        },
+        "status": "not_proved"
+      },
+      "static_reference": {
+        "provenance": {
+          "class_function": "org.apache.html.dom and org.apache.xml.serialize libraries",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "archive contains HTML implementation classes",
+            "no external selected caller bridges timer file"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "base-kona"
+          ],
+          "uncertainty": "Library presence is not application reachability."
+        },
+        "status": "present"
+      }
+    },
+    {
+      "application": "Kona EcoDrive service",
+      "filename_or_content_match": "Source namespace is EcoDrive data; no timersResult or timer HTML input match.",
+      "id": "ecodrive",
+      "read_behavior": "Data-specific flash files are transferred to an EcoDrive directory on inserted USB media.",
+      "runtime_reachability": {
+        "provenance": {
+          "class_function": "Focused 23-archive class/resource invocation census",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "enumerate every class entry",
+            "match exact roots, timersResult, HTML/file APIs",
+            "classify direct callers and candidate consumers"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "source-kim-packages-kim19-drm-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+            "kim-drmsync",
+            "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+            "kim-gskills-viper",
+            "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+            "kim-store",
+            "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+            "kim-gskills-jeep",
+            "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+            "kim-gskills-lseries",
+            "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+            "source-base-kona-extension-ams-initializer-jar",
+            "base-kona",
+            "source-base-kona-security-development-security-jar",
+            "source-base-kona-security-security-jar"
+          ],
+          "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+        },
+        "status": "not_proved"
+      },
+      "static_reference": {
+        "provenance": {
+          "class_function": "kona.ecoDrive.EcoDriveImpl, EcoDriveService, and native EcoDriveSvc",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "startUSBTransfer sends fileName via SvcIpcClient",
+            "native service resolves /fs/etfs/usr/var/ecoDrive/data",
+            "native service selects discovered USB plus EcoDrive destination suffix"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "base-kona",
+            "native-ecodrive-service"
+          ],
+          "uncertainty": "Service activation, caller authorization, and a KIM19 caller remain unobserved."
+        },
+        "status": "present"
+      }
+    }
+  ],
+  "evidence_labels": [
+    "PROVED",
+    "INFERRED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "file_write_capability": {
+    "justification": "Three vehicle variants contain a complete static UI-option-to-fixed-path-to-FileOutputStream chain for timer HTML.",
+    "level": 2,
+    "limitations": [
+      "Correct variant installation, visibility, authorization, and launch are unobserved.",
+      "Mounted writable media, Java policy grant, free space, and durable persistence require target observation.",
+      "Availability is only File.exists; there is no removal listener or atomic replacement.",
+      "An existing basename skips the write and still returns the stock success status."
+    ],
+    "provenance": {
+      "class_function": "TimerSavingData complete writer chain",
+      "evidence_binding_ids": [
+        "viper-enum-storage-paths",
+        "viper-save-data-to",
+        "viper-create-export-file",
+        "viper-write-html",
+        "viper-html-suffix",
+        "viper-device-exists"
+      ],
+      "invocation_dataflow": [
+        "save option selects bundled root",
+        "saveDataTo checks root exists and creates timersResult",
+        "createUpdateDownloadFile creates basename plus .html",
+        "updateHTML writes caller string through UTF8 Writer"
+      ],
+      "label": "INFERRED",
+      "source_ids": [
+        "kim-gskills-viper",
+        "kim-gskills-jeep",
+        "kim-gskills-lseries"
+      ],
+      "uncertainty": "Capability level combines proved static implementation with unresolved target gates."
+    },
+    "title": "Statically proved, target-gated stock removable-media file write"
+  },
+  "handoffs": [
+    {
+      "constraints": [
+        "No exact removable path, directory, filename, discovery, or HTML file-loader edge in another KIM19 class."
+      ],
+      "consumer": "Any other KIM19 application",
+      "end_to_end_status": "not_proved",
+      "id": "performance-to-kim19",
+      "producer": "Performance Pages",
+      "provenance": {
+        "class_function": "Focused 23-archive class/resource invocation census",
+        "evidence_binding_ids": [],
+        "invocation_dataflow": [
+          "enumerate every class entry",
+          "match exact roots, timersResult, HTML/file APIs",
+          "classify direct callers and candidate consumers"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "source-kim-packages-kim19-drm-jar",
+          "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+          "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+          "kim-drmsync",
+          "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+          "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+          "kim-gskills-viper",
+          "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+          "kim-store",
+          "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+          "kim-gskills-jeep",
+          "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+          "kim-gskills-lseries",
+          "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+          "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+          "source-base-kona-extension-ams-initializer-jar",
+          "base-kona",
+          "source-base-kona-security-development-security-jar",
+          "source-base-kona-security-security-jar"
+        ],
+        "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+      },
+      "read_side": {
+        "provenance": {
+          "class_function": "Focused 23-archive class/resource invocation census",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "enumerate every class entry",
+            "match exact roots, timersResult, HTML/file APIs",
+            "classify direct callers and candidate consumers"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "source-kim-packages-kim19-drm-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+            "kim-drmsync",
+            "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+            "kim-gskills-viper",
+            "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+            "kim-store",
+            "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+            "kim-gskills-jeep",
+            "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+            "kim-gskills-lseries",
+            "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+            "source-base-kona-extension-ams-initializer-jar",
+            "base-kona",
+            "source-base-kona-security-development-security-jar",
+            "source-base-kona-security-security-jar"
+          ],
+          "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+        },
+        "status": "not_proved"
+      },
+      "storage": "USB/SD timersResult HTML",
+      "write_side": {
+        "provenance": {
+          "class_function": "Performance Pages static writer",
+          "evidence_binding_ids": [
+            "viper-enum-storage-paths",
+            "viper-save-data-to",
+            "viper-create-export-file",
+            "viper-write-html",
+            "viper-html-suffix",
+            "viper-device-exists"
+          ],
+          "invocation_dataflow": [
+            "save option selects bundled root",
+            "saveDataTo checks root exists and creates timersResult",
+            "createUpdateDownloadFile creates basename plus .html",
+            "updateHTML writes caller string through UTF8 Writer"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim-gskills-viper",
+            "kim-gskills-jeep",
+            "kim-gskills-lseries"
+          ],
+          "uncertainty": "A proved static side does not prove target execution."
+        },
+        "status": "proved"
+      }
+    },
+    {
+      "constraints": [
+        "Generic parser/serializer library presence has no file chooser, renderer, or KIM caller edge."
+      ],
+      "consumer": "Kona HTML DOM/serializer",
+      "end_to_end_status": "not_proved",
+      "id": "performance-to-kona-html",
+      "producer": "Performance Pages",
+      "provenance": {
+        "class_function": "Focused 23-archive class/resource invocation census",
+        "evidence_binding_ids": [],
+        "invocation_dataflow": [
+          "enumerate every class entry",
+          "match exact roots, timersResult, HTML/file APIs",
+          "classify direct callers and candidate consumers"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "source-kim-packages-kim19-drm-jar",
+          "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+          "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+          "kim-drmsync",
+          "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+          "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+          "kim-gskills-viper",
+          "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+          "kim-store",
+          "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+          "kim-gskills-jeep",
+          "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+          "kim-gskills-lseries",
+          "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+          "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+          "source-base-kona-extension-ams-initializer-jar",
+          "base-kona",
+          "source-base-kona-security-development-security-jar",
+          "source-base-kona-security-security-jar"
+        ],
+        "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+      },
+      "read_side": {
+        "provenance": {
+          "class_function": "Focused 23-archive class/resource invocation census",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "enumerate every class entry",
+            "match exact roots, timersResult, HTML/file APIs",
+            "classify direct callers and candidate consumers"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "source-kim-packages-kim19-drm-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+            "kim-drmsync",
+            "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+            "kim-gskills-viper",
+            "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+            "kim-store",
+            "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+            "kim-gskills-jeep",
+            "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+            "kim-gskills-lseries",
+            "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+            "source-base-kona-extension-ams-initializer-jar",
+            "base-kona",
+            "source-base-kona-security-development-security-jar",
+            "source-base-kona-security-security-jar"
+          ],
+          "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+        },
+        "status": "not_proved"
+      },
+      "storage": "USB/SD timersResult HTML",
+      "write_side": {
+        "provenance": {
+          "class_function": "Performance Pages static writer",
+          "evidence_binding_ids": [
+            "viper-enum-storage-paths",
+            "viper-save-data-to",
+            "viper-create-export-file",
+            "viper-write-html",
+            "viper-html-suffix",
+            "viper-device-exists"
+          ],
+          "invocation_dataflow": [
+            "save option selects bundled root",
+            "saveDataTo checks root exists and creates timersResult",
+            "createUpdateDownloadFile creates basename plus .html",
+            "updateHTML writes caller string through UTF8 Writer"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim-gskills-viper",
+            "kim-gskills-jeep",
+            "kim-gskills-lseries"
+          ],
+          "uncertainty": "A proved static side does not prove target execution."
+        },
+        "status": "proved"
+      }
+    },
+    {
+      "constraints": [
+        "EcoDrive transfer uses its own flash data namespace.",
+        "No Performance or other KIM19 caller invokes EcoDrive for the timer file."
+      ],
+      "consumer": "EcoDrive service",
+      "end_to_end_status": "not_proved",
+      "id": "performance-to-ecodrive",
+      "producer": "Performance Pages",
+      "provenance": {
+        "class_function": "Focused 23-archive class/resource invocation census",
+        "evidence_binding_ids": [],
+        "invocation_dataflow": [
+          "enumerate every class entry",
+          "match exact roots, timersResult, HTML/file APIs",
+          "classify direct callers and candidate consumers"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "source-kim-packages-kim19-drm-jar",
+          "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+          "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+          "kim-drmsync",
+          "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+          "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+          "kim-gskills-viper",
+          "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+          "kim-store",
+          "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+          "kim-gskills-jeep",
+          "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+          "kim-gskills-lseries",
+          "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+          "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+          "source-base-kona-extension-ams-initializer-jar",
+          "base-kona",
+          "source-base-kona-security-development-security-jar",
+          "source-base-kona-security-security-jar"
+        ],
+        "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+      },
+      "read_side": {
+        "provenance": {
+          "class_function": "Focused 23-archive class/resource invocation census",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "enumerate every class entry",
+            "match exact roots, timersResult, HTML/file APIs",
+            "classify direct callers and candidate consumers"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "source-kim-packages-kim19-drm-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+            "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+            "kim-drmsync",
+            "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+            "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+            "kim-gskills-viper",
+            "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+            "kim-store",
+            "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+            "kim-gskills-jeep",
+            "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+            "kim-gskills-lseries",
+            "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+            "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+            "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+            "source-base-kona-extension-ams-initializer-jar",
+            "base-kona",
+            "source-base-kona-security-development-security-jar",
+            "source-base-kona-security-security-jar"
+          ],
+          "uncertainty": "Absence applies only to the selected 23 archives and exact sought references."
+        },
+        "status": "not_proved"
+      },
+      "storage": "USB/SD timersResult HTML",
+      "write_side": {
+        "provenance": {
+          "class_function": "Performance Pages static writer",
+          "evidence_binding_ids": [
+            "viper-enum-storage-paths",
+            "viper-save-data-to",
+            "viper-create-export-file",
+            "viper-write-html",
+            "viper-html-suffix",
+            "viper-device-exists"
+          ],
+          "invocation_dataflow": [
+            "save option selects bundled root",
+            "saveDataTo checks root exists and creates timersResult",
+            "createUpdateDownloadFile creates basename plus .html",
+            "updateHTML writes caller string through UTF8 Writer"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim-gskills-viper",
+            "kim-gskills-jeep",
+            "kim-gskills-lseries"
+          ],
+          "uncertainty": "A proved static side does not prove target execution."
+        },
+        "status": "proved"
+      }
+    },
+    {
+      "constraints": [
+        "Correct stock package must be installed and authorized.",
+        "Destination must be mounted writable and persist the close.",
+        "Off-unit reader is outside the corpus."
+      ],
+      "consumer": "External reader after media removal",
+      "end_to_end_status": "gated",
+      "id": "performance-to-external-reader",
+      "producer": "Performance Pages",
+      "provenance": {
+        "class_function": "Performance export observation boundary",
+        "evidence_binding_ids": [
+          "viper-enum-storage-paths",
+          "viper-save-data-to",
+          "viper-create-export-file",
+          "viper-write-html",
+          "viper-html-suffix",
+          "viper-device-exists"
+        ],
+        "invocation_dataflow": [
+          "save option selects bundled root",
+          "saveDataTo checks root exists and creates timersResult",
+          "createUpdateDownloadFile creates basename plus .html",
+          "updateHTML writes caller string through UTF8 Writer"
+        ],
+        "label": "TARGET OBSERVATION REQUIRED",
+        "source_ids": [
+          "kim-gskills-viper",
+          "kim-gskills-jeep",
+          "kim-gskills-lseries"
+        ],
+        "uncertainty": "Only a controlled target save and off-unit inspection can establish persistence."
+      },
+      "read_side": {
+        "provenance": {
+          "class_function": "External reader outside corpus",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "remove media after completed supported export",
+            "inspect file off-unit"
+          ],
+          "label": "UNKNOWN",
+          "source_ids": [
+            "kim-gskills-viper",
+            "kim-gskills-jeep",
+            "kim-gskills-lseries"
+          ],
+          "uncertainty": "External system and persisted bytes are outside recovered KIM software evidence."
+        },
+        "status": "unknown"
+      },
+      "storage": "USB/SD timersResult HTML",
+      "write_side": {
+        "provenance": {
+          "class_function": "Performance Pages target writer",
+          "evidence_binding_ids": [
+            "viper-enum-storage-paths",
+            "viper-save-data-to",
+            "viper-create-export-file",
+            "viper-write-html",
+            "viper-html-suffix",
+            "viper-device-exists"
+          ],
+          "invocation_dataflow": [
+            "save option selects bundled root",
+            "saveDataTo checks root exists and creates timersResult",
+            "createUpdateDownloadFile creates basename plus .html",
+            "updateHTML writes caller string through UTF8 Writer"
+          ],
+          "label": "TARGET OBSERVATION REQUIRED",
+          "source_ids": [
+            "kim-gskills-viper",
+            "kim-gskills-jeep",
+            "kim-gskills-lseries"
+          ],
+          "uncertainty": "Target package, grant, media, space, I/O, and persistence are unobserved."
+        },
+        "status": "gated"
+      }
+    },
+    {
+      "constraints": [
+        "Static internal handoff only; it is not removable media and does not consume timer HTML."
+      ],
+      "consumer": "DRMSync fixed-path readers",
+      "end_to_end_status": "proved",
+      "id": "drmsync-internal-handoff",
+      "producer": "DRMSync request handlers",
+      "provenance": {
+        "class_function": "DRMSync internal write/read model",
+        "evidence_binding_ids": [],
+        "invocation_dataflow": [
+          "write fixed internal file",
+          "later fixed-path reader opens same storage namespace"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim-drmsync"
+        ],
+        "uncertainty": "Target timing and backend state remain unobserved."
+      },
+      "read_side": {
+        "provenance": {
+          "class_function": "MTSSRTBrandDetailRequest and internal readers",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "construct fixed internal path",
+            "FileInputStream reads state"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim-drmsync"
+          ],
+          "uncertainty": "Runtime request not observed."
+        },
+        "status": "proved"
+      },
+      "storage": "Fixed files under /fs/mmc1/download",
+      "write_side": {
+        "provenance": {
+          "class_function": "HuDRMFileManager and fixed-path writers",
+          "evidence_binding_ids": [],
+          "invocation_dataflow": [
+            "request selects internal destination",
+            "file helper writes bytes"
+          ],
+          "label": "PROVED",
+          "source_ids": [
+            "kim-drmsync"
+          ],
+          "uncertainty": "Runtime request not observed."
+        },
+        "status": "proved"
+      }
+    }
+  ],
+  "schema_version": 1,
+  "scope": "All 19 KIM19 JARs and four nearby common-base JARs from recovered RA4 18.45.01; reviewed Performance Pages removable storage and bounded consumer/service candidates.",
+  "source_artifacts": [
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/DRM.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-drm-jar",
+      "sha256": "13b31b0cd71a92f95dfa214af442524c5b106e04ab127a9b874e3ee1a9252fd2"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "description": "Scoped KIM19 archive; 274 class entries.",
+      "id": "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "description": "Scoped KIM19 archive; 355 class entries.",
+      "id": "kim-drmsync",
+      "sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+      "sha256": "ab0888bde75c940a63a27ee0e1fadfdde824c9ee512bf6090d2c1fe49c6cc1ba"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+      "description": "Scoped KIM19 archive; 186 class entries.",
+      "id": "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+      "sha256": "cd91225970a68353920acc674e15fb9775c60ee8352134ecf447157e811512f4"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+      "sha256": "491f0c7ae34639bcaeca820924defbd41f57966622b565bb4d1e3ef76bd5578f"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "description": "Scoped KIM19 archive; 833 class entries.",
+      "id": "kim-gskills-viper",
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "description": "Scoped KIM19 archive; 284 class entries.",
+      "id": "kim-store",
+      "sha256": "2e5b3f7e1c7857950f7ea536b3975f1feebff744a47fb141551bbb6c23c7d552"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+      "sha256": "eb29ef31fcc6c7d95cad6c994ecacfef707208820ff2cb30eb3350e0ce8d8b5c"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "description": "Scoped KIM19 archive; 833 class entries.",
+      "id": "kim-gskills-jeep",
+      "sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+      "sha256": "4a78041e2a2840299bbdea04c2771cbf2130789f62650d5b851dc76eaf340fd9"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "description": "Scoped KIM19 archive; 850 class entries.",
+      "id": "kim-gskills-lseries",
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "description": "Scoped KIM19 archive; 444 class entries.",
+      "id": "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+      "sha256": "70e3f0939a26223e84fdd67a2b90adbee84367e46afb4928e0db1192e4aefcdb"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+      "sha256": "a984d02c62e6fcd9a8ad0bbb27d3810eb4ee3361353969a25e20bb0af04a45d2"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "description": "Scoped KIM19 archive; 0 class entries.",
+      "id": "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+      "sha256": "e9ae276c6ae3f3c3e04673a235e4585b490f4dd9cfbc74a271a6261d43118e48"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "description": "Scoped KIM19 archive; 513 class entries.",
+      "id": "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+      "sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/base/kona/extension/ams_initializer.jar",
+      "description": "Scoped common-base archive; 19 class entries.",
+      "id": "source-base-kona-extension-ams-initializer-jar",
+      "sha256": "b40c69ff6cfd3e31e097c5ae33e71f1a314ce8aee2e3a734589f3025a98e959c"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/base/kona/lib/kona.jar",
+      "description": "Scoped common-base archive; 2791 class entries.",
+      "id": "base-kona",
+      "sha256": "19390472018f02d998690b982f00eb68da5d40d7a8d6fba91499677651015f92"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/base/kona/security/development/security.jar",
+      "description": "Scoped common-base archive; 1 class entries.",
+      "id": "source-base-kona-security-development-security-jar",
+      "sha256": "fbe5314ab304e122162aae20ace46999b93832fc4c7451439f4ada430eccc8a7"
+    },
+    {
+      "corpus_relative_path": "secondary_iso/usr/share/XLETS/base/kona/security/security.jar",
+      "description": "Scoped common-base archive; 1 class entries.",
+      "id": "source-base-kona-security-security-jar",
+      "sha256": "29a8a350ef0facc30c1c98e5250563a4020ad9c1a243f13e795e2e68e3bd74e7"
+    },
+    {
+      "corpus_relative_path": "primary_iso/usr/share/MMC_IFS_EXTENSION/bin/EcoDriveSvc",
+      "description": "Recovered named EcoDrive native service; 2,733,845 bytes; bounded follow-up from the common Java service identity.",
+      "id": "native-ecodrive-service",
+      "sha256": "9877299e99772a0ec7a03988bd7521abd8b2c9ceac499c820d3722392d15246e"
+    }
+  ],
+  "storage_destinations": [
+    {
+      "id": "performance-usb",
+      "medium": "USB removable storage",
+      "mount_or_service": "Direct java.io path /fs/usb0/timersResult; no storage service call",
+      "provenance": {
+        "class_function": "TimerSaveOptionsEnum.<clinit>; ResKeyPropertiesFactory; TimerSavingData.saveDataTo",
+        "evidence_binding_ids": [
+          "viper-enum-storage-paths",
+          "viper-save-data-to",
+          "viper-create-export-file",
+          "viper-write-html",
+          "viper-html-suffix",
+          "viper-device-exists"
+        ],
+        "invocation_dataflow": [
+          "save option selects bundled root",
+          "saveDataTo checks root exists and creates timersResult",
+          "createUpdateDownloadFile creates basename plus .html",
+          "updateHTML writes caller string through UTF8 Writer"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim-gskills-viper",
+          "kim-gskills-jeep",
+          "kim-gskills-lseries"
+        ],
+        "uncertainty": "Static paths do not prove a live mount or grant."
+      },
+      "selection_logic": "TimerSaveOptionsEnum.USB receives getUSBSavePath from embedded resKey properties",
+      "write_scope": "One caller-named .html file containing generated timer HTML"
+    },
+    {
+      "id": "performance-sd",
+      "medium": "SD removable storage",
+      "mount_or_service": "Direct java.io path /mnt/sd0/timersResult; no storage service call",
+      "provenance": {
+        "class_function": "TimerSaveOptionsEnum.<clinit>; ResKeyPropertiesFactory; TimerSavingData.saveDataTo",
+        "evidence_binding_ids": [
+          "viper-enum-storage-paths",
+          "viper-save-data-to",
+          "viper-create-export-file",
+          "viper-write-html",
+          "viper-html-suffix",
+          "viper-device-exists"
+        ],
+        "invocation_dataflow": [
+          "save option selects bundled root",
+          "saveDataTo checks root exists and creates timersResult",
+          "createUpdateDownloadFile creates basename plus .html",
+          "updateHTML writes caller string through UTF8 Writer"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim-gskills-viper",
+          "kim-gskills-jeep",
+          "kim-gskills-lseries"
+        ],
+        "uncertainty": "Static paths do not prove a live mount or grant."
+      },
+      "selection_logic": "TimerSaveOptionsEnum SD option receives getSDSavePath from embedded resKey properties",
+      "write_scope": "One caller-named .html file containing generated timer HTML"
+    },
+    {
+      "id": "drmsync-mmc1",
+      "medium": "Internal MMC1 application storage",
+      "mount_or_service": "Direct/helper I/O under /fs/mmc1/download",
+      "provenance": {
+        "class_function": "MTSSRTBrandDetailRequest; MTSContentStreamRequest; MTSGrantPayloadRequest; HuDRMFileManager",
+        "evidence_binding_ids": [],
+        "invocation_dataflow": [
+          "request selects fixed/internal path",
+          "FileOutputStream or saveBytesToFile writes data"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "kim-drmsync"
+        ],
+        "uncertainty": "Runtime requests and backend state are unobserved."
+      },
+      "selection_logic": "Fixed DRMSync request and provisioning paths",
+      "write_scope": "Brand flag, downloaded content, and provisioning state; not a timer export destination"
+    },
+    {
+      "id": "kona-fileio",
+      "medium": "Managed internal application storage",
+      "mount_or_service": "Kona FileIO permission and MMC1 mode service",
+      "provenance": {
+        "class_function": "kona.fileio.FileIOManager; com.harman.fileio.FileIOManagerImpl; FileImpl",
+        "evidence_binding_ids": [],
+        "invocation_dataflow": [
+          "client requests FileIO manager",
+          "FileImpl checks FileIOPermission",
+          "manager changes MMC1 mode"
+        ],
+        "label": "PROVED",
+        "source_ids": [
+          "base-kona"
+        ],
+        "uncertainty": "No selected KIM19 client links timer export to this service."
+      },
+      "selection_logic": "FileIOManagerImpl start/stop write-access operations",
+      "write_scope": "Generic managed application files; no Performance caller or removable path proved"
+    }
+  ],
+  "unresolved_gates": [
+    {
+      "gate": "Correct Performance Pages vehicle variant is installed, visible, authorized, and launchable.",
+      "id": "target-package-state",
+      "provenance": {
+        "class_function": "Performance package lifecycle gate",
+        "evidence_binding_ids": [],
+        "invocation_dataflow": [
+          "select existing stock app",
+          "observe lifecycle/UI"
+        ],
+        "label": "TARGET OBSERVATION REQUIRED",
+        "source_ids": [
+          "kim-gskills-viper",
+          "kim-gskills-jeep",
+          "kim-gskills-lseries"
+        ],
+        "uncertainty": "Static coexistence of three packages does not identify target state."
+      },
+      "required_observation": "Record the stock Apps entry, resolved variant identity, and successful supported launch without changing installation or policy."
+    },
+    {
+      "gate": "USB/SD root is mounted writable in the application's namespace and Java policy permits direct output.",
+      "id": "target-storage-grant",
+      "provenance": {
+        "class_function": "Direct java.io storage gate",
+        "evidence_binding_ids": [
+          "viper-enum-storage-paths",
+          "viper-save-data-to",
+          "viper-create-export-file",
+          "viper-write-html",
+          "viper-html-suffix",
+          "viper-device-exists"
+        ],
+        "invocation_dataflow": [
+          "save option selects bundled root",
+          "saveDataTo checks root exists and creates timersResult",
+          "createUpdateDownloadFile creates basename plus .html",
+          "updateHTML writes caller string through UTF8 Writer"
+        ],
+        "label": "TARGET OBSERVATION REQUIRED",
+        "source_ids": [
+          "kim-gskills-viper",
+          "kim-gskills-jeep",
+          "kim-gskills-lseries"
+        ],
+        "uncertainty": "Static code does not disclose live mount flags or effective grants."
+      },
+      "required_observation": "Use empty test media and one harmless timer export; record mount-visible outcome and stock status."
+    },
+    {
+      "gate": "The created file is complete and durable after writer close and safe media removal.",
+      "id": "durable-persistence",
+      "provenance": {
+        "class_function": "TimerSavingData.updateHTML persistence gate",
+        "evidence_binding_ids": [
+          "viper-create-export-file",
+          "viper-write-html"
+        ],
+        "invocation_dataflow": [
+          "create new export filename",
+          "write and close",
+          "remove media through supported workflow",
+          "verify bytes off-unit"
+        ],
+        "label": "TARGET OBSERVATION REQUIRED",
+        "source_ids": [
+          "kim-gskills-viper",
+          "kim-gskills-jeep",
+          "kim-gskills-lseries"
+        ],
+        "uncertainty": "No fsync/service acknowledgment appears in the application chain."
+      },
+      "required_observation": "Inspect /timersResult/<basename>.html off-unit and compare expected content and size."
+    },
+    {
+      "gate": "A supported stock UI/service can select and read the exported timer HTML on-unit.",
+      "id": "on-unit-consumer",
+      "provenance": {
+        "class_function": "Scoped consumer boundary",
+        "evidence_binding_ids": [],
+        "invocation_dataflow": [
+          "23-archive census finds candidate libraries/services",
+          "no exact consumer handoff closes"
+        ],
+        "label": "UNKNOWN",
+        "source_ids": [
+          "source-kim-packages-kim19-drm-jar",
+          "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-640x480-84-yelp-v03-00-33-fit-jar",
+          "source-kim-packages-kim19-xlets-1d5347c0-8b5e-11e2-9e96-0800200c9a66-prog-jars-key-jar",
+          "kim-drmsync",
+          "source-kim-packages-kim19-xlets-2ba676fa-1542-11e1-a537-1f614824019b-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-640x480-84-assist-vsb-04-00-14-fit-jar",
+          "source-kim-packages-kim19-xlets-3bbeae36-1542-11e1-b393-31614824019b-prog-jars-key-jar",
+          "kim-gskills-viper",
+          "source-kim-packages-kim19-xlets-52c79381-6719-11e1-b86c-0800200c9a66-prog-jars-key-jar",
+          "kim-store",
+          "source-kim-packages-kim19-xlets-550e8400-e29b-41d4-a716-446655440000-prog-jars-key-jar",
+          "kim-gskills-jeep",
+          "source-kim-packages-kim19-xlets-6bfd02c0-40c3-11e2-a25f-0800200c9a66-prog-jars-key-jar",
+          "kim-gskills-lseries",
+          "source-kim-packages-kim19-xlets-7dec7834-535d-47b5-bd33-695477edcd57-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-640x480-84-uconnectregistration-v02-03-01-fit-jar",
+          "source-kim-packages-kim19-xlets-a7a4b215-9b5a-7daa-457c-15545178e72f-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-key-jar",
+          "source-kim-packages-kim19-xlets-f7583530-8d53-11e0-91e4-0800200c9a66-prog-jars-vsbclient-04-03-23-fit-jar",
+          "source-base-kona-extension-ams-initializer-jar",
+          "base-kona",
+          "source-base-kona-security-development-security-jar",
+          "source-base-kona-security-security-jar",
+          "native-ecodrive-service"
+        ],
+        "uncertainty": "An unrecovered native or other-package consumer may exist; global absence is not claimed."
+      },
+      "required_observation": "Identify a supported selector or service log that names the exact exported file and demonstrates a read."
+    }
+  ]
+}
