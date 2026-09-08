@@ -1,5 +1,8 @@
 # Resident network and IPC services
 
+> Historical snapshot; the [stock signed capability analysis](stock_signed_capability_analysis.md)
+> adds the production package-selection gate and other listener candidates.
+
 Static network/API presence is not proof of bind, registration, execution, production enablement, or reachability.
 
 | Component | Endpoint | Classification | Behavior | Unknowns |

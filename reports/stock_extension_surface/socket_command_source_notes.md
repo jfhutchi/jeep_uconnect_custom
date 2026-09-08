@@ -1,5 +1,11 @@
 # SocketCommandSource evidence record
 
+> Historical snapshot. See the [completed follow-up](../../docs/stock_signed_capability_analysis.md)
+> for the package-selection exclusion, complete command arguments, non-strict
+> JSONObject string conversion, explicit full.policy socket grant, worker
+> failure behavior, and JUnit loader/dependency findings. Production enablement
+> must not be inferred from the lifecycle edges alone.
+
 ## Scope and verdict
 
 This record is a static, read-only reconstruction from the recovered resident

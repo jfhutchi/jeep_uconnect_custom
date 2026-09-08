@@ -1,5 +1,28 @@
 # Read-only analysis tools
 
+## Stock signed capability follow-up
+
+`stock_capability_index.py` adds process/native loading sites, socket factory
+calls, incoming references and type/field/method inventories for selected
+classes, and a strict literal-only read of the shipped KIM selection map.
+It does not evaluate Lua, resolve virtual dispatch, load Java classes, or write
+into its input root. JAR/class hashes retain duplicate occurrence provenance.
+Strings/resource payloads are not emitted. The map parser rejects executable
+statements and retains last-assignment semantics. Python 3.12+ is required.
+
+```powershell
+python -m analysis_tools.stock_capability_index --root 'PATH/TO/XLETS' `
+  --select '^(com/tweddle/test/|com/tweddle/core/(HUThread|AbstractHUXlet|http/injection/)|net/sf/microlog/server/socket/|com/harman/network/StrictSocketImpl|com/harman/ams/initializer/Initializer|com/harman/pps/PPSObjectSimulator|com/airbiquity/vp4hup/utils/UnitTestUtil|com/harman/os/Executor|com/harman/ams/initializer/os/Executor)' `
+  --output reports/stock_signed_capability/bytecode_index.json
+python -m unittest analysis_tools.tests.test_stock_capability_index
+```
+
+See [the capability report](../docs/stock_signed_capability_analysis.md) for
+interpretation. Missing runtime providers and native/AOT code remain outside
+the classpath census. A method named `class$` is recorded as a compiler-helper
+category rather than treated as user-configurable loading. Input read/parse
+errors fail the run; links and junctions are skipped and reported.
+
 Run commands from the repository root. Firmware inputs stay in ignored local
 paths; none of these tools needs a tracked vendor fixture. Do not execute a
 vendor ELF, patch an image, or commit license/activation material.

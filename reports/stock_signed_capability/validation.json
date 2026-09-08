@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-07",
+  "python_version": "3.14.4 (tags/v3.14.4:23116f9, Apr  7 2026, 14:10:54) [MSC v.1944 64 bit (AMD64)]",
+  "scope": "host-only metadata parsing; no recovered code execution",
+  "tests": {
+    "command": "python -m unittest analysis_tools.tests.test_stock_capability_index analysis_tools.tests.test_evidence_model analysis_tools.tests.test_java_classfile analysis_tools.tests.test_activation_graph analysis_tools.tests.test_resident_surface_census analysis_tools.tests.test_native_endpoint_census analysis_tools.tests.test_render_stock_extension_reports analysis_tools.tests.test_lua51_inspect",
+    "passed": 41,
+    "failures": 0
+  },
+  "regeneration": {
+    "command": "python -m analysis_tools.stock_capability_index --root <existing-XLETS-root> --select '^(com/tweddle/test/|com/tweddle/core/(HUThread|AbstractHUXlet|http/injection/)|net/sf/microlog/server/socket/|com/harman/network/StrictSocketImpl|com/harman/ams/initializer/Initializer|com/harman/pps/PPSObjectSimulator|com/airbiquity/vp4hup/utils/UnitTestUtil|com/harman/os/Executor|com/harman/ams/initializer/os/Executor)' --output reports/stock_signed_capability/bytecode_index.json",
+    "runs": 2,
+    "byte_identical": true,
+    "sha256": "821f04fb5727db67d6233bd58f41c598fa073102d45a38b787c7e1ace06e16ab"
+  },
+  "input_integrity": {
+    "jar_hashes_equal_prior_committed_census": true,
+    "archives": 300,
+    "skipped_links": []
+  },
+  "independent_disassembly": {
+    "tool": "JDK 8 javap -c -p -s",
+    "selection": "exact KIM3 socket/translator/wrapper/looper/AbstractHUXlet; exact helper and inner classes; metadata-only",
+    "lua_commands": [
+      "python -m analysis_tools.lua51_inspect <installer-xlets.lua> --function 0 --count 40",
+      "python -m analysis_tools.lua51_inspect <installer-xlets.lua> --function 4 --count 90",
+      "python -m analysis_tools.lua51_inspect <installer-xlets.lua> --function 5 --count 70",
+      "python -m analysis_tools.lua51_inspect <installer-xlets.lua> --function 6 --count 170",
+      "python -m analysis_tools.lua51_inspect <installer-xlets.lua> --function 6 --start 170 --count 100"
+    ]
+  },
+  "assertions": {
+    "socket_occurrences": 5,
+    "socket_distinct_hashes": 1,
+    "selected_map_contains_socket_packages": false,
+    "socket_constructor_external_owners": [
+      "com/tweddle/test/input/CommandSource"
+    ],
+    "junit_classes_in_jar_corpus": 0,
+    "protocol_rows": 16,
+    "no_target_actions": true
+  }
+}

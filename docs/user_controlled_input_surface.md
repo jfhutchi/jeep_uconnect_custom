@@ -1,5 +1,8 @@
 # User-controlled input surface
 
+> Historical snapshot; the [stock signed capability analysis](stock_signed_capability_analysis.md)
+> supersedes the Tweddle production-selection inference and adds the full protocol.
+
 A complete mechanism requires an origin, signed resident component, parser/dispatcher, and resulting capability. Missing arrows remain explicit.
 
 | Origin | Signed resident component | Parser/dispatcher | Capability | Classification | Missing links |

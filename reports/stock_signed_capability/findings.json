@@ -1,0 +1,763 @@
+{
+  "schema_version": 1,
+  "source_report": "docs/stock_signed_capability_analysis.md",
+  "evidence_labels": [
+    "PROVED",
+    "STRONGLY INFERRED",
+    "UNKNOWN",
+    "DISPROVED"
+  ],
+  "primary_verdict": {
+    "classification": "PROVED",
+    "reachability_category": 3,
+    "scope": "recovered installer and shipped KIM map",
+    "reason": "all five copies are in KIM1/KIM3/KIM12; none selected",
+    "historical_installed_copy_category": 4,
+    "target_runtime_classification": "UNKNOWN"
+  },
+  "tables": [
+    {
+      "columns": [
+        "Item",
+        "Recorded state"
+      ],
+      "rows": [
+        {
+          "Item": "Original worktree",
+          "Recorded state": "`E:/Documents/GitHub/jeep_uconnect_custom`"
+        },
+        {
+          "Item": "Original branch",
+          "Recorded state": "`codex/ra4-driver-temperature`"
+        },
+        {
+          "Item": "Original HEAD",
+          "Recorded state": "`894afe8e5361c3595623de599e62ba0f0c0d9f78`"
+        },
+        {
+          "Item": "Unrelated changes",
+          "Recorded state": "40 tracked modifications and untracked `docs/00_project_status.md`; left untouched"
+        },
+        {
+          "Item": "Research worktree",
+          "Recorded state": "`E:/Documents/GitHub/jeep_uconnect_custom_stock_signed_capability`"
+        },
+        {
+          "Item": "Research branch",
+          "Recorded state": "`codex/stock-signed-capability-analysis`"
+        },
+        {
+          "Item": "Research start commit",
+          "Recorded state": "`6f243b56de46ab6648e3db1198f1f6bf627e1352`"
+        },
+        {
+          "Item": "Starting cleanliness",
+          "Recorded state": "Clean new worktree, no unrelated modifications"
+        },
+        {
+          "Item": "Base rationale",
+          "Recorded state": "Existing clean stock-extension research, descendant of completed network-probe commit `be5a83be9fc52493ed04070abac12531c6c6b901`"
+        }
+      ]
+    },
+    {
+      "columns": [
+        "Package",
+        "Owning archived app",
+        "Path below `R/kim_packages`"
+      ],
+      "rows": [
+        {
+          "Package": "KIM1",
+          "Owning archived app": "Tweddle Yelp 0.9.4799",
+          "Path below `R/kim_packages`": "`KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar`"
+        },
+        {
+          "Package": "KIM12",
+          "Owning archived app": "Same Yelp",
+          "Path below `R/kim_packages`": "`KIM12/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar`"
+        },
+        {
+          "Package": "KIM1",
+          "Owning archived app": "Tweddle iHeart 0.8.4991",
+          "Path below `R/kim_packages`": "`KIM1/xlets/d0412192-c51d-476c-91e0-76fc65a82692/prog/jars/d0412192-c51d-476c-91e0-76fc65a82692.jar`"
+        },
+        {
+          "Package": "KIM12",
+          "Owning archived app": "Same descriptor version, different JAR name",
+          "Path below `R/kim_packages`": "`KIM12/xlets/d0412192-c51d-476c-91e0-76fc65a82692/prog/jars/iHeart.4491_FIT.jar`"
+        },
+        {
+          "Package": "KIM3",
+          "Owning archived app": "Tweddle Application Manager 1.0.4825",
+          "Path below `R/kim_packages`": "`KIM3/xlets/c1d77320-6335-48b2-aa22-21912f657311/prog/jars/c1d77320-6335-48b2-aa22-21912f657311.jar`"
+        }
+      ]
+    },
+    {
+      "columns": [
+        "From",
+        "To / state change",
+        "Evidence",
+        "Label"
+      ],
+      "rows": [
+        {
+          "From": "Radio's part number",
+          "To / state change": "Selected KIM",
+          "Evidence": "Installer `xlets.lua` function 4 reads `/dev/fram/partnumber`; function 5 uses `kim_pkg_map`",
+          "Label": "PROVED"
+        },
+        {
+          "From": "Selected KIM",
+          "To / state change": "Preload package",
+          "Evidence": "Installer function 6, BC/file evidence below",
+          "Label": "PROVED"
+        },
+        {
+          "From": "Installed app descriptor",
+          "To / state change": "Concrete Xlet class",
+          "Evidence": "`prog/xlet.properties:xlet.mainClass`",
+          "Label": "PROVED configuration, UNKNOWN actual installation"
+        },
+        {
+          "From": "Stock Apps selection",
+          "To / state change": "Native AppManager then AMS start",
+          "Evidence": "[Apps launch report](../reports/app_launch_ui_path.md), SWF/native addresses",
+          "Label": "PROVED static path"
+        },
+        {
+          "From": "AMS lifecycle",
+          "To / state change": "Selected concrete `initXlet`/`startXlet`",
+          "Evidence": "Descriptor plus recovered AMS lifecycle contract",
+          "Label": "STRONGLY INFERRED dispatch; UNKNOWN invocation on target"
+        },
+        {
+          "From": "Yelp `HUXlet.initXlet`",
+          "To / state change": "`H.initXlet`",
+          "Evidence": "`invokespecial` BCI 97",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "iHeart `IHeartPlayerXlet.initXlet`",
+          "To / state change": "`H.initXlet`",
+          "Evidence": "`invokespecial` BCI 30",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`UpdateManagerXlet.initXlet`",
+          "To / state change": "`H.initXlet`",
+          "Evidence": "`invokespecial` BCI 30",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`H.initXlet`",
+          "To / state change": "`H.initCommandLooper`",
+          "Evidence": "BCI 154, after form registry initialization",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`H.initCommandLooper`",
+          "To / state change": "`I.createCommandListener`",
+          "Evidence": "BCI 2; listener field assignment BCI 5",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`I.createCommandListener`",
+          "To / state change": "`InputTool$5`",
+          "Evidence": "`new` BCI 0, constructor BCI 4, return BCI 7",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`H.initCommandLooper`",
+          "To / state change": "`L(listener,H.xlet,context)`",
+          "Evidence": "`new` BCI 9, constructor BCI 24, looper field BCI 27",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`L.<init>`",
+          "To / state change": "`Wc(listener,xlet,context)`",
+          "Evidence": "`new` BCI 15, constructor BCI 22, listener field BCI 25",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`L.<init>`",
+          "To / state change": "`CommandTranslator.create`",
+          "Evidence": "BCI 29, translator field BCI 32; factory selects `T`",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`L.<init>`",
+          "To / state change": "`C.create`",
+          "Evidence": "BCI 36, final `commandSource` field BCI 39",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`C.create`",
+          "To / state change": "`S()`",
+          "Evidence": "`new` BCI 0, `invokespecial` BCI 4, return BCI 7",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "Concrete Yelp/iHeart/UpdateManager `startXlet`",
+          "To / state change": "`H.startXlet`",
+          "Evidence": "BCIs 33 / 11 / 1 respectively",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`H.startXlet`",
+          "To / state change": "`L.start`",
+          "Evidence": "Non-null looper check BCI 110, call BCI 128",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`L.start`",
+          "To / state change": "`HUThreadFactory.newThread(this,name)`",
+          "Evidence": "BCI 19; factory `new HUThread` BCI 0, constructor BCI 6",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`HUThread.<init>(Runnable,String)`",
+          "To / state change": "`Thread(HUThreadRunnable(runnable),name)`",
+          "Evidence": "Wrapper constructor BCI 14; Java Thread constructor BCI 18",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`L.start`",
+          "To / state change": "`HUThread.start` then `Thread.start`",
+          "Evidence": "BCIs 29 and 4",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "JVM thread dispatch",
+          "To / state change": "`HUThreadRunnable.run`",
+          "Evidence": "Runnable registered in preceding constructors",
+          "Label": "STRONGLY INFERRED indirect activation"
+        },
+        {
+          "From": "`HUThreadRunnable.run`",
+          "To / state change": "`L.run`",
+          "Evidence": "Interface `Runnable.run` BCI 28, receiver stored from constructor",
+          "Label": "STRONGLY INFERRED receiver; PROVED interface call site"
+        },
+        {
+          "From": "`L.run`",
+          "To / state change": "`S.waitForNewCommand`",
+          "Evidence": "Virtual `C.waitForNewCommand` BCI 19; final source populated by `C.create`",
+          "Label": "STRONGLY INFERRED receiver; PROVED virtual call site"
+        },
+        {
+          "From": "`S.waitForNewCommand`",
+          "To / state change": "Lazy listener creation/bind and `accept`",
+          "Evidence": "`getServerSocket` BCI 3; `accept` BCI 6",
+          "Label": "PROVED direct bytecode call edges, UNKNOWN success"
+        },
+        {
+          "From": "Normal `H.destroyXlet`",
+          "To / state change": "`L.stop`",
+          "Evidence": "BCI 22",
+          "Label": "PROVED direct bytecode call edge"
+        },
+        {
+          "From": "`L.stop`",
+          "To / state change": "Thread interrupt and source release",
+          "Evidence": "BCIs 9 and 21",
+          "Label": "PROVED sites; STRONGLY INFERRED concrete release dispatch"
+        }
+      ]
+    },
+    {
+      "columns": [
+        "Value / behavior",
+        "Provenance and result",
+        "Label"
+      ],
+      "rows": [
+        {
+          "Value / behavior": "Factory port",
+          "Provenance and result": "`S().<init>` loads 11111 at BCI 5, writes `port` at 8",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Factory bind address",
+          "Provenance and result": "Loads `127.0.0.1` at BCI 12, writes `host` at 14",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Integer constructor",
+          "Provenance and result": "Caller argument to `port` BCI 6; fixed loopback to `host` BCI 12; no recovered external caller",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "String/integer constructor",
+          "Provenance and result": "Arguments to `port` BCI 6 and `host` BCI 11; no recovered external caller",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Wildcard bind",
+          "Provenance and result": "Not selected by the recovered construction; no later host/port mutation found",
+          "Label": "DISPROVED for the factory path"
+        },
+        {
+          "Value / behavior": "Socket creation",
+          "Provenance and result": "Lazy: null field -> `initSource`; unbound `ServerSocket()` BCI 5, field BCI 8",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Reuse address",
+          "Provenance and result": "`setReuseAddress(true)` BCI 16 before bind",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Bind",
+          "Provenance and result": "`InetSocketAddress(host,port)` BCI 35 then one-argument `bind(SocketAddress)` BCI 38",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Backlog",
+          "Provenance and result": "No explicit backlog supplied; effective JamaicaVM/native default not recovered",
+          "Label": "UNKNOWN numeric value"
+        },
+        {
+          "Value / behavior": "Accept/client timeout",
+          "Provenance and result": "No timeout setter or application deadline in this path; single thread blocks in accept/readLine",
+          "Label": "PROVED absence of application configuration; UNKNOWN platform intervention"
+        },
+        {
+          "Value / behavior": "Thread",
+          "Provenance and result": "`TGTCore-CommandLooperThread`; ordinary `java.lang.Thread` through HU wrappers; no explicit daemon/priority setter in these constructors",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Request concurrency",
+          "Provenance and result": "One accepted client serviced on the same looper thread",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Retry",
+          "Provenance and result": "False result -> `Thread.sleep(1000)` at `L.run` BCIs 25/28, then loop; true -> immediate next iteration",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Binding retry",
+          "Provenance and result": "`getServerSocket` rebinds an unbound socket at BCI 40; both bind regions print caught `Exception`",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Stop",
+          "Provenance and result": "Set stopped, interrupt worker, clear started, release source; source closes listener BCI 27 and clears field BCI 51",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Restart",
+          "Provenance and result": "`L.start` if not started clears stopped and creates a fresh thread; source is lazy after release; no join or automatic dead-worker health check",
+          "Label": "PROVED"
+        },
+        {
+          "Value / behavior": "Pause",
+          "Provenance and result": "Containing `H.pauseXlet` schedules UI work; it does not call `L.stop`",
+          "Label": "PROVED"
+        }
+      ]
+    },
+    {
+      "columns": [
+        "Command",
+        "Args / defaults",
+        "Handler at BCI",
+        "Reply",
+        "Actual scope"
+      ],
+      "rows": [
+        {
+          "Command": "touch",
+          "Args / defaults": "optional `id`, `label`; nonempty id wins",
+          "Handler at BCI": "`doTouchById` 74 / `doTouchByLabel` 97",
+          "Reply": "`status`: bool",
+          "Actual scope": "Test UI: finds current-form component and dispatches touch/action; false if neither selector"
+        },
+        {
+          "Command": "putText",
+          "Args / defaults": "`id`, `text`; `showKeyboard=false`",
+          "Handler at BCI": "`putTextById` 159",
+          "Reply": "none",
+          "Actual scope": "Test UI: set text, optionally present keyboard"
+        },
+        {
+          "Command": "touchListItem",
+          "Args / defaults": "`listId`, `index` integer",
+          "Handler at BCI": "`doTouchOnItem` 200",
+          "Reply": "none",
+          "Actual scope": "Test UI: select/activate list item; resulting application action depends on listener"
+        },
+        {
+          "Command": "itemElement",
+          "Args / defaults": "`listId`, `index`, `id`",
+          "Handler at BCI": "`doTouchItemElement` 252",
+          "Reply": "none",
+          "Actual scope": "Test UI: activate nested item component"
+        },
+        {
+          "Command": "scrollUp",
+          "Args / defaults": "`listId`",
+          "Handler at BCI": "`doScrollUp` 282",
+          "Reply": "none",
+          "Actual scope": "Test UI scrolling"
+        },
+        {
+          "Command": "scrollDown",
+          "Args / defaults": "`listId`",
+          "Handler at BCI": "`doScrollDown` 312",
+          "Reply": "none",
+          "Actual scope": "Test UI scrolling"
+        },
+        {
+          "Command": "getCurrentForm",
+          "Args / defaults": "`{}`",
+          "Handler at BCI": "`getCurrentForm` 331",
+          "Reply": "`formName`",
+          "Actual scope": "Benign query: HasId.getId when implemented, otherwise form class name; no form yields null"
+        },
+        {
+          "Command": "verifyElement",
+          "Args / defaults": "optional `id`, `label`; id wins",
+          "Handler at BCI": "`doVerifyElement` 394 / 418",
+          "Reply": "`status`: bool",
+          "Actual scope": "Benign query: component presence in current form"
+        },
+        {
+          "Command": "getLabelText",
+          "Args / defaults": "`id`",
+          "Handler at BCI": "`doGetLabelText` 458",
+          "Reply": "`text`",
+          "Actual scope": "Benign UI query: Label, TextArea, or HavingReadOnlyText; missing/unsupported yields null"
+        },
+        {
+          "Command": "getListSize",
+          "Args / defaults": "`id` (not `listId`)",
+          "Handler at BCI": "`doGetListSize` 498",
+          "Reply": "`size`: integer",
+          "Actual scope": "Benign UI query; underlying component/type/bounds handling applies"
+        },
+        {
+          "Command": "getRuntimeInfo",
+          "Args / defaults": "`{}`",
+          "Handler at BCI": "`doGetRuntimeInfo` 527",
+          "Reply": "`free`, `maxMemory`, `totalMemory`, `threadActiveCount`",
+          "Actual scope": "Benign VM query through `I.getVMInfo`, Runtime memory methods and Thread.activeCount"
+        },
+        {
+          "Command": "gc",
+          "Args / defaults": "`{}`",
+          "Handler at BCI": "`doGC` 554",
+          "Reply": "`status=true`",
+          "Actual scope": "VM/debug: requests Runtime.gc; reply does not prove collection"
+        },
+        {
+          "Command": "setSettings",
+          "Args / defaults": "`key`, `value` JSON value",
+          "Handler at BCI": "`setSetting` 602",
+          "Reply": "`status=true`",
+          "Actual scope": "Application control: Settings map/ObservableValue update, may affect later framework behavior; not a vehicle-setting API"
+        },
+        {
+          "Command": "closeKeyboard",
+          "Args / defaults": "`{}`",
+          "Handler at BCI": "`closeKeyboard` 628",
+          "Reply": "`status`: bool",
+          "Actual scope": "Test UI: may clear/submit CVP keyboard text or send pointer events; not a read-only operation"
+        },
+        {
+          "Command": "runUnitTests",
+          "Args / defaults": "`archive`, `junitCommands`",
+          "Handler at BCI": "`runUnitTests` 679",
+          "Reply": "none",
+          "Actual scope": "Test/application control: wrapper constructs XletTestRunner; external runtime dependencies and loader policy unresolved"
+        },
+        {
+          "Command": "invoke",
+          "Args / defaults": "`method`; optional `array`, default zero arguments",
+          "Handler at BCI": "`Class.getMethod` 756, `Method.invoke` 766",
+          "Reply": "`result` or `error`",
+          "Actual scope": "Reflection on wrapper public methods, including inherited public methods; no caller-specified class receiver"
+        }
+      ]
+    },
+    {
+      "columns": [
+        "Gate",
+        "Evidence and consequence",
+        "Label"
+      ],
+      "rows": [
+        {
+          "Gate": "Package selection",
+          "Evidence and consequence": "No map output is KIM1, KIM3, or KIM12",
+          "Label": "PROVED exclusion from supplied install configuration"
+        },
+        {
+          "Gate": "Installed identity and lifecycle",
+          "Evidence and consequence": "Signed descriptor/installed package; stock Apps/native launcher includes DRM checks",
+          "Label": "PROVED static boundary; UNKNOWN target principal/state"
+        },
+        {
+          "Gate": "Bind/client Java policy",
+          "Evidence and consequence": "`security.jar!/full.policy` line 59 explicitly requests SocketPermission `*` for accept/connect/listen/resolve",
+          "Label": "PROVED resource; UNKNOWN effective grant"
+        },
+        {
+          "Gate": "Reflection and loading policy",
+          "Evidence and consequence": "Same policy lines 43-56 include file, class-loader, library, declared-member, and reflection permissions",
+          "Label": "PROVED resource; UNKNOWN effective domain composition"
+        },
+        {
+          "Gate": "App-specific interface policy",
+          "Evidence and consequence": "Yelp requests `ppp0`; iHeart requests `tun`; KIM3 manager requests `tun` plus AppMgrPermission",
+          "Label": "PROVED resources; not a listener bind result"
+        },
+        {
+          "Gate": "Harman socket factory",
+          "Evidence and consequence": "Initializer `init` BCI 17 installs `Socket.setSocketImplFactory`; StrictSocketImpl checks InterfacePermission and delegates to SocksSocketImpl",
+          "Label": "PROVED path; UNKNOWN live installation and applicability to accepted sockets"
+        },
+        {
+          "Gate": "ServerSocket factory distinction",
+          "Evidence and consequence": "No recovered `ServerSocket.setSocketFactory` call; do not assume the client Socket factory changes ServerSocket bind",
+          "Label": "PROVED bounded absence; UNKNOWN runtime implementation"
+        },
+        {
+          "Gate": "Network scope",
+          "Evidence and consequence": "Factory endpoint is IPv4 loopback; no recovered specific off-unit bridge",
+          "Label": "PROVED address; UNKNOWN live routing/forwarding"
+        },
+        {
+          "Gate": "Worker/UI availability",
+          "Evidence and consequence": "Bind must succeed, worker remain alive, and LWUIT callbacks run",
+          "Label": "UNKNOWN runtime conditions"
+        }
+      ]
+    },
+    {
+      "columns": [
+        "Edge",
+        "File evidence",
+        "Label"
+      ],
+      "rows": [
+        {
+          "Edge": "Bind part-reader closure to `/dev/fram/partnumber`",
+          "File evidence": "Root function constant/load `0x48`, closure/upvalue binding `0x68/0x6c`",
+          "Label": "PROVED"
+        },
+        {
+          "Edge": "Read part number",
+          "File evidence": "Function 4 calls device.open with read mode at `0xcc9`, reads 10 bytes at `0xcdd`, normalizes recognized 8-digit-plus-suffix or 9-digit forms",
+          "Label": "PROVED"
+        },
+        {
+          "Edge": "Bind map selector closure",
+          "File evidence": "Root closure `0x70`, root `install` upvalue binding `0x88`",
+          "Label": "PROVED"
+        },
+        {
+          "Edge": "Select package",
+          "File evidence": "Function 5 defaults KIM0 `0xea7`, loads map via dofile `0xebf`, indexes supplied part number `0xed3/0xee3`, returns `0xee7`",
+          "Label": "PROVED"
+        },
+        {
+          "Edge": "Install uses returned package",
+          "File evidence": "Function 6 part-reader call `0xfe5`, map-selector call `0xff1`; result in register 18",
+          "Label": "PROVED"
+        },
+        {
+          "Edge": "Reject no-package branch",
+          "File evidence": "Function 6 tests selected value/KIM0 at `0x1219/0x1221`",
+          "Label": "PROVED"
+        },
+        {
+          "Edge": "Copy selected package",
+          "File evidence": "Function 6 incorporates register 18 into `kim_packages/<selected>` at `0x126d`; destination `kona/preload`; copy command invocation `0x1299`",
+          "Label": "PROVED static instruction path"
+        }
+      ]
+    },
+    {
+      "columns": [
+        "Candidate and owner",
+        "Activation and input / load scope",
+        "Remaining boundary and production conclusion"
+      ],
+      "rows": [
+        {
+          "Candidate and owner": "Tweddle JSON `invoke` in the five older copies",
+          "Activation and input / load scope": "Socket dispatcher -> public wrapper methods; supplied method and runtime-typed arguments",
+          "Remaining boundary and production conclusion": "PROVED method dispatch; package-excluded, loopback/client/policy gates; no arbitrary class receiver"
+        },
+        {
+          "Candidate and owner": "Tweddle `XletTestRunner`",
+          "Activation and input / load scope": "`runUnitTests` -> async event -> local-file URLClassLoader or existing loader -> test class name",
+          "Remaining boundary and production conclusion": "PROVED loader instructions; missing JUnit runtime, file/domain/client gates; no new-code use established"
+        },
+        {
+          "Candidate and owner": "Tweddle HTTP response injection",
+          "Activation and input / load scope": "HttpMethodExecutor -> InjectionManager; `injectionEnabled` defaults false, XML plan defaults `/fs/etfs/response_injection.xml`; file responses/delays/status/headers",
+          "Remaining boundary and production conclusion": "PROVED configuration-driven data substitution, not a listening server; external file writer and enablement UNKNOWN; older copies package-excluded"
+        },
+        {
+          "Candidate and owner": "Tweddle model registry / JSONModelResponseProcessor, including Help daemon variant",
+          "Activation and input / load scope": "HTTP response processor obtains type/innerType from MethodDescriptor fields; Class.forName BCI 63 in core variant, reflected construction/population; ModelRegistry holds model classes",
+          "Remaining boundary and production conclusion": "PROVED model instantiation; service payload supplies values, not proved arbitrary class selection; descriptor provenance/classpath/domain gates remain"
+        },
+        {
+          "Candidate and owner": "Tweddle form registry / wizard descriptors",
+          "Activation and input / load scope": "AbstractHUXlet builds registry from concrete getFormClasses; createFormInstance uses registered Class.newInstance; wizard/resource XML supplies UI descriptions",
+          "Remaining boundary and production conclusion": "PROVED stock UI/resource extension; no new class bytes or user-editable registry path proved"
+        },
+        {
+          "Candidate and owner": "Airbiquity EventParser in HUP apps",
+          "Activation and input / load scope": "JSON `type` -> fixed response package plus capitalized `<type>Event`; Class.forName BCI 69, newInstance 76, reflected init(HashMap) 108",
+          "Remaining boundary and production conclusion": "PROVED resource-free class-name dispatch within fixed package; caller transport/session and useful safe event remain UNKNOWN; no byte loader"
+        },
+        {
+          "Candidate and owner": "Airbiquity UnitTestUtil",
+          "Activation and input / load scope": "Emulator or download-file `enableUT` gate -> HTTP/JSON test worker, optional reflection in newer variant",
+          "Remaining boundary and production conclusion": "PROVED test code; no recovered external startUnitTest invocation; no production activation or safe ingress established"
+        },
+        {
+          "Candidate and owner": "Platform/Kona service factories",
+          "Activation and input / load scope": "Audio, device input, phone, sensors, telephony, navigation, media, connectivity use reflected stock implementation classes",
+          "Remaining boundary and production conclusion": "PROVED platform adaptation; mostly fixed names and framework-owned selection, native/service/permission gates; no arbitrary external plugin origin established"
+        },
+        {
+          "Candidate and owner": "Airbiquity FactoryOfFactories",
+          "Activation and input / load scope": "isAPIEmulated -> fixed EmulationSDPClientFactory; normal path uses stock FactoriesLoader",
+          "Remaining boundary and production conclusion": "PROVED emulator/stock choice; no caller-supplied class name; runtime configuration UNKNOWN"
+        },
+        {
+          "Candidate and owner": "ConnectorImpl",
+          "Activation and input / load scope": "open/openPrim uses URI scheme plus configured class-root/platform to resolve protocol implementation via Class.forName",
+          "Remaining boundary and production conclusion": "PROVED protocol-provider selection; classpath, connector configuration and downstream permission checks remain; not arbitrary executable input"
+        },
+        {
+          "Candidate and owner": "XML/JAXP/Xerces/DOM/SAX providers",
+          "Activation and input / load scope": "FactoryFinder/ObjectFactory/DOMImplementationRegistry use configured names, system properties, service resources, and class loaders",
+          "Remaining boundary and production conclusion": "PROVED generic provider infrastructure; external control over provider names/resources and activation per app UNKNOWN"
+        },
+        {
+          "Candidate and owner": "Logging factories/configurators",
+          "Activation and input / load scope": "Commons Logging, Microlog, Kona trace select appenders/formatters via properties and reflection",
+          "Remaining boundary and production conclusion": "PROVED configuration-based resident class construction; configuration origin/write permission and live selection UNKNOWN"
+        },
+        {
+          "Candidate and owner": "Native `Affiner` loading in resident LWUIT copies",
+          "Activation and input / load scope": "Graphics helper constructor loads fixed `Affiner`; resource stream -> temp file -> System.load BCI 138",
+          "Remaining boundary and production conclusion": "PROVED native resource loading; fixed resource name, loadLibrary/File permissions and ABI; externally supplied library origin UNKNOWN"
+        },
+        {
+          "Candidate and owner": "Harman Executor wrappers",
+          "Activation and input / load scope": "Two Runtime.exec(String[]) sites, BCI 23; AMS initializer TimeMgrService.updateOffset calls its wrapper at BCI 6",
+          "Remaining boundary and production conclusion": "PROVED process-launch wrappers; known service caller and fixed task, no user command ingress proved; shared Kona wrapper has no recovered external Java caller"
+        },
+        {
+          "Candidate and owner": "Java serialization/reflection support",
+          "Activation and input / load scope": "Storefront Base64 ObjectInputStream subclass resolveClass plus object/array/field reflection in libraries",
+          "Remaining boundary and production conclusion": "PROVED decoder infrastructure; externally controllable serialization-to-effect chain UNKNOWN; not exercised"
+        },
+        {
+          "Candidate and owner": "Help content bundle/HTML pipeline",
+          "Activation and input / load scope": "Help daemon downloads content, ZIP reader expands resources; Help HtmlForm feeds existing HTML component",
+          "Remaining boundary and production conclusion": "PROVED content handling APIs and call sites; network response/user control, activation and content-policy end-to-end UNKNOWN; no general script execution proved"
+        },
+        {
+          "Candidate and owner": "Catalog/AMS extension",
+          "Activation and input / load scope": "Already-stock catalog UI selects package -> download -> native AppManager/AMS validation",
+          "Remaining boundary and production conclusion": "PROVED/STRONGLY INFERRED from existing reports; new packages still require unavailable authentication; not a solution to this objective"
+        },
+        {
+          "Candidate and owner": "Native 3proxy plugin/include and Lua configuration",
+          "Activation and input / load scope": "Shipped config has local plugin/override includes and fixed ProxyReloaded.lua callback",
+          "Remaining boundary and production conclusion": "PROVED native configuration hooks, separate from resident signed Java; local-file production provenance and controllability UNKNOWN; no changes attempted"
+        }
+      ]
+    },
+    {
+      "columns": [
+        "Input / stock component",
+        "What the recovered path can support",
+        "Classification / remaining gate"
+      ],
+      "rows": [
+        {
+          "Input / stock component": "Stock Apps UI -> native AppManager -> AMS",
+          "What the recovered path can support": "List and request normal launch of installed authorized Xlets; visible stock form is a benign proof",
+          "Classification / remaining gate": "PROVED static user-facing chain; target installed list, DRM, launch completion UNKNOWN"
+        },
+        {
+          "Input / stock component": "Permissioned Kona AppManager / SvcIPC",
+          "What the recovered path can support": "Query and manage stock Xlet lifecycle through `com.harman.service.AppManager` and AMS",
+          "Classification / remaining gate": "PROVED method permission checks and request construction; safe query UI/client for each operation and live registration UNKNOWN"
+        },
+        {
+          "Input / stock component": "Tweddle TCP 11111",
+          "What the recovered path can support": "Read UI/VM state, existing test UI operations",
+          "Classification / remaining gate": "PROVED package-excluded loopback mechanism; no externally reachable instance established"
+        },
+        {
+          "Input / stock component": "Microlog SocketLogServer in shared kona.jar",
+          "What the recovered path can support": "Standalone main -> thread -> port 1234 ServerSocket(int), accept, DataInputStream.readUTF, console output",
+          "Classification / remaining gate": "PROVED static log receiver; only self/main construction/start references found; no descriptor/startup activation; production reachability UNKNOWN"
+        },
+        {
+          "Input / stock component": "Airbiquity HUP test HTTP server",
+          "What the recovered path can support": "ServerSocketFactory.createServerSocket(4700,10,192.168.6.1), HTTP entity decode, test dispatcher",
+          "Classification / remaining gate": "PROVED listener code in multiple HUP variants; no external startUnitTest caller, emulator/enableUT gate; listener/route UNKNOWN; no commands exercised"
+        },
+        {
+          "Input / stock component": "PPS simulator in Kona",
+          "What the recovered path can support": "Outbound socket/object streams emulate native PPS",
+          "Classification / remaining gate": "PROVED client, not an inbound server; PPS.getObject selects it only for os.arch i386/x86/amd64, selects PPSObjectTarget otherwise; production ARM simulator path DISPROVED under that predicate"
+        },
+        {
+          "Input / stock component": "Native PPS / service callbacks",
+          "What the recovered path can support": "Existing resident device, media, connectivity, phone and application callbacks",
+          "Classification / remaining gate": "PROVED API/registration infrastructure; no universal external human command path; vehicle/diagnostic interactions excluded from proof candidates"
+        },
+        {
+          "Input / stock component": "HTTP(S) stock clients",
+          "What the recovered path can support": "Yelp/storefront/catalog/help/media responses populate UI/model/content",
+          "Classification / remaining gate": "PROVED client/parser presence and selected data paths; server-controlled responses, entitlement/connectivity, and safe user-controllable payload route UNKNOWN"
+        },
+        {
+          "Input / stock component": "Paho MQTT / local network module",
+          "What the recovered path can support": "Client network modules and callback infrastructure",
+          "Classification / remaining gate": "PROVED API/call-site presence; broker configuration, subscription activation, authorization, useful benign message chain UNKNOWN"
+        },
+        {
+          "Input / stock component": "Bluetooth / phone / Via Mobile",
+          "What the recovered path can support": "Stock phone and connectivity wrappers plus `tun` interface-oriented applications",
+          "Classification / remaining gate": "PROVED corpus API/configuration presence; paired-device/application-protocol-to-benign-effect path UNKNOWN; not a TCP listener inference"
+        },
+        {
+          "Input / stock component": "USB / removable media",
+          "What the recovered path can support": "Stock media and authenticated software-update ingestion",
+          "Classification / remaining gate": "PROVED existing media/update infrastructure from repository; no unsigned application ingress, watched benign command drop-directory, or complete new-message display chain established"
+        },
+        {
+          "Input / stock component": "Wi-Fi / hotspot",
+          "What the recovered path can support": "Native networking config and service APIs",
+          "Classification / remaining gate": "PROVED routing/filter configuration; no resident off-unit benign command endpoint established; active interfaces/anchors UNKNOWN"
+        },
+        {
+          "Input / stock component": "Native telnet inetd entry (separate native firmware evidence)",
+          "What the recovered path can support": "inetd.conf line 23 selects telnetd; pf.conf line 81 permits port 23 on `en` toward vehicle/manufacturing addresses",
+          "Classification / remaining gate": "PROVED configuration pair only; inetd/telnetd startup, credentials/authentication, effective rules and interface access UNKNOWN; not a benign proof candidate and not pursued"
+        },
+        {
+          "Input / stock component": "Native 3proxy",
+          "What the recovered path can support": "Configured loopback HTTP proxy on 3128, local includes, IP-based policy",
+          "Classification / remaining gate": "PROVED configuration only; live process/overrides/forwarding UNKNOWN; not evidence of off-unit access to socket commands"
+        }
+      ]
+    }
+  ]
+}

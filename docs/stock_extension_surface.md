@@ -1,5 +1,11 @@
 # Stock extension surface
 
+> Historical snapshot. The [stock signed capability follow-up](stock_signed_capability_analysis.md)
+> supersedes this page's production-enablement inference: none of the shipped
+> part-number map entries selects KIM1, KIM3, or KIM12, which contain all five
+> SocketCommandSource copies. The follow-up also traces the JUnit loader and
+> distinguishes shared same-name class variants.
+
 ## Evidence boundary
 
 **PROVED** means direct recovered structure or a source-addressed static edge. **STRONGLY INFERRED** joins direct facts with a stated inference. **UNKNOWN** means the recovered evidence does not establish the claim.
