@@ -1,0 +1,168 @@
+{
+  "app": {
+    "app_id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+    "main_class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+    "name": "Yelp",
+    "version": "03.00.33"
+  },
+  "evidence_labels": [
+    "INFERRED",
+    "PROVED",
+    "STRONGLY SUPPORTED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "flows": [
+    {
+      "destination": "GpCurrentLocationScreen",
+      "id": "i01_local_home",
+      "label": "PROVED",
+      "origin": "startup",
+      "result": "Category icons, search field, voice button, and unavailable favorite control are constructed before Yelp HTTP."
+    },
+    {
+      "destination": "GpCVPKeyboard",
+      "id": "i02_touch_open",
+      "label": "PROVED",
+      "origin": "search-field pointer release",
+      "result": "Requires valid location and no vehicle lockout."
+    },
+    {
+      "destination": "GpSearchRequest keyword",
+      "evidence": [
+        {
+          "bci": 190,
+          "callee_descriptor": "()Ljava/lang/String;",
+          "class": "com/sprint/chrysler/yelp/gui/GpCVPKeyboard",
+          "descriptor": "()V",
+          "method": "fireOKPressed",
+          "name": "getText",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/chrysler/common/gui/keyboard/CVPKeyboardTextInput",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "i03_touch_text",
+      "label": "PROVED",
+      "origin": "keyboard widget",
+      "result": "Exact nonempty text is captured without trimming before request construction."
+    },
+    {
+      "destination": "term query",
+      "evidence": [
+        {
+          "bci": 33,
+          "callee_descriptor": "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;",
+          "class": "com/sprint/chrysler/yelp/communications/GpSearchRequest",
+          "descriptor": "()Ljava/lang/String;",
+          "method": "searchByLatLon",
+          "name": "encode",
+          "opcode": "invokestatic",
+          "owner": "java/net/URLEncoder",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "i04_ordinary_text",
+      "label": "PROVED",
+      "origin": "ordinary touch or voice string",
+      "result": "UTF-8 URL encoding; no local command, HTML, script, or rendering interpreter consumes it first."
+    },
+    {
+      "destination": "term plus location queries",
+      "id": "i05_near_in",
+      "label": "PROVED",
+      "origin": "lower-cased text containing localized near/in",
+      "result": "Split at first token, trim, remove fixed punctuation class, then URL encode both sides."
+    },
+    {
+      "destination": "ll query",
+      "id": "i06_latlon",
+      "label": "PROVED",
+      "origin": "platform location",
+      "result": "Ordinary mode refreshes and appends latitude,longitude without URL encoding."
+    },
+    {
+      "destination": "VRQueue",
+      "id": "i07_voice_button",
+      "label": "PROVED",
+      "origin": "voice control",
+      "result": "After location validation, requestOffBoardVr pushes a VRSoftButtonEvent."
+    },
+    {
+      "destination": "SpeechListener on UI thread",
+      "id": "i08_voice_callback",
+      "label": "PROVED",
+      "origin": "offboardcommandRecognized",
+      "result": "Localized cancel text is intercepted; every other string is delivered with Display.callSerially."
+    },
+    {
+      "destination": "shared GpSearchRequest",
+      "evidence": [
+        {
+          "bci": 58,
+          "callee_descriptor": "(Lcom/sun/lwuit/Dialog;Ljava/lang/String;Ljava/lang/String;)V",
+          "class": "com/sprint/chrysler/yelp/vr/SpeechListener",
+          "descriptor": "(Ljava/lang/String;)V",
+          "method": "onVRAction",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/chrysler/yelp/communications/GpSearchRequest",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "i09_voice_request",
+      "label": "PROVED",
+      "origin": "recognized string",
+      "result": "Stored as search name/term and sent with sort 0."
+    },
+    {
+      "destination": "three RMS stores",
+      "id": "i10_rms",
+      "label": "PROVED",
+      "origin": "category visibility/order and user-defined searches",
+      "result": "9YelpPreDefItemRS, 9YelpPreSortRS, and 9YelpUserSortRS serialize delimiter-separated data."
+    },
+    {
+      "destination": "none",
+      "id": "i11_poi_favorite",
+      "label": "PROVED",
+      "origin": "home favorite action",
+      "result": "Only an unavailable message is shown; no POI favorite sink was found."
+    },
+    {
+      "destination": "LWUIT default",
+      "id": "i12_max_length",
+      "label": "UNKNOWN",
+      "origin": "SearchFieldContainer",
+      "result": "Yelp never calls setMaxSize; exact runtime default is not guessed."
+    },
+    {
+      "destination": "keyboard layout",
+      "id": "i13_characters",
+      "label": "STRONGLY SUPPORTED",
+      "origin": "default search-field constraint",
+      "result": "Packaged layouts contain Latin letters, digits, spaces, punctuation, accented Latin, .com, and emoticons; not every key is proved reachable on every target."
+    }
+  ],
+  "format": "kim19-yelp-analysis-v1",
+  "notes_sha256": "4e87ed2aff116240ac0210652f40c53059996ff8fb300a887001262d63c1ad93",
+  "report": "input_dataflow",
+  "runtime_boundary": "Static recovered-artifact analysis; current target state and backend availability are not inferred.",
+  "sources": {
+    "descriptor": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/xlet.properties",
+      "sha256": "57a3a5defa8fcdcff2b178954b15eff7ba6a22c12140088c1b24ce2a36c9b878",
+      "size": 1036
+    },
+    "key_jar": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b",
+      "size": 22238
+    },
+    "yelp_jar": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
+      "size": 1852176
+    }
+  }
+}

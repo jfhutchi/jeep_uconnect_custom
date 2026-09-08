@@ -1,71 +1,148 @@
 {
-  "app": {
-    "app_id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
-    "main_class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
-    "name": "Yelp",
-    "version": "03.00.33"
-  },
+  "app": {"app_id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66", "main_class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet", "name": "Yelp", "version": "03.00.33"},
   "format": "kim19-yelp-reviewed-notes-v1",
-  "labels": [
-    "INFERRED",
-    "PROVED",
-    "STRONGLY SUPPORTED",
-    "TARGET OBSERVATION REQUIRED",
-    "UNKNOWN"
-  ],
+  "labels": ["INFERRED", "PROVED", "STRONGLY SUPPORTED", "TARGET OBSERVATION REQUIRED", "UNKNOWN"],
   "prior_evidence": [
-    {
-      "path": "reports/app_launch_ui_path.md",
-      "role": "Apps-menu ActionScript startXlet dispatch"
-    },
-    {
-      "path": "docs/native_virtual_catalog_predicates.md",
-      "role": "native catalog visibility predicates"
-    },
-    {
-      "path": "reports/stock_extension_surface/activation_call_paths.json",
-      "role": "AppManager and AMS launch path"
-    }
+    {"path": "reports/app_launch_ui_path.md", "role": "Apps-menu ActionScript startXlet dispatch"},
+    {"path": "docs/native_virtual_catalog_predicates.md", "role": "native catalog visibility predicates"},
+    {"path": "reports/stock_extension_surface/activation_call_paths.json", "role": "AppManager and AMS launch path"},
+    {"path": "reports/stock_extension_surface/java_extension_surfaces.json", "role": "recovered platform phone and navigation receivers"}
   ],
   "reports": {
-    "failure_paths": {
-      "paths": []
-    },
-    "input_dataflow": {
-      "flows": []
-    },
     "launch_graph": {
-      "edges": [],
-      "nodes": []
+      "nodes": [
+        {"id": "n01_descriptor", "name": "Recovered Yelp descriptor"},
+        {"id": "n02_catalog", "name": "Native virtual-app catalog"},
+        {"id": "n03_hmi", "name": "Apps HMI startXlet dispatch"},
+        {"id": "n04_drm_ams", "name": "DRM, AppManager, and AMS"},
+        {"id": "n05_init", "name": "YelpPOIXlet.initXlet"},
+        {"id": "n06_display", "name": "IXC, container, and LWUIT"},
+        {"id": "n07_start", "name": "First start runnable"},
+        {"id": "n08_setup", "name": "Theme, locale, RMS, and metrics"},
+        {"id": "n09_splash", "name": "Splash and location worker"},
+        {"id": "n10_home", "name": "8.4-inch current-location screen"},
+        {"id": "n11_ui", "name": "Category, touch-search, and voice UI"},
+        {"id": "n12_request", "name": "GpSearchRequest queue"},
+        {"id": "n13_http", "name": "Connectivity and HTTPS client"},
+        {"id": "n14_results", "name": "Status, results, and details"}
+      ],
+      "edges": [
+        {"id": "e01_catalog", "label": "STRONGLY SUPPORTED", "source": "n01_descriptor", "target": "n02_catalog", "why": "GUI, non-daemon descriptor satisfies the recovered generic predicate; target registration is unobserved."},
+        {"id": "e02_select", "label": "PROVED", "source": "n02_catalog", "target": "n03_hmi", "why": "Committed Apps evidence dispatches startXlet for the selected app ID."},
+        {"id": "e03_launch", "label": "PROVED", "source": "n03_hmi", "target": "n04_drm_ams", "why": "Native AppManager performs DRM/findAndStartApp and AMS association."},
+        {"id": "e04_lifecycle", "label": "TARGET OBSERVATION REQUIRED", "source": "n04_drm_ams", "target": "n05_init", "why": "Current registration, grants, and launch result are target state."},
+        {"evidence": [{"bci": 23, "callee_descriptor": "(Ljavax/microedition/xlet/XletContext;)Ljavax/microedition/xlet/ixc/IxcRegistry;", "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet", "descriptor": "(Ljavax/microedition/xlet/XletContext;)V", "method": "initXlet", "name": "getRegistry", "opcode": "invokestatic", "owner": "javax/microedition/xlet/ixc/IxcRegistry"}], "id": "e05_ixc", "label": "PROVED", "source": "n05_init", "target": "n06_display", "why": "The Xlet gets IXC and its container before Display initialization."},
+        {"evidence": [{"bci": 23, "callee_descriptor": "(Ljava/lang/Runnable;)V", "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet", "descriptor": "()V", "method": "startXlet", "name": "callSerially", "opcode": "invokevirtual", "owner": "com/sun/lwuit/Display"}], "id": "e06_start", "label": "PROVED", "source": "n06_display", "target": "n07_start", "why": "First start schedules one UI runnable; later starts return without rebuilding UI."},
+        {"evidence": [{"bci": 15, "callee_descriptor": "([Ljava/lang/String;)V", "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1", "descriptor": "()V", "method": "run", "name": "loadPreDefList", "opcode": "invokestatic", "owner": "com/sprint/chrysler/yelp/util/GpRecordStoreManager"}], "id": "e07_setup", "label": "PROVED", "source": "n07_start", "target": "n08_setup", "why": "Theme, locale, three RMS datasets, and metrics initialize before splash."},
+        {"evidence": [{"bci": 38, "callee_descriptor": "()V", "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1", "descriptor": "()V", "method": "run", "name": "show", "opcode": "invokevirtual", "owner": "com/sprint/chrysler/yelp/gui/YelpSplashScreen"}], "id": "e08_splash", "label": "PROVED", "source": "n08_setup", "target": "n09_splash", "why": "A local splash is shown; its worker delays 3000 ms then refreshes location."},
+        {"evidence": [{"bci": 124, "callee_descriptor": "(I)V", "class": "com/sprint/chrysler/yelp/gui/YelpSplashScreen$1$1", "descriptor": "()V", "method": "run", "name": "gotoScreen", "opcode": "invokevirtual", "owner": "com/sprint/chrysler/common/gui/ScreenManager"}], "id": "e09_home", "label": "PROVED", "source": "n09_splash", "target": "n10_home", "why": "8.4/default screen type selects screen 70, GpCurrentLocationScreen."},
+        {"evidence": [{"bci": 77, "callee_descriptor": "(Ljava/util/List;)V", "class": "com/sprint/chrysler/yelp/gui/GpCurrentLocationScreen", "descriptor": "()V", "method": "<init>", "name": "layoutForm", "opcode": "invokevirtual", "owner": "com/sprint/chrysler/yelp/gui/GpCurrentLocationScreen"}], "id": "e10_ui", "label": "PROVED", "source": "n10_home", "target": "n11_ui", "why": "The home screen enables VR and lays out local controls before any Yelp HTTP call."},
+        {"evidence": [{"bci": 227, "callee_descriptor": "(Lcom/sun/lwuit/Dialog;Ljava/lang/String;Ljava/lang/String;)V", "class": "com/sprint/chrysler/yelp/gui/GpCVPKeyboard", "descriptor": "()V", "method": "fireOKPressed", "name": "<init>", "opcode": "invokespecial", "owner": "com/sprint/chrysler/yelp/communications/GpSearchRequest"}], "id": "e11_request", "label": "PROVED", "source": "n11_ui", "target": "n12_request", "why": "Validated touch text constructs the request; recognized speech uses the same request class."},
+        {"evidence": [{"bci": 8, "callee_descriptor": "()Lorg/apache/http/HttpResponse;", "class": "com/sprint/chrysler/common/communications/BaseRequest", "descriptor": "()V", "method": "run", "name": "CallService", "opcode": "invokevirtual", "owner": "com/sprint/chrysler/common/communications/BaseRequest"}], "id": "e12_http", "label": "PROVED", "source": "n12_request", "target": "n13_http", "why": "The queue establishes connectivity and executes the Apache HTTP client."},
+        {"id": "e13_results", "label": "PROVED", "source": "n13_http", "target": "n14_results", "why": "Parsed JSON status selects error, zero-results, results, or generic failure UI."}
+      ]
     },
-    "network_fields": {
-      "fields": []
-    },
-    "response_actions": {
-      "actions": []
-    },
-    "runtime_gates": {
-      "gates": []
-    },
-    "stock_handoffs": {
-      "handoffs": []
-    }
+    "runtime_gates": {"gates": [
+      {"earliest": "before Apps tile", "id": "g01_install", "label": "TARGET OBSERVATION REQUIRED", "passes_when": "Yelp is installed, registered, visible, and entitled"},
+      {"earliest": "native launch", "id": "g02_drm_ams", "label": "TARGET OBSERVATION REQUIRED", "passes_when": "DRM, signer association, policy, AppManager, and AMS accept the app"},
+      {"earliest": "initXlet", "id": "g03_container", "label": "PROVED", "passes_when": "Xlet container and Display initialize"},
+      {"earliest": "first start", "id": "g04_resources", "label": "PROVED", "passes_when": "theme, locale, RMS, metrics, and splash setup complete"},
+      {"earliest": "splash worker", "id": "g05_location_worker", "label": "PROVED", "passes_when": "delay and LocationInfo return and the UI callback is scheduled"},
+      {"earliest": "home constructor", "id": "g06_vr_constructor", "label": "PROVED", "passes_when": "VR helper construction returns and layout completes"},
+      {"earliest": "useful local UI", "id": "g07_pre_backend", "label": "PROVED", "passes_when": "GpCurrentLocationScreen layout completes; no search backend response is required"},
+      {"earliest": "touch", "id": "g08_lockout", "label": "PROVED", "passes_when": "vehicle lockout is false or emulator bypass applies"},
+      {"earliest": "touch or voice", "id": "g09_location_valid", "label": "PROVED", "passes_when": "latitude and longitude pass the local validity check"},
+      {"earliest": "voice", "id": "g10_voice_service", "label": "TARGET OBSERVATION REQUIRED", "passes_when": "speech service/session accepts configuration and returns recognition callbacks"},
+      {"earliest": "request", "id": "g11_connectivity", "label": "TARGET OBSERVATION REQUIRED", "passes_when": "platform connectivity connects internet"},
+      {"earliest": "HTTPS", "id": "g12_transport", "label": "TARGET OBSERVATION REQUIRED", "passes_when": "DNS, TCP, TLS, fixed authorization, and endpoint are accepted"},
+      {"earliest": "response", "id": "g13_schema", "label": "TARGET OBSERVATION REQUIRED", "passes_when": "body matches the expected legacy JSON schema"},
+      {"earliest": "phone", "id": "g14_phone", "label": "TARGET OBSERVATION REQUIRED", "passes_when": "dial permission and Bluetooth service succeed"},
+      {"earliest": "navigation", "id": "g15_navigation", "label": "TARGET OBSERVATION REQUIRED", "passes_when": "coordinates/geocode, OpenNav activation, and HMI gateway succeed"}
+    ]},
+    "input_dataflow": {"flows": [
+      {"destination": "GpCurrentLocationScreen", "id": "i01_local_home", "label": "PROVED", "origin": "startup", "result": "Category icons, search field, voice button, and unavailable favorite control are constructed before Yelp HTTP."},
+      {"destination": "GpCVPKeyboard", "id": "i02_touch_open", "label": "PROVED", "origin": "search-field pointer release", "result": "Requires valid location and no vehicle lockout."},
+      {"destination": "GpSearchRequest keyword", "evidence": [{"bci": 190, "callee_descriptor": "()Ljava/lang/String;", "class": "com/sprint/chrysler/yelp/gui/GpCVPKeyboard", "descriptor": "()V", "method": "fireOKPressed", "name": "getText", "opcode": "invokevirtual", "owner": "com/sprint/chrysler/common/gui/keyboard/CVPKeyboardTextInput"}], "id": "i03_touch_text", "label": "PROVED", "origin": "keyboard widget", "result": "Exact nonempty text is captured without trimming before request construction."},
+      {"destination": "term query", "evidence": [{"bci": 33, "callee_descriptor": "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", "class": "com/sprint/chrysler/yelp/communications/GpSearchRequest", "descriptor": "()Ljava/lang/String;", "method": "searchByLatLon", "name": "encode", "opcode": "invokestatic", "owner": "java/net/URLEncoder"}], "id": "i04_ordinary_text", "label": "PROVED", "origin": "ordinary touch or voice string", "result": "UTF-8 URL encoding; no local command, HTML, script, or rendering interpreter consumes it first."},
+      {"destination": "term plus location queries", "id": "i05_near_in", "label": "PROVED", "origin": "lower-cased text containing localized near/in", "result": "Split at first token, trim, remove fixed punctuation class, then URL encode both sides."},
+      {"destination": "ll query", "id": "i06_latlon", "label": "PROVED", "origin": "platform location", "result": "Ordinary mode refreshes and appends latitude,longitude without URL encoding."},
+      {"destination": "VRQueue", "id": "i07_voice_button", "label": "PROVED", "origin": "voice control", "result": "After location validation, requestOffBoardVr pushes a VRSoftButtonEvent."},
+      {"destination": "SpeechListener on UI thread", "id": "i08_voice_callback", "label": "PROVED", "origin": "offboardcommandRecognized", "result": "Localized cancel text is intercepted; every other string is delivered with Display.callSerially."},
+      {"destination": "shared GpSearchRequest", "evidence": [{"bci": 58, "callee_descriptor": "(Lcom/sun/lwuit/Dialog;Ljava/lang/String;Ljava/lang/String;)V", "class": "com/sprint/chrysler/yelp/vr/SpeechListener", "descriptor": "(Ljava/lang/String;)V", "method": "onVRAction", "name": "<init>", "opcode": "invokespecial", "owner": "com/sprint/chrysler/yelp/communications/GpSearchRequest"}], "id": "i09_voice_request", "label": "PROVED", "origin": "recognized string", "result": "Stored as search name/term and sent with sort 0."},
+      {"destination": "three RMS stores", "id": "i10_rms", "label": "PROVED", "origin": "category visibility/order and user-defined searches", "result": "9YelpPreDefItemRS, 9YelpPreSortRS, and 9YelpUserSortRS serialize delimiter-separated data."},
+      {"destination": "none", "id": "i11_poi_favorite", "label": "PROVED", "origin": "home favorite action", "result": "Only an unavailable message is shown; no POI favorite sink was found."},
+      {"destination": "LWUIT default", "id": "i12_max_length", "label": "UNKNOWN", "origin": "SearchFieldContainer", "result": "Yelp never calls setMaxSize; exact runtime default is not guessed."},
+      {"destination": "keyboard layout", "id": "i13_characters", "label": "STRONGLY SUPPORTED", "origin": "default search-field constraint", "result": "Packaged layouts contain Latin letters, digits, spaces, punctuation, accented Latin, .com, and emoticons; not every key is proved reachable on every target."}
+    ]},
+    "network_fields": {"fields": [
+      {"control": "application", "id": "w01_search_url", "label": "PROVED", "name": "search URL", "value": "https://vsb.cvp.extra.chrysler.com/yelp-api/v2/search"},
+      {"control": "application", "id": "w02_geocode_url", "label": "PROVED", "name": "geocode URL", "value": "https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find"},
+      {"control": "user_or_speech", "id": "w03_term", "label": "PROVED", "name": "term", "transform": "apostrophes removed; UTF-8 URL encoded; special near/in mode also trims and removes fixed punctuation"},
+      {"control": "platform", "id": "w04_ll", "label": "PROVED", "name": "ll", "transform": "latitude,longitude appended without encoding"},
+      {"control": "user_or_speech", "id": "w05_location", "label": "PROVED", "name": "location", "transform": "right side of near/in; trim, punctuation removal, UTF-8 URL encoding"},
+      {"control": "application", "id": "w06_sort", "label": "PROVED", "name": "sort", "value": "0"},
+      {"control": "application", "id": "w07_method", "label": "PROVED", "name": "method", "value": "GET"},
+      {"control": "application", "id": "w08_headers", "label": "PROVED", "name": "common headers", "value": "Content-Type text/plain; Accept application/json; Connection close; User-Agent TU"},
+      {"control": "application_secret", "id": "w09_authorization", "label": "PROVED", "name": "Authorization", "redaction": "fixed bundled value omitted", "value_sha256": "f123350ba1b7473a5e933cfcd84c5d32f91858823962de28239f845339c43013"},
+      {"control": "application", "id": "w10_timeouts", "label": "PROVED", "name": "timeouts", "value": "30000 ms connect and 30000 ms socket read"},
+      {"control": "application", "id": "w11_retries", "label": "PROVED", "name": "connectivity retry", "value": "3 connectInternet attempts with 30 ms sleep after failures"},
+      {"control": "user_or_server", "id": "w12_geocode_text", "label": "PROVED", "name": "text", "transform": "first comma removed, newline to space, spaces to plus; no general percent encoding"},
+      {"control": "application", "id": "w13_geocode_format", "label": "PROVED", "name": "f", "value": "pjson"},
+      {"control": "server", "id": "w14_json", "label": "PROVED", "name": "response", "value": "entire character stream parsed as org.json.me.JSONObject"},
+      {"control": "platform", "id": "w15_dns_tls", "label": "UNKNOWN", "name": "DNS/TLS details", "value": "trust store, protocol, SNI, proxy, and certificate result are outside Yelp bytecode"},
+      {"control": "external", "id": "w16_live_state", "label": "TARGET OBSERVATION REQUIRED", "name": "current backend acceptance/schema", "value": "not contacted"}
+    ]},
+    "response_actions": {"actions": [
+      {"field": "error.id", "id": "a01_error", "label": "PROVED", "sink": "ERROR status and service-unavailable dialog"},
+      {"field": "total", "id": "a02_total", "label": "PROVED", "sink": "Zero_Results when string equals 0"},
+      {"field": "businesses", "id": "a03_businesses", "label": "PROVED", "sink": "Place list and results screen"},
+      {"field": "name/rating/review_count", "id": "a04_identity", "label": "PROVED", "sink": "Place model, result labels, and details widgets/title"},
+      {"field": "phone", "id": "a05_phone", "label": "PROVED", "sink": "optional Place.phone, call control, Phone.dial"},
+      {"field": "RestaurantsPriceRange2/hours/distance", "id": "a06_optional", "label": "PROVED", "sink": "price, hours dialog, and server/local distance UI"},
+      {"field": "location.display_address/address", "id": "a07_address", "label": "PROVED", "sink": "Place display/street fields and navigation Geocode"},
+      {"field": "location.city/state_code/country_code", "id": "a08_region", "label": "PROVED", "sink": "Place/detail fields and navigation Geocode; one fallback maps country code to zip"},
+      {"field": "id/categories", "id": "a09_reference", "label": "PROVED", "sink": "Place reference and optional category labels; no executable dispatch"},
+      {"field": "location.coordinate.latitude/longitude", "id": "a10_coordinates", "label": "PROVED", "sink": "Place doubles, distance calculation, and navigation Geocode"},
+      {"field": "geocoder locations[].extent.ymax/xmax", "id": "a11_geocode", "label": "PROVED", "sink": "fallback latitude/longitude; loop leaves the last entry"},
+      {"field": "all response strings", "id": "a12_no_active_content", "label": "PROVED", "sink": "No HTML, WebView, browser, script, class-loading, or executable-content sink in complete Yelp JAR census"},
+      {"field": "remote image", "id": "a13_remote_image", "label": "PROVED", "sink": "No remote image field parsed; UI images are packaged resources"}
+    ]},
+    "failure_paths": {"paths": [
+      {"effect": "No selectable Yelp tile", "id": "f01_catalog", "label": "TARGET OBSERVATION REQUIRED", "layer": "catalog", "reason": "Current install/registration/visibility/entitlement is unknown."},
+      {"effect": "No Xlet lifecycle", "id": "f02_launch", "label": "TARGET OBSERVATION REQUIRED", "layer": "launch", "reason": "Current DRM/policy/AppManager/AMS outcome is unknown."},
+      {"effect": "destroyXlet(true)", "evidence": [{"bci": 208, "callee_descriptor": "(Z)V", "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet", "descriptor": "(Ljavax/microedition/xlet/XletContext;)V", "method": "initXlet", "name": "destroyXlet", "opcode": "invokevirtual", "owner": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet"}], "id": "f03_container", "label": "PROVED", "layer": "init", "reason": "UnavailableContainerException explicitly destroys the Xlet."},
+      {"effect": "Partial init can continue", "id": "f04_property", "label": "PROVED", "layer": "init", "reason": "Generic property-read Exception is logged and returns normally."},
+      {"effect": "No local fallback", "id": "f05_setup", "label": "PROVED", "layer": "local_ui", "reason": "Startup runnable catches Throwable only to log it."},
+      {"effect": "Sparse splash", "id": "f06_splash_image", "label": "PROVED", "layer": "local_ui", "reason": "Splash image IOException prints and returns without replacement."},
+      {"effect": "No post-splash callback", "id": "f07_location_worker", "label": "PROVED", "layer": "location", "reason": "Only InterruptedException is caught around worker delay/location/callback."},
+      {"effect": "GPS alert and no request", "id": "f08_gps", "label": "PROVED", "layer": "input", "reason": "Touch and voice require isLocationValid."},
+      {"effect": "Keyboard suppressed/replaced", "id": "f09_lockout", "label": "PROVED", "layer": "input", "reason": "Non-emulator path consults vehicle lockout."},
+      {"effect": "No request", "id": "f10_text", "label": "PROVED", "layer": "input", "reason": "Empty/hint text and duplicate active searches are rejected."},
+      {"effect": "Response code -1 and null response", "evidence": [{"bci": 27, "callee_descriptor": "(Lorg/apache/http/HttpResponse;)V", "class": "com/sprint/chrysler/common/communications/BaseRequest", "descriptor": "()V", "method": "run", "name": "processResponse", "opcode": "invokevirtual", "owner": "com/sprint/chrysler/common/communications/BaseRequest"}], "id": "f11_connectivity", "label": "PROVED", "layer": "connectivity", "reason": "Null connectivity or three failed attempts takes the null-response branch."},
+      {"effect": "Null response; DNS/TCP/TLS cause collapsed", "id": "f12_transport", "label": "PROVED", "layer": "transport", "reason": "CallService catches Throwable."},
+      {"effect": "No structured status", "evidence": [{"bci": 62, "callee_descriptor": "(Ljava/lang/String;)V", "class": "com/sprint/chrysler/yelp/communications/GpBaseRequest", "descriptor": "(Ljava/io/InputStream;)V", "method": "processStream", "name": "<init>", "opcode": "invokespecial", "owner": "org/json/me/JSONObject"}], "id": "f13_bad_json", "label": "PROVED", "layer": "response", "reason": "JSONException is printed; no alternate parser runs."},
+      {"effect": "Service-unavailable dialog", "id": "f14_error", "label": "PROVED", "layer": "response", "reason": "Top-level error sets ERROR."},
+      {"effect": "No-results screen", "id": "f15_zero", "label": "PROVED", "layer": "response", "reason": "total string 0 sets Zero_Results."},
+      {"effect": "Whole parse may abort", "id": "f16_schema", "label": "PROVED", "layer": "response", "reason": "Many business/location fields are mandatory and lack per-item recovery."},
+      {"effect": "Phone-not-available dialog", "evidence": [{"bci": 33, "callee_descriptor": "(Ljava/lang/String;)V", "class": "com/sprint/chrysler/yelp/gui/GpDetailsScreen", "descriptor": "()V", "method": "processDial", "name": "dial", "opcode": "invokeinterface", "owner": "kona/phone/Phone"}], "id": "f17_phone", "label": "PROVED", "layer": "handoff", "reason": "Phone exceptions are caught locally."},
+      {"effect": "Navigation dialog", "evidence": [{"bci": 589, "callee_descriptor": "(Lkona/navigation/Geocode;)Z", "class": "com/sprint/chrysler/yelp/gui/GpDetailsScreen$1", "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V", "method": "actionPerformed", "name": "routeToLocation", "opcode": "invokevirtual", "owner": "kona/navigation/Navigation"}], "id": "f18_navigation", "label": "PROVED", "layer": "handoff", "reason": "NavigationException and generic Exception have separate dialogs; boolean result is discarded."},
+      {"effect": "Live outcome unresolved", "id": "f19_external", "label": "TARGET OBSERVATION REQUIRED", "layer": "external", "reason": "No search, geocode, or speech endpoint was contacted."}
+    ]},
+    "stock_handoffs": {"handoffs": [
+      {"id": "h01_ixc", "label": "PROVED", "receiver": "IxcRegistry", "sender": "YelpPOIXlet", "status": "Registry acquired/stored; no Yelp bind or lookup call found."},
+      {"id": "h02_launch", "label": "PROVED", "receiver": "native AppManager/AMS", "sender": "Apps HMI", "status": "Recovered launch chain is complete statically; current success is target-dependent."},
+      {"id": "h03_location", "label": "PROVED", "receiver": "kona location", "sender": "GpGeoUtil", "status": "Coordinates feed validity, ll, distance, and navigation."},
+      {"id": "h04_voice", "label": "PROVED", "receiver": "kona.speech.vr Session", "sender": "VRHelperImp/VRSessionLogic", "status": "Discovery, listener, session, callback, and local request path recovered; live recognition is target-dependent."},
+      {"id": "h05_phone", "label": "PROVED", "receiver": "PhoneImpl -> BluetoothService.dial", "sender": "GpDetailsScreen.processDial", "status": "String number crosses permission check and DBus-backed receiver; runtime success remains target-dependent."},
+      {"id": "h06_navigation", "label": "PROVED", "receiver": "NavigationImpl -> HMIGatewayService.routeToLocation", "sender": "GpDetailsScreen listener", "status": "Geocode is serialized after OpenNav activation check; Yelp discards returned boolean."},
+      {"id": "h07_geocoder", "label": "PROVED", "receiver": "ArcGIS find endpoint", "sender": "YelpGeocodeRequest", "status": "Used only when result coordinates are zero; live behavior untested."},
+      {"id": "h08_negative", "label": "PROVED", "receiver": "none", "sender": "Yelp", "status": "Complete JAR census found no browser/WebView/HTML/script/dynamic-loader/media-launch/SocketCommandSource/CommandLooper/VSB/SDP client."},
+      {"id": "h09_socket_compare", "label": "PROVED", "receiver": "none in Yelp", "sender": "SocketCommandSource comparison", "status": "Shares KIM19/AMS and kona libraries, but not socket command classes, command loop, socket transport, or IXC command receiver."}
+    ]}
   },
   "sources": {
-    "descriptor": {
-      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/xlet.properties",
-      "sha256": "57a3a5defa8fcdcff2b178954b15eff7ba6a22c12140088c1b24ce2a36c9b878",
-      "size": 1036
-    },
-    "key_jar": {
-      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
-      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b",
-      "size": 22238
-    },
-    "yelp_jar": {
-      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
-      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
-      "size": 1852176
-    }
+    "descriptor": {"path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/xlet.properties", "sha256": "57a3a5defa8fcdcff2b178954b15eff7ba6a22c12140088c1b24ce2a36c9b878", "size": 1036},
+    "key_jar": {"path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar", "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b", "size": 22238},
+    "yelp_jar": {"path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar", "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282", "size": 1852176}
   }
 }

@@ -588,3 +588,34 @@ unobserved. It rejects contradictions instead of filling gaps, matches packaged
 failure text with normalized case and punctuation, and emits canonical JSON with
 one next static question and one benign observation. A string match is not
 promoted to proof of network traffic or backend acceptance.
+
+### Complete KIM19 Yelp runtime reports
+
+`kim19_yelp_analysis.py` is the final Yelp-specific recovered-artifact report
+generator. It reads only the declared descriptor, key JAR, and Yelp JAR;
+verifies their exact sizes and SHA-256 values before and after analysis; parses
+classes without loading them; binds reviewed Java evidence to class, method,
+descriptor, BCI, opcode, owner, name, and callee descriptor; and emits exactly
+seven sorted JSON reports. Fixed service material is never emitted: the
+authorization value is represented only by category, redaction note, and hash.
+
+```powershell
+$CorpusWork = 'E:\Documents\GitHub\jeep_uconnect_custom\analysis_ra4_18.45.01\work'
+$Python = 'E:\Documents\GitHub\jeep_uconnect_custom\analysis_work\post_reboot_20260906\venv\Scripts\python.exe'
+& $Python -m analysis_tools.kim19_yelp_analysis --work $CorpusWork --output reports/kim19_yelp
+& $Python -m analysis_tools.kim19_yelp_analysis --work $CorpusWork --output reports/kim19_yelp --check
+& $Python -m unittest analysis_tools.tests.test_kim19_yelp_analysis -v
+```
+
+The outputs are `launch_graph.json`, `runtime_gates.json`,
+`input_dataflow.json`, `network_fields.json`, `response_actions.json`,
+`failure_paths.json`, and `stock_handoffs.json`. Check mode compares exact bytes
+and rejects stale, missing, or unexpected files. Verification used Python 3.11,
+cryptography 50.0.1, pyelftools 0.33, capstone 5.0.7, jawa, and Temurin JDK
+8u504 `javap -s -c -p`.
+
+The generator opens no network connection, executes no vendor class, and writes
+only its output directory. It does not inspect or modify a radio. Yelp JAR
+SHA-256 is `f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282`;
+descriptor SHA-256 is
+`57a3a5defa8fcdcff2b178954b15eff7ba6a22c12140088c1b24ce2a36c9b878`.

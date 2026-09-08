@@ -1,0 +1,291 @@
+{
+  "app": {
+    "app_id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+    "main_class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+    "name": "Yelp",
+    "version": "03.00.33"
+  },
+  "edges": [
+    {
+      "id": "e01_catalog",
+      "label": "STRONGLY SUPPORTED",
+      "source": "n01_descriptor",
+      "target": "n02_catalog",
+      "why": "GUI, non-daemon descriptor satisfies the recovered generic predicate; target registration is unobserved."
+    },
+    {
+      "id": "e02_select",
+      "label": "PROVED",
+      "source": "n02_catalog",
+      "target": "n03_hmi",
+      "why": "Committed Apps evidence dispatches startXlet for the selected app ID."
+    },
+    {
+      "id": "e03_launch",
+      "label": "PROVED",
+      "source": "n03_hmi",
+      "target": "n04_drm_ams",
+      "why": "Native AppManager performs DRM/findAndStartApp and AMS association."
+    },
+    {
+      "id": "e04_lifecycle",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "source": "n04_drm_ams",
+      "target": "n05_init",
+      "why": "Current registration, grants, and launch result are target state."
+    },
+    {
+      "evidence": [
+        {
+          "bci": 23,
+          "callee_descriptor": "(Ljavax/microedition/xlet/XletContext;)Ljavax/microedition/xlet/ixc/IxcRegistry;",
+          "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+          "descriptor": "(Ljavax/microedition/xlet/XletContext;)V",
+          "method": "initXlet",
+          "name": "getRegistry",
+          "opcode": "invokestatic",
+          "owner": "javax/microedition/xlet/ixc/IxcRegistry",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "e05_ixc",
+      "label": "PROVED",
+      "source": "n05_init",
+      "target": "n06_display",
+      "why": "The Xlet gets IXC and its container before Display initialization."
+    },
+    {
+      "evidence": [
+        {
+          "bci": 23,
+          "callee_descriptor": "(Ljava/lang/Runnable;)V",
+          "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+          "descriptor": "()V",
+          "method": "startXlet",
+          "name": "callSerially",
+          "opcode": "invokevirtual",
+          "owner": "com/sun/lwuit/Display",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "e06_start",
+      "label": "PROVED",
+      "source": "n06_display",
+      "target": "n07_start",
+      "why": "First start schedules one UI runnable; later starts return without rebuilding UI."
+    },
+    {
+      "evidence": [
+        {
+          "bci": 15,
+          "callee_descriptor": "([Ljava/lang/String;)V",
+          "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1",
+          "descriptor": "()V",
+          "method": "run",
+          "name": "loadPreDefList",
+          "opcode": "invokestatic",
+          "owner": "com/sprint/chrysler/yelp/util/GpRecordStoreManager",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "e07_setup",
+      "label": "PROVED",
+      "source": "n07_start",
+      "target": "n08_setup",
+      "why": "Theme, locale, three RMS datasets, and metrics initialize before splash."
+    },
+    {
+      "evidence": [
+        {
+          "bci": 38,
+          "callee_descriptor": "()V",
+          "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1",
+          "descriptor": "()V",
+          "method": "run",
+          "name": "show",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/chrysler/yelp/gui/YelpSplashScreen",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "e08_splash",
+      "label": "PROVED",
+      "source": "n08_setup",
+      "target": "n09_splash",
+      "why": "A local splash is shown; its worker delays 3000 ms then refreshes location."
+    },
+    {
+      "evidence": [
+        {
+          "bci": 124,
+          "callee_descriptor": "(I)V",
+          "class": "com/sprint/chrysler/yelp/gui/YelpSplashScreen$1$1",
+          "descriptor": "()V",
+          "method": "run",
+          "name": "gotoScreen",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/chrysler/common/gui/ScreenManager",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "e09_home",
+      "label": "PROVED",
+      "source": "n09_splash",
+      "target": "n10_home",
+      "why": "8.4/default screen type selects screen 70, GpCurrentLocationScreen."
+    },
+    {
+      "evidence": [
+        {
+          "bci": 77,
+          "callee_descriptor": "(Ljava/util/List;)V",
+          "class": "com/sprint/chrysler/yelp/gui/GpCurrentLocationScreen",
+          "descriptor": "()V",
+          "method": "<init>",
+          "name": "layoutForm",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/chrysler/yelp/gui/GpCurrentLocationScreen",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "e10_ui",
+      "label": "PROVED",
+      "source": "n10_home",
+      "target": "n11_ui",
+      "why": "The home screen enables VR and lays out local controls before any Yelp HTTP call."
+    },
+    {
+      "evidence": [
+        {
+          "bci": 227,
+          "callee_descriptor": "(Lcom/sun/lwuit/Dialog;Ljava/lang/String;Ljava/lang/String;)V",
+          "class": "com/sprint/chrysler/yelp/gui/GpCVPKeyboard",
+          "descriptor": "()V",
+          "method": "fireOKPressed",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "com/sprint/chrysler/yelp/communications/GpSearchRequest",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "e11_request",
+      "label": "PROVED",
+      "source": "n11_ui",
+      "target": "n12_request",
+      "why": "Validated touch text constructs the request; recognized speech uses the same request class."
+    },
+    {
+      "evidence": [
+        {
+          "bci": 8,
+          "callee_descriptor": "()Lorg/apache/http/HttpResponse;",
+          "class": "com/sprint/chrysler/common/communications/BaseRequest",
+          "descriptor": "()V",
+          "method": "run",
+          "name": "CallService",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/chrysler/common/communications/BaseRequest",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "e12_http",
+      "label": "PROVED",
+      "source": "n12_request",
+      "target": "n13_http",
+      "why": "The queue establishes connectivity and executes the Apache HTTP client."
+    },
+    {
+      "id": "e13_results",
+      "label": "PROVED",
+      "source": "n13_http",
+      "target": "n14_results",
+      "why": "Parsed JSON status selects error, zero-results, results, or generic failure UI."
+    }
+  ],
+  "evidence_labels": [
+    "INFERRED",
+    "PROVED",
+    "STRONGLY SUPPORTED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "format": "kim19-yelp-analysis-v1",
+  "nodes": [
+    {
+      "id": "n01_descriptor",
+      "name": "Recovered Yelp descriptor"
+    },
+    {
+      "id": "n02_catalog",
+      "name": "Native virtual-app catalog"
+    },
+    {
+      "id": "n03_hmi",
+      "name": "Apps HMI startXlet dispatch"
+    },
+    {
+      "id": "n04_drm_ams",
+      "name": "DRM, AppManager, and AMS"
+    },
+    {
+      "id": "n05_init",
+      "name": "YelpPOIXlet.initXlet"
+    },
+    {
+      "id": "n06_display",
+      "name": "IXC, container, and LWUIT"
+    },
+    {
+      "id": "n07_start",
+      "name": "First start runnable"
+    },
+    {
+      "id": "n08_setup",
+      "name": "Theme, locale, RMS, and metrics"
+    },
+    {
+      "id": "n09_splash",
+      "name": "Splash and location worker"
+    },
+    {
+      "id": "n10_home",
+      "name": "8.4-inch current-location screen"
+    },
+    {
+      "id": "n11_ui",
+      "name": "Category, touch-search, and voice UI"
+    },
+    {
+      "id": "n12_request",
+      "name": "GpSearchRequest queue"
+    },
+    {
+      "id": "n13_http",
+      "name": "Connectivity and HTTPS client"
+    },
+    {
+      "id": "n14_results",
+      "name": "Status, results, and details"
+    }
+  ],
+  "notes_sha256": "4e87ed2aff116240ac0210652f40c53059996ff8fb300a887001262d63c1ad93",
+  "report": "launch_graph",
+  "runtime_boundary": "Static recovered-artifact analysis; current target state and backend availability are not inferred.",
+  "sources": {
+    "descriptor": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/xlet.properties",
+      "sha256": "57a3a5defa8fcdcff2b178954b15eff7ba6a22c12140088c1b24ce2a36c9b878",
+      "size": 1036
+    },
+    "key_jar": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b",
+      "size": 22238
+    },
+    "yelp_jar": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
+      "size": 1852176
+    }
+  }
+}

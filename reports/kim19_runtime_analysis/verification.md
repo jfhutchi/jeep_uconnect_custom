@@ -166,3 +166,50 @@ No original-checkout mutation was performed.
 present, visible, launchable, provisioned, connected, accepted by its backend,
 or fully functional on the radio. The A-H result becomes evidence only after the
 corresponding ordinary observation is supplied.
+
+## Complete Yelp runtime reconstruction
+
+Date: 2026-09-08. Work is confined to isolated branch
+`codex/kim19-yelp-reconstruction`, based on prior Performance Pages checkpoint
+`371c4fa44228b642ddbc7574fb09df5adb067bb7`.
+
+**PROVED:** the Yelp-specific analyzer hash-binds descriptor, key JAR, and Yelp
+JAR, parses rather than loads classes, rejects credential-like public strings,
+and emits exactly seven deterministic reports. They cover launch, gates,
+touch/voice/RMS inputs, request fields, response sinks, layered failures, and
+stock phone/navigation handoffs. Fixed authorization material is omitted and
+only a SHA-256 is retained.
+
+**PROVED:** independent Temurin JDK 8u504 `javap -s -c -p` inspection confirmed
+the selected lifecycle, splash, home, keyboard, speech, URL, header, JSON,
+phone, navigation, `PhoneImpl`, and `NavigationImpl` blocks. Recovered platform
+`kona.jar` SHA-256 is
+`19390472018f02d998690b982f00eb68da5d40d7a8d6fba91499677651015f92`.
+
+**PROVED safety boundary:** no Yelp, geocode, speech, VSB, SDP, phone,
+navigation, or other endpoint was contacted; no recovered class was executed;
+no target or firmware state was modified. Current target and live-service
+claims remain **TARGET OBSERVATION REQUIRED**.
+
+**PROVED verification:** 297 analysis-tool tests pass with zero failures/errors.
+One write pass and two exact-byte `--check` passes report seven verified Yelp
+reports and unchanged recovered sources. The seven report SHA-256 values are:
+
+- `failure_paths.json`: `b427fc103130d0a063f03bd0f65c6698e2d07955ec852a1f9820d865c95aaf0c`
+- `input_dataflow.json`: `cd50425bb61efa8ab8c8c001748658c429d81fd047ccd49f623b5cc0305bf44b`
+- `launch_graph.json`: `790c4b9ca80f486565614c092a0b2d875e82576809b0135c163ea72d3a635768`
+- `network_fields.json`: `7904348b05bd5fb1cc5d7cb0152790999b5b6532d4fbd80e2b12837eaef75325`
+- `response_actions.json`: `334aefd321ff9b56109ee52fc833196db1b488198fffd902659ad2ac43e11947`
+- `runtime_gates.json`: `0aaedb4b5820f87d7980359ba82360ac6719f18789a90064ff3a7522cd8b91bf`
+- `stock_handoffs.json`: `608b0d5c7dd0000372c1c8f24ff4a7256aa0b5f001f493cf10d1a7de323fb163`
+
+**PROVED original-checkout preservation:** read-only final checks reproduce
+branch `codex/ra4-driver-temperature`, HEAD
+`894afe8e5361c3595623de599e62ba0f0c0d9f78`, tracked binary-diff SHA-256
+`d640dce2da93cbd40692549754f74ee796b897b00d5a38060d4ad17172cdc792`,
+empty staged-diff SHA-256
+`e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`,
+and untracked file Git blob `0aae8d1167e29865adef9e7250e9f352164a10af`.
+`git status --porcelain=v2 --branch` with its native LF output reproduces
+`f530fba15552b37c70dc7e7b1bd18c2f97721711080e207d7015c65a4d3999ce`
+and the same 41 dirty paths.

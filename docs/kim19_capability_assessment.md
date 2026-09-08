@@ -11,6 +11,42 @@ with no established stock-signed consumer handoff. Its exact vehicle/feature gat
 make it a weaker first lead. Neither has yet been observed on the physical
 radio during this research.
 
+## Complete Yelp reconstruction
+
+**PROVED:** the recovered Yelp path is now closed from descriptor and generic
+Apps selection through AppManager/DRM/AMS, Xlet lifecycle, local splash,
+location refresh, the first 8.4-inch home, touchscreen and speech inputs,
+request construction, the default HTTPS client, legacy JSON parsing, result
+screens, details, and the recovered phone/navigation platform implementations.
+The complete graph and remaining gates are in the
+[launch graph](kim19_yelp_launch_graph.md) and
+[runtime gate table](kim19_yelp_runtime_gates.md).
+
+**PROVED:** the useful category/search/voice home is pre-backend. The startup
+path does not contact the Yelp search endpoint or require a search response
+before constructing `GpCurrentLocationScreen`. Touchscreen ordinary text and
+recognized speech both reach the same `GpSearchRequest`; ordinary text is
+URL-encoded without a local command, HTML, script, or rendering interpreter.
+See [input dataflow](kim19_yelp_input_dataflow.md) and
+[network contract](kim19_yelp_network_contract.md).
+
+**PROVED:** response data is confined to `Place` models, stock LWUIT widgets,
+distance/geocode logic, and typed phone/navigation services. The recovered
+receiver chain reaches `PhoneImpl`/BluetoothService and
+`NavigationImpl`/HMIGatewayService. Yelp contains no browser/WebView,
+active-content sink, SocketCommandSource/CommandLooper, VSB/SDP client, or media
+handoff. See [response actions](kim19_yelp_response_actions.md) and
+[stock handoffs](kim19_yelp_stock_handoffs.md).
+
+**TARGET OBSERVATION REQUIRED:** current installation/registration, DRM/grants,
+actual launch, location and speech services, connectivity, DNS/TLS,
+authorization/backend/schema acceptance, phone availability, and OpenNav
+activation. The next action remains the bounded
+[one-tap observation](kim19_yelp_target_observation.md). This stronger static
+closure does not change the Performance Pages conclusion below: it remains a
+narrow Level-2 fixed-destination timer-HTML writer with no proved consumer
+handoff.
+
 **UNKNOWN:** no demonstrated route allows arbitrary phone, Wi-Fi, Bluetooth or
 USB input to become newly executable behavior. Authenticated broker callbacks,
 platform voice recognition and client HTTP responses are real input paths,
@@ -171,10 +207,13 @@ backend functionality. The [checklist](target_observation_checklist.md) and
 - [Media investigation verification](../reports/kim19_runtime_analysis/performance_pages_verification.md)
 - [Machine-readable graph](../reports/kim19_runtime_analysis/application_service_graph.json)
 - [Selected method/native evidence](../reports/kim19_runtime_analysis/method_evidence.json)
+- [Complete Yelp launch graph](kim19_yelp_launch_graph.md)
+- [Complete Yelp target decision tree](kim19_yelp_target_observation.md)
+- [Seven deterministic Yelp reports](../reports/kim19_yelp/launch_graph.json)
 
 **PROVED scope:** recovered artifacts were read only; no vendor classes were
 executed, no radio or live backend was contacted, and no firmware, signing,
 authorization or vehicle configuration was changed. All research writes and
 Git operations for this follow-up occur in the isolated
-`codex/performance-pages-media-capability` worktree; the completed Yelp checkpoint
-and original dirty checkout remain preserved.
+`codex/kim19-yelp-reconstruction` isolated worktree for this final follow-up;
+the Performance Pages conclusion and original dirty checkout remain preserved.

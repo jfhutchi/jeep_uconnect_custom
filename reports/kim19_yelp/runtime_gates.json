@@ -1,0 +1,128 @@
+{
+  "app": {
+    "app_id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+    "main_class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+    "name": "Yelp",
+    "version": "03.00.33"
+  },
+  "evidence_labels": [
+    "INFERRED",
+    "PROVED",
+    "STRONGLY SUPPORTED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "format": "kim19-yelp-analysis-v1",
+  "gates": [
+    {
+      "earliest": "before Apps tile",
+      "id": "g01_install",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "passes_when": "Yelp is installed, registered, visible, and entitled"
+    },
+    {
+      "earliest": "native launch",
+      "id": "g02_drm_ams",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "passes_when": "DRM, signer association, policy, AppManager, and AMS accept the app"
+    },
+    {
+      "earliest": "initXlet",
+      "id": "g03_container",
+      "label": "PROVED",
+      "passes_when": "Xlet container and Display initialize"
+    },
+    {
+      "earliest": "first start",
+      "id": "g04_resources",
+      "label": "PROVED",
+      "passes_when": "theme, locale, RMS, metrics, and splash setup complete"
+    },
+    {
+      "earliest": "splash worker",
+      "id": "g05_location_worker",
+      "label": "PROVED",
+      "passes_when": "delay and LocationInfo return and the UI callback is scheduled"
+    },
+    {
+      "earliest": "home constructor",
+      "id": "g06_vr_constructor",
+      "label": "PROVED",
+      "passes_when": "VR helper construction returns and layout completes"
+    },
+    {
+      "earliest": "useful local UI",
+      "id": "g07_pre_backend",
+      "label": "PROVED",
+      "passes_when": "GpCurrentLocationScreen layout completes; no search backend response is required"
+    },
+    {
+      "earliest": "touch",
+      "id": "g08_lockout",
+      "label": "PROVED",
+      "passes_when": "vehicle lockout is false or emulator bypass applies"
+    },
+    {
+      "earliest": "touch or voice",
+      "id": "g09_location_valid",
+      "label": "PROVED",
+      "passes_when": "latitude and longitude pass the local validity check"
+    },
+    {
+      "earliest": "voice",
+      "id": "g10_voice_service",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "passes_when": "speech service/session accepts configuration and returns recognition callbacks"
+    },
+    {
+      "earliest": "request",
+      "id": "g11_connectivity",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "passes_when": "platform connectivity connects internet"
+    },
+    {
+      "earliest": "HTTPS",
+      "id": "g12_transport",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "passes_when": "DNS, TCP, TLS, fixed authorization, and endpoint are accepted"
+    },
+    {
+      "earliest": "response",
+      "id": "g13_schema",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "passes_when": "body matches the expected legacy JSON schema"
+    },
+    {
+      "earliest": "phone",
+      "id": "g14_phone",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "passes_when": "dial permission and Bluetooth service succeed"
+    },
+    {
+      "earliest": "navigation",
+      "id": "g15_navigation",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "passes_when": "coordinates/geocode, OpenNav activation, and HMI gateway succeed"
+    }
+  ],
+  "notes_sha256": "4e87ed2aff116240ac0210652f40c53059996ff8fb300a887001262d63c1ad93",
+  "report": "runtime_gates",
+  "runtime_boundary": "Static recovered-artifact analysis; current target state and backend availability are not inferred.",
+  "sources": {
+    "descriptor": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/xlet.properties",
+      "sha256": "57a3a5defa8fcdcff2b178954b15eff7ba6a22c12140088c1b24ce2a36c9b878",
+      "size": 1036
+    },
+    "key_jar": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b",
+      "size": 22238
+    },
+    "yelp_jar": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
+      "size": 1852176
+    }
+  }
+}

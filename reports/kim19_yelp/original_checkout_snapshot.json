@@ -45,7 +45,8 @@
   ],
   "head": "894afe8e5361c3595623de599e62ba0f0c0d9f78",
   "staged_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-  "status_porcelain_v2_sha256": "f530fba15552b37c70dc7e7b1bd18c2f97721711080e207d7015c65a4d3999ce",
+  "status_command": "git status --porcelain=v2 --branch",
+  "status_porcelain_v2_branch_lf_sha256": "f530fba15552b37c70dc7e7b1bd18c2f97721711080e207d7015c65a4d3999ce",
   "tracked_diff_sha256": "d640dce2da93cbd40692549754f74ee796b897b00d5a38060d4ad17172cdc792",
   "untracked_files": {
     "docs/00_project_status.md": {

@@ -1,0 +1,236 @@
+{
+  "app": {
+    "app_id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+    "main_class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+    "name": "Yelp",
+    "version": "03.00.33"
+  },
+  "evidence_labels": [
+    "INFERRED",
+    "PROVED",
+    "STRONGLY SUPPORTED",
+    "TARGET OBSERVATION REQUIRED",
+    "UNKNOWN"
+  ],
+  "format": "kim19-yelp-analysis-v1",
+  "notes_sha256": "4e87ed2aff116240ac0210652f40c53059996ff8fb300a887001262d63c1ad93",
+  "paths": [
+    {
+      "effect": "No selectable Yelp tile",
+      "id": "f01_catalog",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "layer": "catalog",
+      "reason": "Current install/registration/visibility/entitlement is unknown."
+    },
+    {
+      "effect": "No Xlet lifecycle",
+      "id": "f02_launch",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "layer": "launch",
+      "reason": "Current DRM/policy/AppManager/AMS outcome is unknown."
+    },
+    {
+      "effect": "destroyXlet(true)",
+      "evidence": [
+        {
+          "bci": 208,
+          "callee_descriptor": "(Z)V",
+          "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+          "descriptor": "(Ljavax/microedition/xlet/XletContext;)V",
+          "method": "initXlet",
+          "name": "destroyXlet",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "f03_container",
+      "label": "PROVED",
+      "layer": "init",
+      "reason": "UnavailableContainerException explicitly destroys the Xlet."
+    },
+    {
+      "effect": "Partial init can continue",
+      "id": "f04_property",
+      "label": "PROVED",
+      "layer": "init",
+      "reason": "Generic property-read Exception is logged and returns normally."
+    },
+    {
+      "effect": "No local fallback",
+      "id": "f05_setup",
+      "label": "PROVED",
+      "layer": "local_ui",
+      "reason": "Startup runnable catches Throwable only to log it."
+    },
+    {
+      "effect": "Sparse splash",
+      "id": "f06_splash_image",
+      "label": "PROVED",
+      "layer": "local_ui",
+      "reason": "Splash image IOException prints and returns without replacement."
+    },
+    {
+      "effect": "No post-splash callback",
+      "id": "f07_location_worker",
+      "label": "PROVED",
+      "layer": "location",
+      "reason": "Only InterruptedException is caught around worker delay/location/callback."
+    },
+    {
+      "effect": "GPS alert and no request",
+      "id": "f08_gps",
+      "label": "PROVED",
+      "layer": "input",
+      "reason": "Touch and voice require isLocationValid."
+    },
+    {
+      "effect": "Keyboard suppressed/replaced",
+      "id": "f09_lockout",
+      "label": "PROVED",
+      "layer": "input",
+      "reason": "Non-emulator path consults vehicle lockout."
+    },
+    {
+      "effect": "No request",
+      "id": "f10_text",
+      "label": "PROVED",
+      "layer": "input",
+      "reason": "Empty/hint text and duplicate active searches are rejected."
+    },
+    {
+      "effect": "Response code -1 and null response",
+      "evidence": [
+        {
+          "bci": 27,
+          "callee_descriptor": "(Lorg/apache/http/HttpResponse;)V",
+          "class": "com/sprint/chrysler/common/communications/BaseRequest",
+          "descriptor": "()V",
+          "method": "run",
+          "name": "processResponse",
+          "opcode": "invokevirtual",
+          "owner": "com/sprint/chrysler/common/communications/BaseRequest",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "f11_connectivity",
+      "label": "PROVED",
+      "layer": "connectivity",
+      "reason": "Null connectivity or three failed attempts takes the null-response branch."
+    },
+    {
+      "effect": "Null response; DNS/TCP/TLS cause collapsed",
+      "id": "f12_transport",
+      "label": "PROVED",
+      "layer": "transport",
+      "reason": "CallService catches Throwable."
+    },
+    {
+      "effect": "No structured status",
+      "evidence": [
+        {
+          "bci": 62,
+          "callee_descriptor": "(Ljava/lang/String;)V",
+          "class": "com/sprint/chrysler/yelp/communications/GpBaseRequest",
+          "descriptor": "(Ljava/io/InputStream;)V",
+          "method": "processStream",
+          "name": "<init>",
+          "opcode": "invokespecial",
+          "owner": "org/json/me/JSONObject",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "f13_bad_json",
+      "label": "PROVED",
+      "layer": "response",
+      "reason": "JSONException is printed; no alternate parser runs."
+    },
+    {
+      "effect": "Service-unavailable dialog",
+      "id": "f14_error",
+      "label": "PROVED",
+      "layer": "response",
+      "reason": "Top-level error sets ERROR."
+    },
+    {
+      "effect": "No-results screen",
+      "id": "f15_zero",
+      "label": "PROVED",
+      "layer": "response",
+      "reason": "total string 0 sets Zero_Results."
+    },
+    {
+      "effect": "Whole parse may abort",
+      "id": "f16_schema",
+      "label": "PROVED",
+      "layer": "response",
+      "reason": "Many business/location fields are mandatory and lack per-item recovery."
+    },
+    {
+      "effect": "Phone-not-available dialog",
+      "evidence": [
+        {
+          "bci": 33,
+          "callee_descriptor": "(Ljava/lang/String;)V",
+          "class": "com/sprint/chrysler/yelp/gui/GpDetailsScreen",
+          "descriptor": "()V",
+          "method": "processDial",
+          "name": "dial",
+          "opcode": "invokeinterface",
+          "owner": "kona/phone/Phone",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "f17_phone",
+      "label": "PROVED",
+      "layer": "handoff",
+      "reason": "Phone exceptions are caught locally."
+    },
+    {
+      "effect": "Navigation dialog",
+      "evidence": [
+        {
+          "bci": 589,
+          "callee_descriptor": "(Lkona/navigation/Geocode;)Z",
+          "class": "com/sprint/chrysler/yelp/gui/GpDetailsScreen$1",
+          "descriptor": "(Lcom/sun/lwuit/events/ActionEvent;)V",
+          "method": "actionPerformed",
+          "name": "routeToLocation",
+          "opcode": "invokevirtual",
+          "owner": "kona/navigation/Navigation",
+          "source_jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+        }
+      ],
+      "id": "f18_navigation",
+      "label": "PROVED",
+      "layer": "handoff",
+      "reason": "NavigationException and generic Exception have separate dialogs; boolean result is discarded."
+    },
+    {
+      "effect": "Live outcome unresolved",
+      "id": "f19_external",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "layer": "external",
+      "reason": "No search, geocode, or speech endpoint was contacted."
+    }
+  ],
+  "report": "failure_paths",
+  "runtime_boundary": "Static recovered-artifact analysis; current target state and backend availability are not inferred.",
+  "sources": {
+    "descriptor": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/xlet.properties",
+      "sha256": "57a3a5defa8fcdcff2b178954b15eff7ba6a22c12140088c1b24ce2a36c9b878",
+      "size": 1036
+    },
+    "key_jar": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b",
+      "size": 22238
+    },
+    "yelp_jar": {
+      "path": "secondary_iso/usr/share/XLETS/kim_packages/KIM19/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
+      "size": 1852176
+    }
+  }
+}
