@@ -1,0 +1,189 @@
+{
+  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "observations": [
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "No launch gate proved crossed; establish complete catalog observation."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "None of installation, registration, flags, catalog freshness, authorization or backend state is isolated."
+      },
+      "observation": "Absent from all surveyed Apps views",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Catalog crossed; next uncertain boundary is start/AMS/init, not necessarily DRM."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Stale entry, authorization, AMS failure, init/start exception and foreground recovery remain alternatives."
+      },
+      "observation": "Present but cannot launch",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Under recovered fresh-start chain, container/Display, scheduling and splash creation crossed; delayed home/platform initialization is next."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Exact JAR/version, fresh start versus resume, network/backend and search success unresolved."
+      },
+      "observation": "Splash appears",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Home UI crossed; request/response boundary remains uncertain."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "A generic message does not separate connectivity, DNS, TLS, HTTP, credentials, account or parsing failure."
+      },
+      "observation": "Home/search UI appears but search fails",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Only response-specific error.id behavior supports inference of response/JSON parsing; backend acceptance/data validity is next."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "A generic error can be locally produced. Backend identity and successful authorization are not established."
+      },
+      "observation": "Search displays backend/application error",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Fresh query-dependent results strongly support request/response/parse/UI completion for that operation."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Exact binary, arbitrary inbound access and TCP listener remain unknown."
+      },
+      "observation": "Search displays relevant results",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "HuRegistrationManager.isRegistrationShow",
+        "label": "INFERRED",
+        "statement": "Catalog exposed Register."
+      },
+      "limits": {
+        "evidence": "HuRegistrationManager.isRegistrationShow",
+        "label": "UNKNOWN",
+        "statement": "Unregistered state not established: completed/full stage is checked during init, not enumeration."
+      },
+      "observation": "Register present",
+      "scope": "Register"
+    },
+    {
+      "crossed": {
+        "evidence": "Register init/notifyDestroyed",
+        "label": "INFERRED",
+        "statement": "Early lifecycle termination is consistent with cached completed/full stage."
+      },
+      "limits": {
+        "evidence": "Register init/notifyDestroyed",
+        "label": "UNKNOWN",
+        "statement": "Exceptions and refresh state also fit; persistent catalog removal and completed registration not proved."
+      },
+      "observation": "Register disappears/returns immediately after launch",
+      "scope": "Register"
+    },
+    {
+      "crossed": {
+        "evidence": "Shared native gates",
+        "label": "INFERRED",
+        "statement": "No Store entry in surveyed views."
+      },
+      "limits": {
+        "evidence": "Shared native gates",
+        "label": "UNKNOWN",
+        "statement": "Installation/list freshness/visibility gates remain alternatives; account/backend failure not isolated."
+      },
+      "observation": "Store absent",
+      "scope": "Store"
+    },
+    {
+      "crossed": {
+        "evidence": "Native 0x129b2c/0x133550",
+        "label": "INFERRED",
+        "statement": "Catalog includes ASSIST."
+      },
+      "limits": {
+        "evidence": "Native 0x129b2c/0x133550",
+        "label": "UNKNOWN",
+        "statement": "Subscription/calling/VSB remain unresolved; variant-524 ECSB suppression is conditional."
+      },
+      "observation": "ASSIST present",
+      "scope": "ASSIST"
+    },
+    {
+      "crossed": {
+        "evidence": "Descriptors/native evaluator",
+        "label": "INFERRED",
+        "statement": "Under evaluation flags and available PPS, Jeep predicate requires PP=1 and line=1."
+      },
+      "limits": {
+        "evidence": "Descriptors/native evaluator",
+        "label": "UNKNOWN",
+        "statement": "Same name cannot identify variant; default-visible branch prevents unconditional PPS inference; launch DRM is separate."
+      },
+      "observation": "Performance Pages present",
+      "scope": "All variants"
+    },
+    {
+      "crossed": {
+        "evidence": "Daemon/headless descriptors",
+        "label": "INFERRED",
+        "statement": "No foreground entry seen."
+      },
+      "limits": {
+        "evidence": "Daemon/headless descriptors",
+        "label": "UNKNOWN",
+        "statement": "Headless activation/connection/IPC unresolved."
+      },
+      "observation": "No VSBClient or DRMSync tile",
+      "scope": "Background"
+    },
+    {
+      "crossed": {
+        "evidence": "Running category/list",
+        "label": "INFERRED",
+        "statement": "AppManager/HMI reports a running state."
+      },
+      "limits": {
+        "evidence": "Running category/list",
+        "label": "UNKNOWN",
+        "statement": "Does not prove responsive UI, fresh state, network or backend authorization."
+      },
+      "observation": "App listed in Running category",
+      "scope": "Any"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Recovered KIM19; target runtime unobserved"
+}

@@ -1,0 +1,687 @@
+{
+  "candidates": [
+    {
+      "activation": "Authorized Xlet and normal search",
+      "address": "Bundled search/geocode properties; variable query/location",
+      "authentication": "Bundled Basic header; platform TLS; acceptance UNKNOWN",
+      "construction": "Keyboard/category -> GpSearchRequest -> BaseRequest default HTTP client",
+      "direction": "Outbound HTTPS and response",
+      "effect": "Results/error UI",
+      "evidence": "Yelp selected methods",
+      "external_route": "Phone/Wi-Fi/USB transport choice not established; no inbound socket construction",
+      "id": "yelp_search",
+      "input": "Search terms/location and backend JSON",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Loading-screen completion",
+      "address": "MTS properties with VehicleConfig override",
+      "authentication": "MTS auth-token helper/runtime account; acceptance UNKNOWN",
+      "construction": "LoadingScreen -> MTSDiscoveryRequest -> BaseRequest",
+      "direction": "Outbound HTTP(S) and response",
+      "effect": "Loading/account/catalog/error UI",
+      "evidence": "StorefrontLoadingScreen BCI37/40; BaseRequest.CallService BCI32/53; census callers",
+      "external_route": "AllCertSSLSocketFactory contains socket code; active BaseRequest builds DefaultHttpClient directly; permissive-helper activation UNKNOWN",
+      "id": "store_http",
+      "input": "Discovery/catalog/vault response",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Init stage check and loading UI",
+      "address": "MTS configuration-derived endpoint",
+      "authentication": "Current subscriber/service credentials UNKNOWN",
+      "construction": "HURLoadingScreen constructs and queues MTSSubscriberStateRequest",
+      "direction": "Outbound client and subscriber response",
+      "effect": "Welcome/registration or failed-request dialog",
+      "evidence": "HURLoadingScreen/MTSSubscriberStateRequest",
+      "external_route": "ViaMobile JSON fields are metadata, not proof of a Bluetooth listener",
+      "id": "register_subscriber",
+      "input": "Subscriber JSON and RMS",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Daemon start, config/identity/TLS and connect-state gates",
+      "address": "Bundled vsbconf.properties BROKER_URL ssl://vsb.cvp.extra.chrysler.com:8443; runtime configuration/current connection remains unobserved.",
+      "authentication": "SSL factory, secure credentials, MQTT username/password options; values omitted",
+      "construction": "t/s/e -> t/s/c -> t/b/b Runnable -> d/f/g -> t/b/a.c -> Paho connect",
+      "direction": "Outbound MQTT with inbound subscribed callbacks",
+      "effect": "Typed handlers or generic JSON work can affect stock state",
+      "evidence": "t/b/b.messageArrived BCI46/55/68/76/142/150; t/b/a.a options68/88/101",
+      "external_route": "No proof arbitrary nearby phone/Wi-Fi client can publish; no server proved",
+      "id": "vsb_mqtt",
+      "input": "Broker-delivered JSON",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Daemon initialization and platform WMA",
+      "address": "Two bundled SMS port URIs in method evidence",
+      "authentication": "Sender/payload acceptance policy not fully resolved",
+      "construction": "t/s/c new t/b/d -> Connector.open -> t/b/e worker/listeners",
+      "direction": "Incoming wireless messages; not TCP",
+      "effect": "Listener wakes message worker/queues work; benign UI consequence not unique",
+      "evidence": "t/b/d init50/71/93/118/126/136; notifyIncomingMessage22/41/57",
+      "external_route": "No target messaging performed or arbitrary-sender reachability established",
+      "id": "vsb_sms",
+      "input": "Network-origin SMS through platform, conditional",
+      "label": "PROVED"
+    },
+    {
+      "activation": "AMS identity/registry/permissions/service lifecycle",
+      "address": "VSB service name and LifeCycleListener prefixes",
+      "authentication": "AMS/IXC trust boundary; arbitrary caller authority UNKNOWN",
+      "construction": "VSB binds; DRM/ASSIST locate and register callbacks; DRM enumerates listeners",
+      "direction": "Local app-to-app calls/callbacks",
+      "effect": "Registration/process/app-change notifications",
+      "evidence": "VSBClientImpl.e/f; DRM VSBClientLocator and dispatcher; ASSIST findVSBClient",
+      "external_route": "An IXC name is not an IP address",
+      "id": "ixc_services",
+      "input": "Stock app calls and response notifications",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Xlet/UI lifecycle and platform availability",
+      "address": "Platform services rather than app-owned endpoint",
+      "authentication": "Stock permissions; current grants UNKNOWN",
+      "construction": "Yelp location/VR/phone; Performance sensor/module; ASSIST phone/IXC",
+      "direction": "Local events/callbacks",
+      "effect": "Location, screen/phone state and service choices",
+      "evidence": "GpDetailsScreen; VRHelperImp; GSkillsModule; ASSIST main/communications",
+      "external_route": "No USB content-to-code, arbitrary Bluetooth command or externally reachable JNI route established",
+      "id": "platform_services",
+      "input": "Sensor/phone/VR state; paired-phone state may arrive through platform",
+      "label": "PROVED"
+    }
+  ],
+  "census": [
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "DRM.jar",
+      "native_methods": [],
+      "sha256": "13b31b0cd71a92f95dfa214af442524c5b106e04ab127a9b874e3ee1a9252fd2"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 97,
+        "http_client": 8,
+        "ixc": 4,
+        "java_net": 1,
+        "socket": 3,
+        "tls": 6,
+        "url_connection": 1
+      },
+      "construction_and_transport_sites": [],
+      "invocation_counts": {
+        "callback_event": 140,
+        "http_client": 46,
+        "ixc": 6,
+        "java_net": 3,
+        "resource": 19,
+        "socket": 4,
+        "tls": 9,
+        "url_connection": 3
+      },
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "native_methods": [],
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "7a9207415c4fb81febbd5f9419f08b59328516c30d5a18653fc91b685556013b"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 47,
+        "http_client": 15,
+        "ixc": 18,
+        "reflection": 11,
+        "socket": 1,
+        "tls": 7
+      },
+      "construction_and_transport_sites": [],
+      "invocation_counts": {
+        "callback_event": 67,
+        "dynamic_class": 2,
+        "http_client": 122,
+        "ixc": 55,
+        "reflection": 13,
+        "resource": 5,
+        "socket": 2,
+        "tls": 11
+      },
+      "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "native_methods": [],
+      "sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "ab0888bde75c940a63a27ee0e1fadfdde824c9ee512bf6090d2c1fe49c6cc1ba"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 51,
+        "http_client": 4,
+        "ixc": 11,
+        "socket": 1,
+        "tls": 4
+      },
+      "construction_and_transport_sites": [],
+      "invocation_counts": {
+        "callback_event": 69,
+        "http_client": 34,
+        "ixc": 11,
+        "resource": 17,
+        "socket": 2,
+        "tls": 5
+      },
+      "jar": "xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+      "native_methods": [],
+      "sha256": "cd91225970a68353920acc674e15fb9775c60ee8352134ecf447157e811512f4"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "491f0c7ae34639bcaeca820924defbd41f57966622b565bb4d1e3ef76bd5578f"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 93,
+        "ixc": 14,
+        "reflection": 11,
+        "tls": 9
+      },
+      "construction_and_transport_sites": [],
+      "invocation_counts": {
+        "callback_event": 235,
+        "dynamic_class": 1,
+        "ixc": 17,
+        "reflection": 13,
+        "resource": 8,
+        "tls": 12
+      },
+      "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "native_methods": [],
+      "sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "a664eef729bed14513ef51c21e8b69283473bcecb6117976e87e102e44cba333"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 88,
+        "http_client": 16,
+        "ixc": 7,
+        "java_net": 2,
+        "socket": 3,
+        "tls": 7
+      },
+      "construction_and_transport_sites": [
+        {
+          "bci": 20,
+          "callee": "<init>",
+          "callee_descriptor": "(Ljava/lang/String;I)V",
+          "categories": [
+            "java_net"
+          ],
+          "class": "com/sprint/chrysler/storefront/communications/AllCertSSLSocketFactory",
+          "descriptor": "(Ljava/net/Socket;Ljava/lang/String;ILjava/net/InetAddress;ILorg/apache/http/params/HttpParams;)Ljava/net/Socket;",
+          "method": "connectSocket",
+          "owner": "java/net/InetSocketAddress",
+          "syntactic_callers": []
+        },
+        {
+          "bci": 71,
+          "callee": "<init>",
+          "callee_descriptor": "(Ljava/net/InetAddress;I)V",
+          "categories": [
+            "java_net"
+          ],
+          "class": "com/sprint/chrysler/storefront/communications/AllCertSSLSocketFactory",
+          "descriptor": "(Ljava/net/Socket;Ljava/lang/String;ILjava/net/InetAddress;ILorg/apache/http/params/HttpParams;)Ljava/net/Socket;",
+          "method": "connectSocket",
+          "owner": "java/net/InetSocketAddress",
+          "syntactic_callers": []
+        },
+        {
+          "bci": 89,
+          "callee": "connect",
+          "callee_descriptor": "(Ljava/net/SocketAddress;I)V",
+          "categories": [
+            "socket",
+            "tls"
+          ],
+          "class": "com/sprint/chrysler/storefront/communications/AllCertSSLSocketFactory",
+          "descriptor": "(Ljava/net/Socket;Ljava/lang/String;ILjava/net/InetAddress;ILorg/apache/http/params/HttpParams;)Ljava/net/Socket;",
+          "method": "connectSocket",
+          "owner": "javax/net/ssl/SSLSocket",
+          "syntactic_callers": []
+        },
+        {
+          "bci": 7,
+          "callee": "createSocket",
+          "callee_descriptor": "()Ljava/net/Socket;",
+          "categories": [
+            "socket",
+            "tls"
+          ],
+          "class": "com/sprint/chrysler/storefront/communications/AllCertSSLSocketFactory",
+          "descriptor": "()Ljava/net/Socket;",
+          "method": "createSocket",
+          "owner": "javax/net/ssl/SSLSocketFactory",
+          "syntactic_callers": [
+            {
+              "bci": 34,
+              "class": "com/sprint/chrysler/storefront/communications/AllCertSSLSocketFactory",
+              "descriptor": "(Ljava/net/Socket;Ljava/lang/String;ILjava/net/InetAddress;ILorg/apache/http/params/HttpParams;)Ljava/net/Socket;",
+              "method": "connectSocket"
+            }
+          ]
+        },
+        {
+          "bci": 12,
+          "callee": "createSocket",
+          "callee_descriptor": "(Ljava/net/Socket;Ljava/lang/String;IZ)Ljava/net/Socket;",
+          "categories": [
+            "socket",
+            "tls"
+          ],
+          "class": "com/sprint/chrysler/storefront/communications/AllCertSSLSocketFactory",
+          "descriptor": "(Ljava/net/Socket;Ljava/lang/String;IZ)Ljava/net/Socket;",
+          "method": "createSocket",
+          "owner": "javax/net/ssl/SSLSocketFactory",
+          "syntactic_callers": []
+        }
+      ],
+      "invocation_counts": {
+        "callback_event": 75,
+        "dynamic_class": 1,
+        "http_client": 97,
+        "ixc": 10,
+        "java_net": 6,
+        "resource": 18,
+        "socket": 9,
+        "tls": 19
+      },
+      "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "native_methods": [],
+      "sha256": "2e5b3f7e1c7857950f7ea536b3975f1feebff744a47fb141551bbb6c23c7d552"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "eb29ef31fcc6c7d95cad6c994ecacfef707208820ff2cb30eb3350e0ce8d8b5c"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 93,
+        "ixc": 14,
+        "reflection": 11,
+        "tls": 9
+      },
+      "construction_and_transport_sites": [],
+      "invocation_counts": {
+        "callback_event": 235,
+        "dynamic_class": 1,
+        "ixc": 17,
+        "reflection": 13,
+        "resource": 8,
+        "tls": 12
+      },
+      "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "native_methods": [],
+      "sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "4a78041e2a2840299bbdea04c2771cbf2130789f62650d5b851dc76eaf340fd9"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 37,
+        "ixc": 12,
+        "reflection": 12,
+        "tls": 9
+      },
+      "construction_and_transport_sites": [
+        {
+          "bci": 138,
+          "callee": "load",
+          "callee_descriptor": "(Ljava/lang/String;)V",
+          "categories": [
+            "native_library"
+          ],
+          "class": "com/sun/lwuit/Affiner",
+          "descriptor": "(Ljava/lang/String;)V",
+          "method": "loadLibrary",
+          "owner": "java/lang/System",
+          "syntactic_callers": [
+            {
+              "bci": 13,
+              "class": "com/sun/lwuit/Affiner",
+              "descriptor": "(Lcom/sun/lwuit/Graphics;)V",
+              "method": "<init>"
+            }
+          ]
+        }
+      ],
+      "invocation_counts": {
+        "callback_event": 56,
+        "dynamic_class": 1,
+        "ixc": 16,
+        "native_library": 1,
+        "reflection": 18,
+        "resource": 8,
+        "tls": 12
+      },
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "native_methods": [
+        {
+          "class": "com/aicas/GLESAffiner",
+          "descriptor": "(J)V",
+          "method": "nativePrintln"
+        },
+        {
+          "class": "com/aicas/GLESAffiner",
+          "descriptor": "(J[F)V",
+          "method": "nativeMultMatrix"
+        },
+        {
+          "class": "com/aicas/GLESAffiner",
+          "descriptor": "(J)V",
+          "method": "nativeLoadIdentityMatrix"
+        }
+      ],
+      "sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "4623c87a26d406577c8e992a0aaa3d42957dc04312691130a74c33d3d391c8e0"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 64,
+        "http_client": 7,
+        "ixc": 3,
+        "phone_bluetooth": 3,
+        "reflection": 11,
+        "socket": 1,
+        "tls": 6
+      },
+      "construction_and_transport_sites": [],
+      "invocation_counts": {
+        "callback_event": 77,
+        "dynamic_class": 1,
+        "http_client": 44,
+        "ixc": 5,
+        "reflection": 13,
+        "resource": 17,
+        "socket": 2,
+        "tls": 10
+      },
+      "jar": "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "native_methods": [],
+      "sha256": "70e3f0939a26223e84fdd67a2b90adbee84367e46afb4928e0db1192e4aefcdb"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "a984d02c62e6fcd9a8ad0bbb27d3810eb4ee3361353969a25e20bb0af04a45d2"
+    },
+    {
+      "class_reference_counts": {},
+      "construction_and_transport_sites": [],
+      "invocation_counts": {},
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/key.jar",
+      "native_methods": [],
+      "sha256": "e9ae276c6ae3f3c3e04673a235e4585b490f4dd9cfbc74a271a6261d43118e48"
+    },
+    {
+      "class_reference_counts": {
+        "callback_event": 40,
+        "http_client": 2,
+        "ixc": 21,
+        "java_net": 3,
+        "mqtt": 83,
+        "reflection": 13,
+        "socket": 8,
+        "tls": 11,
+        "wireless_messaging": 3
+      },
+      "construction_and_transport_sites": [
+        {
+          "bci": 5,
+          "callee": "<init>",
+          "callee_descriptor": "(Ljava/lang/String;)V",
+          "categories": [
+            "java_net"
+          ],
+          "class": "org/eclipse/paho/client/mqttv3/MqttConnectOptions",
+          "descriptor": "(Ljava/lang/String;)I",
+          "method": "validateURI",
+          "owner": "java/net/URI",
+          "syntactic_callers": [
+            {
+              "bci": 90,
+              "class": "org/eclipse/paho/client/mqttv3/MqttAsyncClient",
+              "descriptor": "(Ljava/lang/String;Ljava/lang/String;Lorg/eclipse/paho/client/mqttv3/MqttClientPersistence;Lorg/eclipse/paho/client/mqttv3/MqttPingSender;)V",
+              "method": "<init>"
+            },
+            {
+              "bci": 33,
+              "class": "org/eclipse/paho/client/mqttv3/MqttAsyncClient",
+              "descriptor": "(Ljava/lang/String;Lorg/eclipse/paho/client/mqttv3/MqttConnectOptions;)Lorg/eclipse/paho/client/mqttv3/internal/NetworkModule;",
+              "method": "createNetworkModule"
+            },
+            {
+              "bci": 11,
+              "class": "org/eclipse/paho/client/mqttv3/MqttConnectOptions",
+              "descriptor": "([Ljava/lang/String;)V",
+              "method": "setServerURIs"
+            }
+          ]
+        },
+        {
+          "bci": 74,
+          "callee": "<init>",
+          "callee_descriptor": "(Ljava/lang/String;I)V",
+          "categories": [
+            "java_net"
+          ],
+          "class": "org/eclipse/paho/client/mqttv3/internal/TCPNetworkModule",
+          "descriptor": "()V",
+          "method": "start",
+          "owner": "java/net/InetSocketAddress",
+          "syntactic_callers": [
+            {
+              "bci": 1,
+              "class": "org/eclipse/paho/client/mqttv3/internal/SSLNetworkModule",
+              "descriptor": "()V",
+              "method": "start"
+            }
+          ]
+        },
+        {
+          "bci": 83,
+          "callee": "createSocket",
+          "callee_descriptor": "()Ljava/net/Socket;",
+          "categories": [
+            "socket"
+          ],
+          "class": "org/eclipse/paho/client/mqttv3/internal/TCPNetworkModule",
+          "descriptor": "()V",
+          "method": "start",
+          "owner": "javax/net/SocketFactory",
+          "syntactic_callers": [
+            {
+              "bci": 1,
+              "class": "org/eclipse/paho/client/mqttv3/internal/SSLNetworkModule",
+              "descriptor": "()V",
+              "method": "start"
+            }
+          ]
+        },
+        {
+          "bci": 102,
+          "callee": "connect",
+          "callee_descriptor": "(Ljava/net/SocketAddress;I)V",
+          "categories": [
+            "java_net",
+            "socket"
+          ],
+          "class": "org/eclipse/paho/client/mqttv3/internal/TCPNetworkModule",
+          "descriptor": "()V",
+          "method": "start",
+          "owner": "java/net/Socket",
+          "syntactic_callers": [
+            {
+              "bci": 1,
+              "class": "org/eclipse/paho/client/mqttv3/internal/SSLNetworkModule",
+              "descriptor": "()V",
+              "method": "start"
+            }
+          ]
+        }
+      ],
+      "invocation_counts": {
+        "callback_event": 37,
+        "dynamic_class": 6,
+        "http_client": 23,
+        "ixc": 95,
+        "java_net": 13,
+        "mqtt": 1331,
+        "reflection": 20,
+        "resource": 2,
+        "socket": 13,
+        "tls": 94,
+        "wireless_messaging": 12
+      },
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "native_methods": [],
+      "sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a"
+    }
+  ],
+  "census_scope": "All 19 KIM19 JARs; counts are syntactic, not runtime",
+  "extensions": [
+    {
+      "evidence": "Resource census; Yelp GpGeoUtil and Xlet resources",
+      "label": "PROVED",
+      "statement": "ClassLoader resource reads and property bundles supply packaged configuration/content, not externally supplied classes."
+    },
+    {
+      "evidence": "Dynamic/reflection census; MessageCatalog.getMessage",
+      "label": "PROVED",
+      "statement": "Collection reflection allocates typed arrays; backport Utils and Paho MessageCatalog select library implementations. Ordinary static/runtime library use."
+    },
+    {
+      "evidence": "LocalNetworkModule.start",
+      "label": "UNKNOWN",
+      "statement": "Paho LocalNetworkModule reflectively selects a local transport class; no concrete production configuration-to-activation route established. Not a proved localhost TCP server."
+    },
+    {
+      "evidence": "Affiner.loadLibrary; census callers",
+      "label": "PROVED",
+      "statement": "L-Series Affiner contains System.load at BCI138. External path control and lifecycle activation remain UNKNOWN."
+    },
+    {
+      "evidence": "Base64$1.resolveClass; baseline capability analysis",
+      "label": "UNKNOWN",
+      "statement": "Store Base64 object-deserialization/dynamic-class helper exists; externally controlled input reaching it not established."
+    },
+    {
+      "evidence": "Shared 24-file manifest; keyjar_runtime_association.md; stock_signed_capability_analysis.md",
+      "label": "PROVED",
+      "statement": "Relevant common base exposes connector/factory/class-loading infrastructure and signed AMS loading with identity/permission boundaries."
+    },
+    {
+      "evidence": "Focused construction/caller analysis; no vendor code executed",
+      "label": "UNKNOWN",
+      "statement": "No complete external-content-to-executable-code extension route established. Downloaded JSON/config/catalog can influence behavior without becoming code."
+    }
+  ],
+  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "resources": [
+    {
+      "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "label": "PROVED",
+      "member": "mts.properties",
+      "scope": "Bundled configuration; current target consumption is separate",
+      "sha256": "11241888408301b96d29a448333c29dfff1103f89bbfb0b94b221b6191daeb56",
+      "values": {
+        "mts-server": "https://mts.cvp.extra.chrysler.com:8443/mts-api"
+      }
+    },
+    {
+      "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "label": "PROVED",
+      "member": "mts.properties",
+      "scope": "Bundled configuration; current target consumption is separate",
+      "sha256": "11241888408301b96d29a448333c29dfff1103f89bbfb0b94b221b6191daeb56",
+      "values": {
+        "mts-server": "https://mts.cvp.extra.chrysler.com:8443/mts-api"
+      }
+    },
+    {
+      "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "label": "PROVED",
+      "member": "wallet.properties",
+      "scope": "Bundled configuration; current target consumption is separate",
+      "sha256": "ddeb67f41485d896b94b7f63f6e98c5affe038ee693c2831883ca485b9221375",
+      "values": {
+        "smps-url": "https://max.ccdc02.com/smpsmrc/Service.svc/"
+      }
+    },
+    {
+      "jar": "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "label": "PROVED",
+      "member": "mts.properties",
+      "scope": "Bundled configuration; current target consumption is separate",
+      "sha256": "11241888408301b96d29a448333c29dfff1103f89bbfb0b94b221b6191daeb56",
+      "values": {
+        "mts-server": "https://mts.cvp.extra.chrysler.com:8443/mts-api"
+      }
+    },
+    {
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "label": "PROVED",
+      "member": "vsbconf.properties",
+      "scope": "Bundled configuration; current target consumption is separate",
+      "sha256": "dc036226627de3912f954867601af6cc80a16ac35976328818ccf9a17a4215aa",
+      "values": {
+        "BROKER_URL": "ssl://vsb.cvp.extra.chrysler.com:8443"
+      }
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Recovered KIM19; target runtime unobserved"
+}

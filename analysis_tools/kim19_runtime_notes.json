@@ -1,0 +1,1143 @@
+{
+  "allowed_literals": [
+    "COMPLETED_STAGE_3",
+    "FULL_STAGE_2",
+    "startArgs",
+    "drm",
+    "accountDN",
+    "emailID",
+    "xlet.properties",
+    "/fs/etfs/use_en0",
+    "yelp.properties",
+    "yelppoconf.properties",
+    "error",
+    "id",
+    "businesses",
+    "ERROR",
+    "OK",
+    "Zero_Results",
+    "Authorization",
+    "User-Agent",
+    "Unsupported vehicle line",
+    "sms://:20000",
+    "sms://:20001",
+    "VSB:com.sprint.chrysler.vsbclient.ixc.VSBClient",
+    "LifeCycleListener:",
+    "IxcFromVSB:com.sprint.chrysler.assist.communications.AssistCommunicationManager"
+  ],
+  "applications": {
+    "1D5347C0-8B5E-11E2-9E96-0800200C9A66": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "HTTPS search/geocode; ConnectivityManager; location/VR/phone services",
+      "evidence": [
+        "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/xlet.properties",
+        "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "Yelp",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "Splash then current-location/search UI",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "Container/theme/resource failure before splash; subsequent connection, HTTP or JSON/search failure",
+      "lifecycle": "init container/Display -> start serial callback -> splash -> delayed home/search",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "manual/conditional",
+      "variant": "Yelp"
+    },
+    "2BA676FA-1542-11E1-A537-1F614824019B": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "VSB callbacks; ignition sensor; AppManager listener; MTS subscriber/grant service",
+      "evidence": [
+        "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/xlet.properties",
+        "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "No foreground entry expected",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "No dedicated screen; state changes are indirect clues",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "VSB validity/low-power/processing gates, then subscriber/provisioning/backend",
+      "lifecycle": "init creates DrmManager worker; startXlet empty",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "declared daemon/headless; conditional autostart",
+      "variant": "DRMSync_VSB"
+    },
+    "3bbeae36-1542-11e1-b393-31614824019b": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "Phone and VSB/local registry; choices do not prove service subscription",
+      "evidence": [
+        "xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/xlet.properties",
+        "xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "ASSIST",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "Loading splash then service choices",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "Platform/container/IXC failure; later service/call failure",
+      "lifecycle": "init startAssist -> serial splash -> serial MainLandingScreen",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "manual/conditional",
+      "variant": "ASSIST"
+    },
+    "52c79381-6719-11e1-b86c-0800200c9a66": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "VC_PP_Prsnt=1; VC_VEH_LINE=43; vehicle/trim sensors",
+      "evidence": [
+        "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/xlet.properties",
+        "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "Performance Pages",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "Performance home page, conditional",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "Catalog predicate, then sensor/resource/module work; equivalent UNSUPPORTED throw not established here",
+      "lifecycle": "IXC/GSkillsModule -> GSkillsUIRunnable -> home work",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "conditional; HMI fullStartDaemonXlet route",
+      "variant": "Viper"
+    },
+    "550e8400-e29b-41d4-a716-446655440000": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "MTS settings with VehicleConfig override; accountDN/emailID start arguments; DRM listener",
+      "evidence": [
+        "xlets/550e8400-e29b-41d4-a716-446655440000/prog/xlet.properties",
+        "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "Store",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "Store loading screen, then discovery/vault-dependent UI",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "Container/config failure; discovery/backend/account failure after UI",
+      "lifecycle": "init config/startArgs.drm -> serial StorefrontLoadingScreen -> discovery",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "manual/conditional",
+      "variant": "Store"
+    },
+    "6BFD02C0-40C3-11E2-A25F-0800200C9A66": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "VC_PP_Prsnt=1; VC_VEH_LINE=1; vehicle/trim sensors",
+      "evidence": [
+        "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/xlet.properties",
+        "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "Performance Pages",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "Performance home page, conditional",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "Catalog predicate, then sensor/resource/module work; equivalent UNSUPPORTED throw not established here",
+      "lifecycle": "IXC/GSkillsModule -> GSkillsUIRunnable -> home work",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "conditional; HMI fullStartDaemonXlet route",
+      "variant": "Jeep"
+    },
+    "7DEC7834-535D-47B5-BD33-695477EDCD57": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "VC_PP_Prsnt=1; VC_VEH_LINE in {44,41,2}; runtime vehicle/SRT/engine/trim state",
+      "evidence": [
+        "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/xlet.properties",
+        "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "Performance Pages",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "Performance home page if supported",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "UNSUPPORTED enum throws in init BCI146 and start BCI83; Xlet init catch notifiesDestroyed",
+      "lifecycle": "initModule container/vehicle info -> startModule managed UI runnable",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "conditional; HMI fullStartDaemonXlet route",
+      "variant": "L-Series"
+    },
+    "A7A4B215-9B5A-7DAA-457C-15545178E72F": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "MTS subscriber service and RMS; lifecycle termination does not prove catalog removal",
+      "evidence": [
+        "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/xlet.properties",
+        "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "Register",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "Loading screen or early lifecycle termination",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "Completed/full cached stage notifiesDestroyed during init; later subscriber/network failure",
+      "lifecycle": "init cached subscriber check -> scheduled loading screen -> subscriber request",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "manual/conditional",
+      "variant": "Register"
+    },
+    "f7583530-8d53-11e0-91e4-0800200c9a66": {
+      "authorization": "Manual start authorization is separate from visibility; target grants UNKNOWN.",
+      "catalog": "Native filtered list -> MainSupplement Applet -> Apps contents; categories/favorites/running are partial views.",
+      "dependencies": "Paho MQTT/TLS; WMA messaging; IXC; platform services/task queue",
+      "evidence": [
+        "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/xlet.properties",
+        "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+        "method_evidence.json; shared_gates"
+      ],
+      "expected_entry": "No foreground entry expected",
+      "failure_before_creation": "Missing/stale registration, AMS unavailable or launch authorization failure.",
+      "first_observable": "No dedicated screen; dependent-app behavior is indirect",
+      "first_screen_on_target": "TARGET OBSERVATION REQUIRED",
+      "interpretation_label": "INFERRED",
+      "later_failure": "Config/credentials/TLS, connect-state or IXC binding failure",
+      "lifecycle": "init queues t/s/c; startXlet empty; config/MQTT/SMS/IXC setup",
+      "provisioning": "Tile alone establishes no subscriber/account/backend state.",
+      "registration": "Recovered installer -> AMS/install acknowledgement -> AppManager installed record; target state UNKNOWN.",
+      "startup": "declared daemon/headless; conditional autostart",
+      "variant": "VSBClient"
+    }
+  },
+  "background": [
+    {
+      "activation_evidence": "Existing service-specific logs or registry binding would reveal setup. Ordinary tile omission proves nothing; dependent-service messages are indirect and not unique.",
+      "app": "VSBClient",
+      "autostart": "Declared daemon/headless; native global/launcher gate still applies",
+      "benign_observable": "Passive service/account/app-list changes may be consistent with processing but cannot uniquely identify this daemon.",
+      "dependencies": [
+        "configuration/secure credentials/TLS",
+        "AMS registry/task queue",
+        "platform connectivity/messaging"
+      ],
+      "entry": "t/s/e.init queues t/s/c; startXlet empty",
+      "evidence": "t/s/c; t/b/a,b,d; VSBClientImpl.e/f",
+      "interactions": "DRM and ASSIST have concrete locator consumers. Store/Register use MTS/DRM-related callbacks. Mandatory Yelp VSB binding not established.",
+      "label": "PROVED",
+      "services": [
+        "MQTT callback",
+        "WMA SMS listeners",
+        "VSB IXC binding",
+        "LifeCycleListener refresh"
+      ],
+      "target_state": "TARGET OBSERVATION REQUIRED"
+    },
+    {
+      "activation_evidence": "An existing daemon-specific log/registry record distinguishes execution. Store/Register messages alone do not identify which daemon produced state.",
+      "app": "DRMSync_VSB",
+      "autostart": "Declared daemon/headless; conditional native activation",
+      "benign_observable": "Observe account/app-list status passively. Service also has update/reset/install paths and is not a harmless probe target.",
+      "dependencies": [
+        "VSB reference validity",
+        "low-power/processing state",
+        "VIN/subscriber provisioning",
+        "MTS subscriber/grant service"
+      ],
+      "entry": "DrmSyncXlet.init starts DrmManager worker; startXlet empty",
+      "evidence": "DrmManager.run/init/processSyncRequest; VSBClientLocator; DrmNotificationManagerServiceImpl",
+      "interactions": "Worker waits for VSB validity; subscriber request precedes sync; sync checks provisioning/VIN; dispatcher raises app/process/registration/reset events to local listeners.",
+      "label": "PROVED",
+      "services": [
+        "AppManager listener",
+        "ignition sensor listener",
+        "VSB locator/callback",
+        "DRM notification dispatcher"
+      ],
+      "target_state": "TARGET OBSERVATION REQUIRED"
+    }
+  ],
+  "extensions": [
+    {
+      "evidence": "Resource census; Yelp GpGeoUtil and Xlet resources",
+      "label": "PROVED",
+      "statement": "ClassLoader resource reads and property bundles supply packaged configuration/content, not externally supplied classes."
+    },
+    {
+      "evidence": "Dynamic/reflection census; MessageCatalog.getMessage",
+      "label": "PROVED",
+      "statement": "Collection reflection allocates typed arrays; backport Utils and Paho MessageCatalog select library implementations. Ordinary static/runtime library use."
+    },
+    {
+      "evidence": "LocalNetworkModule.start",
+      "label": "UNKNOWN",
+      "statement": "Paho LocalNetworkModule reflectively selects a local transport class; no concrete production configuration-to-activation route established. Not a proved localhost TCP server."
+    },
+    {
+      "evidence": "Affiner.loadLibrary; census callers",
+      "label": "PROVED",
+      "statement": "L-Series Affiner contains System.load at BCI138. External path control and lifecycle activation remain UNKNOWN."
+    },
+    {
+      "evidence": "Base64$1.resolveClass; baseline capability analysis",
+      "label": "UNKNOWN",
+      "statement": "Store Base64 object-deserialization/dynamic-class helper exists; externally controlled input reaching it not established."
+    },
+    {
+      "evidence": "Shared 24-file manifest; keyjar_runtime_association.md; stock_signed_capability_analysis.md",
+      "label": "PROVED",
+      "statement": "Relevant common base exposes connector/factory/class-loading infrastructure and signed AMS loading with identity/permission boundaries."
+    },
+    {
+      "evidence": "Focused construction/caller analysis; no vendor code executed",
+      "label": "UNKNOWN",
+      "statement": "No complete external-content-to-executable-code extension route established. Downloaded JSON/config/catalog can influence behavior without becoming code."
+    }
+  ],
+  "independent_classes": {
+    "1D5347C0-8B5E-11E2-9E96-0800200C9A66": [
+      "com/sprint/chrysler/common/communications/BaseRequest",
+      "com/sprint/chrysler/yelp/communications/GpSearchRequest",
+      "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1",
+      "com/sprint/chrysler/yelp/xlet/YelpPOIXlet"
+    ],
+    "2BA676FA-1542-11E1-A537-1F614824019B": [
+      "com/sprint/chrysler/drm/data/DrmManager"
+    ],
+    "550e8400-e29b-41d4-a716-446655440000": [
+      "com/sprint/chrysler/storefront/gui/screen/StorefrontLoadingScreen"
+    ],
+    "7DEC7834-535D-47B5-BD33-695477EDCD57": [
+      "com/sprint/gskills/xlet/GSkillsModule",
+      "com/sprint/gskills/xlet/GSkillsXlet"
+    ],
+    "A7A4B215-9B5A-7DAA-457C-15545178E72F": [
+      "com/sprint/chrysler/uar/util/HuRegistrationManager",
+      "com/sprint/chrysler/uar/xlet/UconnectRegistrationXlet"
+    ],
+    "f7583530-8d53-11e0-91e4-0800200c9a66": [
+      "t/b/d"
+    ]
+  },
+  "method_selections": {
+    "1D5347C0-8B5E-11E2-9E96-0800200C9A66": {
+      "com/sprint/chrysler/common/communications/BaseRequest": [
+        "CallService",
+        "createRequest",
+        "processResponse",
+        "run"
+      ],
+      "com/sprint/chrysler/common/communications/ConnectionManager": [
+        "processNextRequest"
+      ],
+      "com/sprint/chrysler/yelp/communications/GpBaseRequest": [
+        "addHeaders",
+        "processStream"
+      ],
+      "com/sprint/chrysler/yelp/communications/GpSearchRequest": [
+        "<init>",
+        "getURL",
+        "processJSONObject"
+      ],
+      "com/sprint/chrysler/yelp/gui/GpCVPKeyboard": [
+        "fireOKPressed",
+        "showZeroResults"
+      ],
+      "com/sprint/chrysler/yelp/gui/GpDetailsScreen": [
+        "<init>"
+      ],
+      "com/sprint/chrysler/yelp/gui/GpPlaceIconButton": [
+        "click"
+      ],
+      "com/sprint/chrysler/yelp/gui/GpScreenManager": [
+        "createForm"
+      ],
+      "com/sprint/chrysler/yelp/gui/YelpSplashScreen": [
+        "onShowCompleted"
+      ],
+      "com/sprint/chrysler/yelp/gui/YelpSplashScreen$1": [
+        "run"
+      ],
+      "com/sprint/chrysler/yelp/gui/YelpSplashScreen$1$1": [
+        "run"
+      ],
+      "com/sprint/chrysler/yelp/util/GpGeoUtil": [
+        "<clinit>",
+        "loadProperties"
+      ],
+      "com/sprint/chrysler/yelp/vr/VRHelperImp": [
+        "init"
+      ],
+      "com/sprint/chrysler/yelp/xlet/YelpPOIXlet": [
+        "destroyXlet",
+        "initXlet",
+        "startXlet"
+      ],
+      "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1": [
+        "run"
+      ]
+    },
+    "2BA676FA-1542-11E1-A537-1F614824019B": {
+      "com/sprint/chrysler/common/communications/MTSManager": [
+        "readPropertiesFile"
+      ],
+      "com/sprint/chrysler/drm/communications/MTSSubscriberStateManager": [
+        "sendSubscriberStateRequest"
+      ],
+      "com/sprint/chrysler/drm/data/DrmManager": [
+        "init",
+        "initVSBClient",
+        "processSyncRequest",
+        "retrieveSubscriberState",
+        "run"
+      ],
+      "com/sprint/chrysler/drm/ixc/DrmNotificationManagerServiceImpl": [
+        "raiseRegistrationChange",
+        "sendNotifyMessage"
+      ],
+      "com/sprint/chrysler/drm/sdp/VSBClientLocator": [
+        "refreshVSBClientReference"
+      ],
+      "com/sprint/chrysler/drm/xlet/DrmSyncXlet": [
+        "initXlet",
+        "startXlet"
+      ]
+    },
+    "3bbeae36-1542-11e1-b393-31614824019b": {
+      "com/sprint/chrysler/assist/communications/AssistCommunicationManager": [
+        "findVSBClient",
+        "initRegistry",
+        "notify",
+        "notifyFailure",
+        "notifySuccess"
+      ],
+      "com/sprint/chrysler/assist/gui/screen/AssistLoadingSplashScreen": [
+        "onShowCompleted"
+      ],
+      "com/sprint/chrysler/assist/gui/screen/AssistLoadingSplashScreen$1": [
+        "run"
+      ],
+      "com/sprint/chrysler/assist/gui/screen/MainLandingScreen": [
+        "<init>",
+        "onShow"
+      ],
+      "com/sprint/chrysler/assist/vsb/VSBClientLocator": [
+        "refreshVSBClientReference"
+      ],
+      "com/sprint/chrysler/assist/xlet/AssistXlet": [
+        "initXlet",
+        "startAssist",
+        "startXlet"
+      ],
+      "com/sprint/chrysler/assist/xlet/AssistXlet$1": [
+        "run"
+      ]
+    },
+    "52c79381-6719-11e1-b86c-0800200c9a66": {
+      "com/sprint/gskills/controller/GSkillsVehicleBrand": [
+        "defineCarBrand"
+      ],
+      "com/sprint/gskills/view/common/GSkillsUIRunnable": [
+        "run"
+      ],
+      "com/sprint/gskills/xlet/GSkillsModule": [
+        "initModule",
+        "startModule"
+      ],
+      "com/sprint/gskills/xlet/GSkillsXlet": [
+        "initXlet",
+        "startXlet"
+      ]
+    },
+    "550e8400-e29b-41d4-a716-446655440000": {
+      "com/sprint/chrysler/common/communications/BaseRequest": [
+        "CallService"
+      ],
+      "com/sprint/chrysler/common/communications/MTSManager": [
+        "readPropertiesFile"
+      ],
+      "com/sprint/chrysler/storefront/communications/MTSDiscoveryRequest": [
+        "getURL",
+        "processJSONObject"
+      ],
+      "com/sprint/chrysler/storefront/gui/screen/StorefrontLoadingScreen": [
+        "onShowCompleted",
+        "updateBundles",
+        "updateVault"
+      ],
+      "com/sprint/chrysler/storefront/gui/screen/StorefrontLoadingScreen$1": [
+        "run"
+      ],
+      "com/sprint/chrysler/storefront/xlet/StorefrontXlet": [
+        "initStorefront",
+        "initXlet",
+        "launchRegistration",
+        "processDRM",
+        "startXlet"
+      ],
+      "com/sprint/chrysler/storefront/xlet/StorefrontXlet$1": [
+        "run"
+      ],
+      "com/sprint/chrysler/storefront/xlet/StorefrontXlet$2": [
+        "run"
+      ]
+    },
+    "6BFD02C0-40C3-11E2-A25F-0800200C9A66": {
+      "com/sprint/gskills/controller/GSkillsVehicleBrand": [
+        "defineCarBrand"
+      ],
+      "com/sprint/gskills/view/common/GSkillsUIRunnable": [
+        "run"
+      ],
+      "com/sprint/gskills/xlet/GSkillsModule": [
+        "initModule",
+        "startModule"
+      ],
+      "com/sprint/gskills/xlet/GSkillsXlet": [
+        "initXlet",
+        "startXlet"
+      ]
+    },
+    "7DEC7834-535D-47B5-BD33-695477EDCD57": {
+      "com/sprint/gskills/constants/VehicleLineEnum": [
+        "<clinit>"
+      ],
+      "com/sprint/gskills/controller/GSkillsVehicleInfo": [
+        "setVehicleInfo"
+      ],
+      "com/sprint/gskills/view/common/GSkillsUIRunnable": [
+        "run"
+      ],
+      "com/sprint/gskills/xlet/GSkillsModule": [
+        "initModule",
+        "startModule"
+      ],
+      "com/sprint/gskills/xlet/GSkillsXlet": [
+        "initXlet",
+        "startXlet"
+      ],
+      "com/sun/lwuit/Affiner": [
+        "loadLibrary"
+      ]
+    },
+    "A7A4B215-9B5A-7DAA-457C-15545178E72F": {
+      "com/sprint/chrysler/uar/communication/MTSSubscriberStateRequest": [
+        "getURL",
+        "processJSONObject"
+      ],
+      "com/sprint/chrysler/uar/screens/HURLoadingScreen": [
+        "onShowCompleted"
+      ],
+      "com/sprint/chrysler/uar/util/HuRegistrationManager": [
+        "isRegistrationShow"
+      ],
+      "com/sprint/chrysler/uar/xlet/UconnectRegistrationXlet": [
+        "destroyXlet",
+        "initXlet",
+        "startXlet"
+      ],
+      "com/sprint/chrysler/uar/xlet/UconnectRegistrationXlet$1": [
+        "run"
+      ]
+    },
+    "f7583530-8d53-11e0-91e4-0800200c9a66": {
+      "com/sprint/chrysler/vsbclient/ixc/VSBClientImpl": [
+        "c",
+        "e",
+        "f",
+        "setBindNameForCallback"
+      ],
+      "org/eclipse/paho/client/mqttv3/internal/LocalNetworkModule": [
+        "start"
+      ],
+      "org/eclipse/paho/client/mqttv3/internal/MessageCatalog": [
+        "getMessage"
+      ],
+      "t/b/a": [
+        "a",
+        "c"
+      ],
+      "t/b/b": [
+        "c",
+        "d",
+        "f",
+        "g",
+        "h",
+        "messageArrived"
+      ],
+      "t/b/d": [
+        "<init>",
+        "notifyIncomingMessage"
+      ],
+      "t/b/e": [
+        "run"
+      ],
+      "t/q/r": [
+        "b"
+      ],
+      "t/s/c": [
+        "run"
+      ],
+      "t/s/e": [
+        "initXlet",
+        "startXlet"
+      ]
+    }
+  },
+  "native_evidence": [
+    {
+      "evidence": "appManager sha256 608f45f96fa71bfe2c8a2566e973953d9de74ba7afa0cdd2e31cf408137c5591; VA=file+0x100000 for these sites",
+      "label": "PROVED",
+      "statement": "Visibility entry 0x1330d4; type check0x13311c/0x133124; flags0x133150..0x133164; conditions0x1331c8..0x1331e0; visibility store0x133658."
+    },
+    {
+      "evidence": "Same appManager; getAppListByHmiCategory log reference0x125dec",
+      "label": "PROVED",
+      "statement": "Catalog tests visibility at0x125664/0x12566c and0x125978/0x125980; virtual predicates precede it. Start-time/name sorting follows0x125edc/0x125f10."
+    },
+    {
+      "evidence": "VA0x129b2c..0x129bd0; call0x133590; false-store path0x1335d4",
+      "label": "PROVED",
+      "statement": "ASSIST helper requires getenv(VARIANT_PRODUCT)==524 and atoi(ECSB_PRSNT from /pps/can/vehcfg0)!=1; true suppresses ASSIST in default-visibility branch."
+    },
+    {
+      "evidence": "VA0x12592c..0x125970; 0x133150..0x133164",
+      "label": "UNKNOWN",
+      "statement": "Virtual catalog predicate semantics and visibility-flag provenance remain unresolved; these bytes are not equated with proved launcher-mask authorization."
+    }
+  ],
+  "network": [
+    {
+      "activation": "Authorized Xlet and normal search",
+      "address": "Bundled search/geocode properties; variable query/location",
+      "authentication": "Bundled Basic header; platform TLS; acceptance UNKNOWN",
+      "construction": "Keyboard/category -> GpSearchRequest -> BaseRequest default HTTP client",
+      "direction": "Outbound HTTPS and response",
+      "effect": "Results/error UI",
+      "evidence": "Yelp selected methods",
+      "external_route": "Phone/Wi-Fi/USB transport choice not established; no inbound socket construction",
+      "id": "yelp_search",
+      "input": "Search terms/location and backend JSON",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Loading-screen completion",
+      "address": "MTS properties with VehicleConfig override",
+      "authentication": "MTS auth-token helper/runtime account; acceptance UNKNOWN",
+      "construction": "LoadingScreen -> MTSDiscoveryRequest -> BaseRequest",
+      "direction": "Outbound HTTP(S) and response",
+      "effect": "Loading/account/catalog/error UI",
+      "evidence": "StorefrontLoadingScreen BCI37/40; BaseRequest.CallService BCI32/53; census callers",
+      "external_route": "AllCertSSLSocketFactory contains socket code; active BaseRequest builds DefaultHttpClient directly; permissive-helper activation UNKNOWN",
+      "id": "store_http",
+      "input": "Discovery/catalog/vault response",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Init stage check and loading UI",
+      "address": "MTS configuration-derived endpoint",
+      "authentication": "Current subscriber/service credentials UNKNOWN",
+      "construction": "HURLoadingScreen constructs and queues MTSSubscriberStateRequest",
+      "direction": "Outbound client and subscriber response",
+      "effect": "Welcome/registration or failed-request dialog",
+      "evidence": "HURLoadingScreen/MTSSubscriberStateRequest",
+      "external_route": "ViaMobile JSON fields are metadata, not proof of a Bluetooth listener",
+      "id": "register_subscriber",
+      "input": "Subscriber JSON and RMS",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Daemon start, config/identity/TLS and connect-state gates",
+      "address": "Bundled vsbconf.properties BROKER_URL ssl://vsb.cvp.extra.chrysler.com:8443; runtime configuration/current connection remains unobserved.",
+      "authentication": "SSL factory, secure credentials, MQTT username/password options; values omitted",
+      "construction": "t/s/e -> t/s/c -> t/b/b Runnable -> d/f/g -> t/b/a.c -> Paho connect",
+      "direction": "Outbound MQTT with inbound subscribed callbacks",
+      "effect": "Typed handlers or generic JSON work can affect stock state",
+      "evidence": "t/b/b.messageArrived BCI46/55/68/76/142/150; t/b/a.a options68/88/101",
+      "external_route": "No proof arbitrary nearby phone/Wi-Fi client can publish; no server proved",
+      "id": "vsb_mqtt",
+      "input": "Broker-delivered JSON",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Daemon initialization and platform WMA",
+      "address": "Two bundled SMS port URIs in method evidence",
+      "authentication": "Sender/payload acceptance policy not fully resolved",
+      "construction": "t/s/c new t/b/d -> Connector.open -> t/b/e worker/listeners",
+      "direction": "Incoming wireless messages; not TCP",
+      "effect": "Listener wakes message worker/queues work; benign UI consequence not unique",
+      "evidence": "t/b/d init50/71/93/118/126/136; notifyIncomingMessage22/41/57",
+      "external_route": "No target messaging performed or arbitrary-sender reachability established",
+      "id": "vsb_sms",
+      "input": "Network-origin SMS through platform, conditional",
+      "label": "PROVED"
+    },
+    {
+      "activation": "AMS identity/registry/permissions/service lifecycle",
+      "address": "VSB service name and LifeCycleListener prefixes",
+      "authentication": "AMS/IXC trust boundary; arbitrary caller authority UNKNOWN",
+      "construction": "VSB binds; DRM/ASSIST locate and register callbacks; DRM enumerates listeners",
+      "direction": "Local app-to-app calls/callbacks",
+      "effect": "Registration/process/app-change notifications",
+      "evidence": "VSBClientImpl.e/f; DRM VSBClientLocator and dispatcher; ASSIST findVSBClient",
+      "external_route": "An IXC name is not an IP address",
+      "id": "ixc_services",
+      "input": "Stock app calls and response notifications",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Xlet/UI lifecycle and platform availability",
+      "address": "Platform services rather than app-owned endpoint",
+      "authentication": "Stock permissions; current grants UNKNOWN",
+      "construction": "Yelp location/VR/phone; Performance sensor/module; ASSIST phone/IXC",
+      "direction": "Local events/callbacks",
+      "effect": "Location, screen/phone state and service choices",
+      "evidence": "GpDetailsScreen; VRHelperImp; GSkillsModule; ASSIST main/communications",
+      "external_route": "No USB content-to-code, arbitrary Bluetooth command or externally reachable JNI route established",
+      "id": "platform_services",
+      "input": "Sensor/phone/VR state; paired-phone state may arrive through platform",
+      "label": "PROVED"
+    }
+  ],
+  "observations": [
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "No launch gate proved crossed; establish complete catalog observation."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "None of installation, registration, flags, catalog freshness, authorization or backend state is isolated."
+      },
+      "observation": "Absent from all surveyed Apps views",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Catalog crossed; next uncertain boundary is start/AMS/init, not necessarily DRM."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Stale entry, authorization, AMS failure, init/start exception and foreground recovery remain alternatives."
+      },
+      "observation": "Present but cannot launch",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Under recovered fresh-start chain, container/Display, scheduling and splash creation crossed; delayed home/platform initialization is next."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Exact JAR/version, fresh start versus resume, network/backend and search success unresolved."
+      },
+      "observation": "Splash appears",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Home UI crossed; request/response boundary remains uncertain."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "A generic message does not separate connectivity, DNS, TLS, HTTP, credentials, account or parsing failure."
+      },
+      "observation": "Home/search UI appears but search fails",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Only response-specific error.id behavior supports inference of response/JSON parsing; backend acceptance/data validity is next."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "A generic error can be locally produced. Backend identity and successful authorization are not established."
+      },
+      "observation": "Search displays backend/application error",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Fresh query-dependent results strongly support request/response/parse/UI completion for that operation."
+      },
+      "limits": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Exact binary, arbitrary inbound access and TCP listener remain unknown."
+      },
+      "observation": "Search displays relevant results",
+      "scope": "Yelp"
+    },
+    {
+      "crossed": {
+        "evidence": "HuRegistrationManager.isRegistrationShow",
+        "label": "INFERRED",
+        "statement": "Catalog exposed Register."
+      },
+      "limits": {
+        "evidence": "HuRegistrationManager.isRegistrationShow",
+        "label": "UNKNOWN",
+        "statement": "Unregistered state not established: completed/full stage is checked during init, not enumeration."
+      },
+      "observation": "Register present",
+      "scope": "Register"
+    },
+    {
+      "crossed": {
+        "evidence": "Register init/notifyDestroyed",
+        "label": "INFERRED",
+        "statement": "Early lifecycle termination is consistent with cached completed/full stage."
+      },
+      "limits": {
+        "evidence": "Register init/notifyDestroyed",
+        "label": "UNKNOWN",
+        "statement": "Exceptions and refresh state also fit; persistent catalog removal and completed registration not proved."
+      },
+      "observation": "Register disappears/returns immediately after launch",
+      "scope": "Register"
+    },
+    {
+      "crossed": {
+        "evidence": "Shared native gates",
+        "label": "INFERRED",
+        "statement": "No Store entry in surveyed views."
+      },
+      "limits": {
+        "evidence": "Shared native gates",
+        "label": "UNKNOWN",
+        "statement": "Installation/list freshness/visibility gates remain alternatives; account/backend failure not isolated."
+      },
+      "observation": "Store absent",
+      "scope": "Store"
+    },
+    {
+      "crossed": {
+        "evidence": "Native 0x129b2c/0x133550",
+        "label": "INFERRED",
+        "statement": "Catalog includes ASSIST."
+      },
+      "limits": {
+        "evidence": "Native 0x129b2c/0x133550",
+        "label": "UNKNOWN",
+        "statement": "Subscription/calling/VSB remain unresolved; variant-524 ECSB suppression is conditional."
+      },
+      "observation": "ASSIST present",
+      "scope": "ASSIST"
+    },
+    {
+      "crossed": {
+        "evidence": "Descriptors/native evaluator",
+        "label": "INFERRED",
+        "statement": "Under evaluation flags and available PPS, Jeep predicate requires PP=1 and line=1."
+      },
+      "limits": {
+        "evidence": "Descriptors/native evaluator",
+        "label": "UNKNOWN",
+        "statement": "Same name cannot identify variant; default-visible branch prevents unconditional PPS inference; launch DRM is separate."
+      },
+      "observation": "Performance Pages present",
+      "scope": "All variants"
+    },
+    {
+      "crossed": {
+        "evidence": "Daemon/headless descriptors",
+        "label": "INFERRED",
+        "statement": "No foreground entry seen."
+      },
+      "limits": {
+        "evidence": "Daemon/headless descriptors",
+        "label": "UNKNOWN",
+        "statement": "Headless activation/connection/IPC unresolved."
+      },
+      "observation": "No VSBClient or DRMSync tile",
+      "scope": "Background"
+    },
+    {
+      "crossed": {
+        "evidence": "Running category/list",
+        "label": "INFERRED",
+        "statement": "AppManager/HMI reports a running state."
+      },
+      "limits": {
+        "evidence": "Running category/list",
+        "label": "UNKNOWN",
+        "statement": "Does not prove responsive UI, fresh state, network or backend authorization."
+      },
+      "observation": "App listed in Running category",
+      "scope": "Any"
+    }
+  ],
+  "resource_selections": {
+    "2BA676FA-1542-11E1-A537-1F614824019B": {
+      "mts.properties": [
+        "mts-server"
+      ]
+    },
+    "550e8400-e29b-41d4-a716-446655440000": {
+      "mts.properties": [
+        "mts-server"
+      ],
+      "wallet.properties": [
+        "smps-url"
+      ]
+    },
+    "A7A4B215-9B5A-7DAA-457C-15545178E72F": {
+      "mts.properties": [
+        "mts-server"
+      ]
+    },
+    "f7583530-8d53-11e0-91e4-0800200c9a66": {
+      "vsbconf.properties": [
+        "BROKER_URL"
+      ]
+    }
+  },
+  "schema_version": 1,
+  "shared_gates": [
+    {
+      "evidence": "part_number_resolution.json; resident_install_lifecycle.md; appmanager_registry_atomicity.md",
+      "label": "PROVED",
+      "statement": "Package membership, installation, registration, visibility, authorization, execution and backend availability are separate states. Installed records persist as AppManager_JavaApps; finalization updates app objects, emits appListUpdated and conditionally autostarts."
+    },
+    {
+      "evidence": "appManager VA 0x133150..0x133164, 0x133550..0x1335d4, 0x133658, 0x133784; catalog 0x125664/0x125978",
+      "label": "PROVED",
+      "statement": "Native updateShowInHmi writes object+0x4d; catalog paths test it before inclusion. Conditions are evaluated when byte+0x29a has mask 8 OR byte+0x294 is nonzero. Otherwise most apps default visible; ASSIST has a separate suppression branch."
+    },
+    {
+      "evidence": "appManager VA 0x12592c..0x125970 and 0x133150..0x133164",
+      "label": "UNKNOWN",
+      "statement": "Visibility flag provenance and the exact meaning of virtual catalog predicates are unresolved. Do not rename these bytes as a proved DRM entitlement or unconditionally infer PPS from a tile."
+    },
+    {
+      "evidence": "appManager VA 0x1333c4..0x133460, 0x1334b0..0x1334e0, 0x133774",
+      "label": "PROVED",
+      "statement": "With every attribute present, alternatives within a condition use equality/OR; a nonmatching condition exits false. Missing attributes set false but continue, so a later condition can overwrite the value."
+    },
+    {
+      "evidence": "app_launch_ui_path.md file 0x50650/0x5066c/0x3c328/0xf008; application_install_pipeline.md file 0x1bb38/0x1bb3c/0x1bb64",
+      "label": "PROVED",
+      "statement": "Normal startApp enables DRM checking. Conditional autostart uses launcher-mask bit 2 or super-app override, plus the global gate. A tile is not successful launch authorization."
+    },
+    {
+      "evidence": "Ordinary Apps inventory and one Yelp launch",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "statement": "Actual target versions, installed records, flags, entitlements and network/backend state remain unobserved."
+    }
+  ],
+  "yelp": {
+    "authentication": {
+      "evidence": "GpBaseRequest.addHeaders BCI9/13; BaseRequest.CallService BCI32/53",
+      "label": "PROVED",
+      "statement": "GpBaseRequest adds a bundled Basic Authorization header; credential value omitted. Current TLS trust and backend acceptance remain UNKNOWN."
+    },
+    "cases": [
+      {
+        "case": "A",
+        "inferred": {
+          "evidence": "Recovered chain; matching firmware/UI assumed",
+          "label": "INFERRED",
+          "statement": "No launch gate proved crossed; establish complete catalog observation."
+        },
+        "next": {
+          "evidence": "target_observation_checklist.md",
+          "label": "TARGET OBSERVATION REQUIRED",
+          "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+        },
+        "observation": "Absent from all surveyed Apps views",
+        "proved": {
+          "evidence": "Conditional interpretation of recorded ordinary UI",
+          "label": "PROVED",
+          "statement": "The UI did not expose Yelp."
+        },
+        "unknown": {
+          "evidence": "No target binary identity/trace",
+          "label": "UNKNOWN",
+          "statement": "None of installation, registration, flags, catalog freshness, authorization or backend state is isolated."
+        }
+      },
+      {
+        "case": "B",
+        "inferred": {
+          "evidence": "Recovered chain; matching firmware/UI assumed",
+          "label": "INFERRED",
+          "statement": "Catalog crossed; next uncertain boundary is start/AMS/init, not necessarily DRM."
+        },
+        "next": {
+          "evidence": "target_observation_checklist.md",
+          "label": "TARGET OBSERVATION REQUIRED",
+          "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+        },
+        "observation": "Present but cannot launch",
+        "proved": {
+          "evidence": "Conditional interpretation of recorded ordinary UI",
+          "label": "PROVED",
+          "statement": "An entry was exposed; the normal launch/resume attempt failed visibly."
+        },
+        "unknown": {
+          "evidence": "No target binary identity/trace",
+          "label": "UNKNOWN",
+          "statement": "Stale entry, authorization, AMS failure, init/start exception and foreground recovery remain alternatives."
+        }
+      },
+      {
+        "case": "C",
+        "inferred": {
+          "evidence": "Recovered chain; matching firmware/UI assumed",
+          "label": "INFERRED",
+          "statement": "Under recovered fresh-start chain, container/Display, scheduling and splash creation crossed; delayed home/platform initialization is next."
+        },
+        "next": {
+          "evidence": "target_observation_checklist.md",
+          "label": "TARGET OBSERVATION REQUIRED",
+          "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+        },
+        "observation": "Splash appears",
+        "proved": {
+          "evidence": "Conditional interpretation of recorded ordinary UI",
+          "label": "PROVED",
+          "statement": "Yelp-branded UI executed."
+        },
+        "unknown": {
+          "evidence": "No target binary identity/trace",
+          "label": "UNKNOWN",
+          "statement": "Exact JAR/version, fresh start versus resume, network/backend and search success unresolved."
+        }
+      },
+      {
+        "case": "D",
+        "inferred": {
+          "evidence": "Recovered chain; matching firmware/UI assumed",
+          "label": "INFERRED",
+          "statement": "Home UI crossed; request/response boundary remains uncertain."
+        },
+        "next": {
+          "evidence": "target_observation_checklist.md",
+          "label": "TARGET OBSERVATION REQUIRED",
+          "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+        },
+        "observation": "Home/search UI appears but search fails",
+        "proved": {
+          "evidence": "Conditional interpretation of recorded ordinary UI",
+          "label": "PROVED",
+          "statement": "The observed app reached search UI and accepted the action."
+        },
+        "unknown": {
+          "evidence": "No target binary identity/trace",
+          "label": "UNKNOWN",
+          "statement": "A generic message does not separate connectivity, DNS, TLS, HTTP, credentials, account or parsing failure."
+        }
+      },
+      {
+        "case": "E",
+        "inferred": {
+          "evidence": "Recovered chain; matching firmware/UI assumed",
+          "label": "INFERRED",
+          "statement": "Only response-specific error.id behavior supports inference of response/JSON parsing; backend acceptance/data validity is next."
+        },
+        "next": {
+          "evidence": "target_observation_checklist.md",
+          "label": "TARGET OBSERVATION REQUIRED",
+          "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+        },
+        "observation": "Search displays backend/application error",
+        "proved": {
+          "evidence": "Conditional interpretation of recorded ordinary UI",
+          "label": "PROVED",
+          "statement": "The exact error screen/text was displayed."
+        },
+        "unknown": {
+          "evidence": "No target binary identity/trace",
+          "label": "UNKNOWN",
+          "statement": "A generic error can be locally produced. Backend identity and successful authorization are not established."
+        }
+      },
+      {
+        "case": "F",
+        "inferred": {
+          "evidence": "Recovered chain; matching firmware/UI assumed",
+          "label": "INFERRED",
+          "statement": "Fresh query-dependent results strongly support request/response/parse/UI completion for that operation."
+        },
+        "next": {
+          "evidence": "target_observation_checklist.md",
+          "label": "TARGET OBSERVATION REQUIRED",
+          "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+        },
+        "observation": "Search displays relevant results",
+        "proved": {
+          "evidence": "Conditional interpretation of recorded ordinary UI",
+          "label": "PROVED",
+          "statement": "The app displayed results."
+        },
+        "unknown": {
+          "evidence": "No target binary identity/trace",
+          "label": "UNKNOWN",
+          "statement": "Exact binary, arbitrary inbound access and TCP listener remain unknown."
+        }
+      }
+    ],
+    "chain_label": "PROVED",
+    "conditional_chain": [
+      "Apps category/list -> returned Applet/appId",
+      "onItem -> startXlet -> native startApp with DRM check",
+      "AMS-facing start and recovered main-class association",
+      "initXlet container/Display",
+      "startXlet schedules YelpPOIXlet$1",
+      "Theme/RMS/platform setup -> YelpSplashScreen.show",
+      "Splash worker -> delayed serial callback -> current-location/home screen",
+      "Keyboard/category -> GpSearchRequest -> ConnectionManager worker",
+      "Connectivity -> createRequest -> HTTP client execute",
+      "Stream -> JSONObject -> businesses/error -> UI status branch"
+    ],
+    "endpoints": {
+      "evidence": "GpGeoUtil resources; baseline package_inventory.json",
+      "label": "PROVED",
+      "statement": "Bundled search https://vsb.cvp.extra.chrysler.com/yelp-api/v2/search and geocode https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find. No live requests."
+    },
+    "errors": [
+      {
+        "evidence": "BaseRequest.CallService BCI123..171",
+        "label": "PROVED",
+        "statement": "CallService catches Throwable and can return null; generic failure cannot identify transport/TLS/HTTP cause."
+      },
+      {
+        "evidence": "GpSearchRequest.processJSONObject BCI30/71/78/83/146; GpCVPKeyboard.fireOKPressed BCI244..480",
+        "label": "PROVED",
+        "statement": "Search JSON error sets ERROR and reads error.id; businesses parses separately. Keyboard handles ERROR, Zero_Results, OK and fallback."
+      },
+      {
+        "evidence": "Splash worker; no target trace",
+        "label": "UNKNOWN",
+        "statement": "Persistent splash cannot isolate platform/resource failure, delayed work or scheduling."
+      }
+    ],
+    "evidence": [
+      "app_launch_ui_path.md",
+      "keyjar_runtime_association.md",
+      "method_evidence.json"
+    ]
+  }
+}

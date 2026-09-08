@@ -1,0 +1,196 @@
+{
+  "authentication": {
+    "evidence": "GpBaseRequest.addHeaders BCI9/13; BaseRequest.CallService BCI32/53",
+    "label": "PROVED",
+    "statement": "GpBaseRequest adds a bundled Basic Authorization header; credential value omitted. Current TLS trust and backend acceptance remain UNKNOWN."
+  },
+  "cases": [
+    {
+      "case": "A",
+      "inferred": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "No launch gate proved crossed; establish complete catalog observation."
+      },
+      "next": {
+        "evidence": "target_observation_checklist.md",
+        "label": "TARGET OBSERVATION REQUIRED",
+        "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+      },
+      "observation": "Absent from all surveyed Apps views",
+      "proved": {
+        "evidence": "Conditional interpretation of recorded ordinary UI",
+        "label": "PROVED",
+        "statement": "The UI did not expose Yelp."
+      },
+      "unknown": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "None of installation, registration, flags, catalog freshness, authorization or backend state is isolated."
+      }
+    },
+    {
+      "case": "B",
+      "inferred": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Catalog crossed; next uncertain boundary is start/AMS/init, not necessarily DRM."
+      },
+      "next": {
+        "evidence": "target_observation_checklist.md",
+        "label": "TARGET OBSERVATION REQUIRED",
+        "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+      },
+      "observation": "Present but cannot launch",
+      "proved": {
+        "evidence": "Conditional interpretation of recorded ordinary UI",
+        "label": "PROVED",
+        "statement": "An entry was exposed; the normal launch/resume attempt failed visibly."
+      },
+      "unknown": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Stale entry, authorization, AMS failure, init/start exception and foreground recovery remain alternatives."
+      }
+    },
+    {
+      "case": "C",
+      "inferred": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Under recovered fresh-start chain, container/Display, scheduling and splash creation crossed; delayed home/platform initialization is next."
+      },
+      "next": {
+        "evidence": "target_observation_checklist.md",
+        "label": "TARGET OBSERVATION REQUIRED",
+        "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+      },
+      "observation": "Splash appears",
+      "proved": {
+        "evidence": "Conditional interpretation of recorded ordinary UI",
+        "label": "PROVED",
+        "statement": "Yelp-branded UI executed."
+      },
+      "unknown": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Exact JAR/version, fresh start versus resume, network/backend and search success unresolved."
+      }
+    },
+    {
+      "case": "D",
+      "inferred": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Home UI crossed; request/response boundary remains uncertain."
+      },
+      "next": {
+        "evidence": "target_observation_checklist.md",
+        "label": "TARGET OBSERVATION REQUIRED",
+        "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+      },
+      "observation": "Home/search UI appears but search fails",
+      "proved": {
+        "evidence": "Conditional interpretation of recorded ordinary UI",
+        "label": "PROVED",
+        "statement": "The observed app reached search UI and accepted the action."
+      },
+      "unknown": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "A generic message does not separate connectivity, DNS, TLS, HTTP, credentials, account or parsing failure."
+      }
+    },
+    {
+      "case": "E",
+      "inferred": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Only response-specific error.id behavior supports inference of response/JSON parsing; backend acceptance/data validity is next."
+      },
+      "next": {
+        "evidence": "target_observation_checklist.md",
+        "label": "TARGET OBSERVATION REQUIRED",
+        "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+      },
+      "observation": "Search displays backend/application error",
+      "proved": {
+        "evidence": "Conditional interpretation of recorded ordinary UI",
+        "label": "PROVED",
+        "statement": "The exact error screen/text was displayed."
+      },
+      "unknown": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "A generic error can be locally produced. Backend identity and successful authorization are not established."
+      }
+    },
+    {
+      "case": "F",
+      "inferred": {
+        "evidence": "Recovered chain; matching firmware/UI assumed",
+        "label": "INFERRED",
+        "statement": "Fresh query-dependent results strongly support request/response/parse/UI completion for that operation."
+      },
+      "next": {
+        "evidence": "target_observation_checklist.md",
+        "label": "TARGET OBSERVATION REQUIRED",
+        "statement": "Record exact first screen/message and whether the app stays running; do not repeat launches."
+      },
+      "observation": "Search displays relevant results",
+      "proved": {
+        "evidence": "Conditional interpretation of recorded ordinary UI",
+        "label": "PROVED",
+        "statement": "The app displayed results."
+      },
+      "unknown": {
+        "evidence": "No target binary identity/trace",
+        "label": "UNKNOWN",
+        "statement": "Exact binary, arbitrary inbound access and TCP listener remain unknown."
+      }
+    }
+  ],
+  "chain_label": "PROVED",
+  "conditional_chain": [
+    "Apps category/list -> returned Applet/appId",
+    "onItem -> startXlet -> native startApp with DRM check",
+    "AMS-facing start and recovered main-class association",
+    "initXlet container/Display",
+    "startXlet schedules YelpPOIXlet$1",
+    "Theme/RMS/platform setup -> YelpSplashScreen.show",
+    "Splash worker -> delayed serial callback -> current-location/home screen",
+    "Keyboard/category -> GpSearchRequest -> ConnectionManager worker",
+    "Connectivity -> createRequest -> HTTP client execute",
+    "Stream -> JSONObject -> businesses/error -> UI status branch"
+  ],
+  "endpoints": {
+    "evidence": "GpGeoUtil resources; baseline package_inventory.json",
+    "label": "PROVED",
+    "statement": "Bundled search https://vsb.cvp.extra.chrysler.com/yelp-api/v2/search and geocode https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/find. No live requests."
+  },
+  "errors": [
+    {
+      "evidence": "BaseRequest.CallService BCI123..171",
+      "label": "PROVED",
+      "statement": "CallService catches Throwable and can return null; generic failure cannot identify transport/TLS/HTTP cause."
+    },
+    {
+      "evidence": "GpSearchRequest.processJSONObject BCI30/71/78/83/146; GpCVPKeyboard.fireOKPressed BCI244..480",
+      "label": "PROVED",
+      "statement": "Search JSON error sets ERROR and reads error.id; businesses parses separately. Keyboard handles ERROR, Zero_Results, OK and fallback."
+    },
+    {
+      "evidence": "Splash worker; no target trace",
+      "label": "UNKNOWN",
+      "statement": "Persistent splash cannot isolate platform/resource failure, delayed work or scheduling."
+    }
+  ],
+  "evidence": [
+    "app_launch_ui_path.md",
+    "keyjar_runtime_association.md",
+    "method_evidence.json"
+  ],
+  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "schema_version": 1,
+  "scope": "Recovered KIM19; target runtime unobserved"
+}

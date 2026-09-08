@@ -1,0 +1,112 @@
+{
+  "all_19_jar_hashes_unchanged": true,
+  "common_base_files_unchanged": 24,
+  "coverage": {
+    "classes": 4572,
+    "files": 37,
+    "jars": 19,
+    "parse_errors": 0,
+    "uncompressed_member_bytes": 50188423
+  },
+  "independent_javap": [
+    {
+      "class": "com/sprint/chrysler/common/communications/BaseRequest",
+      "invocations_checked": 62,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "ba10a28678eb56df42cb77b8c2b2890d31f9e0cb3dafe96c3e7fb65fcbeee087"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/communications/GpSearchRequest",
+      "invocations_checked": 113,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "35e14c6d004848ff08764e468bd4d4b9096357032980968ce6f2303a348f51f8"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1",
+      "invocations_checked": 9,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "05487056ad7b5d3a34caf81e508304d3434259cf58fa20481f7442b4048ffab2"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+      "invocations_checked": 26,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "e3e89319d5efefa22901defbcf444b380e9ed870e7611c62fdd32f8507bb0fd0"
+    },
+    {
+      "class": "com/sprint/chrysler/drm/data/DrmManager",
+      "invocations_checked": 67,
+      "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "output_sha256": "e83c274c712f4ae86a5efd96da38605c9e2eba0f7345c17a770f9157f7dcdcee"
+    },
+    {
+      "class": "com/sprint/chrysler/storefront/gui/screen/StorefrontLoadingScreen",
+      "invocations_checked": 41,
+      "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "output_sha256": "6601cffd9bc51ee4fd329c992e1fd61c5978c6df6f3056641b1adfc8c0217215"
+    },
+    {
+      "class": "com/sprint/gskills/xlet/GSkillsModule",
+      "invocations_checked": 25,
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "output_sha256": "5ab0f439f63f8b7858124aae0c4d4295ebee490cea806586270bd547dbd4fc78"
+    },
+    {
+      "class": "com/sprint/gskills/xlet/GSkillsXlet",
+      "invocations_checked": 9,
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "output_sha256": "5694df2f6ae3ec967b69b25cd483553dd2dd8e6ec9b353d772ce2770a42e57fb"
+    },
+    {
+      "class": "com/sprint/chrysler/uar/util/HuRegistrationManager",
+      "invocations_checked": 10,
+      "jar": "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "output_sha256": "228b4cd9757eac78d784fe9cb92eee675c04bf74d98a3546f8f5310f04c4a3a5"
+    },
+    {
+      "class": "com/sprint/chrysler/uar/xlet/UconnectRegistrationXlet",
+      "invocations_checked": 18,
+      "jar": "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+      "output_sha256": "a00b3e6f85093aaa06a8c66d973817406fabb4e55aea31544ccf40d45850fce4"
+    },
+    {
+      "class": "t/b/d",
+      "invocations_checked": 21,
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "output_sha256": "66c228bb234473fbfd315300b6ee9cde9179e3545bf800ba7de2c3e92a70cca7"
+    }
+  ],
+  "internally_consistent_application_identities": [
+    "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+    "2BA676FA-1542-11E1-A537-1F614824019B",
+    "3bbeae36-1542-11e1-b393-31614824019b",
+    "52c79381-6719-11e1-b86c-0800200c9a66",
+    "550e8400-e29b-41d4-a716-446655440000",
+    "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+    "7DEC7834-535D-47B5-BD33-695477EDCD57",
+    "A7A4B215-9B5A-7DAA-457C-15545178E72F",
+    "f7583530-8d53-11e0-91e4-0800200c9a66"
+  ],
+  "inventory_identical": true,
+  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "part_resolution": {
+    "fallback_used": false,
+    "input": "68224525AM",
+    "map_sha256": "4f219f18f84afe346f68844fb8f618a031eeb49aa158ba7c81d4de83fb381daa",
+    "matching_assignments": [
+      {
+        "line": 74,
+        "package": "KIM19",
+        "part": "68224525"
+      }
+    ],
+    "normalized": "68224525",
+    "scope": "ASCII model of recovered selector, not observation of FRAM",
+    "selected_package": "KIM19"
+  },
+  "schema_version": 1,
+  "scope": "Recovered KIM19; target runtime unobserved",
+  "source_records_rechecked_before_and_after": 95,
+  "target_observation": "TARGET OBSERVATION REQUIRED",
+  "verification_scope": "Report regeneration, suite and Git isolation results are recorded in verification.md."
+}

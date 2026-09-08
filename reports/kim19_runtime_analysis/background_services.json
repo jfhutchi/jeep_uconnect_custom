@@ -1,0 +1,52 @@
+{
+  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "schema_version": 1,
+  "scope": "Recovered KIM19; target runtime unobserved",
+  "services": [
+    {
+      "activation_evidence": "Existing service-specific logs or registry binding would reveal setup. Ordinary tile omission proves nothing; dependent-service messages are indirect and not unique.",
+      "app": "VSBClient",
+      "autostart": "Declared daemon/headless; native global/launcher gate still applies",
+      "benign_observable": "Passive service/account/app-list changes may be consistent with processing but cannot uniquely identify this daemon.",
+      "dependencies": [
+        "configuration/secure credentials/TLS",
+        "AMS registry/task queue",
+        "platform connectivity/messaging"
+      ],
+      "entry": "t/s/e.init queues t/s/c; startXlet empty",
+      "evidence": "t/s/c; t/b/a,b,d; VSBClientImpl.e/f",
+      "interactions": "DRM and ASSIST have concrete locator consumers. Store/Register use MTS/DRM-related callbacks. Mandatory Yelp VSB binding not established.",
+      "label": "PROVED",
+      "services": [
+        "MQTT callback",
+        "WMA SMS listeners",
+        "VSB IXC binding",
+        "LifeCycleListener refresh"
+      ],
+      "target_state": "TARGET OBSERVATION REQUIRED"
+    },
+    {
+      "activation_evidence": "An existing daemon-specific log/registry record distinguishes execution. Store/Register messages alone do not identify which daemon produced state.",
+      "app": "DRMSync_VSB",
+      "autostart": "Declared daemon/headless; conditional native activation",
+      "benign_observable": "Observe account/app-list status passively. Service also has update/reset/install paths and is not a harmless probe target.",
+      "dependencies": [
+        "VSB reference validity",
+        "low-power/processing state",
+        "VIN/subscriber provisioning",
+        "MTS subscriber/grant service"
+      ],
+      "entry": "DrmSyncXlet.init starts DrmManager worker; startXlet empty",
+      "evidence": "DrmManager.run/init/processSyncRequest; VSBClientLocator; DrmNotificationManagerServiceImpl",
+      "interactions": "Worker waits for VSB validity; subscriber request precedes sync; sync checks provisioning/VIN; dispatcher raises app/process/registration/reset events to local listeners.",
+      "label": "PROVED",
+      "services": [
+        "AppManager listener",
+        "ignition sensor listener",
+        "VSB locator/callback",
+        "DRM notification dispatcher"
+      ],
+      "target_state": "TARGET OBSERVATION REQUIRED"
+    }
+  ]
+}
