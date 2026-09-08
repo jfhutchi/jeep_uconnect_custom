@@ -466,7 +466,7 @@ and candidate ledgers are separate from generated static inventory; see
 ### KIM19 runtime observation model
 
 `kim19_runtime_analysis` reuses `build_inventory` and requires an identical
-baseline before generating seven focused JSON reports. It verifies KIM19 files,
+baseline before generating eight focused JSON reports. It verifies KIM19 files,
 the common-base manifest and prior evidence sources before and after extraction.
 It scans all 19 JARs, but emits only selected lifecycle/decision methods plus
 transport construction/caller sites, avoiding a second full corpus dump.
@@ -476,7 +476,18 @@ Its claims are **not** automatically inferred from call counts. Source hashes,
 BCIs, caller/callee descriptors, branches, handlers and allowlisted constants
 bind those interpretations to recovered evidence. Unapproved literals and
 credential values are omitted. Native evidence is manually decoded, source-hash
-bound and explicitly separated from unresolved flag/virtual-predicate semantics.
+bound. Sixteen native instruction windows now reproduce condition-flag,
+super-app-flag and VSB setup provenance; virtual catalog predicates remain
+unresolved. The application/service graph validates 23 reviewed relationships
+against exact JAR/class/method/descriptor/BCI/callee tuples. These are conditional
+relationships, not computed live reachability. Tests reject wrong overloads,
+callers, callees, offsets, duplicate graph identities and missing evidence.
+Selected properties and the packaged Affiner resource have independent member
+hashes. Native libraries and vendor classes are never executed.
+
+The follow-up reports cover Yelp voice input, corrected VSB topic routing,
+recipient-specific callbacks, Performance timer export/upload and a ranked
+capability assessment in `docs/kim19_capability_assessment.md`.
 
 ```powershell
 python -m analysis_tools.kim19_runtime_analysis `
@@ -497,7 +508,8 @@ the recovered work root. All outputs belong in the isolated analysis checkout.
 The predicate helper supports only valid recovered `/pps/can/` descriptors.
 `known_predicates_match` returns `None` when an attribute is missing, rather than
 inventing native missing-data semantics. The native updater can continue after
-a missing attribute, and it also has a default-visible path. Therefore these
+a missing attribute, and it also has a default-visible path when no condition
+flag/super-app identity applies. Valid parsing sets the condition flag. These
 helpers must never be used to infer unconditional target visibility or DRM.
 
 Human-reviewed guidance starts at `docs/kim19_runtime_observation_model.md` and

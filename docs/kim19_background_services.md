@@ -18,7 +18,9 @@ service implementation (BCI190/193).
 **PROVED:** MQTT construction runs through `t/b/b` configuration/state methods
 and `t/b/a`; SSL factory and username/password are assigned in connect options.
 The packaged broker is `ssl://vsb.cvp.extra.chrysler.com:8443`. The client receives
-JSON callbacks and dispatches typed or generic queued work. WMA receiver setup
+payload callbacks and queues the configured router `t/r/d`. The former
+description of BCI76 as a typed handler was incorrect: it is a string getter
+used in a topic comparison. WMA receiver setup
 also occurs during the worker path. See [network details](kim19_network_capabilities.md)
 and [selected method evidence](../reports/kim19_runtime_analysis/method_evidence.json).
 
@@ -29,11 +31,41 @@ IXC names, matches lifecycle listeners, looks up remotes at BCI106 and calls
 network services. **UNKNOWN:** current registration of each remote, caller
 permissions, valid service credentials and current broker sessions.
 
-**PROVED:** DRM and ASSIST contain concrete VSB locator consumers. **UNKNOWN:**
+**PROVED:** DRM, ASSIST and all three Performance Pages variants contain
+concrete VSB locator consumers. **UNKNOWN:**
 mandatory Yelp dependency on VSB is not established: Yelp's traced search path
 uses its HTTP client and obtains a registry, but merely carrying DRM-notification
 classes does not prove it registers them. Store/Register's MTS and DRM-related
 state likewise must not be treated as proof that VSB is running now.
+
+## Incoming routing and actual callback effects
+
+**PROVED:** `t/r/d.run` first tests a bootstrap topic predicate at BCI53, then
+waits on configuration readiness before subsequent topic tests. Its control
+branch calls reconfiguration work at BCI135; another configured branch queues
+native-service work at BCI178/181. These are not harmless operator probes.
+The application-topic predicate at BCI195 reaches IXC dispatch at BCI221.
+The dispatcher resolves a configured application by topic, then its factory
+chooses a stock task. The generic incoming task `t/g/d` validates configured
+message fields and callback availability. Its normal path invokes the callback
+only when its status equals 901 (BCI67/70/73/77). Method `c` resolves the bind
+name and remote, checks both for null, then calls `IxcFromVSB.notify(String)`
+at BCI158. This closes a conditional broker-to-local-callback chain, not an
+arbitrary nearby-client path.
+
+**PROVED:** callback effects differ by recipient. DRMSync's
+`VSBEventHandlerListener.notify` checks processing state (BCI55), marks a
+pending shoulder tap (BCI73), or requests processing (BCI91) on its matching
+event branch. ASSIST's `notify`, `notifySuccess` and `notifyFailure` bodies
+perform no work. Performance Pages' upload success/failure callbacks release
+a waiting latch and drive a stock save-status update. Their generic `notify`
+method is also empty. Interface presence cannot substitute for these bodies.
+
+**UNKNOWN:** current topic configuration/subscriptions, credentials, sender
+authority, actual remote bindings and message delivery. The broad router also
+contains service-control paths; neither those paths nor daemon callbacks are
+included in the ordinary-radio observation procedure. Timer upload is an
+output operation with state changes, not a passive liveness check.
 
 ## DRMSync_VSB 03.01.07
 

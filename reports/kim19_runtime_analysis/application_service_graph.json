@@ -1,0 +1,649 @@
+{
+  "edges": [
+    {
+      "condition": "Authorized Xlet, selected supported service/session",
+      "id": "yelp_voice_listener",
+      "label": "PROVED",
+      "relation": "register speech callback",
+      "sites": [
+        {
+          "call": {
+            "bci": 331,
+            "descriptor": "(Lkona/speech/vr/SpeechRecognizerListener;)V",
+            "name": "addSpeechRecognizerListener",
+            "owner": "kona/speech/vr/Session"
+          },
+          "class": "com/sprint/chrysler/yelp/vr/VRHelperImp",
+          "class_sha256": "d04653e6d0a5de2b3bc8b89d82f89972fe2eed610419691cd86263023074c49b",
+          "descriptor": "()V",
+          "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+          "jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
+          "method": "init"
+        }
+      ],
+      "source": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+      "target": "vr"
+    },
+    {
+      "condition": "Non-cancel text and enabled current action",
+      "id": "voice_search",
+      "label": "PROVED",
+      "relation": "recognized text into search",
+      "sites": [
+        {
+          "call": {
+            "bci": 21,
+            "descriptor": "(Ljava/lang/String;)V",
+            "name": "onVRAction",
+            "owner": "com/sprint/chrysler/yelp/vr/VRAction"
+          },
+          "class": "com/sprint/chrysler/yelp/vr/VRHelperImp$1",
+          "class_sha256": "a2e41b40f0971fb0ae504309333861155804b97077412b54b631276875d74e17",
+          "descriptor": "()V",
+          "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+          "jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
+          "method": "run"
+        }
+      ],
+      "source": "vr",
+      "target": "1D5347C0-8B5E-11E2-9E96-0800200C9A66"
+    },
+    {
+      "condition": "Connectivity, request, TLS and backend acceptance",
+      "id": "yelp_http",
+      "label": "PROVED",
+      "relation": "HTTP execute",
+      "sites": [
+        {
+          "call": {
+            "bci": 53,
+            "descriptor": "(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;",
+            "name": "execute",
+            "owner": "org/apache/http/client/HttpClient"
+          },
+          "class": "com/sprint/chrysler/common/communications/BaseRequest",
+          "class_sha256": "12fcd0686ee9288e243824c7f745574d376ae41a858dc61901692ae87a7f60ee",
+          "descriptor": "()Lorg/apache/http/HttpResponse;",
+          "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+          "jar_sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
+          "method": "CallService"
+        }
+      ],
+      "source": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+      "target": "yelp_https"
+    },
+    {
+      "condition": "Store invalid account confirmation accepted; native chain/AMS gates still apply",
+      "id": "store_register",
+      "label": "PROVED",
+      "relation": "request AppManager.chain to Register",
+      "sites": [
+        {
+          "call": {
+            "bci": 5,
+            "descriptor": "(Ljava/lang/String;)V",
+            "name": "chain",
+            "owner": "kona/appManager/AppManager"
+          },
+          "class": "com/sprint/chrysler/storefront/xlet/StorefrontXlet$1",
+          "class_sha256": "97a6d776bf1202bd1367815c4704524345177539a88f65ef84f0a0139bb003a6",
+          "descriptor": "()V",
+          "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+          "jar_sha256": "2e5b3f7e1c7857950f7ea536b3975f1feebff744a47fb141551bbb6c23c7d552",
+          "method": "run"
+        }
+      ],
+      "source": "550e8400-e29b-41d4-a716-446655440000",
+      "target": "A7A4B215-9B5A-7DAA-457C-15545178E72F"
+    },
+    {
+      "condition": "Registry lookup and authorized live VSB",
+      "id": "drm_vsb_callback",
+      "label": "PROVED",
+      "relation": "register callback with VSB",
+      "sites": [
+        {
+          "call": {
+            "bci": 98,
+            "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "name": "setBindNameForCallback",
+            "owner": "com/sprint/chrysler/ixc/VSBClient"
+          },
+          "class": "com/sprint/chrysler/drm/sdp/VSBClientLocator",
+          "class_sha256": "3c79e1f80d439b4fa9a338a0db9371d66ef2e7e254c2f8cf3cd39465ce20a067",
+          "descriptor": "()V",
+          "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+          "jar_sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225",
+          "method": "refreshVSBClientReference"
+        }
+      ],
+      "source": "2BA676FA-1542-11E1-A537-1F614824019B",
+      "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+    },
+    {
+      "condition": "Matching event branch; processing state selects pending or process",
+      "id": "drm_shoulder_tap",
+      "label": "PROVED",
+      "relation": "callback can queue processing",
+      "sites": [
+        {
+          "call": {
+            "bci": 91,
+            "descriptor": "(I)V",
+            "name": "process",
+            "owner": "com/sprint/chrysler/drm/data/DrmManager"
+          },
+          "class": "com/sprint/chrysler/drm/sdp/VSBEventHandlerListener",
+          "class_sha256": "e2a9f9394f6f457ddc23a0fc752fef98a3999ba791173cbe4e98ac6189550188",
+          "descriptor": "(Ljava/lang/String;)V",
+          "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+          "jar_sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225",
+          "method": "notify"
+        }
+      ],
+      "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "target": "2BA676FA-1542-11E1-A537-1F614824019B"
+    },
+    {
+      "condition": "User service action, network/registry prerequisites; may place call, excluded from observation",
+      "id": "assist_vsb_send",
+      "label": "PROVED",
+      "relation": "send service request",
+      "sites": [
+        {
+          "call": {
+            "bci": 119,
+            "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+            "name": "sendDataToVSB",
+            "owner": "com/sprint/chrysler/ixc/VSBClient"
+          },
+          "class": "com/sprint/chrysler/assist/communications/AssistCommunicationManager",
+          "class_sha256": "e0e92322fd335c62386f93e7c1312e90c48c47571646110b0f4b744ccae9f21a",
+          "descriptor": "(I)Z",
+          "jar": "xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+          "jar_sha256": "cd91225970a68353920acc674e15fb9775c60ee8352134ecf447157e811512f4",
+          "method": "process"
+        }
+      ],
+      "source": "3bbeae36-1542-11e1-b393-31614824019b",
+      "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+    },
+    {
+      "condition": "Daemon initialization and registry permission",
+      "id": "vsb_registry",
+      "label": "PROVED",
+      "relation": "publish local service",
+      "sites": [
+        {
+          "call": {
+            "bci": 25,
+            "descriptor": "(Ljava/lang/String;Ljava/rmi/Remote;)V",
+            "name": "rebind",
+            "owner": "javax/microedition/xlet/ixc/IxcRegistry"
+          },
+          "class": "com/sprint/chrysler/vsbclient/ixc/VSBClientImpl",
+          "class_sha256": "9166d7676537b48cb82d18cfe8d798e25d4871b88a42b7539339a362d10ef530",
+          "descriptor": "()V",
+          "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+          "jar_sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a",
+          "method": "e"
+        }
+      ],
+      "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "target": "registry"
+    },
+    {
+      "condition": "Authenticated subscribed delivery and payload/topic gate",
+      "id": "vsb_incoming",
+      "label": "PROVED",
+      "relation": "queue incoming configured route",
+      "sites": [
+        {
+          "call": {
+            "bci": 142,
+            "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+            "name": "<init>",
+            "owner": "t/r/d"
+          },
+          "class": "t/b/b",
+          "class_sha256": "8326a5639d983d54ca632d9361336c29635eda2fd90d919ba9f719f183bed248",
+          "descriptor": "(Ljava/lang/String;Lorg/eclipse/paho/client/mqttv3/MqttMessage;)V",
+          "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+          "jar_sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a",
+          "method": "messageArrived"
+        }
+      ],
+      "source": "broker",
+      "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+    },
+    {
+      "condition": "Configured matching application route, validation/status901, non-null binding/remote",
+      "id": "vsb_callback",
+      "label": "PROVED",
+      "relation": "invoke registered app callback",
+      "sites": [
+        {
+          "call": {
+            "bci": 158,
+            "descriptor": "(Ljava/lang/String;)V",
+            "name": "notify",
+            "owner": "com/sprint/chrysler/ixc/IxcFromVSB"
+          },
+          "class": "t/g/d",
+          "class_sha256": "d61f4f9c5c4188159002973a1cb54e5f76ea09a45e807740f46f7c3dba34a17e",
+          "descriptor": "()V",
+          "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+          "jar_sha256": "28e4c6319373785041b242743e0e97d914b9b45299443d989355fba81f4e635a",
+          "method": "c"
+        }
+      ],
+      "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "target": "registry"
+    },
+    {
+      "condition": "SDP-attempt exception fallback, callback registration, live VSB",
+      "id": "pp_send_01.23.01",
+      "label": "PROVED",
+      "relation": "send timer result",
+      "sites": [
+        {
+          "call": {
+            "bci": 37,
+            "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+            "name": "sendDataToVSB",
+            "owner": "com/sprint/chrysler/ixc/VSBClient"
+          },
+          "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+          "class_sha256": "9b1a67f688280e95b7592c7b8e5f85411191b2429bd315a616df2fe90b4a0825",
+          "descriptor": "()Ljava/lang/Object;",
+          "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+          "jar_sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d",
+          "method": "call"
+        }
+      ],
+      "source": "52c79381-6719-11e1-b86c-0800200c9a66",
+      "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+    },
+    {
+      "condition": "Registered callback; delivery status is not proof of website persistence",
+      "id": "pp_delivery_01.23.01",
+      "label": "PROVED",
+      "relation": "completion releases waiter",
+      "sites": [
+        {
+          "call": {
+            "bci": 28,
+            "descriptor": "()V",
+            "name": "countDown",
+            "owner": "edu/emory/mathcs/backport/java/util/concurrent/CountDownLatch"
+          },
+          "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+          "class_sha256": "9b1a67f688280e95b7592c7b8e5f85411191b2429bd315a616df2fe90b4a0825",
+          "descriptor": "(Ljava/lang/String;)V",
+          "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+          "jar_sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d",
+          "method": "notifySuccess"
+        }
+      ],
+      "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "target": "52c79381-6719-11e1-b86c-0800200c9a66"
+    },
+    {
+      "condition": "Authorized variant, available media path, writable file; not executed",
+      "id": "pp_export_01.23.01",
+      "label": "PROVED",
+      "relation": "write generated timer HTML",
+      "sites": [
+        {
+          "call": {
+            "bci": 26,
+            "descriptor": "(Ljava/lang/String;)V",
+            "name": "write",
+            "owner": "java/io/Writer"
+          },
+          "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+          "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+          "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+          "jar_sha256": "00b15a1d7268565c3644ba07e1fb1c3789f27b9b118029510652d03139d3ad0d",
+          "method": "updateHTML"
+        }
+      ],
+      "source": "52c79381-6719-11e1-b86c-0800200c9a66",
+      "target": "media"
+    },
+    {
+      "condition": "SDP-attempt exception fallback, callback registration, live VSB",
+      "id": "pp_send_01.57.01",
+      "label": "PROVED",
+      "relation": "send timer result",
+      "sites": [
+        {
+          "call": {
+            "bci": 37,
+            "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+            "name": "sendDataToVSB",
+            "owner": "com/sprint/chrysler/ixc/VSBClient"
+          },
+          "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+          "class_sha256": "9b1a67f688280e95b7592c7b8e5f85411191b2429bd315a616df2fe90b4a0825",
+          "descriptor": "()Ljava/lang/Object;",
+          "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+          "jar_sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566",
+          "method": "call"
+        }
+      ],
+      "source": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+      "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+    },
+    {
+      "condition": "Registered callback; delivery status is not proof of website persistence",
+      "id": "pp_delivery_01.57.01",
+      "label": "PROVED",
+      "relation": "completion releases waiter",
+      "sites": [
+        {
+          "call": {
+            "bci": 28,
+            "descriptor": "()V",
+            "name": "countDown",
+            "owner": "edu/emory/mathcs/backport/java/util/concurrent/CountDownLatch"
+          },
+          "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+          "class_sha256": "9b1a67f688280e95b7592c7b8e5f85411191b2429bd315a616df2fe90b4a0825",
+          "descriptor": "(Ljava/lang/String;)V",
+          "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+          "jar_sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566",
+          "method": "notifySuccess"
+        }
+      ],
+      "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "target": "6BFD02C0-40C3-11E2-A25F-0800200C9A66"
+    },
+    {
+      "condition": "Authorized variant, available media path, writable file; not executed",
+      "id": "pp_export_01.57.01",
+      "label": "PROVED",
+      "relation": "write generated timer HTML",
+      "sites": [
+        {
+          "call": {
+            "bci": 26,
+            "descriptor": "(Ljava/lang/String;)V",
+            "name": "write",
+            "owner": "java/io/Writer"
+          },
+          "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+          "class_sha256": "65fbddc04b2e39e32c03028b1294c1a6b98e7062b82ef2e3a73d049428d06d7d",
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+          "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+          "jar_sha256": "bfcfe3fdc6bf978c36e6e50860458e1def531b09ca046725312a373cf935f566",
+          "method": "updateHTML"
+        }
+      ],
+      "source": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+      "target": "media"
+    },
+    {
+      "condition": "SDP-attempt exception fallback, callback registration, live VSB",
+      "id": "pp_send_02.01.01",
+      "label": "PROVED",
+      "relation": "send timer result",
+      "sites": [
+        {
+          "call": {
+            "bci": 37,
+            "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+            "name": "sendDataToVSB",
+            "owner": "com/sprint/chrysler/ixc/VSBClient"
+          },
+          "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+          "class_sha256": "b1381dcd766c713346d946f11120e208c5a0e3cfcf768263d479ad8615456153",
+          "descriptor": "()Ljava/lang/Object;",
+          "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+          "jar_sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6",
+          "method": "call"
+        }
+      ],
+      "source": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+      "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+    },
+    {
+      "condition": "Registered callback; delivery status is not proof of website persistence",
+      "id": "pp_delivery_02.01.01",
+      "label": "PROVED",
+      "relation": "completion releases waiter",
+      "sites": [
+        {
+          "call": {
+            "bci": 19,
+            "descriptor": "()V",
+            "name": "countDown",
+            "owner": "edu/emory/mathcs/backport/java/util/concurrent/CountDownLatch"
+          },
+          "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+          "class_sha256": "b1381dcd766c713346d946f11120e208c5a0e3cfcf768263d479ad8615456153",
+          "descriptor": "(Ljava/lang/String;)V",
+          "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+          "jar_sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6",
+          "method": "notifySuccess"
+        }
+      ],
+      "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "target": "7DEC7834-535D-47B5-BD33-695477EDCD57"
+    },
+    {
+      "condition": "Authorized variant, available media path, writable file; not executed",
+      "id": "pp_export_02.01.01",
+      "label": "PROVED",
+      "relation": "write generated timer HTML",
+      "sites": [
+        {
+          "call": {
+            "bci": 26,
+            "descriptor": "(Ljava/lang/String;)V",
+            "name": "write",
+            "owner": "java/io/Writer"
+          },
+          "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+          "class_sha256": "d8cd498fc1cd7d9a2bcd622c3f11c0e754d4f2d9a19d73d15f3d0fe628be63c0",
+          "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+          "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+          "jar_sha256": "8a421cfda32d05f29d92e263d62307623a1603ec4e2d3c9183ca69b2ff33d4f6",
+          "method": "updateHTML"
+        }
+      ],
+      "source": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+      "target": "media"
+    },
+    {
+      "condition": "Constructed MTS request lifecycle, connectivity, TLS/authentication and backend acceptance",
+      "id": "mts_http_02.33.07",
+      "label": "PROVED",
+      "relation": "execute MTS HTTP request",
+      "sites": [
+        {
+          "call": {
+            "bci": 53,
+            "descriptor": "(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;",
+            "name": "execute",
+            "owner": "org/apache/http/client/HttpClient"
+          },
+          "class": "com/sprint/chrysler/common/communications/BaseRequest",
+          "class_sha256": "12fcd0686ee9288e243824c7f745574d376ae41a858dc61901692ae87a7f60ee",
+          "descriptor": "()Lorg/apache/http/HttpResponse;",
+          "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+          "jar_sha256": "2e5b3f7e1c7857950f7ea536b3975f1feebff744a47fb141551bbb6c23c7d552",
+          "method": "CallService"
+        }
+      ],
+      "source": "550e8400-e29b-41d4-a716-446655440000",
+      "target": "mts"
+    },
+    {
+      "condition": "Constructed MTS request lifecycle, connectivity, TLS/authentication and backend acceptance",
+      "id": "mts_http_02.03.01",
+      "label": "PROVED",
+      "relation": "execute MTS HTTP request",
+      "sites": [
+        {
+          "call": {
+            "bci": 53,
+            "descriptor": "(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;",
+            "name": "execute",
+            "owner": "org/apache/http/client/HttpClient"
+          },
+          "class": "com/sprint/chrysler/common/communications/BaseRequest",
+          "class_sha256": "12fcd0686ee9288e243824c7f745574d376ae41a858dc61901692ae87a7f60ee",
+          "descriptor": "()Lorg/apache/http/HttpResponse;",
+          "jar": "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+          "jar_sha256": "70e3f0939a26223e84fdd67a2b90adbee84367e46afb4928e0db1192e4aefcdb",
+          "method": "CallService"
+        }
+      ],
+      "source": "A7A4B215-9B5A-7DAA-457C-15545178E72F",
+      "target": "mts"
+    },
+    {
+      "condition": "Constructed MTS request lifecycle, connectivity, TLS/authentication and backend acceptance",
+      "id": "mts_http_03.01.07",
+      "label": "PROVED",
+      "relation": "execute MTS HTTP request",
+      "sites": [
+        {
+          "call": {
+            "bci": 53,
+            "descriptor": "(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;",
+            "name": "execute",
+            "owner": "org/apache/http/client/HttpClient"
+          },
+          "class": "com/sprint/chrysler/common/communications/BaseRequest",
+          "class_sha256": "4f82084cb32bfb467751d7376b67d36ac0e29aa18f90484caccdec200c73b12d",
+          "descriptor": "()Lorg/apache/http/HttpResponse;",
+          "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+          "jar_sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225",
+          "method": "CallService"
+        }
+      ],
+      "source": "2BA676FA-1542-11E1-A537-1F614824019B",
+      "target": "mts"
+    },
+    {
+      "condition": "Daemon worker initialization",
+      "id": "drm_app_events",
+      "label": "PROVED",
+      "relation": "listen for application events",
+      "sites": [
+        {
+          "call": {
+            "bci": 58,
+            "descriptor": "(Lkona/appManager/AppListener;)V",
+            "name": "setAppListener",
+            "owner": "kona/appManager/AppManager"
+          },
+          "class": "com/sprint/chrysler/drm/data/DrmManager",
+          "class_sha256": "0166a7c01ed38e0c3f5281a27319a8afccb887825e5c6275b57974e7e0429b4a",
+          "descriptor": "()V",
+          "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+          "jar_sha256": "721695df2518f1665c2658e156431f93d04e13739c51b149a10ea1494ef77225",
+          "method": "run"
+        }
+      ],
+      "source": "2BA676FA-1542-11E1-A537-1F614824019B",
+      "target": "appmanager"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+      "kind": "application",
+      "name": "Yelp"
+    },
+    {
+      "id": "2BA676FA-1542-11E1-A537-1F614824019B",
+      "kind": "application",
+      "name": "DRMSync_VSB"
+    },
+    {
+      "id": "3bbeae36-1542-11e1-b393-31614824019b",
+      "kind": "application",
+      "name": "ASSIST"
+    },
+    {
+      "id": "52c79381-6719-11e1-b86c-0800200c9a66",
+      "kind": "application",
+      "name": "Viper"
+    },
+    {
+      "id": "550e8400-e29b-41d4-a716-446655440000",
+      "kind": "application",
+      "name": "Store"
+    },
+    {
+      "id": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+      "kind": "application",
+      "name": "Jeep"
+    },
+    {
+      "id": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+      "kind": "application",
+      "name": "L-Series"
+    },
+    {
+      "id": "A7A4B215-9B5A-7DAA-457C-15545178E72F",
+      "kind": "application",
+      "name": "Register"
+    },
+    {
+      "id": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "kind": "application",
+      "name": "VSBClient"
+    },
+    {
+      "id": "vr",
+      "kind": "service_or_output",
+      "name": "Platform voice service"
+    },
+    {
+      "id": "yelp_https",
+      "kind": "service_or_output",
+      "name": "Yelp HTTPS request/response"
+    },
+    {
+      "id": "mts",
+      "kind": "service_or_output",
+      "name": "MTS request service"
+    },
+    {
+      "id": "registry",
+      "kind": "service_or_output",
+      "name": "Local IXC registry"
+    },
+    {
+      "id": "appmanager",
+      "kind": "service_or_output",
+      "name": "Common AppManager"
+    },
+    {
+      "id": "broker",
+      "kind": "service_or_output",
+      "name": "Configured MQTT broker"
+    },
+    {
+      "id": "media",
+      "kind": "service_or_output",
+      "name": "USB/SD HTML output"
+    }
+  ],
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "3e65ae65d38810f780b5bb29da034980fa89ac7a56b6bbac2fbd3af19eea6504",
+  "schema_version": 1,
+  "scope": "Reviewed conditional relationships with verified call sites; not a runtime reachability solver",
+  "shared_state_limits": [
+    "PROVED calls are conditional static relationships; target receiver identity, grants and liveness remain UNKNOWN.",
+    "Copied MTS/BaseRequest classes in several JARs are not a single shared runtime object.",
+    "RMS names across Xlets do not establish a shared persistent store; Xlet isolation and store scope must be retained.",
+    "Shared AppManager/IXC APIs do not grant arbitrary caller authority or prove every listener is bound.",
+    "Store-to-Register chain request is explicit; successful authorization/launch is a separate native boundary."
+  ]
+}

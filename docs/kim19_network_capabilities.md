@@ -47,9 +47,14 @@ authentication, input, effect and external-origin limits for each candidate.
 
 **PROVED:** VSB's Paho `TCPNetworkModule.start` calls the socket factory and
 `Socket.connect` (BCI83/102). Its callback is attached in the configured client
-builder. `t/b/b.messageArrived` parses JSON (BCI46/55), looks up a handler
-(BCI68), dispatches a typed handler (BCI76) or queues generic JSON work
-(BCI142/150). **UNKNOWN:** which subscribed messages are permitted by current
+builder. `t/b/b.messageArrived` validates JSON (BCI46/55 or BCI93/102), except
+when the configured control topic matches. Its Map lookup at BCI68 returns a
+configuration object: `t/j/b.a()Ljava/lang/String;` at BCI76 is a topic getter,
+followed by equality comparison at BCI79. Accepted paths converge on construction
+of `t/r/d` at BCI142 and queueing at BCI150. **PROVED correction:** the earlier
+checkpoint `7714004` incorrectly called BCI76 a typed-handler dispatch. The
+independent descriptor/disassembly and actual router supersede that wording.
+**UNKNOWN:** which subscribed messages are permitted by current
 credentials or can be supplied by any proposed external party. This is an
 existing authenticated service path, not a demonstrated open command channel.
 
@@ -93,8 +98,9 @@ values, private payloads and signing material are not reproduced.
 | Another stock app | VSB IXC service, DRM notification listeners, ASSIST locator | Current registry bindings, permissions and service liveness |
 | Remote backend | HTTP responses and MQTT callbacks, conditional on successful client connection | Current authentication, routing, broker policy and backend health |
 | Phone/Bluetooth | Platform phone state/listeners; ViaMobile metadata references | Arbitrary phone bytes reaching an app-owned parser or command handler |
+| Speech | Yelp voice event -> platform session -> recognized text -> existing HTTPS search/results | Current microphone/service/session/authentication; no arbitrary phone input inferred |
 | Wi-Fi/hotspot | App calls platform connectivity; network client can operate on an authorized route | Which interface/route is selected; hotspot isolation and reachability |
-| USB | No selected USB-content-to-code path established | Platform USB functions do not establish app input or execution |
+| USB/SD | Performance Pages save-option enum -> mounted destination -> generated timer HTML file | Authorized variant, available media and successful write; output does not establish imported code |
 | Loopback/local transport | Paho LocalNetworkModule and local IPC candidates exist | No activated localhost TCP server inferred from "local" or IXC |
 | JNI/native bridge | L-Series native declarations; native-backed platform APIs | Exported remote entry, input control and runtime activation |
 
@@ -108,7 +114,7 @@ values, private payloads and signing material are not reproduced.
 | Paho LocalNetworkModule | PROVED reflective local-transport class lookup | Configuration route and production activation UNKNOWN |
 | XML/provider resources | PROVED prior complete inventory distinguishes metadata/resource names from handlers | No external XML-to-executable handler chain established |
 | Store Base64 helper | PROVED object/class-resolution helper exists | External input reaching it UNKNOWN; not a proved extension interface |
-| L-Series Affiner | PROVED System.load at BCI138 and native declarations | Loading primitive; caller activation and external path control UNKNOWN |
+| L-Series Affiner | PROVED rendering caller -> fixed library name -> bundled libAffiner.so resource -> temporary-file copy -> System.load at BCI138 | Packaged native code loading; ordinary external byte/path control not established |
 | Common base | PROVED connector/factory/resource and AMS class-loading infrastructure | Signed identity/permission boundaries still apply |
 | Backend JSON/catalog/resource data | PROVED parsing into existing stock objects/UI where traced | Content/configuration influence, not demonstrated executable-code extension |
 
@@ -117,3 +123,46 @@ was established. No scripting-engine invocation, new resident app installation
 or arbitrary code-loading route is claimed. See the source-bound common-base
 analysis in [stock signed capabilities](stock_signed_capability_analysis.md) and
 [AMS association](../reports/keyjar_runtime_association.md).
+
+**PROVED follow-up:** L-Series `Rotatable.transform` calls `Affiner.getInstance`;
+the Affiner constructor supplies the fixed name `Affiner` at BCI11/13. Its loader
+maps that name (BCI1), reads a classloader resource (BCI52), copies bytes into
+the JVM temporary directory (read85/write102), and calls `System.load` at
+BCI138. The exact JAR includes `libAffiner.so`; its member hash and size are in
+the generated resource evidence. This resolves the library's normal source
+and rendering caller. **UNKNOWN:** actual target classloader/temporary-directory
+state and successful native activation; no ordinary external interface that
+supplies replacement bytes or controls this load path was established.
+
+## Concrete output and callback paths added in the follow-up
+
+**PROVED:** all three Performance Pages variants have timer-save UI branches
+that call `TimerSavingData.saveDataTo`. The USB/SD enum values obtain paths from
+`ResKeyPropertiesFactory`; bundled `resKey.properties` selects `timersResult`
+as the output folder. `createUpdateDownloadFile` appends `.html`, and
+`updateHTML` constructs `FileOutputStream`/`OutputStreamWriter` and writes the
+generated text (BCI7/18/26). This is an output capability through ordinary app
+controls; no backend call occurs on the traced local-save branch. **UNKNOWN:**
+successful media mounting, correct permissions and actual output on the target.
+The helper logs some I/O errors without propagating them reliably, so a generic
+save-status screen is weaker evidence than the actual resulting file. The
+read-only checklist does not instruct an export or require a timer run.
+
+**PROVED:** the same UI's uConnect branch invokes `UploadTimerRunController`.
+Jeep/Viper construct `VSBSendToWebsiteCallable` at BCI120 and submit it at
+BCI123 only in the exception handler covering the SDP attempt. A null SDP
+reference follows the BCI52 failure branch and does not invoke VSB. L-Series
+has the corresponding fallback constructor/submission at BCI125/128.
+The callable registers its IXC callback, calls `sendDataToVSB` at BCI37 and
+waits on a latch at BCI62. Success/failure callbacks set status and release
+the latch (BCI28; L-Series BCI19), then notify the stock view.
+
+**PROVED:** VSB's uplink `t/h/d` attaches an MQTT delivery action callback;
+`onSuccess`/`onFailure` queue `t/g/b`, which invokes the registered local
+success/failure callback. **UNKNOWN:** an upload-success screen alone does not
+prove downstream website persistence or backend application processing. It can
+reflect the MQTT delivery callback. No upload was performed.
+
+See the [application/service graph](kim19_application_service_graph.md) for
+source-bound relationships and the [ranked assessment](kim19_capability_assessment.md)
+for comparison with Yelp and the other serious candidates.

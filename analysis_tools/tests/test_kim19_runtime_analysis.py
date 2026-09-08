@@ -1,16 +1,77 @@
 import json
+import copy
+import struct
 from pathlib import Path
 import unittest
 
 from analysis_tools.java_classfile import parse_class
 from analysis_tools.kim19_runtime_analysis import (
-    NOTES, encode, javap_blocks, known_predicates_match, method_record,
-    network_categories, parse_show_conditions, validate_labels,
+    NOTES, dependency_graph, encode, javap_blocks, known_predicates_match, method_record,
+    native_window, network_categories, parse_show_conditions, validate_labels,
 )
+from analysis_tools.arm_elf_analysis import ArmElfAnalyzer, Elf32Image
+from analysis_tools.tests.test_arm_elf_analysis import _elf32
 from analysis_tools.tests.test_java_classfile import class_fixture
 
 
 class Kim19RuntimeTests(unittest.TestCase):
+    def graph_fixture(self):
+        call = dict(bci=7, owner='service/S', name='send', descriptor='(I)V')
+        identity = dict(jar='a.jar', **{'class': 'app/A'}, method='run', descriptor='()V')
+        record = dict(**identity, calls=[call], jar_sha256='jarhash', class_sha256='classhash')
+        spec = dict(nodes=[dict(id='a'), dict(id='s')], shared_state_limits=[], edges=[
+            dict(id='send', source='a', target='s', label='PROVED', condition='service running',
+                 sites=[dict(**identity, call=call)])])
+        return spec, [record]
+
+    def test_graph_binds_source_hashes_without_inventing_runtime_reachability(self):
+        spec, records = self.graph_fixture()
+        result = dependency_graph(spec, records)
+        self.assertEqual(result['edges'][0]['sites'][0]['class_sha256'], 'classhash')
+        self.assertEqual(result['edges'][0]['condition'], 'service running')
+        self.assertNotIn('class_sha256', spec['edges'][0]['sites'][0])
+        self.assertEqual(encode(result), encode(dependency_graph(spec, records)))
+
+    def test_graph_rejects_wrong_jar_overload_bci_or_callee(self):
+        spec, records = self.graph_fixture()
+        mutations = [('jar', 'b.jar'), ('descriptor', '(I)V'), ('bci', 8),
+                     ('owner', 'service/T'), ('name', 'receive')]
+        for key, value in mutations:
+            changed = copy.deepcopy(spec)
+            site = changed['edges'][0]['sites'][0]
+            (site if key in ('jar', 'descriptor') else site['call'])[key] = value
+            with self.subTest(key=key), self.assertRaisesRegex(ValueError, 'does not match'):
+                dependency_graph(changed, records)
+
+    def test_graph_rejects_unknown_nodes_duplicate_ids_and_empty_evidence(self):
+        for mutation in ('node', 'duplicate_node', 'duplicate_edge', 'empty'):
+            spec, records = self.graph_fixture()
+            if mutation == 'node': spec['edges'][0]['target'] = 'missing'
+            elif mutation == 'duplicate_node': spec['nodes'].append(spec['nodes'][0])
+            elif mutation == 'duplicate_edge': spec['edges'].append(spec['edges'][0])
+            else: spec['edges'][0]['sites'] = []
+            with self.subTest(mutation=mutation), self.assertRaises(ValueError):
+                dependency_graph(spec, records)
+
+    def test_native_windows_bind_addresses_file_offsets_and_complete_decode(self):
+        analyzer = ArmElfAnalyzer(Elf32Image.from_bytes(_elf32(struct.pack('<II', 0xE3A00001, 0xE12FFF1E))))
+        row = native_window(analyzer, 0x1000, 0x1008)
+        self.assertEqual(row['file_offset'], '0x100')
+        self.assertEqual(row['instructions'], [['0x1000', 'mov', 'r0, #1'], ['0x1004', 'bx', 'lr']])
+        self.assertEqual(row, native_window(analyzer, 0x1000, 0x1008))
+        for start, end in [(0x1001, 0x1008), (0x1000, 0x1007), (0x1004, 0x1004), (0x1000, 0x100c)]:
+            with self.assertRaises(ValueError):
+                native_window(analyzer, start, end)
+
+    def test_native_undecoded_bytes_are_not_reported_as_complete(self):
+        analyzer = ArmElfAnalyzer(Elf32Image.from_bytes(_elf32(b'\xff' * 4)))
+        with self.assertRaisesRegex(ValueError, 'undecoded'):
+            native_window(analyzer, 0x1000, 0x1004)
+
+    def test_canonical_notes_digest_input_is_line_ending_independent(self):
+        lf = '{\n  "label": "UNKNOWN"\n}\n'
+        self.assertEqual(encode(json.loads(lf)), encode(json.loads(lf.replace('\n', '\r\n'))))
+
     def test_vehicle_predicates_and_string_comparison(self):
         p = parse_show_conditions('/pps/can/vehcfg/VC_PP_Prsnt:1,/pps/can/vehcfg/VC_VEH_LINE:{44;41;2}')
         self.assertEqual(p[1]['accepted_strings'], ['44', '41', '2'])

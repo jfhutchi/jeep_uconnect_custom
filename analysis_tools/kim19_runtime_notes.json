@@ -1,29 +1,47 @@
 {
+  "additional_sources": [
+    {
+      "artifact": "hidden_hbc_ifs/segment_00f20000/files/etc/system/config/appManager.cfg",
+      "bytes": 5802,
+      "sha256": "ab9ed180574d2c9f83c45217f05b132af24abd364ecf59c8447d1ba0cdb9c2d7"
+    }
+  ],
   "allowed_literals": [
-    "COMPLETED_STAGE_3",
-    "FULL_STAGE_2",
-    "startArgs",
-    "drm",
-    "accountDN",
-    "emailID",
-    "xlet.properties",
+    ".html",
     "/fs/etfs/use_en0",
-    "yelp.properties",
-    "yelppoconf.properties",
+    "/tmp",
+    "A7A4B215-9B5A-7DAA-457C-15545178E72F",
+    "Affiner",
+    "Authorization",
+    "COMPLETED_STAGE_3",
+    "ERROR",
+    "FULL_STAGE_2",
+    "IxcFromVSB:com.sprint.chrysler.assist.communications.AssistCommunicationManager",
+    "LifeCycleListener:",
+    "OK",
+    "UTF8",
+    "Unsupported vehicle line",
+    "User-Agent",
+    "VSB:com.sprint.chrysler.vsbclient.ixc.VSBClient",
+    "Zero_Results",
+    "accountDN",
+    "businesses",
+    "drm",
+    "emailID",
     "error",
     "id",
-    "businesses",
-    "ERROR",
-    "OK",
-    "Zero_Results",
-    "Authorization",
-    "User-Agent",
-    "Unsupported vehicle line",
+    "java.io.tmpdir",
+    "savePath_SD",
+    "savePath_USB",
+    "save_folder_name",
+    "save_path_SD",
+    "save_path_USB",
     "sms://:20000",
     "sms://:20001",
-    "VSB:com.sprint.chrysler.vsbclient.ixc.VSBClient",
-    "LifeCycleListener:",
-    "IxcFromVSB:com.sprint.chrysler.assist.communications.AssistCommunicationManager"
+    "startArgs",
+    "xlet.properties",
+    "yelp.properties",
+    "yelppoconf.properties"
   ],
   "applications": {
     "1D5347C0-8B5E-11E2-9E96-0800200C9A66": {
@@ -229,7 +247,7 @@
       ],
       "entry": "t/s/e.init queues t/s/c; startXlet empty",
       "evidence": "t/s/c; t/b/a,b,d; VSBClientImpl.e/f",
-      "interactions": "DRM and ASSIST have concrete locator consumers. Store/Register use MTS/DRM-related callbacks. Mandatory Yelp VSB binding not established.",
+      "interactions": "DRM, ASSIST and all three Performance Pages variants have concrete VSB consumers. Configured broker routes can reach IXC callbacks. ASSIST notification bodies are no-ops; DRM shoulder tap queues processing; Performance upload completion changes stock status. Mandatory Yelp VSB binding remains unestablished.",
       "label": "PROVED",
       "services": [
         "MQTT callback",
@@ -263,6 +281,628 @@
       "target_state": "TARGET OBSERVATION REQUIRED"
     }
   ],
+  "binary_resource_selections": {
+    "7DEC7834-535D-47B5-BD33-695477EDCD57": [
+      "libAffiner.so"
+    ]
+  },
+  "configuration_sources": [
+    {
+      "artifact": "hidden_hbc_ifs/segment_00f20000/files/etc/system/config/appManager.cfg",
+      "keys": [
+        "uuidSuperApp",
+        "uuidVBSClnt",
+        "uuidStorefront",
+        "uuidAssistApp",
+        "uuidRegistrationApp",
+        "requiredUUIDs",
+        "delayedStartApps",
+        "xletRMSDir",
+        "maxNrOfApps",
+        "maxNrOfAudioApps",
+        "defaultCategory"
+      ]
+    }
+  ],
+  "dependency_graph": {
+    "edges": [
+      {
+        "condition": "Authorized Xlet, selected supported service/session",
+        "id": "yelp_voice_listener",
+        "label": "PROVED",
+        "relation": "register speech callback",
+        "sites": [
+          {
+            "call": {
+              "bci": 331,
+              "descriptor": "(Lkona/speech/vr/SpeechRecognizerListener;)V",
+              "name": "addSpeechRecognizerListener",
+              "owner": "kona/speech/vr/Session"
+            },
+            "class": "com/sprint/chrysler/yelp/vr/VRHelperImp",
+            "descriptor": "()V",
+            "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+            "method": "init"
+          }
+        ],
+        "source": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+        "target": "vr"
+      },
+      {
+        "condition": "Non-cancel text and enabled current action",
+        "id": "voice_search",
+        "label": "PROVED",
+        "relation": "recognized text into search",
+        "sites": [
+          {
+            "call": {
+              "bci": 21,
+              "descriptor": "(Ljava/lang/String;)V",
+              "name": "onVRAction",
+              "owner": "com/sprint/chrysler/yelp/vr/VRAction"
+            },
+            "class": "com/sprint/chrysler/yelp/vr/VRHelperImp$1",
+            "descriptor": "()V",
+            "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+            "method": "run"
+          }
+        ],
+        "source": "vr",
+        "target": "1D5347C0-8B5E-11E2-9E96-0800200C9A66"
+      },
+      {
+        "condition": "Connectivity, request, TLS and backend acceptance",
+        "id": "yelp_http",
+        "label": "PROVED",
+        "relation": "HTTP execute",
+        "sites": [
+          {
+            "call": {
+              "bci": 53,
+              "descriptor": "(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;",
+              "name": "execute",
+              "owner": "org/apache/http/client/HttpClient"
+            },
+            "class": "com/sprint/chrysler/common/communications/BaseRequest",
+            "descriptor": "()Lorg/apache/http/HttpResponse;",
+            "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+            "method": "CallService"
+          }
+        ],
+        "source": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+        "target": "yelp_https"
+      },
+      {
+        "condition": "Store invalid account confirmation accepted; native chain/AMS gates still apply",
+        "id": "store_register",
+        "label": "PROVED",
+        "relation": "request AppManager.chain to Register",
+        "sites": [
+          {
+            "call": {
+              "bci": 5,
+              "descriptor": "(Ljava/lang/String;)V",
+              "name": "chain",
+              "owner": "kona/appManager/AppManager"
+            },
+            "class": "com/sprint/chrysler/storefront/xlet/StorefrontXlet$1",
+            "descriptor": "()V",
+            "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+            "method": "run"
+          }
+        ],
+        "source": "550e8400-e29b-41d4-a716-446655440000",
+        "target": "A7A4B215-9B5A-7DAA-457C-15545178E72F"
+      },
+      {
+        "condition": "Registry lookup and authorized live VSB",
+        "id": "drm_vsb_callback",
+        "label": "PROVED",
+        "relation": "register callback with VSB",
+        "sites": [
+          {
+            "call": {
+              "bci": 98,
+              "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+              "name": "setBindNameForCallback",
+              "owner": "com/sprint/chrysler/ixc/VSBClient"
+            },
+            "class": "com/sprint/chrysler/drm/sdp/VSBClientLocator",
+            "descriptor": "()V",
+            "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+            "method": "refreshVSBClientReference"
+          }
+        ],
+        "source": "2BA676FA-1542-11E1-A537-1F614824019B",
+        "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+      },
+      {
+        "condition": "Matching event branch; processing state selects pending or process",
+        "id": "drm_shoulder_tap",
+        "label": "PROVED",
+        "relation": "callback can queue processing",
+        "sites": [
+          {
+            "call": {
+              "bci": 91,
+              "descriptor": "(I)V",
+              "name": "process",
+              "owner": "com/sprint/chrysler/drm/data/DrmManager"
+            },
+            "class": "com/sprint/chrysler/drm/sdp/VSBEventHandlerListener",
+            "descriptor": "(Ljava/lang/String;)V",
+            "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+            "method": "notify"
+          }
+        ],
+        "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+        "target": "2BA676FA-1542-11E1-A537-1F614824019B"
+      },
+      {
+        "condition": "User service action, network/registry prerequisites; may place call, excluded from observation",
+        "id": "assist_vsb_send",
+        "label": "PROVED",
+        "relation": "send service request",
+        "sites": [
+          {
+            "call": {
+              "bci": 119,
+              "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+              "name": "sendDataToVSB",
+              "owner": "com/sprint/chrysler/ixc/VSBClient"
+            },
+            "class": "com/sprint/chrysler/assist/communications/AssistCommunicationManager",
+            "descriptor": "(I)Z",
+            "jar": "xlets/3bbeae36-1542-11e1-b393-31614824019b/prog/jars/640X480_84_Assist_VSB_04.00.14_FIT.jar",
+            "method": "process"
+          }
+        ],
+        "source": "3bbeae36-1542-11e1-b393-31614824019b",
+        "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+      },
+      {
+        "condition": "Daemon initialization and registry permission",
+        "id": "vsb_registry",
+        "label": "PROVED",
+        "relation": "publish local service",
+        "sites": [
+          {
+            "call": {
+              "bci": 25,
+              "descriptor": "(Ljava/lang/String;Ljava/rmi/Remote;)V",
+              "name": "rebind",
+              "owner": "javax/microedition/xlet/ixc/IxcRegistry"
+            },
+            "class": "com/sprint/chrysler/vsbclient/ixc/VSBClientImpl",
+            "descriptor": "()V",
+            "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+            "method": "e"
+          }
+        ],
+        "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+        "target": "registry"
+      },
+      {
+        "condition": "Authenticated subscribed delivery and payload/topic gate",
+        "id": "vsb_incoming",
+        "label": "PROVED",
+        "relation": "queue incoming configured route",
+        "sites": [
+          {
+            "call": {
+              "bci": 142,
+              "descriptor": "(Ljava/lang/String;Ljava/lang/String;)V",
+              "name": "<init>",
+              "owner": "t/r/d"
+            },
+            "class": "t/b/b",
+            "descriptor": "(Ljava/lang/String;Lorg/eclipse/paho/client/mqttv3/MqttMessage;)V",
+            "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+            "method": "messageArrived"
+          }
+        ],
+        "source": "broker",
+        "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+      },
+      {
+        "condition": "Configured matching application route, validation/status901, non-null binding/remote",
+        "id": "vsb_callback",
+        "label": "PROVED",
+        "relation": "invoke registered app callback",
+        "sites": [
+          {
+            "call": {
+              "bci": 158,
+              "descriptor": "(Ljava/lang/String;)V",
+              "name": "notify",
+              "owner": "com/sprint/chrysler/ixc/IxcFromVSB"
+            },
+            "class": "t/g/d",
+            "descriptor": "()V",
+            "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+            "method": "c"
+          }
+        ],
+        "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+        "target": "registry"
+      },
+      {
+        "condition": "SDP-attempt exception fallback, callback registration, live VSB",
+        "id": "pp_send_01.23.01",
+        "label": "PROVED",
+        "relation": "send timer result",
+        "sites": [
+          {
+            "call": {
+              "bci": 37,
+              "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+              "name": "sendDataToVSB",
+              "owner": "com/sprint/chrysler/ixc/VSBClient"
+            },
+            "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+            "descriptor": "()Ljava/lang/Object;",
+            "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+            "method": "call"
+          }
+        ],
+        "source": "52c79381-6719-11e1-b86c-0800200c9a66",
+        "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+      },
+      {
+        "condition": "Registered callback; delivery status is not proof of website persistence",
+        "id": "pp_delivery_01.23.01",
+        "label": "PROVED",
+        "relation": "completion releases waiter",
+        "sites": [
+          {
+            "call": {
+              "bci": 28,
+              "descriptor": "()V",
+              "name": "countDown",
+              "owner": "edu/emory/mathcs/backport/java/util/concurrent/CountDownLatch"
+            },
+            "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+            "descriptor": "(Ljava/lang/String;)V",
+            "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+            "method": "notifySuccess"
+          }
+        ],
+        "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+        "target": "52c79381-6719-11e1-b86c-0800200c9a66"
+      },
+      {
+        "condition": "Authorized variant, available media path, writable file; not executed",
+        "id": "pp_export_01.23.01",
+        "label": "PROVED",
+        "relation": "write generated timer HTML",
+        "sites": [
+          {
+            "call": {
+              "bci": 26,
+              "descriptor": "(Ljava/lang/String;)V",
+              "name": "write",
+              "owner": "java/io/Writer"
+            },
+            "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+            "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+            "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+            "method": "updateHTML"
+          }
+        ],
+        "source": "52c79381-6719-11e1-b86c-0800200c9a66",
+        "target": "media"
+      },
+      {
+        "condition": "SDP-attempt exception fallback, callback registration, live VSB",
+        "id": "pp_send_01.57.01",
+        "label": "PROVED",
+        "relation": "send timer result",
+        "sites": [
+          {
+            "call": {
+              "bci": 37,
+              "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+              "name": "sendDataToVSB",
+              "owner": "com/sprint/chrysler/ixc/VSBClient"
+            },
+            "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+            "descriptor": "()Ljava/lang/Object;",
+            "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+            "method": "call"
+          }
+        ],
+        "source": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+        "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+      },
+      {
+        "condition": "Registered callback; delivery status is not proof of website persistence",
+        "id": "pp_delivery_01.57.01",
+        "label": "PROVED",
+        "relation": "completion releases waiter",
+        "sites": [
+          {
+            "call": {
+              "bci": 28,
+              "descriptor": "()V",
+              "name": "countDown",
+              "owner": "edu/emory/mathcs/backport/java/util/concurrent/CountDownLatch"
+            },
+            "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+            "descriptor": "(Ljava/lang/String;)V",
+            "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+            "method": "notifySuccess"
+          }
+        ],
+        "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+        "target": "6BFD02C0-40C3-11E2-A25F-0800200C9A66"
+      },
+      {
+        "condition": "Authorized variant, available media path, writable file; not executed",
+        "id": "pp_export_01.57.01",
+        "label": "PROVED",
+        "relation": "write generated timer HTML",
+        "sites": [
+          {
+            "call": {
+              "bci": 26,
+              "descriptor": "(Ljava/lang/String;)V",
+              "name": "write",
+              "owner": "java/io/Writer"
+            },
+            "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+            "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+            "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+            "method": "updateHTML"
+          }
+        ],
+        "source": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+        "target": "media"
+      },
+      {
+        "condition": "SDP-attempt exception fallback, callback registration, live VSB",
+        "id": "pp_send_02.01.01",
+        "label": "PROVED",
+        "relation": "send timer result",
+        "sites": [
+          {
+            "call": {
+              "bci": 37,
+              "descriptor": "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+              "name": "sendDataToVSB",
+              "owner": "com/sprint/chrysler/ixc/VSBClient"
+            },
+            "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+            "descriptor": "()Ljava/lang/Object;",
+            "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+            "method": "call"
+          }
+        ],
+        "source": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+        "target": "f7583530-8d53-11e0-91e4-0800200c9a66"
+      },
+      {
+        "condition": "Registered callback; delivery status is not proof of website persistence",
+        "id": "pp_delivery_02.01.01",
+        "label": "PROVED",
+        "relation": "completion releases waiter",
+        "sites": [
+          {
+            "call": {
+              "bci": 19,
+              "descriptor": "()V",
+              "name": "countDown",
+              "owner": "edu/emory/mathcs/backport/java/util/concurrent/CountDownLatch"
+            },
+            "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+            "descriptor": "(Ljava/lang/String;)V",
+            "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+            "method": "notifySuccess"
+          }
+        ],
+        "source": "f7583530-8d53-11e0-91e4-0800200c9a66",
+        "target": "7DEC7834-535D-47B5-BD33-695477EDCD57"
+      },
+      {
+        "condition": "Authorized variant, available media path, writable file; not executed",
+        "id": "pp_export_02.01.01",
+        "label": "PROVED",
+        "relation": "write generated timer HTML",
+        "sites": [
+          {
+            "call": {
+              "bci": 26,
+              "descriptor": "(Ljava/lang/String;)V",
+              "name": "write",
+              "owner": "java/io/Writer"
+            },
+            "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+            "descriptor": "(Ljava/io/File;Ljava/lang/String;)V",
+            "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+            "method": "updateHTML"
+          }
+        ],
+        "source": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+        "target": "media"
+      },
+      {
+        "condition": "Constructed MTS request lifecycle, connectivity, TLS/authentication and backend acceptance",
+        "id": "mts_http_02.33.07",
+        "label": "PROVED",
+        "relation": "execute MTS HTTP request",
+        "sites": [
+          {
+            "call": {
+              "bci": 53,
+              "descriptor": "(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;",
+              "name": "execute",
+              "owner": "org/apache/http/client/HttpClient"
+            },
+            "class": "com/sprint/chrysler/common/communications/BaseRequest",
+            "descriptor": "()Lorg/apache/http/HttpResponse;",
+            "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+            "method": "CallService"
+          }
+        ],
+        "source": "550e8400-e29b-41d4-a716-446655440000",
+        "target": "mts"
+      },
+      {
+        "condition": "Constructed MTS request lifecycle, connectivity, TLS/authentication and backend acceptance",
+        "id": "mts_http_02.03.01",
+        "label": "PROVED",
+        "relation": "execute MTS HTTP request",
+        "sites": [
+          {
+            "call": {
+              "bci": 53,
+              "descriptor": "(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;",
+              "name": "execute",
+              "owner": "org/apache/http/client/HttpClient"
+            },
+            "class": "com/sprint/chrysler/common/communications/BaseRequest",
+            "descriptor": "()Lorg/apache/http/HttpResponse;",
+            "jar": "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
+            "method": "CallService"
+          }
+        ],
+        "source": "A7A4B215-9B5A-7DAA-457C-15545178E72F",
+        "target": "mts"
+      },
+      {
+        "condition": "Constructed MTS request lifecycle, connectivity, TLS/authentication and backend acceptance",
+        "id": "mts_http_03.01.07",
+        "label": "PROVED",
+        "relation": "execute MTS HTTP request",
+        "sites": [
+          {
+            "call": {
+              "bci": 53,
+              "descriptor": "(Lorg/apache/http/client/methods/HttpUriRequest;)Lorg/apache/http/HttpResponse;",
+              "name": "execute",
+              "owner": "org/apache/http/client/HttpClient"
+            },
+            "class": "com/sprint/chrysler/common/communications/BaseRequest",
+            "descriptor": "()Lorg/apache/http/HttpResponse;",
+            "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+            "method": "CallService"
+          }
+        ],
+        "source": "2BA676FA-1542-11E1-A537-1F614824019B",
+        "target": "mts"
+      },
+      {
+        "condition": "Daemon worker initialization",
+        "id": "drm_app_events",
+        "label": "PROVED",
+        "relation": "listen for application events",
+        "sites": [
+          {
+            "call": {
+              "bci": 58,
+              "descriptor": "(Lkona/appManager/AppListener;)V",
+              "name": "setAppListener",
+              "owner": "kona/appManager/AppManager"
+            },
+            "class": "com/sprint/chrysler/drm/data/DrmManager",
+            "descriptor": "()V",
+            "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+            "method": "run"
+          }
+        ],
+        "source": "2BA676FA-1542-11E1-A537-1F614824019B",
+        "target": "appmanager"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+        "kind": "application",
+        "name": "Yelp"
+      },
+      {
+        "id": "2BA676FA-1542-11E1-A537-1F614824019B",
+        "kind": "application",
+        "name": "DRMSync_VSB"
+      },
+      {
+        "id": "3bbeae36-1542-11e1-b393-31614824019b",
+        "kind": "application",
+        "name": "ASSIST"
+      },
+      {
+        "id": "52c79381-6719-11e1-b86c-0800200c9a66",
+        "kind": "application",
+        "name": "Viper"
+      },
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "kind": "application",
+        "name": "Store"
+      },
+      {
+        "id": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+        "kind": "application",
+        "name": "Jeep"
+      },
+      {
+        "id": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+        "kind": "application",
+        "name": "L-Series"
+      },
+      {
+        "id": "A7A4B215-9B5A-7DAA-457C-15545178E72F",
+        "kind": "application",
+        "name": "Register"
+      },
+      {
+        "id": "f7583530-8d53-11e0-91e4-0800200c9a66",
+        "kind": "application",
+        "name": "VSBClient"
+      },
+      {
+        "id": "vr",
+        "kind": "service_or_output",
+        "name": "Platform voice service"
+      },
+      {
+        "id": "yelp_https",
+        "kind": "service_or_output",
+        "name": "Yelp HTTPS request/response"
+      },
+      {
+        "id": "mts",
+        "kind": "service_or_output",
+        "name": "MTS request service"
+      },
+      {
+        "id": "registry",
+        "kind": "service_or_output",
+        "name": "Local IXC registry"
+      },
+      {
+        "id": "appmanager",
+        "kind": "service_or_output",
+        "name": "Common AppManager"
+      },
+      {
+        "id": "broker",
+        "kind": "service_or_output",
+        "name": "Configured MQTT broker"
+      },
+      {
+        "id": "media",
+        "kind": "service_or_output",
+        "name": "USB/SD HTML output"
+      }
+    ],
+    "shared_state_limits": [
+      "PROVED calls are conditional static relationships; target receiver identity, grants and liveness remain UNKNOWN.",
+      "Copied MTS/BaseRequest classes in several JARs are not a single shared runtime object.",
+      "RMS names across Xlets do not establish a shared persistent store; Xlet isolation and store scope must be retained.",
+      "Shared AppManager/IXC APIs do not grant arbitrary caller authority or prove every listener is bound.",
+      "Store-to-Register chain request is explicit; successful authorization/launch is a separate native boundary."
+    ]
+  },
   "extensions": [
     {
       "evidence": "Resource census; Yelp GpGeoUtil and Xlet resources",
@@ -280,9 +920,9 @@
       "statement": "Paho LocalNetworkModule reflectively selects a local transport class; no concrete production configuration-to-activation route established. Not a proved localhost TCP server."
     },
     {
-      "evidence": "Affiner.loadLibrary; census callers",
+      "evidence": "Affiner constructor13; loadLibrary map1/resource52/read85/write102/load138; bundled resource hash",
       "label": "PROVED",
-      "statement": "L-Series Affiner contains System.load at BCI138. External path control and lifecycle activation remain UNKNOWN."
+      "statement": "Rotatable.transform calls Affiner.getInstance; constructor passes fixed Affiner name, maps library name, reads classloader resource and copies it to JVM temp directory before System.load. libAffiner.so is bundled in this exact JAR. Ordinary external control of classloader/temp path or bytes is not established."
     },
     {
       "evidence": "Base64$1.resolveClass; baseline capability analysis",
@@ -304,25 +944,55 @@
     "1D5347C0-8B5E-11E2-9E96-0800200C9A66": [
       "com/sprint/chrysler/common/communications/BaseRequest",
       "com/sprint/chrysler/yelp/communications/GpSearchRequest",
-      "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1",
-      "com/sprint/chrysler/yelp/xlet/YelpPOIXlet"
+      "com/sprint/chrysler/yelp/vr/SpeechListener",
+      "com/sprint/chrysler/yelp/vr/VRHelper",
+      "com/sprint/chrysler/yelp/vr/VRHelperImp",
+      "com/sprint/chrysler/yelp/vr/VRHelperImp$1",
+      "com/sprint/chrysler/yelp/vr/VRHelperImp$4",
+      "com/sprint/chrysler/yelp/vr/VRQueue",
+      "com/sprint/chrysler/yelp/vr/VRSessionLogic",
+      "com/sprint/chrysler/yelp/vr/VRSoftButtonEvent",
+      "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
+      "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1"
     ],
     "2BA676FA-1542-11E1-A537-1F614824019B": [
-      "com/sprint/chrysler/drm/data/DrmManager"
+      "com/sprint/chrysler/drm/data/DrmManager",
+      "com/sprint/chrysler/drm/sdp/VSBEventHandlerListener"
+    ],
+    "52c79381-6719-11e1-b86c-0800200c9a66": [
+      "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController",
+      "com/sprint/gskills/factory/VSBSendToWebsiteCallable"
     ],
     "550e8400-e29b-41d4-a716-446655440000": [
-      "com/sprint/chrysler/storefront/gui/screen/StorefrontLoadingScreen"
+      "com/sprint/chrysler/storefront/gui/screen/StorefrontLoadingScreen",
+      "com/sprint/chrysler/storefront/xlet/StorefrontXlet$1"
+    ],
+    "6BFD02C0-40C3-11E2-A25F-0800200C9A66": [
+      "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController",
+      "com/sprint/gskills/factory/VSBSendToWebsiteCallable"
     ],
     "7DEC7834-535D-47B5-BD33-695477EDCD57": [
+      "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController",
+      "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
       "com/sprint/gskills/xlet/GSkillsModule",
-      "com/sprint/gskills/xlet/GSkillsXlet"
+      "com/sprint/gskills/xlet/GSkillsXlet",
+      "com/sun/lwuit/Affiner"
     ],
     "A7A4B215-9B5A-7DAA-457C-15545178E72F": [
       "com/sprint/chrysler/uar/util/HuRegistrationManager",
       "com/sprint/chrysler/uar/xlet/UconnectRegistrationXlet"
     ],
     "f7583530-8d53-11e0-91e4-0800200c9a66": [
-      "t/b/d"
+      "t/b/b",
+      "t/b/d",
+      "t/g/b",
+      "t/g/d",
+      "t/h/d",
+      "t/j/b",
+      "t/r/d"
     ]
   },
   "method_selections": {
@@ -349,6 +1019,15 @@
         "fireOKPressed",
         "showZeroResults"
       ],
+      "com/sprint/chrysler/yelp/gui/GpCurrentLocationScreen": [
+        "<init>"
+      ],
+      "com/sprint/chrysler/yelp/gui/GpCurrentLocationScreen$VoiceActionListener": [
+        "actionPerformed"
+      ],
+      "com/sprint/chrysler/yelp/gui/GpCurrentLocationScreen$VoiceActionListener$1": [
+        "run"
+      ],
       "com/sprint/chrysler/yelp/gui/GpDetailsScreen": [
         "<init>"
       ],
@@ -371,8 +1050,38 @@
         "<clinit>",
         "loadProperties"
       ],
+      "com/sprint/chrysler/yelp/vr/SpeechListener": [
+        "onError",
+        "onVRAction"
+      ],
+      "com/sprint/chrysler/yelp/vr/VRHelper": [
+        "getInstance",
+        "initInstance",
+        "isEnabled"
+      ],
       "com/sprint/chrysler/yelp/vr/VRHelperImp": [
-        "init"
+        "<init>",
+        "enable",
+        "init",
+        "offboardcommandRecognized",
+        "requestOffBoardVr",
+        "startBackgroundLoop"
+      ],
+      "com/sprint/chrysler/yelp/vr/VRHelperImp$1": [
+        "run"
+      ],
+      "com/sprint/chrysler/yelp/vr/VRHelperImp$4": [
+        "run"
+      ],
+      "com/sprint/chrysler/yelp/vr/VRQueue": [
+        "run"
+      ],
+      "com/sprint/chrysler/yelp/vr/VRSessionLogic": [
+        "handle",
+        "startOffboardSession"
+      ],
+      "com/sprint/chrysler/yelp/vr/VRSoftButtonEvent": [
+        "accept"
       ],
       "com/sprint/chrysler/yelp/xlet/YelpPOIXlet": [
         "destroyXlet",
@@ -384,6 +1093,9 @@
       ]
     },
     "2BA676FA-1542-11E1-A537-1F614824019B": {
+      "com/sprint/chrysler/common/communications/BaseRequest": [
+        "CallService"
+      ],
       "com/sprint/chrysler/common/communications/MTSManager": [
         "readPropertiesFile"
       ],
@@ -404,6 +1116,11 @@
       "com/sprint/chrysler/drm/sdp/VSBClientLocator": [
         "refreshVSBClientReference"
       ],
+      "com/sprint/chrysler/drm/sdp/VSBEventHandlerListener": [
+        "notify",
+        "notifyFailure",
+        "notifySuccess"
+      ],
       "com/sprint/chrysler/drm/xlet/DrmSyncXlet": [
         "initXlet",
         "startXlet"
@@ -415,7 +1132,8 @@
         "initRegistry",
         "notify",
         "notifyFailure",
-        "notifySuccess"
+        "notifySuccess",
+        "process"
       ],
       "com/sprint/chrysler/assist/gui/screen/AssistLoadingSplashScreen": [
         "onShowCompleted"
@@ -440,8 +1158,40 @@
       ]
     },
     "52c79381-6719-11e1-b86c-0800200c9a66": {
+      "com/sprint/gskills/VSBGSkillsLifeCycleListener": [
+        "refreshVSBClientReference"
+      ],
+      "com/sprint/gskills/constants/TimerSaveOptionsEnum": [
+        "<clinit>",
+        "getDevicePath"
+      ],
       "com/sprint/gskills/controller/GSkillsVehicleBrand": [
         "defineCarBrand"
+      ],
+      "com/sprint/gskills/controller/savetimerrun/TimerSavingData": [
+        "createUpdateDownloadFile",
+        "getSuffix",
+        "isDeviceAvailable",
+        "saveDataTo",
+        "updateHTML"
+      ],
+      "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController": [
+        "submitUploadTask"
+      ],
+      "com/sprint/gskills/factory/ResKeyPropertiesFactory": [
+        "getSDSavePath",
+        "getSaveFolder",
+        "getUSBSavePath"
+      ],
+      "com/sprint/gskills/factory/VSBSendToWebsiteCallable": [
+        "call",
+        "notifyFailure",
+        "notifySuccess",
+        "registerListener"
+      ],
+      "com/sprint/gskills/view/CommonTimerViewContainer": [
+        "notifyStatus",
+        "updateDialogAndButtons"
       ],
       "com/sprint/gskills/view/common/GSkillsUIRunnable": [
         "run"
@@ -489,8 +1239,40 @@
       ]
     },
     "6BFD02C0-40C3-11E2-A25F-0800200C9A66": {
+      "com/sprint/gskills/VSBGSkillsLifeCycleListener": [
+        "refreshVSBClientReference"
+      ],
+      "com/sprint/gskills/constants/TimerSaveOptionsEnum": [
+        "<clinit>",
+        "getDevicePath"
+      ],
       "com/sprint/gskills/controller/GSkillsVehicleBrand": [
         "defineCarBrand"
+      ],
+      "com/sprint/gskills/controller/savetimerrun/TimerSavingData": [
+        "createUpdateDownloadFile",
+        "getSuffix",
+        "isDeviceAvailable",
+        "saveDataTo",
+        "updateHTML"
+      ],
+      "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController": [
+        "submitUploadTask"
+      ],
+      "com/sprint/gskills/factory/ResKeyPropertiesFactory": [
+        "getSDSavePath",
+        "getSaveFolder",
+        "getUSBSavePath"
+      ],
+      "com/sprint/gskills/factory/VSBSendToWebsiteCallable": [
+        "call",
+        "notifyFailure",
+        "notifySuccess",
+        "registerListener"
+      ],
+      "com/sprint/gskills/view/CommonTimerViewContainer": [
+        "notifyStatus",
+        "updateDialogAndButtons"
       ],
       "com/sprint/gskills/view/common/GSkillsUIRunnable": [
         "run"
@@ -505,14 +1287,49 @@
       ]
     },
     "7DEC7834-535D-47B5-BD33-695477EDCD57": {
+      "car/jamaica/widgets/gskills/Rotatable": [
+        "transform"
+      ],
+      "com/sprint/gskills/VSBGSkillsLifeCycleListener": [
+        "refreshVSBClientReference"
+      ],
+      "com/sprint/gskills/constants/TimerSaveOptionsEnum": [
+        "<clinit>",
+        "getDevicePath"
+      ],
       "com/sprint/gskills/constants/VehicleLineEnum": [
         "<clinit>"
       ],
       "com/sprint/gskills/controller/GSkillsVehicleInfo": [
         "setVehicleInfo"
       ],
+      "com/sprint/gskills/controller/savetimerrun/TimerSavingData": [
+        "createUpdateDownloadFile",
+        "getSuffix",
+        "isDeviceAvailable",
+        "saveDataTo",
+        "updateHTML"
+      ],
+      "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController": [
+        "submitUploadTask"
+      ],
+      "com/sprint/gskills/factory/ResKeyPropertiesFactory": [
+        "getSDSavePath",
+        "getSaveFolder",
+        "getUSBSavePath"
+      ],
+      "com/sprint/gskills/factory/VSBSendToWebsiteCallable": [
+        "call",
+        "notifyFailure",
+        "notifySuccess",
+        "registerListener"
+      ],
       "com/sprint/gskills/view/common/GSkillsUIRunnable": [
         "run"
+      ],
+      "com/sprint/gskills/view/timers/CommonTimerView": [
+        "notifyStatus",
+        "updateDialogAndButtons"
       ],
       "com/sprint/gskills/xlet/GSkillsModule": [
         "initModule",
@@ -523,10 +1340,15 @@
         "startXlet"
       ],
       "com/sun/lwuit/Affiner": [
+        "<init>",
+        "getInstance",
         "loadLibrary"
       ]
     },
     "A7A4B215-9B5A-7DAA-457C-15545178E72F": {
+      "com/sprint/chrysler/common/communications/BaseRequest": [
+        "CallService"
+      ],
       "com/sprint/chrysler/uar/communication/MTSSubscriberStateRequest": [
         "getURL",
         "processJSONObject"
@@ -548,10 +1370,24 @@
     },
     "f7583530-8d53-11e0-91e4-0800200c9a66": {
       "com/sprint/chrysler/vsbclient/ixc/VSBClientImpl": [
+        "a",
+        "b",
         "c",
         "e",
         "f",
+        "sendDataToVSB",
         "setBindNameForCallback"
+      ],
+      "com/sprint/chrysler/vsbclient/ixc/b": [
+        "a"
+      ],
+      "com/sprint/chrysler/vsbclient/ixc/c": [
+        "a",
+        "b"
+      ],
+      "com/sprint/chrysler/vsbclient/ixc/d": [
+        "a",
+        "b"
       ],
       "org/eclipse/paho/client/mqttv3/internal/LocalNetworkModule": [
         "start"
@@ -578,8 +1414,35 @@
       "t/b/e": [
         "run"
       ],
+      "t/g/b": [
+        "run"
+      ],
+      "t/g/d": [
+        "a",
+        "b",
+        "c",
+        "run"
+      ],
+      "t/h/d": [
+        "a",
+        "onFailure",
+        "onSuccess",
+        "run"
+      ],
+      "t/j/b": [
+        "a"
+      ],
       "t/q/r": [
         "b"
+      ],
+      "t/q/v": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "t/r/d": [
+        "run"
       ],
       "t/s/c": [
         "run"
@@ -607,9 +1470,96 @@
       "statement": "ASSIST helper requires getenv(VARIANT_PRODUCT)==524 and atoi(ECSB_PRSNT from /pps/can/vehcfg0)!=1; true suppresses ASSIST in default-visibility branch."
     },
     {
-      "evidence": "VA0x12592c..0x125970; 0x133150..0x133164",
-      "label": "UNKNOWN",
-      "statement": "Virtual catalog predicate semantics and visibility-flag provenance remain unresolved; these bytes are not equated with proved launcher-mask authorization."
+      "evidence": "0x1375f0/0x1375fc; 0x1d0eb0..0x1d10e4; 0x1ce4f4/0x1ce600; 0x159398..0x159434; 0x16e878..0x16e884",
+      "label": "PROVED",
+      "statement": "Property subobject offset0x9c plus show-condition flag offset0x1fe equals app+0x29a. readShowConditions sets mask8 for parsed conditions and clears it for empty input. Super-app UUID equality sets app+0x294. Virtual catalog predicate semantics remain UNKNOWN."
+    },
+    {
+      "evidence": "0x160850 getter0x16e628 (getVBSClntUUID log0x20b95c); allocation0x160868..880; name0x1608f0..904; clear0x160930..968; start0x160974..9e8",
+      "label": "PROVED",
+      "statement": "The condition-clear branch creates the configured VSBClient app. Allocation result is assigned to both r4 and r5 at 0x160870/74; r4 later points to properties while r5 retains the app. It names VSBClient, clears flag/tree, sets Autostart and calls findAndStartApp. Internal dispatch reachability from arbitrary external callers is not established."
+    }
+  ],
+  "native_windows": [
+    {
+      "end": "0x137604",
+      "id": "property_subobject",
+      "start": "0x1375f0"
+    },
+    {
+      "end": "0x19424c",
+      "id": "install_property_subobject",
+      "start": "0x19422c"
+    },
+    {
+      "end": "0x1d0ef4",
+      "id": "show_property_name",
+      "start": "0x1d0eb0"
+    },
+    {
+      "end": "0x1d10e8",
+      "id": "show_parser_call",
+      "start": "0x1d10d0"
+    },
+    {
+      "end": "0x1ce504",
+      "id": "show_flag_set",
+      "start": "0x1ce4ec"
+    },
+    {
+      "end": "0x1ce60c",
+      "id": "show_flag_clear_empty",
+      "start": "0x1ce5ec"
+    },
+    {
+      "end": "0x133168",
+      "id": "show_flag_consumer",
+      "start": "0x133150"
+    },
+    {
+      "end": "0x16e888",
+      "id": "superapp_getter_name",
+      "start": "0x16e868"
+    },
+    {
+      "end": "0x15941c",
+      "id": "superapp_compare",
+      "start": "0x159398"
+    },
+    {
+      "end": "0x159438",
+      "id": "superapp_flag_set",
+      "start": "0x159430"
+    },
+    {
+      "end": "0x16096c",
+      "id": "special_condition_clear",
+      "start": "0x160930"
+    },
+    {
+      "end": "0x16e668",
+      "id": "vsb_uuid_getter",
+      "start": "0x16e648"
+    },
+    {
+      "end": "0x160884",
+      "id": "vsb_app_pointer_alias",
+      "start": "0x160840"
+    },
+    {
+      "end": "0x160908",
+      "id": "vsb_app_name",
+      "start": "0x1608cc"
+    },
+    {
+      "end": "0x160830",
+      "id": "vsb_dispatch_condition",
+      "start": "0x160810"
+    },
+    {
+      "end": "0x1609ec",
+      "id": "vsb_autostart_call",
+      "start": "0x16096c"
     }
   ],
   "network": [
@@ -617,13 +1567,13 @@
       "activation": "Authorized Xlet and normal search",
       "address": "Bundled search/geocode properties; variable query/location",
       "authentication": "Bundled Basic header; platform TLS; acceptance UNKNOWN",
-      "construction": "Keyboard/category -> GpSearchRequest -> BaseRequest default HTTP client",
+      "construction": "Keyboard/category or stock recognized-speech callback -> GpSearchRequest -> BaseRequest default HTTP client",
       "direction": "Outbound HTTPS and response",
       "effect": "Results/error UI",
       "evidence": "Yelp selected methods",
       "external_route": "Phone/Wi-Fi/USB transport choice not established; no inbound socket construction",
       "id": "yelp_search",
-      "input": "Search terms/location and backend JSON",
+      "input": "Touchscreen or recognized speech terms, location and backend JSON",
       "label": "PROVED"
     },
     {
@@ -658,11 +1608,11 @@
       "authentication": "SSL factory, secure credentials, MQTT username/password options; values omitted",
       "construction": "t/s/e -> t/s/c -> t/b/b Runnable -> d/f/g -> t/b/a.c -> Paho connect",
       "direction": "Outbound MQTT with inbound subscribed callbacks",
-      "effect": "Typed handlers or generic JSON work can affect stock state",
-      "evidence": "t/b/b.messageArrived BCI46/55/68/76/142/150; t/b/a.a options68/88/101",
+      "effect": "Configured topic router queues stock work, including conditional local IXC notifications",
+      "evidence": "t/b/b.messageArrived getter a()String76, topic equality79, router constructor142/queue150; t/r/d.run IXC dispatch221; t/g/d.c IxcFromVSB.notify158",
       "external_route": "No proof arbitrary nearby phone/Wi-Fi client can publish; no server proved",
       "id": "vsb_mqtt",
-      "input": "Broker-delivered JSON",
+      "input": "Broker-delivered payload; preliminary JSON validation except configured control topic, followed by route-specific processing",
       "label": "PROVED"
     },
     {
@@ -702,6 +1652,32 @@
       "external_route": "No USB content-to-code, arbitrary Bluetooth command or externally reachable JNI route established",
       "id": "platform_services",
       "input": "Sensor/phone/VR state; paired-phone state may arrive through platform",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Correct visible/authorized variant, timer UI/data, available mounted destination and write permissions",
+      "address": "USB/SD device path and timersResult folder from bundled resKey properties; generated filename plus .html",
+      "authentication": "App launch/filesystem permissions; backend not on this local write chain",
+      "construction": "Timer save-option UI -> TimerSavingData.saveDataTo -> createUpdateDownloadFile -> updateHTML -> FileOutputStream/Writer",
+      "direction": "Local output to removable-media destination",
+      "effect": "HTML file and save-status screen; write errors may be logged without reliable failure propagation",
+      "evidence": "All three variants: saveDataTo; TimerSaveOptionsEnum.<clinit>; ResKeyPropertiesFactory; TimerSavingData.updateHTML BCI7/18/26",
+      "external_route": "Writes media and changes state; existence documented only, excluded from read-only target checklist",
+      "id": "performance_export",
+      "input": "Stock-generated timer HTML; no imported executable input established",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Exception in SDP attempt (not merely null SDP); valid VSB lookup/callback registration; configured service; MQTT delivery",
+      "address": "VSB configured application uplink; not arbitrary URL input",
+      "authentication": "AMS/IXC and authenticated broker path; runtime grants unknown",
+      "construction": "Timer uConnect action -> UploadTimerRunController -> exception fallback VSBSendToWebsiteCallable -> VSB send -> MQTT delivery callback -> local notifySuccess/Failure -> latch -> stock status UI",
+      "direction": "Outbound timer content and completion notification",
+      "effect": "Status display; local MQTT delivery success alone does not prove website storage",
+      "evidence": "Jeep/Viper submit fallback handler72 constructor120/submit123; L-Series constructor125/submit128; callable call37/62; success/failure latch28 (L-Series19); t/h/d.onSuccess/Failure -> t/g/b",
+      "external_route": "Supported output candidate; not recommended as passive observation or remote command interface",
+      "id": "performance_upload",
+      "input": "Stock-generated timer content and delivery status",
       "label": "PROVED"
     }
   ],
@@ -848,14 +1824,14 @@
     },
     {
       "crossed": {
-        "evidence": "Descriptors/native evaluator",
+        "evidence": "Descriptor parser flag provenance and native evaluator",
         "label": "INFERRED",
-        "statement": "Under evaluation flags and available PPS, Jeep predicate requires PP=1 and line=1."
+        "statement": "A normally parsed Jeep variant with retained conditions and available PPS requires PP=1 and line=1 to pass visibility evaluation."
       },
       "limits": {
-        "evidence": "Descriptors/native evaluator",
+        "evidence": "Native parser/evaluator; special startup branch0x160930",
         "label": "UNKNOWN",
-        "statement": "Same name cannot identify variant; default-visible branch prevents unconditional PPS inference; launch DRM is separate."
+        "statement": "Same name cannot identify variant/version; current installed descriptor/PPS remain unresolved; the special native condition-clear path is VSB-specific. Launch DRM is separate."
       },
       "observation": "Performance Pages present",
       "scope": "All variants"
@@ -889,10 +1865,68 @@
       "scope": "Any"
     }
   ],
+  "ranked_candidates": [
+    {
+      "candidate_id": "yelp_search",
+      "label": "INFERRED",
+      "name": "Yelp touchscreen/voice search",
+      "rank": 1,
+      "rationale": "Best first ordinary UI observation; complete request/results chain; backend and voice gates remain unknown"
+    },
+    {
+      "candidate_id": "performance_export",
+      "label": "INFERRED",
+      "name": "Performance USB/SD timer export",
+      "rank": 2,
+      "rationale": "Concrete local output; exact vehicle/launch/media gates; excluded from read-only first observation"
+    },
+    {
+      "candidate_id": "performance_upload",
+      "label": "INFERRED",
+      "name": "Performance VSB upload/status",
+      "rank": 3,
+      "rationale": "Concrete app/service/status chain; SDP-exception fallback and MQTT delivery limits"
+    },
+    {
+      "candidate_id": "store_http",
+      "label": "INFERRED",
+      "name": "Store catalog/account workflow",
+      "rank": 4,
+      "rationale": "Concrete MTS UI and Register chain; account/registration actions change state"
+    },
+    {
+      "candidate_id": "register_subscriber",
+      "label": "INFERRED",
+      "name": "Register subscriber workflow",
+      "rank": 5,
+      "rationale": "Concrete state/request/UI chain; tile presence is not a registration-state bit"
+    },
+    {
+      "candidate_id": "platform_services",
+      "label": "INFERRED",
+      "name": "ASSIST service UI",
+      "rank": 6,
+      "rationale": "Concrete launch/service calls; not a harmless call or daemon probe"
+    },
+    {
+      "candidate_id": "vsb_mqtt",
+      "label": "INFERRED",
+      "name": "VSB/DRM background routing",
+      "rank": 7,
+      "rationale": "Authenticated configured callbacks; no arbitrary external publisher authority; sensitive service effects excluded"
+    }
+  ],
   "resource_selections": {
     "2BA676FA-1542-11E1-A537-1F614824019B": {
       "mts.properties": [
         "mts-server"
+      ]
+    },
+    "52c79381-6719-11e1-b86c-0800200c9a66": {
+      "resKey.properties": [
+        "savePath_SD",
+        "savePath_USB",
+        "save_folder_name"
       ]
     },
     "550e8400-e29b-41d4-a716-446655440000": {
@@ -901,6 +1935,20 @@
       ],
       "wallet.properties": [
         "smps-url"
+      ]
+    },
+    "6BFD02C0-40C3-11E2-A25F-0800200C9A66": {
+      "resKey.properties": [
+        "savePath_SD",
+        "savePath_USB",
+        "save_folder_name"
+      ]
+    },
+    "7DEC7834-535D-47B5-BD33-695477EDCD57": {
+      "common/resKey.properties": [
+        "save_path_SD",
+        "save_path_USB",
+        "save_folder_name"
       ]
     },
     "A7A4B215-9B5A-7DAA-457C-15545178E72F": {
@@ -914,6 +1962,13 @@
       ]
     }
   },
+  "route_corrections": [
+    {
+      "evidence": "Supersedes 7714004 network/background wording; independent javap of t/b/b, t/j/b and t/r/d",
+      "label": "PROVED",
+      "statement": "The earlier BCI76 typed-handler claim was incorrect: t/j/b.a has descriptor ()Ljava/lang/String; and supplies a topic comparison, not a handler dispatch. Accepted inputs converge on queued t/r/d routing."
+    }
+  ],
   "schema_version": 1,
   "shared_gates": [
     {
@@ -927,9 +1982,9 @@
       "statement": "Native updateShowInHmi writes object+0x4d; catalog paths test it before inclusion. Conditions are evaluated when byte+0x29a has mask 8 OR byte+0x294 is nonzero. Otherwise most apps default visible; ASSIST has a separate suppression branch."
     },
     {
-      "evidence": "appManager VA 0x12592c..0x125970 and 0x133150..0x133164",
-      "label": "UNKNOWN",
-      "statement": "Visibility flag provenance and the exact meaning of virtual catalog predicates are unresolved. Do not rename these bytes as a proved DRM entitlement or unconditionally infer PPS from a tile."
+      "evidence": "Property subobject app+0x9c at 0x1375f0/0x19422c; parser0x1d10e4; flag set0x1ce4f4..0x1ce4fc; UUID compare/set0x159398..0x159434; getter0x16e848",
+      "label": "PROVED",
+      "statement": "The visibility condition flag is set by readShowConditions after a valid condition is parsed. App+0x294 marks an app UUID matching configured getSuperAppUUID. These are property-presence/super-app flags, not DRM bits."
     },
     {
       "evidence": "appManager VA 0x1333c4..0x133460, 0x1334b0..0x1334e0, 0x133774",
@@ -1138,6 +2193,33 @@
       "app_launch_ui_path.md",
       "keyjar_runtime_association.md",
       "method_evidence.json"
+    ],
+    "voice_input": [
+      {
+        "evidence": "GpCurrentLocationScreen.<init> BCI54/57; VRHelper.isEnabled BCI0/1; VRHelperImp.init exception handler339 and enabled=false367",
+        "label": "PROVED",
+        "statement": "Home constructor creates SpeechListener and enables VRHelper. Exact helper feature switch returns true; service initialization can still fail and disable implementation state."
+      },
+      {
+        "evidence": "VoiceActionListener.actionPerformed location0/thread43; worker request3; VRHelperImp.requestOffBoardVr20/23; VRQueue.run49; VRSoftButtonEvent.accept2; VRSessionLogic.handle(SoftButton)31/startOffboardSession13",
+        "label": "PROVED",
+        "statement": "Ordinary voice action requires valid location, requests a VRSoftButtonEvent, and event dispatch requests the platform session. Requested/waiting states can start the offboard session."
+      },
+      {
+        "evidence": "VRHelperImp.init BCI51/56/246/297/305/331",
+        "label": "PROVED",
+        "statement": "VRManager service selection, optional SecureService credential assignment and session/listener setup precede recognized-text callbacks. Credential values omitted."
+      },
+      {
+        "evidence": "VRHelperImp.offboardcommandRecognized BCI37/40/53/63/75/78; VRHelperImp$1.run21; SpeechListener.onVRAction(String)58/63/73/148/173/198/242/254",
+        "label": "PROVED",
+        "statement": "Non-cancel recognized text with a current action is scheduled onto the UI; SpeechListener constructs GpSearchRequest from that text and handles error/zero/results states."
+      },
+      {
+        "evidence": "Recovered platform callback chain; target service/session/authentication/network unobserved",
+        "label": "INFERRED",
+        "statement": "This establishes a non-keyboard text input path through stock speech recognition, not arbitrary phone/Bluetooth bytes, a listener or user-supplied executable content."
+      }
     ]
   }
 }

@@ -17,6 +17,7 @@ import subprocess
 import zipfile
 
 from analysis_tools.java_classfile import parse_class
+from analysis_tools.arm_elf_analysis import ArmElfAnalyzer, Elf32Image
 from analysis_tools.resident_surface_census import parse_properties
 from analysis_tools.target_production_index import build_inventory, resolve_part
 
@@ -27,6 +28,20 @@ NOTES = Path(__file__).with_name("kim19_runtime_notes.json")
 
 def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def native_window(analyzer: ArmElfAnalyzer, start: int, end: int) -> dict:
+    """Extract a reviewed ARM code window, rejecting gaps and partial words."""
+    if start % 4 or end % 4 or end <= start:
+        raise ValueError("native window must contain aligned ARM words")
+    data = analyzer.image.read_vaddr(start, end - start)
+    instructions = list(analyzer.disassemble(start, end))
+    if [i.address for i in instructions] != list(range(start, end, 4)):
+        raise ValueError("native window contains undecoded bytes")
+    return {"start_va": hex(start), "end_va_exclusive": hex(end),
+            "file_offset": hex(analyzer.image.vaddr_to_offset(start)),
+            "sha256": digest(data),
+            "instructions": [[hex(i.address), i.mnemonic, i.op_str] for i in instructions]}
 
 
 def encode(value: object) -> bytes:
@@ -140,6 +155,42 @@ def javap_blocks(output: str, class_name: str) -> dict[tuple[str, str], str]:
     return result
 
 
+def dependency_graph(spec: dict, records: list[dict]) -> dict:
+    """Bind reviewed relationships to exact invocation sites, not name matches.
+
+    A verified call does not prove a live receiver or the authored condition.
+    Keep that distinction in the output instead of computing runtime reachability.
+    """
+    node_ids = [node["id"] for node in spec["nodes"]]
+    if len(node_ids) != len(set(node_ids)):
+        raise ValueError("duplicate graph node")
+    index = {}
+    for record in records:
+        key = tuple(record[k] for k in ("jar", "class", "method", "descriptor"))
+        if key in index:
+            raise ValueError("duplicate evidence method")
+        index[key] = record
+    edges, seen = [], set()
+    for edge in spec["edges"]:
+        if edge["id"] in seen or any(edge[k] not in node_ids for k in ("source", "target")):
+            raise ValueError("duplicate edge or unknown graph node")
+        seen.add(edge["id"])
+        if not edge["sites"]:
+            raise ValueError("graph relationship needs evidence")
+        sites = []
+        for site in edge["sites"]:
+            key = tuple(site[k] for k in ("jar", "class", "method", "descriptor"))
+            record = index.get(key)
+            if record is None or site["call"] not in record["calls"]:
+                raise ValueError("graph invocation does not match selected evidence")
+            sites.append({**site, "jar_sha256": record["jar_sha256"],
+                          "class_sha256": record["class_sha256"]})
+        edges.append({**edge, "sites": sites})
+    return {"nodes": spec["nodes"], "edges": edges,
+            "scope": "Reviewed conditional relationships with verified call sites; not a runtime reachability solver",
+            "shared_state_limits": spec["shared_state_limits"]}
+
+
 def build_reports(work: Path, baseline: Path, *, javap: str | None = None) -> dict[str, dict]:
     notes = json.loads(NOTES.read_text(encoding="utf-8"))
     validate_labels(notes)
@@ -160,6 +211,7 @@ def build_reports(work: Path, baseline: Path, *, javap: str | None = None) -> di
     sources = [(root, row) for row in inventory["manifest"]]
     sources += [(xlets, row) for row in previous["shared_base_manifest"]]
     sources += [(work, row) for row in previous["sources"].values()]
+    sources += [(work, row) for row in notes.get("additional_sources", [])]
 
     def verify_sources() -> None:
         for parent, row in sources:
@@ -192,6 +244,11 @@ def build_reports(work: Path, baseline: Path, *, javap: str | None = None) -> di
         sites, natives = [], []
         classes = {}
         with zipfile.ZipFile(path) as archive:
+            for member in notes.get("binary_resource_selections", {}).get(app["package_identity"] if app else "", []):
+                data = archive.read(member)
+                resources.append({"jar": jar["artifact"], "member": member,
+                    "sha256": digest(data), "bytes": len(data), "kind": "bundled binary resource",
+                    "label": "PROVED", "scope": "Presence/hash only; not loaded or executed"})
             for member, keys in notes.get("resource_selections", {}).get(app["package_identity"] if app else "", {}).items():
                 data = archive.read(member)
                 values = parse_properties(data)["values"]
@@ -259,17 +316,33 @@ def build_reports(work: Path, baseline: Path, *, javap: str | None = None) -> di
                         checked += 1
                 independent.append({"jar": jar["artifact"], "class": cls, "invocations_checked": checked,
                                     "output_sha256": digest(proc.stdout.encode())})
+    native = ArmElfAnalyzer(Elf32Image.from_path(work / previous["sources"]["appmanager"]["artifact"]))
+    native_windows = [{"id": row["id"], **native_window(native, int(row["start"], 0), int(row["end"], 0))}
+                      for row in notes.get("native_windows", [])]
+    configurations = []
+    for row in notes.get("configuration_sources", []):
+        data = (work / row["artifact"]).read_bytes()
+        document = json.loads(data)
+        configurations.append({"artifact": row["artifact"], "sha256": digest(data),
+            "scope": "Declared selectors/values; no claim of current target selection",
+            "rows": [{"selectors": {key: entry[key] for key in ("product", "variant", "vehicleplatform")},
+                      "configuration": {key: value for key, value in entry["configuration"].items() if key in row["keys"]}}
+                     for entry in document["appManagerConfig"]]})
     verify_sources()
     common = {"schema_version": 1, "scope": "Recovered KIM19; target runtime unobserved",
-              "notes_sha256": digest(NOTES.read_bytes())}
+              "notes_sha256": digest(encode(notes)), "notes_hash_encoding": "Canonical sorted ASCII JSON with LF"}
     reports = {
-        "application_activation_matrix": {"applications": activation, "shared_gates": notes["shared_gates"]},
+        "application_activation_matrix": {"applications": activation, "shared_gates": notes["shared_gates"],
+                                          "stock_configuration": configurations},
         "yelp_reachability": notes["yelp"],
         "network_capabilities": {"census_scope": "All 19 KIM19 JARs; counts are syntactic, not runtime",
-            "census": census, "resources": resources, "candidates": notes["network"], "extensions": notes["extensions"]},
+            "census": census, "resources": resources, "candidates": notes["network"], "extensions": notes["extensions"],
+            "corrections": notes["route_corrections"], "ranked_candidates": notes["ranked_candidates"]},
         "background_services": {"services": notes["background"]},
+        "application_service_graph": dependency_graph(notes["dependency_graph"], evidence),
         "observation_inference_matrix": {"observations": notes["observations"]},
         "method_evidence": {"records": evidence, "native_evidence": notes["native_evidence"],
+            "native_windows": native_windows,
             "source_hashes": previous["sources"], "omissions": "Logging calls and unapproved literals omitted; hashes bind complete source classes."},
         "validation": {"inventory_identical": True, "coverage": current["coverage"],
             "internally_consistent_application_identities": identities,

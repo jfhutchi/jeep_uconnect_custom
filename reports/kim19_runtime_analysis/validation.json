@@ -22,10 +22,52 @@
       "output_sha256": "35e14c6d004848ff08764e468bd4d4b9096357032980968ce6f2303a348f51f8"
     },
     {
-      "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1",
-      "invocations_checked": 9,
+      "class": "com/sprint/chrysler/yelp/vr/SpeechListener",
+      "invocations_checked": 25,
       "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
-      "output_sha256": "05487056ad7b5d3a34caf81e508304d3434259cf58fa20481f7442b4048ffab2"
+      "output_sha256": "24844163317aa89d1800c72c48da769a2ace31d1106de530a215777c131ca001"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/vr/VRHelper",
+      "invocations_checked": 6,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "a9e8f80192e27a3b1e71f9c309c3a0a5cfbd8b14121bb92608ae94998ce17669"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/vr/VRHelperImp",
+      "invocations_checked": 30,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "08e8e1f0091beb95aaa8e227ee690bbb3fb73f59f4c35957d55bc770dc74d17c"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/vr/VRHelperImp$1",
+      "invocations_checked": 4,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "001a43ddc100ecc78797d158fc3e14bf9532576b89d9b0795f77ae430301d97e"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/vr/VRHelperImp$4",
+      "invocations_checked": 2,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "ab559ef2b97d061858c77243aaca6719bd8dd683acf9bb6e230059251ffe94cb"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/vr/VRQueue",
+      "invocations_checked": 6,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "f4409d8de4055437e057a02984e89f7d6430c072d2d1d8cb6bd41da88740f5be"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/vr/VRSessionLogic",
+      "invocations_checked": 15,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "a63f729da96fe03b54e3c5aee022a0020b073d48ab6e9bf355ef6f9fb9fe4a8c"
+    },
+    {
+      "class": "com/sprint/chrysler/yelp/vr/VRSoftButtonEvent",
+      "invocations_checked": 1,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "40db8b4fdd6cd287d319c0d594ba5e84f953e13b4266c71efdb9703112c81287"
     },
     {
       "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet",
@@ -34,16 +76,88 @@
       "output_sha256": "e3e89319d5efefa22901defbcf444b380e9ed870e7611c62fdd32f8507bb0fd0"
     },
     {
+      "class": "com/sprint/chrysler/yelp/xlet/YelpPOIXlet$1",
+      "invocations_checked": 9,
+      "jar": "xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/640X480_84_Yelp_v03.00.33_FIT.jar",
+      "output_sha256": "05487056ad7b5d3a34caf81e508304d3434259cf58fa20481f7442b4048ffab2"
+    },
+    {
       "class": "com/sprint/chrysler/drm/data/DrmManager",
       "invocations_checked": 67,
       "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
       "output_sha256": "e83c274c712f4ae86a5efd96da38605c9e2eba0f7345c17a770f9157f7dcdcee"
     },
     {
+      "class": "com/sprint/chrysler/drm/sdp/VSBEventHandlerListener",
+      "invocations_checked": 3,
+      "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
+      "output_sha256": "8e7bd9d34fae023d7efe0f1972cdd9fcdcfc3c795ebce189a239519e56d2cd06"
+    },
+    {
+      "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "invocations_checked": 25,
+      "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "output_sha256": "7c92b096075f8578479e681673c5f4ce15510f17157e408bb1c47617e23120c5"
+    },
+    {
+      "class": "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController",
+      "invocations_checked": 9,
+      "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "output_sha256": "3a48efc06dc2d63d5bc6ef9e1a7b443734bf6b01f59a1ea8177f3bd7baea1e00"
+    },
+    {
+      "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+      "invocations_checked": 25,
+      "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "output_sha256": "e9cf903c72644dd0a47b0719c74a6facf173d0b1cd458bd2f3ae77b92799673a"
+    },
+    {
       "class": "com/sprint/chrysler/storefront/gui/screen/StorefrontLoadingScreen",
       "invocations_checked": 41,
       "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
       "output_sha256": "6601cffd9bc51ee4fd329c992e1fd61c5978c6df6f3056641b1adfc8c0217215"
+    },
+    {
+      "class": "com/sprint/chrysler/storefront/xlet/StorefrontXlet$1",
+      "invocations_checked": 2,
+      "jar": "xlets/550e8400-e29b-41d4-a716-446655440000/prog/jars/640X480_84_UconnectStore_v02.33.07_FIT.jar",
+      "output_sha256": "3f05133499c5d72b3e94ff52b74047ad2c0a76141233ff32f3dc0f1a2553cc1c"
+    },
+    {
+      "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "invocations_checked": 25,
+      "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "output_sha256": "7c92b096075f8578479e681673c5f4ce15510f17157e408bb1c47617e23120c5"
+    },
+    {
+      "class": "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController",
+      "invocations_checked": 9,
+      "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "output_sha256": "3a48efc06dc2d63d5bc6ef9e1a7b443734bf6b01f59a1ea8177f3bd7baea1e00"
+    },
+    {
+      "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+      "invocations_checked": 25,
+      "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "output_sha256": "e9cf903c72644dd0a47b0719c74a6facf173d0b1cd458bd2f3ae77b92799673a"
+    },
+    {
+      "class": "com/sprint/gskills/controller/savetimerrun/TimerSavingData",
+      "invocations_checked": 25,
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "output_sha256": "206b1bcae6ecfe3f5455329848eef85f240e7dc344aed70f6160ffee98ac7443"
+    },
+    {
+      "class": "com/sprint/gskills/controller/savetimerrun/UploadTimerRunController",
+      "invocations_checked": 9,
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "output_sha256": "0a8ea1d1d8a4dcca302655090975de0f7d2cbbf4bfb9d38147ce58bbe4b0233a"
+    },
+    {
+      "class": "com/sprint/gskills/factory/VSBSendToWebsiteCallable",
+      "invocations_checked": 34,
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "output_sha256": "4007f0b11c8f8a938e76554ba3b06d296f42bb411f099eb44f28e24d449b72c0"
     },
     {
       "class": "com/sprint/gskills/xlet/GSkillsModule",
@@ -58,6 +172,12 @@
       "output_sha256": "5694df2f6ae3ec967b69b25cd483553dd2dd8e6ec9b353d772ce2770a42e57fb"
     },
     {
+      "class": "com/sun/lwuit/Affiner",
+      "invocations_checked": 32,
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "output_sha256": "834276dfb2d6b1f0a2c06d92c631dfa8447e5cd19fc077f2b6869f055f2249c0"
+    },
+    {
       "class": "com/sprint/chrysler/uar/util/HuRegistrationManager",
       "invocations_checked": 10,
       "jar": "xlets/A7A4B215-9B5A-7DAA-457C-15545178E72F/prog/jars/640X480_84_UconnectRegistration_v02.03.01_FIT.jar",
@@ -70,10 +190,46 @@
       "output_sha256": "a00b3e6f85093aaa06a8c66d973817406fabb4e55aea31544ccf40d45850fce4"
     },
     {
+      "class": "t/b/b",
+      "invocations_checked": 79,
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "output_sha256": "1031ee0fa9fdc5f111da9d06a7cf5a0984ef08e8dedaf345142256070a3d6173"
+    },
+    {
       "class": "t/b/d",
       "invocations_checked": 21,
       "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
       "output_sha256": "66c228bb234473fbfd315300b6ee9cde9179e3545bf800ba7de2c3e92a70cca7"
+    },
+    {
+      "class": "t/g/b",
+      "invocations_checked": 9,
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "output_sha256": "0eda95b245e3d1b145d62fd91bf93e506aaa0e849be0e4c7211e623b4c81e67c"
+    },
+    {
+      "class": "t/g/d",
+      "invocations_checked": 77,
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "output_sha256": "7117258f8ddaa773ba6c1510691d019439db36546001c4717981ebac1afc897f"
+    },
+    {
+      "class": "t/h/d",
+      "invocations_checked": 24,
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "output_sha256": "eada4aa9e67fcc736fecb92f7ab7d2c1e463d8128c5b186119f888f85b107a83"
+    },
+    {
+      "class": "t/j/b",
+      "invocations_checked": 0,
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "output_sha256": "63a0212f179e3afe231f932e93db2035f33d8e0aea01b567f86367ccd839f385"
+    },
+    {
+      "class": "t/r/d",
+      "invocations_checked": 32,
+      "jar": "xlets/f7583530-8d53-11e0-91e4-0800200c9a66/prog/jars/VSBClient_04.03.23_FIT.jar",
+      "output_sha256": "1851d149be2eca0dbd4e8e8beaab95553662bd354803a23f7d79d95394aaa1f4"
     }
   ],
   "internally_consistent_application_identities": [
@@ -88,7 +244,8 @@
     "f7583530-8d53-11e0-91e4-0800200c9a66"
   ],
   "inventory_identical": true,
-  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "3e65ae65d38810f780b5bb29da034980fa89ac7a56b6bbac2fbd3af19eea6504",
   "part_resolution": {
     "fallback_used": false,
     "input": "68224525AM",
@@ -106,7 +263,7 @@
   },
   "schema_version": 1,
   "scope": "Recovered KIM19; target runtime unobserved",
-  "source_records_rechecked_before_and_after": 95,
+  "source_records_rechecked_before_and_after": 96,
   "target_observation": "TARGET OBSERVATION REQUIRED",
   "verification_scope": "Report regeneration, suite and Git isolation results are recorded in verification.md."
 }

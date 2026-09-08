@@ -494,7 +494,8 @@
       "version": "04.03.23"
     }
   ],
-  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "3e65ae65d38810f780b5bb29da034980fa89ac7a56b6bbac2fbd3af19eea6504",
   "schema_version": 1,
   "scope": "Recovered KIM19; target runtime unobserved",
   "shared_gates": [
@@ -509,9 +510,9 @@
       "statement": "Native updateShowInHmi writes object+0x4d; catalog paths test it before inclusion. Conditions are evaluated when byte+0x29a has mask 8 OR byte+0x294 is nonzero. Otherwise most apps default visible; ASSIST has a separate suppression branch."
     },
     {
-      "evidence": "appManager VA 0x12592c..0x125970 and 0x133150..0x133164",
-      "label": "UNKNOWN",
-      "statement": "Visibility flag provenance and the exact meaning of virtual catalog predicates are unresolved. Do not rename these bytes as a proved DRM entitlement or unconditionally infer PPS from a tile."
+      "evidence": "Property subobject app+0x9c at 0x1375f0/0x19422c; parser0x1d10e4; flag set0x1ce4f4..0x1ce4fc; UUID compare/set0x159398..0x159434; getter0x16e848",
+      "label": "PROVED",
+      "statement": "The visibility condition flag is set by readShowConditions after a valid condition is parsed. App+0x294 marks an app UUID matching configured getSuperAppUUID. These are property-presence/super-app flags, not DRM bits."
     },
     {
       "evidence": "appManager VA 0x1333c4..0x133460, 0x1334b0..0x1334e0, 0x133774",
@@ -527,6 +528,169 @@
       "evidence": "Ordinary Apps inventory and one Yelp launch",
       "label": "TARGET OBSERVATION REQUIRED",
       "statement": "Actual target versions, installed records, flags, entitlements and network/backend state remain unobserved."
+    }
+  ],
+  "stock_configuration": [
+    {
+      "artifact": "hidden_hbc_ifs/segment_00f20000/files/etc/system/config/appManager.cfg",
+      "rows": [
+        {
+          "configuration": {
+            "defaultCategory": "Information",
+            "delayedStartApps": [
+              "2BA676FA-1542-11E1-A537-1F614824019B",
+              "1efb8b70-1ab5-11e1-bddb-0800200c9a66"
+            ],
+            "maxNrOfApps": 3,
+            "maxNrOfAudioApps": 1,
+            "requiredUUIDs": [
+              "2BA676FA-1542-11E1-A537-1F614824019B",
+              "f7583530-8d53-11e0-91e4-0800200c9a66"
+            ],
+            "uuidAssistApp": "3bbeae36-1542-11e1-b393-31614824019b",
+            "uuidRegistrationApp": "a7a4b215-9b5a-7daa-457c-15545178e72f",
+            "uuidStorefront": "550e8400-e29b-41d4-a716-446655440000",
+            "uuidVBSClnt": "f7583530-8d53-11e0-91e4-0800200c9a66",
+            "xletRMSDir": "/fs/etfs/usr/var/appman/xletRMS"
+          },
+          "selectors": {
+            "product": [
+              "all"
+            ],
+            "variant": [
+              "all"
+            ],
+            "vehicleplatform": [
+              "all"
+            ]
+          }
+        },
+        {
+          "configuration": {
+            "delayedStartApps": [],
+            "requiredUUIDs": [],
+            "uuidAssistApp": "",
+            "uuidRegistrationApp": "",
+            "uuidStorefront": "",
+            "uuidSuperApp": "100",
+            "uuidVBSClnt": ""
+          },
+          "selectors": {
+            "product": [
+              "524"
+            ],
+            "variant": [
+              "ECE"
+            ],
+            "vehicleplatform": [
+              "Fiat334"
+            ]
+          }
+        },
+        {
+          "configuration": {
+            "delayedStartApps": [],
+            "requiredUUIDs": [],
+            "uuidAssistApp": "",
+            "uuidRegistrationApp": "",
+            "uuidStorefront": "",
+            "uuidSuperApp": "DBF8632A-EC07-4434-A7D8-FB20CBCE326A",
+            "uuidVBSClnt": ""
+          },
+          "selectors": {
+            "product": [
+              "524"
+            ],
+            "variant": [
+              "NA"
+            ],
+            "vehicleplatform": [
+              "Fiat334"
+            ]
+          }
+        },
+        {
+          "configuration": {
+            "uuidSuperApp": "hup"
+          },
+          "selectors": {
+            "product": [
+              "524"
+            ],
+            "variant": [
+              "NA"
+            ],
+            "vehicleplatform": [
+              "Fiat520"
+            ]
+          }
+        },
+        {
+          "configuration": {
+            "delayedStartApps": [],
+            "requiredUUIDs": [],
+            "uuidAssistApp": "",
+            "uuidRegistrationApp": "",
+            "uuidStorefront": "",
+            "uuidSuperApp": "100",
+            "uuidVBSClnt": ""
+          },
+          "selectors": {
+            "product": [
+              "VP3",
+              "VP4"
+            ],
+            "variant": [
+              "EU",
+              "TU",
+              "ECE"
+            ],
+            "vehicleplatform": [
+              "all"
+            ]
+          }
+        },
+        {
+          "configuration": {},
+          "selectors": {
+            "product": [
+              "all"
+            ],
+            "variant": [
+              "all"
+            ],
+            "vehicleplatform": [
+              "RU"
+            ]
+          }
+        },
+        {
+          "configuration": {
+            "delayedStartApps": [],
+            "requiredUUIDs": [],
+            "uuidAssistApp": "",
+            "uuidRegistrationApp": "",
+            "uuidStorefront": "",
+            "uuidSuperApp": "DBF8632A-EC07-4434-A7D8-FB20CBCE326A",
+            "uuidVBSClnt": ""
+          },
+          "selectors": {
+            "product": [
+              "VP3",
+              "VP4",
+              "MP4"
+            ],
+            "variant": [
+              "CH"
+            ],
+            "vehicleplatform": [
+              "all"
+            ]
+          }
+        }
+      ],
+      "scope": "Declared selectors/values; no claim of current target selection",
+      "sha256": "ab9ed180574d2c9f83c45217f05b132af24abd364ecf59c8447d1ba0cdb9c2d7"
     }
   ]
 }

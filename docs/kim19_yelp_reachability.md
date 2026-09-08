@@ -50,6 +50,55 @@ classes. The packaged permissive WebClientDevWrapper is not invoked by the
 traced default-client search path. **UNKNOWN:** actual radio listeners; none was
 observed or established by this static search chain.
 
+## Voice input reaches the same search path
+
+**PROVED:** Yelp accepts recognized speech through a stock platform callback,
+in addition to its touchscreen keyboard/category controls. The current-location
+form constructs `SpeechListener` at BCI54 and enables `VRHelper` at BCI57.
+The exact `VRHelper.isEnabled()` implementation returns true. This feature
+switch does not guarantee a working voice implementation: `VRHelperImp.init`
+obtains the supported-service array, uses its first service, sets credentials
+when that service implements `SecureService`, obtains a session and registers
+its speech listener (BCI51/56/246/305/331). Exceptions in the service setup are
+caught at BCI339 and clear its enabled field at BCI367. A null/empty supported
+service array is not a successfully initialized voice service.
+
+**PROVED:** after `init`, the helper constructor checks `enabled` and starts
+the background loop at BCI41 only if enabled. `startBackgroundLoop` constructs
+and starts the worker Thread at BCI11/21; `VRHelperImp$4.run` calls
+`VRQueue.run` at BCI24. This supplies the event-consumer lifecycle, rather than
+assuming that queue insertion alone processes a voice request.
+
+**PROVED:** the home voice action checks location validity before starting its
+worker. That worker calls `requestOffBoardVr`; the helper queues a
+`VRSoftButtonEvent`. `VRQueue.run` dispatches events via `accept` at BCI49;
+the soft-button event invokes its handler at BCI2. The corresponding
+`VRSessionLogic.handle` requests a platform VR session at BCI31. Requested or
+waiting-state handlers can call `startOffboardSession`, which invokes
+`Session.startSession` at BCI13. Current session state, scheduling and platform
+service availability remain gates, not inferred successes.
+
+**PROVED:** `offboardcommandRecognized(String)` compares the localized cancel
+command at BCI37/40. A cancel calls `cancel(true)` at BCI53. Otherwise, with a
+current action, it schedules `VRHelperImp$1` on the UI thread at BCI75/78.
+That runnable calls `VRAction.onVRAction(String)` at BCI21. The installed
+`SpeechListener` uses the recognized text to construct `GpSearchRequest` at
+BCI58, queues it at BCI63, checks status at BCI73, and handles error, zero
+results and result-screen transitions at BCI148/173/198/242/254.
+
+**INFERRED:** ordinary speech can therefore supply a search term to the same
+signed HTTPS/results behavior if these runtime gates succeed. **UNKNOWN:**
+microphone/platform routing, current voice-service credentials, remote speech
+availability and successful search on this radio. This is not evidence for
+arbitrary Bluetooth/phone bytes, a user-accessible command socket or downloaded
+executable content. A visible voice control alone does not prove recognition.
+
+**TARGET OBSERVATION REQUIRED:** a previously observed recognized query followed
+by relevant results would support both the voice callback and search chains.
+The first operator observation remains the single ordinary launch described
+below; voice search would add account/network/history state and is not added to
+that first observation.
+
 ## Observation cases
 
 These are conditional interpretations of future observations. **TARGET

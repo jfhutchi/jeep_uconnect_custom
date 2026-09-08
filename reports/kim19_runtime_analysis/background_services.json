@@ -1,5 +1,6 @@
 {
-  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "3e65ae65d38810f780b5bb29da034980fa89ac7a56b6bbac2fbd3af19eea6504",
   "schema_version": 1,
   "scope": "Recovered KIM19; target runtime unobserved",
   "services": [
@@ -15,7 +16,7 @@
       ],
       "entry": "t/s/e.init queues t/s/c; startXlet empty",
       "evidence": "t/s/c; t/b/a,b,d; VSBClientImpl.e/f",
-      "interactions": "DRM and ASSIST have concrete locator consumers. Store/Register use MTS/DRM-related callbacks. Mandatory Yelp VSB binding not established.",
+      "interactions": "DRM, ASSIST and all three Performance Pages variants have concrete VSB consumers. Configured broker routes can reach IXC callbacks. ASSIST notification bodies are no-ops; DRM shoulder tap queues processing; Performance upload completion changes stock status. Mandatory Yelp VSB binding remains unestablished.",
       "label": "PROVED",
       "services": [
         "MQTT callback",

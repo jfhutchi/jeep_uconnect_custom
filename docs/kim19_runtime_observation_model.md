@@ -63,10 +63,10 @@ subtract `0x100000` for file offsets at these sites.
 | Native site | PROVED behavior | Interpretation limit |
 |---|---|---|
 | `0x1330d4`, `0x13311c/0x133124` | Visibility updater iterates app objects, with a type discriminator | UNKNOWN exact meaning of all object types |
-| `0x133150..0x133164` | Evaluates descriptor conditions if `(byte[app+0x29a] & 8) != 0 OR byte[app+0x294] != 0` | UNKNOWN provenance/meaning of those flags; do not call them proved DRM grants |
+| `0x133150..0x133164` | Evaluates conditions when the parsed-condition flag or super-app identity flag is set | PROVED flag provenance below; these are not DRM grants |
 | `0x1331c8`, `0x1333c4..0x133460` | Iterates conditions; compares current PPS strings to accepted alternatives | PROVED equality/OR within each set when attributes exist |
 | `0x1334b0..0x1334e0`, `0x133774` | A present but nonmatching value exits false; a missing attribute logs an error, sets false and continues | PROVED missing data can be overwritten by a later condition; not a simple fail-closed AND |
-| `0x133550..0x1335d4`, `0x133784` | Non-evaluation branch defaults visible except conditional ASSIST suppression | PROVED descriptor presence alone does not guarantee evaluation |
+| `0x133550..0x1335d4`, `0x133784` | Non-evaluation branch defaults visible except conditional ASSIST suppression | PROVED valid condition parsing sets the flag; target parsing/state is separate |
 | `0x133658` | Stores show-in-HMI byte at `app+0x4d` | PROVED cached app visibility state |
 | `0x125664/0x12566c`, `0x125978/0x125980` | Catalog skips entries with false visibility | PROVED consumption, not merely an unused setter |
 | `0x12592c..0x125970` | Other virtual predicates precede visibility testing | UNKNOWN complete semantic names of these extra filters |
@@ -75,6 +75,38 @@ subtract `0x100000` for file offsets at these sites.
 and malformed/empty conditions (strings at file `0x1188f4`, `0x118974`,
 `0x1189e8`, `0x118a58`). The new parser deliberately accepts only the valid
 recovered descriptor subset; it does not emulate malformed native recovery.
+
+**PROVED, strengthened after checkpoint `7714004`:** the parser receives the
+property subobject at `app+0x9c` (VA `0x1375f0/0x1375fc`, also
+`0x19422c/0x194244`). `extractProperties` reads `xlet.showConditions` and calls
+`readShowConditions` at `0x1d10e4`. Successfully parsed conditions set mask 8
+in subobject byte `+0x1fe` at `0x1ce4f4..0x1ce4fc`; empty input clears it at
+`0x1ce600..0x1ce608`. Since `0x9c + 0x1fe = 0x29a`, this is the exact flag the
+visibility updater consumes. App byte `+0x294` is set at `0x159434` after its UUID
+compares equal to the configured `getSuperAppUUID` result (`0x16e848`).
+
+**PROVED correction:** the earlier report left these flag meanings UNKNOWN.
+They are now identified as condition-presence and configured super-app identity,
+not entitlement bits. Sixteen source-bound native instruction windows reproduce
+the key dataflow in the JSON evidence. **UNKNOWN:** current target flag values;
+no arbitrary external ability to alter them is claimed.
+
+**PROVED:** the separate condition-clear branch at `0x160930..0x160968` is
+VSBClient setup. It obtains the configured VSB UUID through getter `0x16e628`
+(log literal `0x20b95c`), allocates an app and retains the same result in both
+`r4` and `r5` at `0x160870/0x160874`. On the normal path `r4` later points to
+the property subobject while `r5` retains the app. The code names VSBClient,
+clears its conditions, sets the Autostart reason and calls `findAndStartApp`
+at `0x1609e8`. This resolves the prior identity ambiguity; it does not establish
+ordinary clearing of Performance Pages predicates. **UNKNOWN:** current
+execution of that internal dispatcher branch or any ordinary external caller.
+
+**PROVED:** recovered `appManager.cfg` names VSB and DRMSync in `requiredUUIDs`,
+and DRMSync/ROC in `delayedStartApps`; it also supplies stock app UUIDs and the
+shared RMS root. Declared super-app overrides include Fiat/non-NA configurations.
+Selected rows and their hash are included in the activation matrix.
+**UNKNOWN:** current radio configuration selection and service activation are
+not proved by those declarations.
 
 **PROVED:** ordinary `startApp` enables DRM checking at file `0x50650`, enters
 `findAndStartApp` at `0x5066c`, and can fail before AMS start for missing app,
@@ -115,9 +147,10 @@ and the same display name. Each declares `xlet.showConditions`:
 
 **PROVED:** if native condition evaluation is active and both attributes exist,
 these mutually exclusive line conditions allow at most one variant to satisfy
-the recovered predicates at one instant. **UNKNOWN:** actual simultaneous target
-installation and exposure; bypass/default-visible paths and missing PPS prevent
-an unconditional exclusivity claim from filenames alone.
+the recovered predicates at one instant. Valid parsing sets the condition flag.
+**UNKNOWN:** actual simultaneous target installation/exposure, retained parsed
+conditions and missing PPS prevent unconditional exclusivity claims from
+filenames alone.
 
 **PROVED:** L-Series `GSkillsModule.initModule` compares `VehicleLineEnum.UNSUPPORTED`
 at BCI101/104/107 and throws at BCI146; `startModule` repeats the comparison at
@@ -130,8 +163,8 @@ to line 43, so names must not replace analysis of runtime branding behavior.
 `fullStartDaemonXlet` rather than the ordinary `startXlet` branch. That HMI choice
 does not by itself establish descriptor daemon state or a completed launch.
 
-**INFERRED:** if a Jeep variant is independently identified, the correct native
-flags are active, both PPS values exist and the catalog is fresh, its visible
+**INFERRED:** if a Jeep variant is independently identified, its valid parsed
+conditions are retained, both PPS values exist and the catalog is fresh, its visible
 tile supports PP=1 and line=1 at evaluation time. **UNKNOWN:** an ordinary photo
 of "Performance Pages" alone proves none of those assumptions or launch DRM.
 The single better observation remains a normal Yelp launch if available.

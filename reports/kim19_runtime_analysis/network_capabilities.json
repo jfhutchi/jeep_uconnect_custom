@@ -4,13 +4,13 @@
       "activation": "Authorized Xlet and normal search",
       "address": "Bundled search/geocode properties; variable query/location",
       "authentication": "Bundled Basic header; platform TLS; acceptance UNKNOWN",
-      "construction": "Keyboard/category -> GpSearchRequest -> BaseRequest default HTTP client",
+      "construction": "Keyboard/category or stock recognized-speech callback -> GpSearchRequest -> BaseRequest default HTTP client",
       "direction": "Outbound HTTPS and response",
       "effect": "Results/error UI",
       "evidence": "Yelp selected methods",
       "external_route": "Phone/Wi-Fi/USB transport choice not established; no inbound socket construction",
       "id": "yelp_search",
-      "input": "Search terms/location and backend JSON",
+      "input": "Touchscreen or recognized speech terms, location and backend JSON",
       "label": "PROVED"
     },
     {
@@ -45,11 +45,11 @@
       "authentication": "SSL factory, secure credentials, MQTT username/password options; values omitted",
       "construction": "t/s/e -> t/s/c -> t/b/b Runnable -> d/f/g -> t/b/a.c -> Paho connect",
       "direction": "Outbound MQTT with inbound subscribed callbacks",
-      "effect": "Typed handlers or generic JSON work can affect stock state",
-      "evidence": "t/b/b.messageArrived BCI46/55/68/76/142/150; t/b/a.a options68/88/101",
+      "effect": "Configured topic router queues stock work, including conditional local IXC notifications",
+      "evidence": "t/b/b.messageArrived getter a()String76, topic equality79, router constructor142/queue150; t/r/d.run IXC dispatch221; t/g/d.c IxcFromVSB.notify158",
       "external_route": "No proof arbitrary nearby phone/Wi-Fi client can publish; no server proved",
       "id": "vsb_mqtt",
-      "input": "Broker-delivered JSON",
+      "input": "Broker-delivered payload; preliminary JSON validation except configured control topic, followed by route-specific processing",
       "label": "PROVED"
     },
     {
@@ -89,6 +89,32 @@
       "external_route": "No USB content-to-code, arbitrary Bluetooth command or externally reachable JNI route established",
       "id": "platform_services",
       "input": "Sensor/phone/VR state; paired-phone state may arrive through platform",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Correct visible/authorized variant, timer UI/data, available mounted destination and write permissions",
+      "address": "USB/SD device path and timersResult folder from bundled resKey properties; generated filename plus .html",
+      "authentication": "App launch/filesystem permissions; backend not on this local write chain",
+      "construction": "Timer save-option UI -> TimerSavingData.saveDataTo -> createUpdateDownloadFile -> updateHTML -> FileOutputStream/Writer",
+      "direction": "Local output to removable-media destination",
+      "effect": "HTML file and save-status screen; write errors may be logged without reliable failure propagation",
+      "evidence": "All three variants: saveDataTo; TimerSaveOptionsEnum.<clinit>; ResKeyPropertiesFactory; TimerSavingData.updateHTML BCI7/18/26",
+      "external_route": "Writes media and changes state; existence documented only, excluded from read-only target checklist",
+      "id": "performance_export",
+      "input": "Stock-generated timer HTML; no imported executable input established",
+      "label": "PROVED"
+    },
+    {
+      "activation": "Exception in SDP attempt (not merely null SDP); valid VSB lookup/callback registration; configured service; MQTT delivery",
+      "address": "VSB configured application uplink; not arbitrary URL input",
+      "authentication": "AMS/IXC and authenticated broker path; runtime grants unknown",
+      "construction": "Timer uConnect action -> UploadTimerRunController -> exception fallback VSBSendToWebsiteCallable -> VSB send -> MQTT delivery callback -> local notifySuccess/Failure -> latch -> stock status UI",
+      "direction": "Outbound timer content and completion notification",
+      "effect": "Status display; local MQTT delivery success alone does not prove website storage",
+      "evidence": "Jeep/Viper submit fallback handler72 constructor120/submit123; L-Series constructor125/submit128; callable call37/62; success/failure latch28 (L-Series19); t/h/d.onSuccess/Failure -> t/g/b",
+      "external_route": "Supported output candidate; not recommended as passive observation or remote command interface",
+      "id": "performance_upload",
+      "input": "Stock-generated timer content and delivery status",
       "label": "PROVED"
     }
   ],
@@ -592,6 +618,13 @@
     }
   ],
   "census_scope": "All 19 KIM19 JARs; counts are syntactic, not runtime",
+  "corrections": [
+    {
+      "evidence": "Supersedes 7714004 network/background wording; independent javap of t/b/b, t/j/b and t/r/d",
+      "label": "PROVED",
+      "statement": "The earlier BCI76 typed-handler claim was incorrect: t/j/b.a has descriptor ()Ljava/lang/String; and supplies a topic comparison, not a handler dispatch. Accepted inputs converge on queued t/r/d routing."
+    }
+  ],
   "extensions": [
     {
       "evidence": "Resource census; Yelp GpGeoUtil and Xlet resources",
@@ -609,9 +642,9 @@
       "statement": "Paho LocalNetworkModule reflectively selects a local transport class; no concrete production configuration-to-activation route established. Not a proved localhost TCP server."
     },
     {
-      "evidence": "Affiner.loadLibrary; census callers",
+      "evidence": "Affiner constructor13; loadLibrary map1/resource52/read85/write102/load138; bundled resource hash",
       "label": "PROVED",
-      "statement": "L-Series Affiner contains System.load at BCI138. External path control and lifecycle activation remain UNKNOWN."
+      "statement": "Rotatable.transform calls Affiner.getInstance; constructor passes fixed Affiner name, maps library name, reads classloader resource and copies it to JVM temp directory before System.load. libAffiner.so is bundled in this exact JAR. Ordinary external control of classloader/temp path or bytes is not established."
     },
     {
       "evidence": "Base64$1.resolveClass; baseline capability analysis",
@@ -629,7 +662,59 @@
       "statement": "No complete external-content-to-executable-code extension route established. Downloaded JSON/config/catalog can influence behavior without becoming code."
     }
   ],
-  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "3e65ae65d38810f780b5bb29da034980fa89ac7a56b6bbac2fbd3af19eea6504",
+  "ranked_candidates": [
+    {
+      "candidate_id": "yelp_search",
+      "label": "INFERRED",
+      "name": "Yelp touchscreen/voice search",
+      "rank": 1,
+      "rationale": "Best first ordinary UI observation; complete request/results chain; backend and voice gates remain unknown"
+    },
+    {
+      "candidate_id": "performance_export",
+      "label": "INFERRED",
+      "name": "Performance USB/SD timer export",
+      "rank": 2,
+      "rationale": "Concrete local output; exact vehicle/launch/media gates; excluded from read-only first observation"
+    },
+    {
+      "candidate_id": "performance_upload",
+      "label": "INFERRED",
+      "name": "Performance VSB upload/status",
+      "rank": 3,
+      "rationale": "Concrete app/service/status chain; SDP-exception fallback and MQTT delivery limits"
+    },
+    {
+      "candidate_id": "store_http",
+      "label": "INFERRED",
+      "name": "Store catalog/account workflow",
+      "rank": 4,
+      "rationale": "Concrete MTS UI and Register chain; account/registration actions change state"
+    },
+    {
+      "candidate_id": "register_subscriber",
+      "label": "INFERRED",
+      "name": "Register subscriber workflow",
+      "rank": 5,
+      "rationale": "Concrete state/request/UI chain; tile presence is not a registration-state bit"
+    },
+    {
+      "candidate_id": "platform_services",
+      "label": "INFERRED",
+      "name": "ASSIST service UI",
+      "rank": 6,
+      "rationale": "Concrete launch/service calls; not a harmless call or daemon probe"
+    },
+    {
+      "candidate_id": "vsb_mqtt",
+      "label": "INFERRED",
+      "name": "VSB/DRM background routing",
+      "rank": 7,
+      "rationale": "Authenticated configured callbacks; no arbitrary external publisher authority; sensitive service effects excluded"
+    }
+  ],
   "resources": [
     {
       "jar": "xlets/2BA676FA-1542-11E1-A537-1F614824019B/prog/jars/DRMSync_VSB_03.01.07_FIT.jar",
@@ -639,6 +724,18 @@
       "sha256": "11241888408301b96d29a448333c29dfff1103f89bbfb0b94b221b6191daeb56",
       "values": {
         "mts-server": "https://mts.cvp.extra.chrysler.com:8443/mts-api"
+      }
+    },
+    {
+      "jar": "xlets/52c79381-6719-11e1-b86c-0800200c9a66/prog/jars/GSkills_Viper_v01.23.01_FIT.jar",
+      "label": "PROVED",
+      "member": "resKey.properties",
+      "scope": "Bundled configuration; current target consumption is separate",
+      "sha256": "d467ab548e53a3a9c2b49abc2f2f84d520990ead8d6e802c3bf76d41e62781b2",
+      "values": {
+        "savePath_SD": "/mnt/sd0",
+        "savePath_USB": "/fs/usb0/",
+        "save_folder_name": "timersResult"
       }
     },
     {
@@ -659,6 +756,39 @@
       "sha256": "ddeb67f41485d896b94b7f63f6e98c5affe038ee693c2831883ca485b9221375",
       "values": {
         "smps-url": "https://max.ccdc02.com/smpsmrc/Service.svc/"
+      }
+    },
+    {
+      "jar": "xlets/6BFD02C0-40C3-11E2-A25F-0800200C9A66/prog/jars/GSkills_Jeep_v01.57.01_FIT.jar",
+      "label": "PROVED",
+      "member": "resKey.properties",
+      "scope": "Bundled configuration; current target consumption is separate",
+      "sha256": "d467ab548e53a3a9c2b49abc2f2f84d520990ead8d6e802c3bf76d41e62781b2",
+      "values": {
+        "savePath_SD": "/mnt/sd0",
+        "savePath_USB": "/fs/usb0/",
+        "save_folder_name": "timersResult"
+      }
+    },
+    {
+      "bytes": 41662,
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "kind": "bundled binary resource",
+      "label": "PROVED",
+      "member": "libAffiner.so",
+      "scope": "Presence/hash only; not loaded or executed",
+      "sha256": "a89d75b057f51d0f553d1542713356b17176e163decf471e0026834ed7fa45ed"
+    },
+    {
+      "jar": "xlets/7DEC7834-535D-47B5-BD33-695477EDCD57/prog/jars/GSkills_MY15_LSeries_v02.01.01_FIT.jar",
+      "label": "PROVED",
+      "member": "common/resKey.properties",
+      "scope": "Bundled configuration; current target consumption is separate",
+      "sha256": "bcc9a2f313996b78564a86a0c66dd6b7e30e18b51d8b29c2311e95c902f9661b",
+      "values": {
+        "save_folder_name": "timersResult",
+        "save_path_SD": "/mnt/sd0",
+        "save_path_USB": "/fs/usb0/"
       }
     },
     {

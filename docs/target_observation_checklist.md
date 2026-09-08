@@ -88,8 +88,9 @@ These claims apply **after** the observation is actually supplied.
 | App in Running view | INFERRED HMI/AppManager running-state report | UNKNOWN current responsiveness or successful service operation |
 
 **UNKNOWN:** even a Jeep-branded Performance screen does not retrospectively
-prove every catalog predicate or launcher-mask bit. Native conditions may be
-bypassed by a default-visible branch; the three packages share a display name.
+prove every catalog predicate or launcher-mask bit. Valid parsing sets the native
+condition flag, but current installed descriptors, retained conditions and PPS
+remain unobserved; the three packages share a display name.
 Use the [runtime model](kim19_runtime_observation_model.md) for the precise
 conditional interpretation and [Yelp cases A-F](kim19_yelp_reachability.md) for
 the most informative next classification.

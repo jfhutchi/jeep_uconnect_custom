@@ -1,5 +1,6 @@
 {
-  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "3e65ae65d38810f780b5bb29da034980fa89ac7a56b6bbac2fbd3af19eea6504",
   "observations": [
     {
       "crossed": {
@@ -143,14 +144,14 @@
     },
     {
       "crossed": {
-        "evidence": "Descriptors/native evaluator",
+        "evidence": "Descriptor parser flag provenance and native evaluator",
         "label": "INFERRED",
-        "statement": "Under evaluation flags and available PPS, Jeep predicate requires PP=1 and line=1."
+        "statement": "A normally parsed Jeep variant with retained conditions and available PPS requires PP=1 and line=1 to pass visibility evaluation."
       },
       "limits": {
-        "evidence": "Descriptors/native evaluator",
+        "evidence": "Native parser/evaluator; special startup branch0x160930",
         "label": "UNKNOWN",
-        "statement": "Same name cannot identify variant; default-visible branch prevents unconditional PPS inference; launch DRM is separate."
+        "statement": "Same name cannot identify variant/version; current installed descriptor/PPS remain unresolved; the special native condition-clear path is VSB-specific. Launch DRM is separate."
       },
       "observation": "Performance Pages present",
       "scope": "All variants"

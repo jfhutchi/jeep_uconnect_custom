@@ -190,7 +190,35 @@
     "keyjar_runtime_association.md",
     "method_evidence.json"
   ],
-  "notes_sha256": "afc6c8ec8fbdf8bba3ccfed4d3583dcd867c4f50bbfab5b2242119384851d599",
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "3e65ae65d38810f780b5bb29da034980fa89ac7a56b6bbac2fbd3af19eea6504",
   "schema_version": 1,
-  "scope": "Recovered KIM19; target runtime unobserved"
+  "scope": "Recovered KIM19; target runtime unobserved",
+  "voice_input": [
+    {
+      "evidence": "GpCurrentLocationScreen.<init> BCI54/57; VRHelper.isEnabled BCI0/1; VRHelperImp.init exception handler339 and enabled=false367",
+      "label": "PROVED",
+      "statement": "Home constructor creates SpeechListener and enables VRHelper. Exact helper feature switch returns true; service initialization can still fail and disable implementation state."
+    },
+    {
+      "evidence": "VoiceActionListener.actionPerformed location0/thread43; worker request3; VRHelperImp.requestOffBoardVr20/23; VRQueue.run49; VRSoftButtonEvent.accept2; VRSessionLogic.handle(SoftButton)31/startOffboardSession13",
+      "label": "PROVED",
+      "statement": "Ordinary voice action requires valid location, requests a VRSoftButtonEvent, and event dispatch requests the platform session. Requested/waiting states can start the offboard session."
+    },
+    {
+      "evidence": "VRHelperImp.init BCI51/56/246/297/305/331",
+      "label": "PROVED",
+      "statement": "VRManager service selection, optional SecureService credential assignment and session/listener setup precede recognized-text callbacks. Credential values omitted."
+    },
+    {
+      "evidence": "VRHelperImp.offboardcommandRecognized BCI37/40/53/63/75/78; VRHelperImp$1.run21; SpeechListener.onVRAction(String)58/63/73/148/173/198/242/254",
+      "label": "PROVED",
+      "statement": "Non-cancel recognized text with a current action is scheduled onto the UI; SpeechListener constructs GpSearchRequest from that text and handles error/zero/results states."
+    },
+    {
+      "evidence": "Recovered platform callback chain; target service/session/authentication/network unobserved",
+      "label": "INFERRED",
+      "statement": "This establishes a non-keyboard text input path through stock speech recognition, not arbitrary phone/Bluetooth bytes, a listener or user-supplied executable content."
+    }
+  ]
 }
