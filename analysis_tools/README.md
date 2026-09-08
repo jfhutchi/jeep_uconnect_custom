@@ -477,8 +477,10 @@ BCIs, caller/callee descriptors, branches, handlers and allowlisted constants
 bind those interpretations to recovered evidence. Unapproved literals and
 credential values are omitted. Native evidence is manually decoded, source-hash
 bound. Sixteen native instruction windows now reproduce condition-flag,
-super-app-flag and VSB setup provenance; virtual catalog predicates remain
-unresolved. The application/service graph validates 23 reviewed relationships
+super-app-flag and VSB setup provenance. A bounded vtable follow-up resolves the
+catalog selectors as headless, daemon, and daemon `hasGUI` fields; it is kept in
+a separate model so the original eight reports remain byte-identical. The
+application/service graph validates 23 reviewed relationships
 against exact JAR/class/method/descriptor/BCI/callee tuples. These are conditional
 relationships, not computed live reachability. Tests reject wrong overloads,
 callers, callees, offsets, duplicate graph identities and missing evidence.
@@ -515,4 +517,29 @@ helpers must never be used to infer unconditional target visibility or DRM.
 Human-reviewed guidance starts at `docs/kim19_runtime_observation_model.md` and
 `docs/target_observation_checklist.md`; verification results are in
 `reports/kim19_runtime_analysis/verification.md`.
+
+### Deterministic Yelp observation mapping
+
+`yelp_observation_analysis.py` generates a ninth, separately reviewed failure-
+signature report without changing the existing KIM19 generator or its eight
+outputs. Its model binds native predicates, packaged user-visible messages,
+caller/BCI transitions, A-H outcomes, and the exact Yelp/appManager hashes. The
+generator and analyzer do not open a network connection, execute a recovered
+class, or inspect a radio.
+
+```powershell
+python -m analysis_tools.yelp_observation_analysis
+python -m analysis_tools.yelp_observation_analysis --check
+python -m analysis_tools.yelp_observation_analysis --check `
+  --app-manager PATH_TO_RECOVERED_APPMANAGER --yelp-jar PATH_TO_RECOVERED_YELP_JAR
+python tools/analyze_yelp_observation.py observation.json
+python -m unittest analysis_tools.tests.test_yelp_observation_analysis -v
+```
+
+The analyzer accepts the strict JSON fields documented in
+`docs/yelp_target_observation_analysis.md`. Omitted fields remain unknown or
+unobserved. It rejects contradictions instead of filling gaps, matches packaged
+failure text with normalized case and punctuation, and emits canonical JSON with
+one next static question and one benign observation. A string match is not
+promoted to proof of network traffic or backend acceptance.
 

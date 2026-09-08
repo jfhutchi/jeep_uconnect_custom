@@ -1,0 +1,585 @@
+{
+  "coverage": "Distinct English packaged Yelp/common user-visible failure texts reachable from catalog motion lockout, launch UI, touch/VR search, response-error mapping, and result detail actions; localized duplicates share the same resource/caller families.",
+  "evidence_checkpoint": "22b85f5b9721d3a107529f05fff125b0147b1334",
+  "model_sha256": "fa0f75464251368d3e422e67f132adb59dda34377da3a3343f601340b8f2a725",
+  "normalization": "Unicode casefold; retain ASCII letters and digits; collapse other characters to spaces",
+  "schema_version": 1,
+  "scope": "Recovered KIM19 Yelp 03.00.33 artifacts and one later ordinary physical observation",
+  "signatures": [
+    {
+      "id": "account-unconfirmed",
+      "interpretation": "supports parsed application/backend error handling; does not prove the target account state",
+      "label": "PROVED",
+      "match_strings": [
+        "Yelp account has not been activated"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:ACCOUNT_UNCONFIRMED",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "application-motion-lockout",
+      "interpretation": "local motion-state restriction; subscription and networking are not implicated",
+      "label": "PROVED",
+      "match_strings": [
+        "Application not available when vehicle is in motion."
+      ],
+      "method_evidence": [
+        "Yelp packages the common SpeedLockoutScreen resource and GUI class"
+      ],
+      "resource": "com/sprint/chrysler/common/gui/messages.properties:SpeedLockoutScreen.APPLICATION_NOT_AVAILABLE_TEXT",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "application interaction is blocked while the common lockout remains active",
+      "trigger": "the common speed-lockout screen is selected for the application",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "area-too-large",
+      "interpretation": "supports parsed query-area rejection when observed after a search",
+      "label": "PROVED",
+      "match_strings": [
+        "Please search for an area within 2,500 square miles."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:AREA_TOO_LARGE",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier AREA_TOO_LARGE resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "bluetooth-service-unavailable",
+      "interpretation": "local platform capability failure; no Yelp backend request follows from the message",
+      "label": "PROVED",
+      "match_strings": [
+        "A Bluetooth Service is not available on this vehicle."
+      ],
+      "method_evidence": [
+        "GpDetailsScreen platform-service action handlers"
+      ],
+      "resource": "res/theme.res:bluetooth_not_availale_message",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "local alert returns control to the Yelp details flow after dismissal",
+      "trigger": "a Yelp details action requires the platform Bluetooth service and it is unavailable",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "business-unavailable",
+      "interpretation": "supports a parsed business-record availability error",
+      "label": "PROVED",
+      "match_strings": [
+        "Business information is unavailable"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:BUSINESS_UNAVAILABLE",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier BUSINESS_UNAVAILABLE resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "communication-error",
+      "interpretation": "generic local communication error; it does not distinguish connection, TLS, HTTP, or parsing",
+      "label": "PROVED",
+      "match_strings": [
+        "Communication Error",
+        "Please try again"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@350",
+        "GpPlaceIconButton.click@78",
+        "SpeechListener.onVRAction@148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:JSONNULL_COMMERROR_TITLE/JSONNULL_COMMERROR_MSG",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "error dialog is available to the search UI",
+      "trigger": "packaged null/communication error resources; exact selecting branch remains unresolved",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "gps-signal-unavailable",
+      "interpretation": "supports a local location gate; proves no request or backend contact",
+      "label": "PROVED",
+      "match_strings": [
+        "GPS signal is not available."
+      ],
+      "method_evidence": [
+        "GpPlaceIconButton.click@78"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:GPS_SIGNAL_NOT_AVAILABLE",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "local alert remains in Yelp",
+      "trigger": "location acquisition is unavailable for the selected action",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "internal-or-server-error",
+      "interpretation": "generic server-labelled state; exact error identifier cannot be recovered from this shared text",
+      "label": "PROVED",
+      "match_strings": [
+        "Server Error"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INTERNAL_ERROR/STATUS_UNKNOWN",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the error branch",
+      "trigger": "response error identifier or unknown status resolves through a packaged server-error resource",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "invalid-credentials",
+      "interpretation": "supports response error mapping only when this exact text follows the action",
+      "label": "PROVED",
+      "match_strings": [
+        "Invalid email/Password combination",
+        "Invalid credentials"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_CREDENTIALS/INVALID_OAUTH_CREDENTIALS",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "invalid-parameter",
+      "interpretation": "supports parsed parameter rejection, without identifying the rejected query field",
+      "label": "PROVED",
+      "match_strings": [
+        "Invalid parameter"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_PARAMETER",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier INVALID_PARAMETER resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "invalid-request",
+      "interpretation": "supports a parsed required-query rejection",
+      "label": "PROVED",
+      "match_strings": [
+        "Required query parameter (location or radius) is missing."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_REQUEST",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response status or error identifier INVALID_REQUEST resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "invalid-signature",
+      "interpretation": "supports backend rejection after response parsing; credential cause remains unknown",
+      "label": "PROVED",
+      "match_strings": [
+        "Signature was invalid"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_SIGNATURE",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "keyboard-motion-lockout",
+      "interpretation": "local vehicle-motion UI gate; it does not establish catalog, DRM, or backend failure",
+      "label": "PROVED",
+      "match_strings": [
+        "Keyboard not available when vehicle is in motion",
+        "Keyboard not available"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard uses common CVP text-entry controls"
+      ],
+      "resource": "com/sprint/chrysler/common/gui/messages.properties:CVPTextField.KEYBOARD_NOT_AVAILABLE_TEXT/CVPTextField.KEYBOARD_NOT_AVAILABLE_TITLE",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "local common-GUI alert returns to the current Yelp screen",
+      "trigger": "the common CVP text field receives a keyboard action while motion lockout applies",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "location-not-found",
+      "interpretation": "supports a handled location lookup failure",
+      "label": "PROVED",
+      "match_strings": [
+        "Location was not found in the Places database."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:NOT_FOUND",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response status or error identifier NOT_FOUND resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "missing-parameter",
+      "interpretation": "supports parsed missing-parameter rejection",
+      "label": "PROVED",
+      "match_strings": [
+        "Parameter is missing from the request"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:MISSING_PARAMETER",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier MISSING_PARAMETER resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "multiple-locations",
+      "interpretation": "supports an ambiguous location response",
+      "label": "PROVED",
+      "match_strings": [
+        "Multiple Locations match query"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:MULTIPLE_LOCATIONS",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier MULTIPLE_LOCATIONS resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "navigation-not-activated",
+      "interpretation": "local navigation-package gate after results; unrelated to Yelp catalog visibility",
+      "label": "PROVED",
+      "match_strings": [
+        "Navigation package features are not available on this vehicle.",
+        "Navigation Not Activated"
+      ],
+      "method_evidence": [
+        "GpDetailsScreen navigation action handlers"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:GpDetailsScreen.Navigation_Error_Message/GpDetailsScreen.Navigation_Error_Title",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "local alert remains in the Yelp details flow",
+      "trigger": "a Yelp result details navigation action cannot use the platform navigation package",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "no-data-available",
+      "interpretation": "generic data absence; transport and backend cause cannot be isolated",
+      "label": "PROVED",
+      "match_strings": [
+        "No Data Available Please try again later."
+      ],
+      "method_evidence": [
+        "Yelp theme resource referenced by stock Yelp GUI"
+      ],
+      "resource": "res/theme.res:no_data",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "exact caller-specific transition remains UNKNOWN",
+      "trigger": "packaged Yelp no-data presentation selected by a data-dependent screen",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "oauth-user-invalid",
+      "interpretation": "supports a parsed user/account rejection, without identifying the credential source",
+      "label": "PROVED",
+      "match_strings": [
+        "Invalid User"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_OAUTH_USER",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier INVALID_OAUTH_USER resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "password-too-long",
+      "interpretation": "packaged response mapping; no Yelp password-entry UI was established in the launch flow",
+      "label": "PROVED",
+      "match_strings": [
+        "Please enter password of 16 characters or less."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:PASSWORD_TOO_LONG",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier PASSWORD_TOO_LONG resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "phone-not-available",
+      "interpretation": "local phone-service gate after results; it does not diagnose Yelp networking",
+      "label": "PROVED",
+      "match_strings": [
+        "A Bluetooth connected phone is not available to place the phone call.",
+        "Phone Not Available"
+      ],
+      "method_evidence": [
+        "GpDetailsScreen call action handlers"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:GpDetailsScreen.Call_Failed_Message/GpDetailsScreen.Call_Failed_Title",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "local alert remains in the Yelp details flow",
+      "trigger": "a Yelp result details call action cannot obtain an available connected phone",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "query-limit-exceeded",
+      "interpretation": "supports a parsed quota error, without identifying the credential or quota owner",
+      "label": "PROVED",
+      "match_strings": [
+        "You are over your quota."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:OVER_QUERY_LIMIT",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response status or error identifier OVER_QUERY_LIMIT resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "request-denied",
+      "interpretation": "supports response-level denial; authentication, policy, and request-shape causes remain unresolved",
+      "label": "PROVED",
+      "match_strings": [
+        "your request was denied."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:REQUEST_DENIED",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response status or error identifier REQUEST_DENIED resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "request-failed-generic",
+      "interpretation": "generic collapsed request failure; it does not isolate network, TLS, HTTP, account, or parsing",
+      "label": "PROVED",
+      "match_strings": [
+        "Service not available.",
+        "please contact Uconnect Care",
+        "(855) 792-4241"
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@477",
+        "GpPlaceIconButton.click@333",
+        "SpeechListener.onVRAction@275",
+        "SpeechListener.onError@41"
+      ],
+      "resource": "com/sprint/chrysler/common/gui/messages.properties:BaseRequestFailed.ErrorMessage/BaseRequestFailed.UconnectPhoneNumber",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "BaseRequestFailedAlertDialog.show",
+      "trigger": "search status falls through the handled application-error and zero-result branches",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "request-limit-exceeded",
+      "interpretation": "supports a parsed limit error, without identifying which credential or quota is current",
+      "label": "PROVED",
+      "match_strings": [
+        "Requests has exceeded its daily limit."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:EXCEEDED_REQS",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "service-currently-unavailable",
+      "interpretation": "generic service state; a matching local resource alone does not prove backend receipt",
+      "label": "PROVED",
+      "match_strings": [
+        "Service currently not available. Please try after some time."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@350",
+        "GpPlaceIconButton.click@78",
+        "SpeechListener.onVRAction@148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:Service_Not_Available",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "error dialog is available to the search UI",
+      "trigger": "packaged service-unavailable resource; exact selecting branch remains unresolved",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "unavailable-for-location",
+      "interpretation": "supports response mapping for a location restriction; no catalog-time region gate follows",
+      "label": "PROVED",
+      "match_strings": [
+        "API requests unavailable in the given location."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:UNAVAILABLE_FOR_LOCATION",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "unknown-response-error",
+      "interpretation": "generic response-labelled error; retry success is only resource wording",
+      "label": "PROVED",
+      "match_strings": [
+        "Server-side error,trying again may be successful."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@303/350",
+        "GpPlaceIconButton.click@167/78",
+        "SpeechListener.onVRAction@101/148"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:UNKOWN_ERROR",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "trigger": "response status or error identifier UNKOWN_ERROR resolves through the packaged Yelp message table",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "voice-connection-error",
+      "interpretation": "supports a VR/platform error path; it does not establish an HTTP attempt",
+      "label": "PROVED",
+      "match_strings": [
+        "Connection error fake error.",
+        "Connection error"
+      ],
+      "method_evidence": [
+        "SpeechListener.onError@41",
+        "VRSessionLogic platform session handlers"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:Voice_Connection_Error",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "voice action error returns control to the existing Yelp UI",
+      "trigger": "packaged voice-session error presentation is selected",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    },
+    {
+      "id": "zero-results",
+      "interpretation": "supports completed status handling; whether a backend response caused it requires the observed action context",
+      "label": "PROVED",
+      "match_strings": [
+        "No results found.Try a new search.",
+        "No Results Found. Select Back to Search Again."
+      ],
+      "method_evidence": [
+        "GpCVPKeyboard.fireOKPressed@358/375",
+        "GpPlaceIconButton.click@217/234",
+        "SpeechListener.onVRAction@156/173"
+      ],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:ZERO_RESULTS_84/ZERO_RESULTS",
+      "retry_available": "No automatic retry is proved. A later ordinary manual action may be available after dismissal, depending on the retained screen.",
+      "returns_to_apps": "UNKNOWN; no automatic return to Apps is proved by this signature.",
+      "transition": "dedicated zero-results UI returns to search navigation",
+      "trigger": "GpSearchRequest status is Zero_Results",
+      "visibility_after": "The recovered caller shows Yelp/common alert UI; the exact screen after dismissal remains UNKNOWN unless stated in transition."
+    }
+  ],
+  "source_artifacts": {
+    "app_manager": {
+      "role": "native catalog and launch control",
+      "sha256": "608f45f96fa71bfe2c8a2566e973953d9de74ba7afa0cdd2e31cf408137c5591"
+    },
+    "yelp_jar": {
+      "role": "Yelp 03.00.33 Xlet, resources, and request implementation",
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282"
+    }
+  }
+}

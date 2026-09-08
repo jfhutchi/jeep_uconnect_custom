@@ -1,0 +1,454 @@
+{
+  "schema_version": 1,
+  "evidence_checkpoint": "22b85f5b9721d3a107529f05fff125b0147b1334",
+  "scope": "Recovered KIM19 Yelp 03.00.33 artifacts and one later ordinary physical observation",
+  "labels": ["PROVED", "INFERRED", "UNKNOWN", "TARGET OBSERVATION REQUIRED"],
+  "sources": {
+    "app_manager": {
+      "sha256": "608f45f96fa71bfe2c8a2566e973953d9de74ba7afa0cdd2e31cf408137c5591",
+      "role": "native catalog and launch control"
+    },
+    "yelp_jar": {
+      "sha256": "f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282",
+      "role": "Yelp 03.00.33 Xlet, resources, and request implementation"
+    }
+  },
+  "native_predicates": [
+    {
+      "id": "catalog-not-headless",
+      "selector": "0x10",
+      "call_site": "0x125938",
+      "implementation": "0x10bcbc",
+      "field": "app+0x284",
+      "role": "headless",
+      "required_result": false,
+      "consumer": "0x125940 branches to exclusion when true",
+      "label": "PROVED"
+    },
+    {
+      "id": "catalog-daemon-qualifier",
+      "selector": "0x0c",
+      "call_site": "0x125950",
+      "implementation": "0x10bcf4",
+      "field": "app+0x239",
+      "role": "daemon",
+      "required_result": "false, or selector 0x18 must be true",
+      "consumer": "0x125958 bypasses the daemon GUI test when false",
+      "label": "PROVED"
+    },
+    {
+      "id": "catalog-daemon-has-gui",
+      "selector": "0x18",
+      "call_site": "0x125968",
+      "implementation": "0x10bc4c",
+      "field": "app+0x295",
+      "role": "hasGUI",
+      "required_result": true,
+      "consumer": "0x125970 branches to exclusion when a daemon returns false",
+      "label": "PROVED"
+    },
+    {
+      "id": "catalog-show-in-hmi",
+      "selector": null,
+      "call_site": "0x125978",
+      "implementation": null,
+      "field": "app+0x4d",
+      "role": "showInHmi",
+      "required_result": true,
+      "consumer": "0x125980 branches to exclusion when false",
+      "label": "PROVED"
+    }
+  ],
+  "failure_signatures": [
+    {
+      "id": "account-unconfirmed",
+      "match_strings": ["Yelp account has not been activated"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:ACCOUNT_UNCONFIRMED",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports parsed application/backend error handling; does not prove the target account state",
+      "label": "PROVED"
+    },
+    {
+      "id": "communication-error",
+      "match_strings": ["Communication Error", "Please try again"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:JSONNULL_COMMERROR_TITLE/JSONNULL_COMMERROR_MSG",
+      "trigger": "packaged null/communication error resources; exact selecting branch remains unresolved",
+      "transition": "error dialog is available to the search UI",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@350", "GpPlaceIconButton.click@78", "SpeechListener.onVRAction@148"],
+      "interpretation": "generic local communication error; it does not distinguish connection, TLS, HTTP, or parsing",
+      "label": "PROVED"
+    },
+    {
+      "id": "gps-signal-unavailable",
+      "match_strings": ["GPS signal is not available."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:GPS_SIGNAL_NOT_AVAILABLE",
+      "trigger": "location acquisition is unavailable for the selected action",
+      "transition": "local alert remains in Yelp",
+      "method_evidence": ["GpPlaceIconButton.click@78"],
+      "interpretation": "supports a local location gate; proves no request or backend contact",
+      "label": "PROVED"
+    },
+    {
+      "id": "keyboard-motion-lockout",
+      "match_strings": ["Keyboard not available when vehicle is in motion", "Keyboard not available"],
+      "resource": "com/sprint/chrysler/common/gui/messages.properties:CVPTextField.KEYBOARD_NOT_AVAILABLE_TEXT/CVPTextField.KEYBOARD_NOT_AVAILABLE_TITLE",
+      "trigger": "the common CVP text field receives a keyboard action while motion lockout applies",
+      "transition": "local common-GUI alert returns to the current Yelp screen",
+      "method_evidence": ["GpCVPKeyboard uses common CVP text-entry controls"],
+      "interpretation": "local vehicle-motion UI gate; it does not establish catalog, DRM, or backend failure",
+      "label": "PROVED"
+    },
+    {
+      "id": "application-motion-lockout",
+      "match_strings": ["Application not available when vehicle is in motion."],
+      "resource": "com/sprint/chrysler/common/gui/messages.properties:SpeedLockoutScreen.APPLICATION_NOT_AVAILABLE_TEXT",
+      "trigger": "the common speed-lockout screen is selected for the application",
+      "transition": "application interaction is blocked while the common lockout remains active",
+      "method_evidence": ["Yelp packages the common SpeedLockoutScreen resource and GUI class"],
+      "interpretation": "local motion-state restriction; subscription and networking are not implicated",
+      "label": "PROVED"
+    },
+    {
+      "id": "invalid-credentials",
+      "match_strings": ["Invalid email/Password combination", "Invalid credentials"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_CREDENTIALS/INVALID_OAUTH_CREDENTIALS",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports response error mapping only when this exact text follows the action",
+      "label": "PROVED"
+    },
+    {
+      "id": "invalid-signature",
+      "match_strings": ["Signature was invalid"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_SIGNATURE",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports backend rejection after response parsing; credential cause remains unknown",
+      "label": "PROVED"
+    },
+    {
+      "id": "area-too-large",
+      "match_strings": ["Please search for an area within 2,500 square miles."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:AREA_TOO_LARGE",
+      "trigger": "response error identifier AREA_TOO_LARGE resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports parsed query-area rejection when observed after a search",
+      "label": "PROVED"
+    },
+    {
+      "id": "business-unavailable",
+      "match_strings": ["Business information is unavailable"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:BUSINESS_UNAVAILABLE",
+      "trigger": "response error identifier BUSINESS_UNAVAILABLE resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports a parsed business-record availability error",
+      "label": "PROVED"
+    },
+    {
+      "id": "internal-or-server-error",
+      "match_strings": ["Server Error"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INTERNAL_ERROR/STATUS_UNKNOWN",
+      "trigger": "response error identifier or unknown status resolves through a packaged server-error resource",
+      "transition": "search action displays an AlertDialog on the error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "generic server-labelled state; exact error identifier cannot be recovered from this shared text",
+      "label": "PROVED"
+    },
+    {
+      "id": "invalid-parameter",
+      "match_strings": ["Invalid parameter"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_PARAMETER",
+      "trigger": "response error identifier INVALID_PARAMETER resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports parsed parameter rejection, without identifying the rejected query field",
+      "label": "PROVED"
+    },
+    {
+      "id": "invalid-request",
+      "match_strings": ["Required query parameter (location or radius) is missing."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_REQUEST",
+      "trigger": "response status or error identifier INVALID_REQUEST resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports a parsed required-query rejection",
+      "label": "PROVED"
+    },
+    {
+      "id": "location-not-found",
+      "match_strings": ["Location was not found in the Places database."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:NOT_FOUND",
+      "trigger": "response status or error identifier NOT_FOUND resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports a handled location lookup failure",
+      "label": "PROVED"
+    },
+    {
+      "id": "missing-parameter",
+      "match_strings": ["Parameter is missing from the request"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:MISSING_PARAMETER",
+      "trigger": "response error identifier MISSING_PARAMETER resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports parsed missing-parameter rejection",
+      "label": "PROVED"
+    },
+    {
+      "id": "multiple-locations",
+      "match_strings": ["Multiple Locations match query"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:MULTIPLE_LOCATIONS",
+      "trigger": "response error identifier MULTIPLE_LOCATIONS resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports an ambiguous location response",
+      "label": "PROVED"
+    },
+    {
+      "id": "oauth-user-invalid",
+      "match_strings": ["Invalid User"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:INVALID_OAUTH_USER",
+      "trigger": "response error identifier INVALID_OAUTH_USER resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports a parsed user/account rejection, without identifying the credential source",
+      "label": "PROVED"
+    },
+    {
+      "id": "password-too-long",
+      "match_strings": ["Please enter password of 16 characters or less."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:PASSWORD_TOO_LONG",
+      "trigger": "response error identifier PASSWORD_TOO_LONG resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "packaged response mapping; no Yelp password-entry UI was established in the launch flow",
+      "label": "PROVED"
+    },
+    {
+      "id": "query-limit-exceeded",
+      "match_strings": ["You are over your quota."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:OVER_QUERY_LIMIT",
+      "trigger": "response status or error identifier OVER_QUERY_LIMIT resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports a parsed quota error, without identifying the credential or quota owner",
+      "label": "PROVED"
+    },
+    {
+      "id": "request-denied",
+      "match_strings": ["your request was denied."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:REQUEST_DENIED",
+      "trigger": "response status or error identifier REQUEST_DENIED resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports response-level denial; authentication, policy, and request-shape causes remain unresolved",
+      "label": "PROVED"
+    },
+    {
+      "id": "unknown-response-error",
+      "match_strings": ["Server-side error,trying again may be successful."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:UNKOWN_ERROR",
+      "trigger": "response status or error identifier UNKOWN_ERROR resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "generic response-labelled error; retry success is only resource wording",
+      "label": "PROVED"
+    },
+    {
+      "id": "request-failed-generic",
+      "match_strings": ["Service not available.", "please contact Uconnect Care", "(855) 792-4241"],
+      "resource": "com/sprint/chrysler/common/gui/messages.properties:BaseRequestFailed.ErrorMessage/BaseRequestFailed.UconnectPhoneNumber",
+      "trigger": "search status falls through the handled application-error and zero-result branches",
+      "transition": "BaseRequestFailedAlertDialog.show",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@477", "GpPlaceIconButton.click@333", "SpeechListener.onVRAction@275", "SpeechListener.onError@41"],
+      "interpretation": "generic collapsed request failure; it does not isolate network, TLS, HTTP, account, or parsing",
+      "label": "PROVED"
+    },
+    {
+      "id": "request-limit-exceeded",
+      "match_strings": ["Requests has exceeded its daily limit."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:EXCEEDED_REQS",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports a parsed limit error, without identifying which credential or quota is current",
+      "label": "PROVED"
+    },
+    {
+      "id": "service-currently-unavailable",
+      "match_strings": ["Service currently not available. Please try after some time."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:Service_Not_Available",
+      "trigger": "packaged service-unavailable resource; exact selecting branch remains unresolved",
+      "transition": "error dialog is available to the search UI",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@350", "GpPlaceIconButton.click@78", "SpeechListener.onVRAction@148"],
+      "interpretation": "generic service state; a matching local resource alone does not prove backend receipt",
+      "label": "PROVED"
+    },
+    {
+      "id": "unavailable-for-location",
+      "match_strings": ["API requests unavailable in the given location."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:UNAVAILABLE_FOR_LOCATION",
+      "trigger": "response error identifier resolves through the packaged Yelp message table",
+      "transition": "search action displays an AlertDialog on the response-error branch",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@303/350", "GpPlaceIconButton.click@167/78", "SpeechListener.onVRAction@101/148"],
+      "interpretation": "supports response mapping for a location restriction; no catalog-time region gate follows",
+      "label": "PROVED"
+    },
+    {
+      "id": "zero-results",
+      "match_strings": ["No results found.Try a new search.", "No Results Found. Select Back to Search Again."],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:ZERO_RESULTS_84/ZERO_RESULTS",
+      "trigger": "GpSearchRequest status is Zero_Results",
+      "transition": "dedicated zero-results UI returns to search navigation",
+      "method_evidence": ["GpCVPKeyboard.fireOKPressed@358/375", "GpPlaceIconButton.click@217/234", "SpeechListener.onVRAction@156/173"],
+      "interpretation": "supports completed status handling; whether a backend response caused it requires the observed action context",
+      "label": "PROVED"
+    },
+    {
+      "id": "bluetooth-service-unavailable",
+      "match_strings": ["A Bluetooth Service is not available on this vehicle."],
+      "resource": "res/theme.res:bluetooth_not_availale_message",
+      "trigger": "a Yelp details action requires the platform Bluetooth service and it is unavailable",
+      "transition": "local alert returns control to the Yelp details flow after dismissal",
+      "method_evidence": ["GpDetailsScreen platform-service action handlers"],
+      "interpretation": "local platform capability failure; no Yelp backend request follows from the message",
+      "label": "PROVED"
+    },
+    {
+      "id": "navigation-not-activated",
+      "match_strings": ["Navigation package features are not available on this vehicle.", "Navigation Not Activated"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:GpDetailsScreen.Navigation_Error_Message/GpDetailsScreen.Navigation_Error_Title",
+      "trigger": "a Yelp result details navigation action cannot use the platform navigation package",
+      "transition": "local alert remains in the Yelp details flow",
+      "method_evidence": ["GpDetailsScreen navigation action handlers"],
+      "interpretation": "local navigation-package gate after results; unrelated to Yelp catalog visibility",
+      "label": "PROVED"
+    },
+    {
+      "id": "no-data-available",
+      "match_strings": ["No Data Available Please try again later."],
+      "resource": "res/theme.res:no_data",
+      "trigger": "packaged Yelp no-data presentation selected by a data-dependent screen",
+      "transition": "exact caller-specific transition remains UNKNOWN",
+      "method_evidence": ["Yelp theme resource referenced by stock Yelp GUI"],
+      "interpretation": "generic data absence; transport and backend cause cannot be isolated",
+      "label": "PROVED"
+    },
+    {
+      "id": "phone-not-available",
+      "match_strings": ["A Bluetooth connected phone is not available to place the phone call.", "Phone Not Available"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:GpDetailsScreen.Call_Failed_Message/GpDetailsScreen.Call_Failed_Title",
+      "trigger": "a Yelp result details call action cannot obtain an available connected phone",
+      "transition": "local alert remains in the Yelp details flow",
+      "method_evidence": ["GpDetailsScreen call action handlers"],
+      "interpretation": "local phone-service gate after results; it does not diagnose Yelp networking",
+      "label": "PROVED"
+    },
+    {
+      "id": "voice-connection-error",
+      "match_strings": ["Connection error fake error.", "Connection error"],
+      "resource": "com/sprint/chrysler/yelp/gui/messages.properties:Voice_Connection_Error",
+      "trigger": "packaged voice-session error presentation is selected",
+      "transition": "voice action error returns control to the existing Yelp UI",
+      "method_evidence": ["SpeechListener.onError@41", "VRSessionLogic platform session handlers"],
+      "interpretation": "supports a VR/platform error path; it does not establish an HTTP attempt",
+      "label": "PROVED"
+    }
+  ],
+  "outcomes": {
+    "A": {
+      "name": "absent from all surveyed pages",
+      "established": ["No Yelp entry was visible in every catalog page explicitly surveyed."],
+      "supported": ["Yelp was not exposed by the surveyed catalog views at the observation time."],
+      "not_established": ["uninstalled", "missing package files", "failed DRM", "region restriction", "subscription state"],
+      "compatible": ["missing installed record", "catalog/category filtering", "headless/daemon/showInHmi filtering", "stale catalog state"],
+      "incompatible": ["a simultaneously visible enabled Yelp tile"],
+      "remaining": ["installed record and exact binary remain unknown", "the individual native filter result remains unknown"],
+      "next_static": "Compare recovered Yelp descriptor defaults with each catalog predicate and known AppManager persistence fields.",
+      "next_observation": "Photograph the complete Apps/Favorites/Running page sequence once, without changing settings."
+    },
+    "B": {
+      "name": "present but disabled",
+      "established": ["A Yelp entry was rendered but was not enabled for ordinary selection."],
+      "supported": ["identity and catalog rendering crossed more gates than an absent entry."],
+      "not_established": ["launch authorization cause", "subscription state", "network availability"],
+      "compatible": ["HMI-disabled state", "launch/resource policy surfaced before selection"],
+      "incompatible": ["normal selection from the same rendered state"],
+      "remaining": ["the component that disabled the tile remains unknown", "Xlet execution remains unobserved"],
+      "next_static": "Trace the HMI Applet enabled/status fields populated from getAppList for a disabled rendering.",
+      "next_observation": "Record the exact disabled styling and any adjacent status text without repeated taps."
+    },
+    "C": {
+      "name": "launches and immediately exits",
+      "established": ["The enabled Yelp entry accepted a launch action and then left the visible Yelp flow."],
+      "supported": ["catalog exposure and at least part of the start/resume path ran."],
+      "not_established": ["fresh initXlet execution", "specific exception", "DRM success", "network attempt"],
+      "compatible": ["native/AMS start failure after UI dispatch", "init container exception and destroyXlet", "early lifecycle failure"],
+      "incompatible": ["a persistent Yelp home screen in the same attempt"],
+      "remaining": ["fresh start versus resume remains unknown", "the exit initiator remains unknown"],
+      "next_static": "Correlate the observed timing with recovered notifyDestroyed and native start-failure paths.",
+      "next_observation": "Record whether a Yelp splash appears and the elapsed time before the prior screen returns."
+    },
+    "D": {
+      "name": "error displayed",
+      "established": ["Yelp displayed the recorded error text after the recorded ordinary action."],
+      "supported": ["the UI reached the error-handling path associated with any matched packaged signature."],
+      "not_established": ["network traffic unless the exact preceding action requires it", "TLS success", "backend identity", "root cause of a generic error"],
+      "compatible": ["local prerequisite failure", "connectivity/TLS/HTTP failure", "parsed response error", "generic exception collapse"],
+      "incompatible": ["successful results for the same action and attempt"],
+      "remaining": ["generic errors do not isolate the failed layer", "backend acceptance remains unobserved"],
+      "next_static": "Use the exact text match to inspect only its resource caller and status branch.",
+      "next_observation": "Record the full error text, title, preceding action, and whether Yelp remains visible; do not retry solely for analysis."
+    },
+    "E": {
+      "name": "registration or subscription screen",
+      "established": ["A screen presented registration, account, or subscription language in the Yelp launch flow."],
+      "supported": ["a post-launch account/service gate is active in the observed production state."],
+      "not_established": ["which component owns the screen", "that Yelp itself implements registration", "account validity", "network success"],
+      "compatible": ["platform or service wrapper gate", "backend/account rejection surfaced after launch"],
+      "incompatible": ["claim that recovered Yelp has no runtime account dependency"],
+      "remaining": ["no Yelp registration UI class is established statically", "screen ownership and trigger remain unknown"],
+      "next_static": "Match the exact screen text against Yelp, common GUI, Register, Store, and native popup resources.",
+      "next_observation": "Record the exact title/body/buttons and stop without accepting registration or changing account state."
+    },
+    "F": {
+      "name": "normal home or search screen",
+      "established": ["Yelp remained visible at its ordinary home/search UI."],
+      "supported": ["catalog, start/resume, foreground, and sufficient UI initialization succeeded."],
+      "not_established": ["fresh lifecycle", "search request", "speech path", "TLS", "backend acceptance", "future availability"],
+      "compatible": ["working local UI with untested network", "resumed prior Yelp state"],
+      "incompatible": ["complete failure before any Yelp UI"],
+      "remaining": ["backend acceptance remains unobserved", "search and speech remain unobserved"],
+      "next_static": "Confirm which home controls enqueue GpSearchRequest and which require platform location or VR services.",
+      "next_observation": "Record the first stable screen and whether controls are enabled; do not add a search solely for this framework."
+    },
+    "G": {
+      "name": "fully functional ordinary flow",
+      "established": ["The observer explicitly reported a normal Yelp UI and relevant results from an ordinary search in the same documented flow."],
+      "supported": ["request construction, platform connectivity, TLS/HTTP response, parsing, and results display crossed their runtime gates."],
+      "not_established": ["exact recovered JAR identity", "arbitrary inbound control", "future backend availability", "all error paths"],
+      "compatible": ["usable stock-signed outbound Yelp client capability"],
+      "incompatible": ["no response-dependent behavior occurred in the documented flow"],
+      "remaining": ["speech remains unobserved unless separately recorded", "arbitrary external input is not established"],
+      "next_static": "Compare the observed result fields with the recovered GpSearchRequest response schema.",
+      "next_observation": "Preserve the existing observation record; no repeat action is needed solely for analysis."
+    },
+    "H": {
+      "name": "unexpected, partial, or unmatched state",
+      "established": ["The supplied fields do not satisfy a more specific A-G outcome."],
+      "supported": ["a narrower observation record is needed before mapping a gate."],
+      "not_established": ["catalog absence", "launch success", "error cause", "backend behavior"],
+      "compatible": ["partial catalog survey", "unrecognized screen", "insufficiently described state"],
+      "incompatible": [],
+      "remaining": ["the first unresolved observable boundary remains unknown"],
+      "next_static": "Check whether the recorded text or styling matches any recovered resource before widening research.",
+      "next_observation": "Record one complete stable screen, its title/text, and the page or preceding ordinary action."
+    }
+  }
+}

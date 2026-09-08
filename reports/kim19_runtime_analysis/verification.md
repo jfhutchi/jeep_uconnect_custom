@@ -96,3 +96,73 @@ against the verification snapshot:
 registration, visibility flags, grants, running Xlets, interfaces, listeners and
 backend availability. No live radio or external service was probed. These
 limitations are part of the result, not failed verification tests.
+
+## Yelp observation framework update
+
+Date: 2026-09-08. Starting isolated checkpoint:
+`22b85f5b9721d3a107529f05fff125b0147b1334` on
+`codex/stock-signed-capability-analysis`.
+
+**PROVED:** the bounded native follow-up resolves the three targeted
+`CAppManagerApp` vtable selectors. Selector `0x10` calls implementation
+`0x10bcbc` and returns headless byte `app+0x284`; selector `0x0c` calls
+`0x10bcf4` and returns daemon byte `app+0x239`; selector `0x18` calls
+`0x10bc4c` and returns `hasGUI` byte `app+0x295`. Together with direct
+`showInHmi` byte `app+0x4d`, the target branch requires
+`!headless && (!daemon || hasGUI) && showInHmi`. This corrects the previous
+**UNKNOWN** semantic names without changing an earlier generated report.
+
+**PROVED:** the separate Yelp model generates 30 sorted failure signatures.
+Each record contains packaged English match text, resource identifier,
+trigger/status, caller or recovered method evidence, transition, interpretation,
+visibility/return limits, and retry limits. Local motion/location/phone/
+navigation/VR failures remain separate from generic request collapse and parsed
+response errors. Localized resources share those caller families and are not
+duplicated as separate signatures.
+
+**PROVED:** independent `javap -c -p` inspection confirms the main selected UI
+sites, including `GpCVPKeyboard.fireOKPressed` AlertDialog BCI350 and generic
+failure BCI477; `GpPlaceIconButton.click` generic failure BCI333; and
+`SpeechListener.onVRAction` AlertDialog BCI148 and generic failure BCI275.
+`SpeechListener.onError` shows the generic failure dialog at BCI41. The prior
+934-site JDK validation remains unchanged.
+
+**PROVED:** 95 relevant tests pass with zero failures/errors. This is the prior
+84-test KIM19/production/native suite plus eleven Yelp observation tests. The
+new tests cover A-H, partial observations, all suggested physical-record field
+types, contradictions, exact predicate binding, failure provenance, source-hash
+failure, canonical CLI bytes, and report freshness.
+
+**PROVED:** the original `kim19_runtime_analysis` generator reports
+`8 reports verified; recovered sources unchanged`. Their SHA-256 values remain:
+
+- `application_activation_matrix.json`: `110e73422041811f1ab51fba4385db9534a01f183e59714306c012581e25d077`
+- `application_service_graph.json`: `b415fcd7ff3d4c8dcb048246380cd71799e905771b9f70da5ae6081684f3e98f`
+- `background_services.json`: `865b2f2d4dd9a3d5b3a65d3cdec0fa3d4356851816a0e896712bed16af0459d0`
+- `method_evidence.json`: `93a387a36ce4fdf9666f8d14fd5b302634b2162f628f7cf046e7a691a992e7b0`
+- `network_capabilities.json`: `e4a87a93a2ef8284780f99869bad53ca86c15ef78d1ee46348ab691398a1541e`
+- `observation_inference_matrix.json`: `cf666806b38921fabf6bed6839b14458c618492b4288fe2f8eb88e6ca190a29b`
+- `validation.json`: `4c17e74ef2c58c282d1a53de9baa71b6df7f479abc01599a85a8286ec5b7bc5f`
+- `yelp_reachability.json`: `924b96b4056d389975f5dfc06bfe15bc86299920113a1a734f962f2cae3e6392`
+
+**PROVED:** the new generator hash-checks recovered appManager SHA-256
+`608f45f96fa71bfe2c8a2566e973953d9de74ba7afa0cdd2e31cf408137c5591`
+and Yelp JAR SHA-256
+`f05efd2048577c5c5b32532ff9a46a8f42a31e0508946b072d337ab2077b3282`.
+One write pass and two `--check` passes succeed. Repeated representative A, D,
+and G analyzer outputs have identical canonical bytes. Markdown validation finds
+zero broken local links; whitespace checks pass.
+
+**PROVED:** original-checkout verification uses NUL-delimited porcelain to avoid
+line-ending ambiguity. HEAD remains
+`894afe8e5361c3595623de599e62ba0f0c0d9f78`; the 40 tracked modifications and
+one untracked path produce status SHA-256
+`48adcf412315324596610736df3a34d484f517df288741475434205fb4fc4ee4`.
+The binary diff remains
+`d640dce2da93cbd40692549754f74ee796b897b00d5a38060d4ad17172cdc792`.
+No original-checkout mutation was performed.
+
+**UNKNOWN / TARGET OBSERVATION REQUIRED:** the framework does not claim Yelp is
+present, visible, launchable, provisioned, connected, accepted by its backend,
+or fully functional on the radio. The A-H result becomes evidence only after the
+corresponding ordinary observation is supplied.

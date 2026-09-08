@@ -101,30 +101,29 @@ that first observation.
 
 ## Observation cases
 
-These are conditional interpretations of future observations. **TARGET
-OBSERVATION REQUIRED:** no case has yet been observed on the radio in this phase.
+The earlier six-case sketch is replaced by the deterministic A-H contract in
+[Yelp target observation analysis](yelp_target_observation_analysis.md): absent
+from all pages, disabled, immediate exit, error, registration/subscription,
+normal home/search, explicitly fully functional, and unexpected/partial.
+**PROVED:** this correction separates disabled rendering from post-selection
+exit, and separates stable local UI from an explicitly observed successful
+result flow. It does not alter recovered behavior or any of the original eight
+generated runtime reports.
 
-| Case | PROVED by the observation itself | INFERRED crossed boundary | UNKNOWN / next uncertain gate |
-|---|---|---|---|
-| A: absent | No Yelp entry in the views actually surveyed | Only after all pages/categories are recorded: no exposed Yelp entry at that moment | Installed state, registration, cached visibility flags, category freshness and entitlement; do not infer uninstall |
-| B: present, cannot launch | Entry exists and attempted launch/resume failed visibly | Catalog exposure succeeded | Native start/AMS/init/foreground failure; does not isolate DRM |
-| C: splash | Yelp-branded application UI executed | On a matching fresh-start chain, container/Display, serial init and splash creation succeeded | Exact binary, resumed versus new lifecycle, delayed home work, network and backend |
-| D: home/search, search fails | Search UI accepted the action and displayed failure | Home initialization completed sufficiently for that action | Connection/DNS/TLS/HTTP/account/parse cause; generic failure cannot distinguish them |
-| E: backend/application error | Exact error was displayed | If it is response-specific `error.id` behavior, response receipt/JSON processing is supported | A generic local error proves no network traffic; backend identity and authorization success unresolved |
-| F: results | Result UI displayed data | Fresh query-dependent relevant results strongly support request/response/parse/display completion | Exact target JAR, arbitrary external input route, listener, future availability |
-
-**INFERRED:** C is a substantial improvement over a tile; F is the strongest
-ordinary evidence for usable outbound stock-signed capability. **UNKNOWN:** no
-case establishes an external-network-input-to-harmless-effect route available to
-an arbitrary phone or computer. A response channel to a stock client is not an
-inbound command server.
+**INFERRED:** a stable home is a substantial improvement over a tile; an
+explicitly documented relevant-result flow is the strongest ordinary evidence
+for usable outbound stock-signed capability. **UNKNOWN:** no case establishes an
+external-network-input-to-harmless-effect route available to an arbitrary phone
+or computer. A response channel to a stock client is not an inbound command
+server.
 
 **TARGET OBSERVATION REQUIRED:** the highest-value next action is one normal
 Yelp launch, if present after catalog recording. Record its first screen, exact
 error, splash duration and whether it stays visible/running. Do not add a search,
 registration, call or repeated launch to that first observation. If a search has
-already been performed in ordinary use, classify its result using D/E/F without
-repeating it solely for this report. Launch/history/RMS preferences may change.
+already been performed in ordinary use, classify it with the A-H analyzer
+without repeating it solely for this report. Launch/history/RMS preferences may
+change.
 
 See [operator checklist](target_observation_checklist.md) and
-[machine-readable cases](../reports/kim19_runtime_analysis/yelp_reachability.json).
+[the generated failure signatures](../reports/kim19_runtime_analysis/yelp_failure_signatures.json).
