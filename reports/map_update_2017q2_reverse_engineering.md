@@ -127,12 +127,17 @@ Observed runtime sequence:
 **[CONFIRMED]** The log records:
 
 - old part number: `68224525AH`
-- new ECU part number: `68224525AM`
+- new ECU part number: `68224525AM` (**INFERRED normalization**; the
+  bit-damaged recovered field reads `6822<525AM`)
 - `ECU part number Update Successful`
 - `Software Update successfully completed`
 - resulting software version: `17.11.17`
 
-The log therefore proves successful execution, not merely package structure.
+The log records a historical execution rather than merely package structure.
+The 2026-09-07 target-state pass verified the raw damaged field in
+`swdlLog_recovered.txt`; the clean production ECU table independently contains
+`68224525AM`. Neither this correction nor that table establishes the current
+radio's application inventory. See [target production state](../docs/target_production_state.md).
 
 ## 7. License corpus structure
 

@@ -437,3 +437,29 @@ for all relative output paths. Review every generated JSON/Markdown file before
 committing it. Never commit recovered JARs, classes, resources, filesystem
 payloads, native binaries, credentials, or other proprietary content.
 
+### Target production inventory
+
+`target_production_index` inventories every physical file and every JAR member
+in one selected KIM, hashes payloads without extracting them, parses application
+descriptors and lifecycle classes, and records categorized JVM call sites with
+both caller/callee descriptors. Resource-name literals and API categories are
+candidates, not proof of consumption, live registration, or external control.
+
+```powershell
+python -m analysis_tools.target_production_index `
+  --root "$CorpusRoot/work/secondary_iso/usr/share/XLETS/kim_packages/KIM19" `
+  --output reports/target_production_state/package_inventory.json
+python -m unittest analysis_tools.tests.test_target_production_index -v
+```
+
+Its importable `resolve_part(map_path, raw_part)` validates the literal-only Lua
+map using the existing parser and applies an independently written ASCII model
+of `xlets.lua` read(10)/suffix handling. It does not execute Lua. `None` models a
+nil read, while `normalize_part(..., open_succeeded=False)` models an open
+failure. Nonmatching input passes through as in the recovered bytecode.
+
+Inventory errors, duplicate members, links, size limits, missing declared JARs
+and missing main classes fail explicitly. The manually reviewed target-state
+and candidate ledgers are separate from generated static inventory; see
+`docs/target_production_state.md` for reachability and current-radio limits.
+

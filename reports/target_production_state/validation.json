@@ -1,0 +1,156 @@
+{
+  "all_selected_jar_hashes_match_prior_corpus": 19,
+  "all_source_hashes_rechecked": 34,
+  "common_base_hashes_rechecked": 24,
+  "coverage": {
+    "classes": 4572,
+    "files": 37,
+    "jars": 19,
+    "parse_errors": 0,
+    "uncompressed_member_bytes": 50188423
+  },
+  "date": "2026-09-07",
+  "embedded_vs_external_descriptor_identity": [
+    {
+      "app_id": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+      "identity_differences": {}
+    },
+    {
+      "app_id": "2BA676FA-1542-11E1-A537-1F614824019B",
+      "identity_differences": {}
+    },
+    {
+      "app_id": "3bbeae36-1542-11e1-b393-31614824019b",
+      "identity_differences": {}
+    },
+    {
+      "app_id": "52c79381-6719-11e1-b86c-0800200c9a66",
+      "identity_differences": {}
+    },
+    {
+      "app_id": "550e8400-e29b-41d4-a716-446655440000",
+      "identity_differences": {}
+    },
+    {
+      "app_id": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+      "identity_differences": {}
+    },
+    {
+      "app_id": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+      "identity_differences": {}
+    },
+    {
+      "app_id": "A7A4B215-9B5A-7DAA-457C-15545178E72F",
+      "identity_differences": {}
+    },
+    {
+      "app_id": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "identity_differences": {}
+    }
+  ],
+  "historical_log_check": {
+    "exact_68224525AM_literal_present": false,
+    "offset": "0xfed44",
+    "raw_new_part": "6822<525AM",
+    "sha256": "bdb57fd2bb3c3d6ea085c90c167b77b9706d0cc19d279aec6eec0d6f475ec973"
+  },
+  "independent_javap": [
+    {
+      "class": "com.sprint.chrysler.yelp.xlet.YelpPOIXlet",
+      "exit_code": 0,
+      "javap_output_sha256": "ab74c6b5f195a591cd677cc54680f402a561b3b702c1219ce7fe2bc1b412bc64",
+      "sites": [
+        {
+          "bci": 23,
+          "callee": "com/sun/lwuit/Display.callSerially"
+        }
+      ]
+    },
+    {
+      "class": "com.sprint.chrysler.yelp.xlet.YelpPOIXlet$1",
+      "exit_code": 0,
+      "javap_output_sha256": "d945d3dcd39f9b418e7dd2a1a2523a9eb95d1ff2d221fa591554fba5da31756a",
+      "sites": [
+        {
+          "bci": 35,
+          "callee": "com/sprint/chrysler/yelp/gui/YelpSplashScreen.\"<init>\""
+        },
+        {
+          "bci": 38,
+          "callee": "com/sprint/chrysler/yelp/gui/YelpSplashScreen.show"
+        }
+      ]
+    },
+    {
+      "class": "com.sprint.chrysler.common.communications.BaseRequest",
+      "exit_code": 0,
+      "javap_output_sha256": "b6abc5287a46e242582efb9fef34a75e77f23d761f52d4692ad597624ee9bb9e",
+      "sites": [
+        {
+          "bci": 32,
+          "callee": "org/apache/http/impl/client/DefaultHttpClient.\"<init>\""
+        },
+        {
+          "bci": 53,
+          "callee": "org/apache/http/client/HttpClient.execute"
+        }
+      ]
+    },
+    {
+      "class": "com.sprint.chrysler.yelp.util.GpGeoUtil",
+      "exit_code": 0,
+      "javap_output_sha256": "c96b05172a5b56bf30d9bcc98c1418748c4b945b095946042e6b2af02e035389",
+      "sites": [
+        {
+          "bci": 20,
+          "callee": "java/lang/ClassLoader.getResourceAsStream"
+        },
+        {
+          "bci": 39,
+          "callee": "java/lang/ClassLoader.getResourceAsStream"
+        }
+      ]
+    }
+  ],
+  "limitations": [
+    "No radio or external server contacted",
+    "No vendor class/native executable or Lua executed",
+    "No recovered payload/key material added to repository",
+    "JVM invocations are syntactic; runtime callbacks and lifecycle remain separately labeled",
+    "Native/script predecessor evidence is not a running-service observation",
+    "Original dirty checkout was never written, staged, stashed or reset; recovered inputs opened read-only"
+  ],
+  "method_records_rechecked": 207,
+  "navigation_version_check": {
+    "artifact": "primary_iso/usr/share/MMC_IFS_EXTENSION/share/nav/NaviServer",
+    "file_offset": "0xec2424",
+    "literal": "9.10.32.702279",
+    "meaning": "recovered binary presence, not current-radio capture",
+    "sha256": "2e2094045f7e2634774532ceebd3e694aefd54d4a07c760577bbeaca7a5a1f95"
+  },
+  "negative_checks": {
+    "scope": "All selected KIM19 members, not live radio",
+    "selected_UnitTestUtil_classes": 0,
+    "selected_process_launch_calls": 0,
+    "selected_provider_descriptors_or_html_documents": 0,
+    "yelp_old_framework_class_matches": 0,
+    "yelp_wrapClient_callers": 0
+  },
+  "repeat_inventory_identical": true,
+  "report_sha256": {
+    "capability_candidates.json": "27de6e58adb91093859e78b63c2ff26ad0322f439997a7b789a93aa5308aa99a",
+    "package_inventory.json": "a925e3d3600ce5247c8ea154325d0f90320d7811eb6af9815e9d32d2f3465b7a",
+    "part_number_resolution.json": "da20a086a09b96d17a8f5644541579499818456d7c0dd4f7184c424816641466"
+  },
+  "result": "PASS for stated static checks; no live target verification",
+  "schema_version": 1,
+  "syntactic_invocations_rechecked": 1888,
+  "tests": {
+    "command": "python -m unittest analysis_tools.tests.test_target_production_index analysis_tools.tests.test_stock_capability_index analysis_tools.tests.test_evidence_model analysis_tools.tests.test_java_classfile analysis_tools.tests.test_activation_graph analysis_tools.tests.test_resident_surface_census analysis_tools.tests.test_native_endpoint_census analysis_tools.tests.test_render_stock_extension_reports analysis_tools.tests.test_lua51_inspect -v",
+    "errors": 0,
+    "failures": 0,
+    "new_tests": 7,
+    "observed_exit_code": 0,
+    "tests_run": 48
+  }
+}

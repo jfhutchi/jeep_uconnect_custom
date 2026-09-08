@@ -1,0 +1,168 @@
+{
+  "evidence_label": "PROVED",
+  "fallback_details": "Missing global/key returns KIM0; failed dofile is not a caught fallback. fn4 open failure returns PN ERROR; nil read stays nil; nonmatching read passes through unchanged. Nine initial digits are truncated to nine. No nearby part-number search.",
+  "fallback_used": false,
+  "input": "68224525AM",
+  "map_sha256": "4f219f18f84afe346f68844fb8f618a031eeb49aa158ba7c81d4de83fb381daa",
+  "market_version_predicates": "Exact row identifies MY14 VP4 NA. No runtime model-year/revision/version comparison inside fn4/fn5. Manifest is recovered 18.45.01; outer firmware compatibility/authentication and installer pre/post success remain prerequisites. The MY17 build label in version.txt is not a KIM selector. User App/Boot/Nav version values are not selector inputs.",
+  "matching_assignments": [
+    {
+      "line": 74,
+      "package": "KIM19",
+      "part": "68224525"
+    }
+  ],
+  "normalized": "68224525",
+  "other_part_number_stages": [
+    {
+      "literal": "ecu_part_number[\"68224525\"] = \"68224525AM\"",
+      "location": "line 27",
+      "role": "new ECU revision value; not a KIM assignment",
+      "source": "ecupart"
+    },
+    {
+      "literal": "ecu_part_number[\"68224525\"] = \"68224525AM\"",
+      "location": "line 27",
+      "role": "byte-identical ECU revision table for differential FOTA",
+      "source": "ecupart_ota"
+    },
+    {
+      "location": "fn14 0x22e3,0x22f7,0x231f,0x233f,0x235b; fn13 0x21cc,0x21e0,0x21f0; fn19 0x2934,0x2948,0x2958",
+      "role": "after successful install, read current PN/suffix, look up replacement suffix and compare. fn13 missing key returns nil; no KIM fallback here. Root closure bindings at 0x238/0x23c prove fn14/fn13 captures.",
+      "source": "softwareupdate"
+    },
+    {
+      "location": "getNewECUPartNumber lines 473-484; getPartNumber 489-514; partnumberUpdate 563-581; beginUpdate 633-635",
+      "role": "independent plaintext counterpart confirms 8+2 normalization; component=partnumber explicitly selects revision update, not KIM. FOTA file is plaintext, not a Lua binary.",
+      "source": "softwareupdate_ota"
+    },
+    {
+      "literal": "68224525Z; 68224525A",
+      "location": "file offsets 0x8e884,0x8e890",
+      "role": "prefix literals, not exact AM or a KIM map; consumer-to-KIM connection UNKNOWN; not used for target resolution",
+      "source": "ndr"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "ASCII model of recovered selector, not observation of FRAM",
+  "search_scope": "Recovered materialized work tree text/config/Lua/native files searched for exact AM and normalized stem (rg -uuu, filenames only for binary matches); source containers/ISOs and compressed JAR bytes excluded from that literal pass. All KIM19 JAR members parsed separately. This is not an assertion about unrecovered radio files.",
+  "selected_package": "KIM19",
+  "selection_chain": [
+    {
+      "effect": "18.45.01 manifest includes Apps unit, installer=xlets, secondary.iso, destination=/fs/mmc1/, source=usr/share/XLETS",
+      "location": "lines 113-126,226-235",
+      "source": "manifest"
+    },
+    {
+      "effect": "capture /dev/fram/partnumber; invoke fn4 then fn5 using its result",
+      "location": "root 0x48,0x68-0x88; fn6 0xfe5,0xff1",
+      "source": "xlets_installer"
+    },
+    {
+      "effect": "open read-only, read 10 bytes, match eight digits + two letters, substring 1..8",
+      "location": "fn4 0xcc9,0xcdd,0xd05,0xd25",
+      "source": "xlets_installer"
+    },
+    {
+      "effect": "exact normalized key 68224525 = KIM19; comment MY14 VP4 NA",
+      "location": "line 74",
+      "source": "map"
+    },
+    {
+      "effect": "default KIM0; dofile then exact table lookup; return selected value",
+      "location": "fn5 0xea7,0xebf,0xed3,0xee3,0xee7",
+      "source": "xlets_installer"
+    },
+    {
+      "effect": "China/CH selects working directory xlets; other markets xletsdir; does not change KIM",
+      "location": "fn6 0x1011-0x1041",
+      "source": "xlets_installer"
+    },
+    {
+      "effect": "copy common base; non-KIM0 branch copies selected package into kona/preload, selected resource tree and xlets working tree",
+      "location": "fn6 0x11f9,0x1219,0x1221,0x1299,0x144d,0x14d5",
+      "source": "xlets_installer"
+    },
+    {
+      "effect": "progress/error handling and post-installer; successful selection is not proof of successful complete copy",
+      "location": "fn6 0x1581-0x1635,0x1719",
+      "source": "xlets_installer"
+    },
+    {
+      "effect": "AMS opens mutable /fs/mmc1/xletsdir with stock initializer/extensions/security; registration and actual state remain separate",
+      "location": "line 63",
+      "source": "jvm"
+    }
+  ],
+  "sources": {
+    "ecupart": {
+      "artifact": "installer_iso/etc/ecupart.lua",
+      "bytes": 15689,
+      "sha256": "c1ca053bf2a6ab11f50961e46629bec894020bea83362177b25b26dc8a21a7b8"
+    },
+    "ecupart_ota": {
+      "artifact": "primary_iso/usr/share/OTA/fota_installer/etc/ecupart.lua",
+      "bytes": 15689,
+      "sha256": "c1ca053bf2a6ab11f50961e46629bec894020bea83362177b25b26dc8a21a7b8"
+    },
+    "jvm": {
+      "artifact": "primary_iso/usr/share/MMC_IFS_EXTENSION/bin/jvm.sh",
+      "bytes": 2795,
+      "sha256": "9bd3c63a2c22c17f96e037102283f453afca43eb093bc1291d607a9805f829ec"
+    },
+    "manifest": {
+      "artifact": "installer_iso/etc/manifest.lua",
+      "bytes": 9288,
+      "sha256": "104d18836f41919f1f789110697eebc5e6deee998de79fb5a4c0af35a042770f"
+    },
+    "map": {
+      "artifact": "secondary_iso/usr/share/XLETS/kim_packages/kim_pkg_map.lua",
+      "bytes": 15728,
+      "sha256": "4f219f18f84afe346f68844fb8f618a031eeb49aa158ba7c81d4de83fb381daa"
+    },
+    "ndr": {
+      "artifact": "primary_iso/usr/share/MMC_IFS_EXTENSION/bin/ndr",
+      "bytes": 862846,
+      "sha256": "b8d6a68b791fd5953473a683fbfe24f885d7390d8e861c3d71b898f2a60b79d2"
+    },
+    "preinstall": {
+      "artifact": "secondary_iso/etc/xlets_mmc1_preinstall.txt",
+      "bytes": 575,
+      "sha256": "97cab785a51b949b71bfc8d255776233e97db80c895758725b2a8dbf0aec12b3"
+    },
+    "softwareupdate": {
+      "artifact": "installer_iso/usr/share/scripts/update/softwareupdate.lua",
+      "bytes": 12709,
+      "sha256": "64d42e3d2fa73ac94c60ebbb2f659d7b79c7eaf98c9c6e9fa0daceb3c7a3d85a"
+    },
+    "softwareupdate_ota": {
+      "artifact": "primary_iso/usr/share/OTA/fota_installer/usr/share/scripts/update/softwareupdate.lua",
+      "bytes": 25346,
+      "sha256": "77ea2cb8134596b6c8bab1b0dcd868d665db661533ee7fcdd60ecf9de629af6a"
+    },
+    "v850": {
+      "artifact": "primary_iso/usr/share/V850/TB/manifest.xml",
+      "bytes": 681,
+      "sha256": "eec0d7c5122f18cc379eaefd78afc743b834765d45680f152a1aba30c5c32a4d"
+    },
+    "version": {
+      "artifact": "primary_iso/etc/version.txt",
+      "bytes": 11003,
+      "sha256": "8f2d01066530ca652c04c26d15f9626a192172e917ab237c829834a477430f43"
+    },
+    "xlets_installer": {
+      "artifact": "installer_iso/usr/share/scripts/update/installer/xlets.lua",
+      "bytes": 8006,
+      "sha256": "e6849b1260417cdc89762ae76cac1b0f01bab28a833d2211b80498ae0d4466cc"
+    }
+  },
+  "target_identity": {
+    "app": "19.39.20",
+    "boot": "17.9.0",
+    "hardware_part_number": "68224525AM",
+    "navigation": "9.10.32.702279",
+    "platform": "North American RA4 / VP4",
+    "provenance": "user report; no new radio interrogation",
+    "system": "18.45.01"
+  }
+}
