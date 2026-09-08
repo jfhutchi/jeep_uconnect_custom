@@ -1,5 +1,51 @@
 # Read-only analysis tools
 
+## Performance Pages export evidence
+
+`tools/analyze_performance_pages_export.py` strictly validates two reviewed,
+hash-bound static evidence inputs and emits canonical ASCII/LF JSON reports for
+the Performance Pages variants, export reachability, filename/content control,
+storage capability, stock consumers, handoffs, failure signatures, and remaining
+gates. Java conclusions can reference exact class/method/descriptor/BCI bindings;
+when `--corpus` is supplied, the tool rehashes every source, opens selected JAR
+members without loading them, parses the classfile, and verifies every selected
+instruction tuple. `--check` compares all report bytes without writing.
+
+```powershell
+python tools/analyze_performance_pages_export.py `
+  --corpus 'PATH/TO/analysis_ra4_18.45.01/work'
+python tools/analyze_performance_pages_export.py --check `
+  --corpus 'PATH/TO/analysis_ra4_18.45.01/work'
+python -m unittest analysis_tools.tests.test_performance_pages_export_analysis
+```
+
+The tool reads recovered files only. It does not contact a service or target,
+load vendor classes, create a vehicle payload, or infer runtime reachability
+from a static reference. Credential and endpoint values are intentionally absent
+from these reports.
+
+The companion consumer census re-parses all 19 KIM19 and four common-base JARs,
+emitting allowlisted substring matches and categorized invocation metadata. It
+rejects malformed classes and duplicate archive members, and rechecks sources
+after extraction. The native supplement follows only the named EcoDrive
+service with a fixed source hash and selected ARM windows. Both reject output
+under the corpus and support byte-preserving `--check`:
+
+```powershell
+python -m analysis_tools.performance_pages_consumer_census --corpus $corpusWork
+python -m analysis_tools.performance_pages_consumer_census --corpus $corpusWork --check
+python -m analysis_tools.performance_pages_native_storage --corpus $corpusWork
+python -m analysis_tools.performance_pages_native_storage --corpus $corpusWork --check
+python -m unittest analysis_tools.tests.test_performance_pages_consumer_census analysis_tools.tests.test_performance_pages_native_storage
+```
+
+Repository attributes retain JSON as LF on Windows so fresh checkouts preserve
+the exact report and reviewed-note bytes. Source hashes, class/instruction
+bindings and scan counts substantiate static evidence; none establishes runtime
+authorization or a producer-to-consumer handoff by itself. Results and complete
+verification commands are in
+[the media verification record](../reports/kim19_runtime_analysis/performance_pages_verification.md).
+
 ## Stock signed capability follow-up
 
 `stock_capability_index.py` adds process/native loading sites, socket factory
@@ -542,4 +588,3 @@ unobserved. It rejects contradictions instead of filling gaps, matches packaged
 failure text with normalized case and punctuation, and emits canonical JSON with
 one next static question and one benign observation. A string match is not
 promoted to proof of network traffic or backend acceptance.
-

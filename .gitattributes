@@ -1,0 +1,2 @@
+# Evidence generators compare canonical JSON bytes, including reviewed notes.
+*.json text eol=lf
