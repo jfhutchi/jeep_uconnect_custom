@@ -1,0 +1,1275 @@
+{
+  "evidence_label": "PROVED",
+  "functions": [
+    {
+      "sha256": "9b4177743d56478652eb506d70d14a4c5e5c959775beefa3380004e9460d928c",
+      "size": 624,
+      "symbol_name": "EcoDriveCore::startUSBTransfer",
+      "va": "0x12d768"
+    },
+    {
+      "sha256": "086af2c0721db379ea902ca7c77c81678e804de605728e567d005a8c53a83ac9",
+      "size": 2420,
+      "symbol_name": "EcoDriveUSBHandler::transferSingleFile",
+      "va": "0x182798"
+    },
+    {
+      "sha256": "49e45d7e4a31d1fe355d4c00f1fa0df46f553912c66243e9a0f7903e01f43b52",
+      "size": 2060,
+      "symbol_name": "EcoDriveUSBHandler::transferFile",
+      "va": "0x1813fc"
+    },
+    {
+      "sha256": "559ce155d3e2c70451d86114f162910dd1f1abbcc22a7fb80d1a27c6f4baa88a",
+      "size": 984,
+      "symbol_name": "EcoDriveUSBInsertDetection::getPathToInsertedUSBDevice",
+      "va": "0x17ee7c"
+    },
+    {
+      "sha256": "b93d2b869593cf9f05c7b636a41995076493cbe29bb8992b2d57eca8d34f1738",
+      "size": 3484,
+      "symbol_name": "EcoDriveTypes static initialization",
+      "va": "0x17c3d8"
+    },
+    {
+      "sha256": "7cbee467d5cceba06e9c3297a85254a658031786a934d3ab5bd91d92b33f76d0",
+      "size": 52,
+      "symbol_name": "EcoDriveStorageManager::freeSpaceOnUSB",
+      "va": "0x173850"
+    },
+    {
+      "sha256": "e6d3a35c518f9bbd7d5d3df3520fc6517a94b45a32e2339ae39d65e4635c2a24",
+      "size": 276,
+      "symbol_name": "EcoDriveStorageManager::copyFile",
+      "va": "0x173a0c"
+    },
+    {
+      "sha256": "1a6bba593577efeca2e4f53d9f36bc071843e19108781d98eeaf54efb808428f",
+      "size": 1484,
+      "symbol_name": "EcoDriveStorageManager::moveFile",
+      "va": "0x173b20"
+    }
+  ],
+  "interpretation": "Reviewed dataflow is documented separately; extraction does not infer runtime authorization.",
+  "literals": [
+    {
+      "va": "0x20d8a4",
+      "value": "/fs/etfs/usr/var/ecoDrive/data"
+    },
+    {
+      "va": "0x20da8c",
+      "value": "/iFiat/ecodrive/data"
+    },
+    {
+      "va": "0x20daa4",
+      "value": "/Uconnect/ecodrive/data"
+    },
+    {
+      "va": "0x20c6ec",
+      "value": "/tmp.tmp"
+    },
+    {
+      "va": "0x207904",
+      "value": "All"
+    },
+    {
+      "va": "0x207908",
+      "value": "all"
+    }
+  ],
+  "schema_version": 1,
+  "scope": "Bounded static follow-up of the common Kona EcoDrive API; no target execution",
+  "source": {
+    "artifact": "primary_iso/usr/share/MMC_IFS_EXTENSION/bin/EcoDriveSvc",
+    "bytes": 2733845,
+    "sha256": "9877299e99772a0ec7a03988bd7521abd8b2c9ceac499c820d3722392d15246e"
+  },
+  "uncertainty": "No KIM19 caller, live service, media state, or Performance Pages file handoff is established.",
+  "windows": [
+    {
+      "end_va_exclusive": "0x17c3f8",
+      "file_offset": "0x7c3d8",
+      "id": "global_base",
+      "instructions": [
+        [
+          "0x17c3d8",
+          "push",
+          "{r4, r5, r6, r7, r8, lr}"
+        ],
+        [
+          "0x17c3dc",
+          "movw",
+          "r6, #0x11d8"
+        ],
+        [
+          "0x17c3e0",
+          "movt",
+          "r6, #0x23"
+        ],
+        [
+          "0x17c3e4",
+          "add",
+          "r5, r6, #4"
+        ],
+        [
+          "0x17c3e8",
+          "mov",
+          "r0, r5"
+        ],
+        [
+          "0x17c3ec",
+          "movw",
+          "r1, #0xd5ac"
+        ],
+        [
+          "0x17c3f0",
+          "movt",
+          "r1, #0x20"
+        ],
+        [
+          "0x17c3f4",
+          "bl",
+          "#0x1169a0"
+        ]
+      ],
+      "sha256": "d7529499549dce79399bac30682570c4c9558c20457edc030f8cd4ae4d95628a",
+      "start_va": "0x17c3d8"
+    },
+    {
+      "end_va_exclusive": "0x17c9d8",
+      "file_offset": "0x7c9c4",
+      "id": "flash_data_initialization",
+      "instructions": [
+        [
+          "0x17c9c4",
+          "add",
+          "r5, r6, #0x480"
+        ],
+        [
+          "0x17c9c8",
+          "mov",
+          "r0, r5"
+        ],
+        [
+          "0x17c9cc",
+          "movw",
+          "r1, #0xd8a4"
+        ],
+        [
+          "0x17c9d0",
+          "movt",
+          "r1, #0x20"
+        ],
+        [
+          "0x17c9d4",
+          "bl",
+          "#0x1169a0"
+        ]
+      ],
+      "sha256": "9ece8a68621d4689456ad74a91919a239f51fd6018e91c0f93b36260da8f9199",
+      "start_va": "0x17c9c4"
+    },
+    {
+      "end_va_exclusive": "0x17cd90",
+      "file_offset": "0x7cd54",
+      "id": "usb_data_initialization",
+      "instructions": [
+        [
+          "0x17cd54",
+          "add",
+          "r7, r5, #0x700"
+        ],
+        [
+          "0x17cd58",
+          "add",
+          "r7, r7, #4"
+        ],
+        [
+          "0x17cd5c",
+          "mov",
+          "r0, r7"
+        ],
+        [
+          "0x17cd60",
+          "movw",
+          "r1, #0xda8c"
+        ],
+        [
+          "0x17cd64",
+          "movt",
+          "r1, #0x20"
+        ],
+        [
+          "0x17cd68",
+          "bl",
+          "#0x1169a0"
+        ],
+        [
+          "0x17cd6c",
+          "mov",
+          "r0, r7"
+        ],
+        [
+          "0x17cd70",
+          "mov",
+          "r1, r4"
+        ],
+        [
+          "0x17cd74",
+          "mov",
+          "r2, r6"
+        ],
+        [
+          "0x17cd78",
+          "bl",
+          "#0x108740"
+        ],
+        [
+          "0x17cd7c",
+          "add",
+          "r7, r5, #0x720"
+        ],
+        [
+          "0x17cd80",
+          "mov",
+          "r0, r7"
+        ],
+        [
+          "0x17cd84",
+          "movw",
+          "r1, #0xdaa4"
+        ],
+        [
+          "0x17cd88",
+          "movt",
+          "r1, #0x20"
+        ],
+        [
+          "0x17cd8c",
+          "bl",
+          "#0x1169a0"
+        ]
+      ],
+      "sha256": "83c57c0dafbb3dbc6f10f75effa60d510f194523d8185c8acd044ebfd04a044b",
+      "start_va": "0x17cd54"
+    },
+    {
+      "end_va_exclusive": "0x12d8f0",
+      "file_offset": "0x2d8d4",
+      "id": "all_files_dispatch",
+      "instructions": [
+        [
+          "0x12d8d4",
+          "add",
+          "r0, sp, #0x2c"
+        ],
+        [
+          "0x12d8d8",
+          "movw",
+          "r1, #0x1658"
+        ],
+        [
+          "0x12d8dc",
+          "movt",
+          "r1, #0x23"
+        ],
+        [
+          "0x12d8e0",
+          "bl",
+          "#0x11c688"
+        ],
+        [
+          "0x12d8e4",
+          "mov",
+          "r0, r7"
+        ],
+        [
+          "0x12d8e8",
+          "add",
+          "r1, sp, #0x2c"
+        ],
+        [
+          "0x12d8ec",
+          "bl",
+          "#0x181c08"
+        ]
+      ],
+      "sha256": "d8d98b23da14a892e098cc47403fee635ed46b1dd42988ccf0b143577bc9b431",
+      "start_va": "0x12d8d4"
+    },
+    {
+      "end_va_exclusive": "0x12d930",
+      "file_offset": "0x2d910",
+      "id": "single_file_dispatch",
+      "instructions": [
+        [
+          "0x12d910",
+          "add",
+          "r0, sp, #0x64"
+        ],
+        [
+          "0x12d914",
+          "mov",
+          "r1, r4"
+        ],
+        [
+          "0x12d918",
+          "bl",
+          "#0x11c688"
+        ],
+        [
+          "0x12d91c",
+          "mov",
+          "r0, r7"
+        ],
+        [
+          "0x12d920",
+          "add",
+          "r1, sp, #0x48"
+        ],
+        [
+          "0x12d924",
+          "add",
+          "r2, sp, #0x64"
+        ],
+        [
+          "0x12d928",
+          "bl",
+          "#0x182798"
+        ],
+        [
+          "0x12d92c",
+          "mov",
+          "r4, r0"
+        ]
+      ],
+      "sha256": "dc9bb78b641a3435719554a2e0bd90997fbceb6cfba85ebe4e61377508e5c122",
+      "start_va": "0x12d910"
+    },
+    {
+      "end_va_exclusive": "0x12d9d4",
+      "file_offset": "0x2d9c0",
+      "id": "single_file_source",
+      "instructions": [
+        [
+          "0x12d9c0",
+          "add",
+          "r0, sp, #0x48"
+        ],
+        [
+          "0x12d9c4",
+          "movw",
+          "r1, #0x1658"
+        ],
+        [
+          "0x12d9c8",
+          "movt",
+          "r1, #0x23"
+        ],
+        [
+          "0x12d9cc",
+          "bl",
+          "#0x11c688"
+        ],
+        [
+          "0x12d9d0",
+          "b",
+          "#0x12d910"
+        ]
+      ],
+      "sha256": "5d3427e7a65fa028b58a843f97b87c7a814c935639710aa05be3751f6ab0c4ec",
+      "start_va": "0x12d9c0"
+    },
+    {
+      "end_va_exclusive": "0x181434",
+      "file_offset": "0x813fc",
+      "id": "inserted_device",
+      "instructions": [
+        [
+          "0x1813fc",
+          "push",
+          "{r4, r5, r6, r7, r8, sb, sl, fp, lr}"
+        ],
+        [
+          "0x181400",
+          "sub",
+          "sp, sp, #0x124"
+        ],
+        [
+          "0x181404",
+          "mov",
+          "r6, r0"
+        ],
+        [
+          "0x181408",
+          "mov",
+          "r8, r1"
+        ],
+        [
+          "0x18140c",
+          "mov",
+          "r5, r2"
+        ],
+        [
+          "0x181410",
+          "mov",
+          "r3, #0xf"
+        ],
+        [
+          "0x181414",
+          "str",
+          "r3, [sp, #0x40]"
+        ],
+        [
+          "0x181418",
+          "mov",
+          "r3, #0"
+        ],
+        [
+          "0x18141c",
+          "str",
+          "r3, [sp, #0x3c]"
+        ],
+        [
+          "0x181420",
+          "strb",
+          "r3, [sp, #0x2c]"
+        ],
+        [
+          "0x181424",
+          "add",
+          "sl, r0, #0x90"
+        ],
+        [
+          "0x181428",
+          "add",
+          "r0, sp, #0x5c"
+        ],
+        [
+          "0x18142c",
+          "mov",
+          "r1, sl"
+        ],
+        [
+          "0x181430",
+          "bl",
+          "#0x17ee7c"
+        ]
+      ],
+      "sha256": "97a649a01a3ff0621847faca2a75db157ada69b929323a881f5d73a462caa256",
+      "start_va": "0x1813fc"
+    },
+    {
+      "end_va_exclusive": "0x181614",
+      "file_offset": "0x815f0",
+      "id": "free_space_call",
+      "instructions": [
+        [
+          "0x1815f0",
+          "bl",
+          "#0x10a9ac"
+        ],
+        [
+          "0x1815f4",
+          "b",
+          "#0x181bd4"
+        ],
+        [
+          "0x1815f8",
+          "ldr",
+          "r3, [sp, #0x40]"
+        ],
+        [
+          "0x1815fc",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x181600",
+          "addls",
+          "r0, sp, #0x2c"
+        ],
+        [
+          "0x181604",
+          "ldrhi",
+          "r0, [sp, #0x2c]"
+        ],
+        [
+          "0x181608",
+          "bl",
+          "#0x173850"
+        ],
+        [
+          "0x18160c",
+          "mov",
+          "r4, r0"
+        ],
+        [
+          "0x181610",
+          "ldr",
+          "r3, [r6, #0xfc]"
+        ]
+      ],
+      "sha256": "237aaf49cd4c2feb306e9d0e5a75cbb08fb3bbf245f77435edd69c361ad12113",
+      "start_va": "0x1815f0"
+    },
+    {
+      "end_va_exclusive": "0x181808",
+      "file_offset": "0x817e4",
+      "id": "uconnect_destination",
+      "instructions": [
+        [
+          "0x1817e4",
+          "mov",
+          "r0, sl"
+        ],
+        [
+          "0x1817e8",
+          "bl",
+          "#0x17edb0"
+        ],
+        [
+          "0x1817ec",
+          "cmp",
+          "r0, #0"
+        ],
+        [
+          "0x1817f0",
+          "beq",
+          "#0x1818a4"
+        ],
+        [
+          "0x1817f4",
+          "add",
+          "r0, sp, #0x94"
+        ],
+        [
+          "0x1817f8",
+          "add",
+          "r1, sp, #0x28"
+        ],
+        [
+          "0x1817fc",
+          "movw",
+          "r2, #0x18f8"
+        ],
+        [
+          "0x181800",
+          "movt",
+          "r2, #0x23"
+        ],
+        [
+          "0x181804",
+          "bl",
+          "#0x13da1c"
+        ]
+      ],
+      "sha256": "ae7cbf773681f6b09bcc7f756af35702c7ddac32ccb83256026b33e71efdcf4a",
+      "start_va": "0x1817e4"
+    },
+    {
+      "end_va_exclusive": "0x1818c8",
+      "file_offset": "0x818a4",
+      "id": "ifiat_destination",
+      "instructions": [
+        [
+          "0x1818a4",
+          "mov",
+          "r0, sl"
+        ],
+        [
+          "0x1818a8",
+          "bl",
+          "#0x17f254"
+        ],
+        [
+          "0x1818ac",
+          "cmp",
+          "r0, #0"
+        ],
+        [
+          "0x1818b0",
+          "beq",
+          "#0x1818f8"
+        ],
+        [
+          "0x1818b4",
+          "add",
+          "r0, sp, #0xb0"
+        ],
+        [
+          "0x1818b8",
+          "add",
+          "r1, sp, #0x28"
+        ],
+        [
+          "0x1818bc",
+          "movw",
+          "r2, #0x18dc"
+        ],
+        [
+          "0x1818c0",
+          "movt",
+          "r2, #0x23"
+        ],
+        [
+          "0x1818c4",
+          "bl",
+          "#0x13da1c"
+        ]
+      ],
+      "sha256": "8c2b263548976fe9463e7bf8b81b163213a23e330fd3f88fcbe9450517111706",
+      "start_va": "0x1818a4"
+    },
+    {
+      "end_va_exclusive": "0x181a88",
+      "file_offset": "0x81a74",
+      "id": "move_dispatch",
+      "instructions": [
+        [
+          "0x181a74",
+          "add",
+          "r0, sp, #0xcc"
+        ],
+        [
+          "0x181a78",
+          "add",
+          "r1, sp, #0xe8"
+        ],
+        [
+          "0x181a7c",
+          "add",
+          "r2, sp, #0x104"
+        ],
+        [
+          "0x181a80",
+          "bl",
+          "#0x173b20"
+        ],
+        [
+          "0x181a84",
+          "mov",
+          "r4, r0"
+        ]
+      ],
+      "sha256": "318016e7ef641a34045ce0332c9b6a39d13f907fbc8904455219f5301675a181",
+      "start_va": "0x181a74"
+    },
+    {
+      "end_va_exclusive": "0x173884",
+      "file_offset": "0x73850",
+      "id": "free_space_implementation",
+      "instructions": [
+        [
+          "0x173850",
+          "str",
+          "lr, [sp, #-4]!"
+        ],
+        [
+          "0x173854",
+          "sub",
+          "sp, sp, #0xac"
+        ],
+        [
+          "0x173858",
+          "mov",
+          "r1, sp"
+        ],
+        [
+          "0x17385c",
+          "bl",
+          "#0x1084a0"
+        ],
+        [
+          "0x173860",
+          "ldr",
+          "r1, [sp, #4]"
+        ],
+        [
+          "0x173864",
+          "ldr",
+          "r2, [sp, #0x10]"
+        ],
+        [
+          "0x173868",
+          "umull",
+          "r2, r3, r2, r1"
+        ],
+        [
+          "0x17386c",
+          "ldr",
+          "r0, [sp, #0x14]"
+        ],
+        [
+          "0x173870",
+          "mla",
+          "r3, r1, r0, r3"
+        ],
+        [
+          "0x173874",
+          "lsr",
+          "r0, r2, #0xa"
+        ],
+        [
+          "0x173878",
+          "orr",
+          "r0, r0, r3, lsl #22"
+        ],
+        [
+          "0x17387c",
+          "add",
+          "sp, sp, #0xac"
+        ],
+        [
+          "0x173880",
+          "ldm",
+          "sp!, {pc}"
+        ]
+      ],
+      "sha256": "7cbee467d5cceba06e9c3297a85254a658031786a934d3ab5bd91d92b33f76d0",
+      "start_va": "0x173850"
+    },
+    {
+      "end_va_exclusive": "0x173b20",
+      "file_offset": "0x73a0c",
+      "id": "copy_file_implementation",
+      "instructions": [
+        [
+          "0x173a0c",
+          "push",
+          "{r4, r5, r6, r7, lr}"
+        ],
+        [
+          "0x173a10",
+          "sub",
+          "sp, sp, #0x10c"
+        ],
+        [
+          "0x173a14",
+          "mov",
+          "r4, r0"
+        ],
+        [
+          "0x173a18",
+          "mov",
+          "r6, r1"
+        ],
+        [
+          "0x173a1c",
+          "ldr",
+          "r3, [r0, #0x18]"
+        ],
+        [
+          "0x173a20",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x173a24",
+          "ldrhi",
+          "r0, [r0, #4]"
+        ],
+        [
+          "0x173a28",
+          "addls",
+          "r0, r4, #4"
+        ],
+        [
+          "0x173a2c",
+          "mov",
+          "r1, #0"
+        ],
+        [
+          "0x173a30",
+          "movw",
+          "r2, #0x1b6"
+        ],
+        [
+          "0x173a34",
+          "bl",
+          "#0x108470"
+        ],
+        [
+          "0x173a38",
+          "mov",
+          "r5, r0"
+        ],
+        [
+          "0x173a3c",
+          "ldr",
+          "r3, [r6, #0x18]"
+        ],
+        [
+          "0x173a40",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x173a44",
+          "ldrhi",
+          "r0, [r6, #4]"
+        ],
+        [
+          "0x173a48",
+          "addls",
+          "r0, r6, #4"
+        ],
+        [
+          "0x173a4c",
+          "movw",
+          "r1, #0x101"
+        ],
+        [
+          "0x173a50",
+          "movw",
+          "r2, #0x1b6"
+        ],
+        [
+          "0x173a54",
+          "bl",
+          "#0x108470"
+        ],
+        [
+          "0x173a58",
+          "mov",
+          "r6, r0"
+        ],
+        [
+          "0x173a5c",
+          "add",
+          "r0, sp, #0x100"
+        ],
+        [
+          "0x173a60",
+          "ldr",
+          "r1, [pc, #0xb4]"
+        ],
+        [
+          "0x173a64",
+          "bl",
+          "#0x1087dc"
+        ],
+        [
+          "0x173a68",
+          "cmn",
+          "r6, #1"
+        ],
+        [
+          "0x173a6c",
+          "cmnne",
+          "r5, #1"
+        ],
+        [
+          "0x173a70",
+          "movne",
+          "r4, sp"
+        ],
+        [
+          "0x173a74",
+          "movne",
+          "r7, #0xff"
+        ],
+        [
+          "0x173a78",
+          "bne",
+          "#0x173a8c"
+        ],
+        [
+          "0x173a7c",
+          "b",
+          "#0x173abc"
+        ],
+        [
+          "0x173a80",
+          "mov",
+          "r0, r6"
+        ],
+        [
+          "0x173a84",
+          "mov",
+          "r1, r4"
+        ],
+        [
+          "0x173a88",
+          "bl",
+          "#0x108968"
+        ],
+        [
+          "0x173a8c",
+          "mov",
+          "r0, r5"
+        ],
+        [
+          "0x173a90",
+          "mov",
+          "r1, r4"
+        ],
+        [
+          "0x173a94",
+          "mov",
+          "r2, r7"
+        ],
+        [
+          "0x173a98",
+          "bl",
+          "#0x108764"
+        ],
+        [
+          "0x173a9c",
+          "subs",
+          "r2, r0, #0"
+        ],
+        [
+          "0x173aa0",
+          "bne",
+          "#0x173a80"
+        ],
+        [
+          "0x173aa4",
+          "mov",
+          "r0, r5"
+        ],
+        [
+          "0x173aa8",
+          "bl",
+          "#0x1089c8"
+        ],
+        [
+          "0x173aac",
+          "mov",
+          "r0, r6"
+        ],
+        [
+          "0x173ab0",
+          "bl",
+          "#0x1089c8"
+        ],
+        [
+          "0x173ab4",
+          "mov",
+          "r4, #1"
+        ],
+        [
+          "0x173ab8",
+          "b",
+          "#0x173ae0"
+        ],
+        [
+          "0x173abc",
+          "ldr",
+          "r3, [r4, #0x18]"
+        ],
+        [
+          "0x173ac0",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x173ac4",
+          "ldrhi",
+          "r2, [r4, #4]"
+        ],
+        [
+          "0x173ac8",
+          "addls",
+          "r2, r4, #4"
+        ],
+        [
+          "0x173acc",
+          "add",
+          "r0, sp, #0x100"
+        ],
+        [
+          "0x173ad0",
+          "movw",
+          "r1, #0xc628"
+        ],
+        [
+          "0x173ad4",
+          "movt",
+          "r1, #0x20"
+        ],
+        [
+          "0x173ad8",
+          "bl",
+          "#0x108944"
+        ],
+        [
+          "0x173adc",
+          "mov",
+          "r4, #0"
+        ],
+        [
+          "0x173ae0",
+          "add",
+          "r0, sp, #0x100"
+        ],
+        [
+          "0x173ae4",
+          "movw",
+          "r1, #0xc66c"
+        ],
+        [
+          "0x173ae8",
+          "movt",
+          "r1, #0x20"
+        ],
+        [
+          "0x173aec",
+          "mov",
+          "r2, r4"
+        ],
+        [
+          "0x173af0",
+          "bl",
+          "#0x108944"
+        ],
+        [
+          "0x173af4",
+          "add",
+          "r0, sp, #0x100"
+        ],
+        [
+          "0x173af8",
+          "bl",
+          "#0x1088d8"
+        ],
+        [
+          "0x173afc",
+          "mov",
+          "r0, r4"
+        ],
+        [
+          "0x173b00",
+          "add",
+          "sp, sp, #0x10c"
+        ],
+        [
+          "0x173b04",
+          "pop",
+          "{r4, r5, r6, r7, pc}"
+        ],
+        [
+          "0x173b08",
+          "mov",
+          "r4, r0"
+        ],
+        [
+          "0x173b0c",
+          "add",
+          "r0, sp, #0x100"
+        ],
+        [
+          "0x173b10",
+          "bl",
+          "#0x1088d8"
+        ],
+        [
+          "0x173b14",
+          "mov",
+          "r0, r4"
+        ],
+        [
+          "0x173b18",
+          "bl",
+          "#0x1089ec"
+        ],
+        [
+          "0x173b1c",
+          "mlaeq",
+          "r3, r8, r1, r1"
+        ]
+      ],
+      "sha256": "e6d3a35c518f9bbd7d5d3df3520fc6517a94b45a32e2339ae39d65e4635c2a24",
+      "start_va": "0x173a0c"
+    },
+    {
+      "end_va_exclusive": "0x173e58",
+      "file_offset": "0x73e34",
+      "id": "copy_dispatch",
+      "instructions": [
+        [
+          "0x173e34",
+          "mov",
+          "r0, r5"
+        ],
+        [
+          "0x173e38",
+          "add",
+          "r1, sp, #0x44"
+        ],
+        [
+          "0x173e3c",
+          "mov",
+          "r2, #0"
+        ],
+        [
+          "0x173e40",
+          "mvn",
+          "r3, #0"
+        ],
+        [
+          "0x173e44",
+          "bl",
+          "#0x10f9cc"
+        ],
+        [
+          "0x173e48",
+          "add",
+          "r0, sp, #0xa0"
+        ],
+        [
+          "0x173e4c",
+          "add",
+          "r1, sp, #0xbc"
+        ],
+        [
+          "0x173e50",
+          "bl",
+          "#0x173a0c"
+        ],
+        [
+          "0x173e54",
+          "mov",
+          "r5, r0"
+        ]
+      ],
+      "sha256": "bdc11f4973ac753ba13e7e54bf74e983959a9e3555c426a55e822149dfa8062d",
+      "start_va": "0x173e34"
+    },
+    {
+      "end_va_exclusive": "0x174024",
+      "file_offset": "0x73fc0",
+      "id": "rename_dispatch",
+      "instructions": [
+        [
+          "0x173fc0",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x173fc4",
+          "addls",
+          "r0, sp, #0x48"
+        ],
+        [
+          "0x173fc8",
+          "ldrhi",
+          "r0, [sp, #0x48]"
+        ],
+        [
+          "0x173fcc",
+          "ldr",
+          "r3, [sp, #0x24]"
+        ],
+        [
+          "0x173fd0",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x173fd4",
+          "addls",
+          "r1, sp, #0x10"
+        ],
+        [
+          "0x173fd8",
+          "ldrhi",
+          "r1, [sp, #0x10]"
+        ],
+        [
+          "0x173fdc",
+          "bl",
+          "#0x108cb0"
+        ],
+        [
+          "0x173fe0",
+          "mov",
+          "r4, #1"
+        ],
+        [
+          "0x173fe4",
+          "b",
+          "#0x174024"
+        ],
+        [
+          "0x173fe8",
+          "ldr",
+          "r3, [sp, #0x40]"
+        ],
+        [
+          "0x173fec",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x173ff0",
+          "addls",
+          "r0, sp, #0x2c"
+        ],
+        [
+          "0x173ff4",
+          "ldrhi",
+          "r0, [sp, #0x2c]"
+        ],
+        [
+          "0x173ff8",
+          "bl",
+          "#0x108578"
+        ],
+        [
+          "0x173ffc",
+          "ldr",
+          "r3, [sp, #0x5c]"
+        ],
+        [
+          "0x174000",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x174004",
+          "addls",
+          "r0, sp, #0x48"
+        ],
+        [
+          "0x174008",
+          "ldrhi",
+          "r0, [sp, #0x48]"
+        ],
+        [
+          "0x17400c",
+          "ldr",
+          "r3, [sp, #0x24]"
+        ],
+        [
+          "0x174010",
+          "cmp",
+          "r3, #0xf"
+        ],
+        [
+          "0x174014",
+          "addls",
+          "r1, sp, #0x10"
+        ],
+        [
+          "0x174018",
+          "ldrhi",
+          "r1, [sp, #0x10]"
+        ],
+        [
+          "0x17401c",
+          "bl",
+          "#0x108cb0"
+        ],
+        [
+          "0x174020",
+          "mov",
+          "r4, #1"
+        ]
+      ],
+      "sha256": "596b4f9e1a6590437b9e4898017960e92f3dc90e56d093487b36228a8e42dd75",
+      "start_va": "0x173fc0"
+    }
+  ]
+}
