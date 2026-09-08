@@ -148,6 +148,6 @@ Run the report generator once in write mode and twice in check mode with the sam
 
 Run link validation, `git diff --check`, intended-file review, clean-after-commit status, original HEAD/status/diff hash comparison, and remote-head verification.
 
-- [ ] **Step 4: Commit and push**
+- [x] **Step 4: Commit and push**
 
 Create focused commits for evidence/report generation and the observation analyzer if the change naturally separates; otherwise use one cohesive commit. Push `codex/stock-signed-capability-analysis` and report the final full SHA.
