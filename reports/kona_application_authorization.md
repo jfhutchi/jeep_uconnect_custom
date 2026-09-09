@@ -653,7 +653,7 @@ AMS launch/security domain
   `-- start, pause, stop, uninstall lifecycle                    CONFIRMED Java/IPC surface
 ```
 
-The component boundary is now materially narrower. Native AppManager performs the local DRM-grant gate and asks AMS for authenticated package information. Installed AMS constructs and propagates the fixed `key.jar` sibling, obtains signer objects from its `xlet.properties` entry, loads the exact developer property, promotes selected-security-JAR keys, applies the Base64/SunJCE-RSA/ID predicate first, and only then enters the device/certificate alternative. The remaining trust gap is inside AOT certificate extraction and `SigningKeys.verify`, the legitimate issuer/live-unit ID overlay, incoming-package detached-layout semantics, and signer-to-policy/principal mapping.
+The component boundary is now materially narrower. Native AppManager performs the local DRM-grant gate and asks AMS for authenticated package information. Installed AMS constructs and propagates the fixed `key.jar` sibling, obtains signer objects from its `xlet.properties` entry, loads the exact developer property, promotes selected-security-JAR keys, applies the Base64/SunJCE-RSA/ID predicate first, and only then enters the device/certificate alternative. `Installer.copyAndCheck` now proves the direct incoming-JAR member split that creates the payload and detached `key.jar`. The remaining trust gap is inside AOT certificate extraction and `SigningKeys.verify`, the legitimate issuer/live-unit ID overlay, authorized issuance/serialization, and signer-to-policy/principal mapping.
 
 ## Safe design implications
 
@@ -672,7 +672,7 @@ The component boundary is now materially narrower. Native AppManager performs th
 2. Does an authorized target unit expose a mutable system/boot overlay supplying the otherwise absent `Device` getters, and what supported authority issues credentials for that live ID under the promoted RSA key?
 3. How do the promoted production Chrysler+aicas versus development Xlet Developer+aicas keys and revisions change application signer acceptance or policy selection when `/fs/etfs/AMS_DEVELOPMENT` is active?
 4. Is `xlet.policy.default` a fallback, a policy-class selector, a ceiling, or an input to policy intersection with signed `security.policy`?
-5. What exact on-media installer container produces the three observed filename layers and the extracted `key.jar`/application-JAR pair?
+5. What authorized issuer tool or service serializes this proved direct-JAR member schema, and which byte-exact ZIP/signature conventions does it require beyond the recovered semantic contract?
 6. Which persistent registry fields retain DRM membership, signer identity, installed descriptor normalization, and launch/suppression state? No explicit per-app enable/disable operation exists in the recovered native or Java surfaces.
 7. Why do boot/restart assets still vary the unregistered `-d` argument, and did an earlier or product-variant `appManager` register it with different default semantics?
 

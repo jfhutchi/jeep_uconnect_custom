@@ -1,6 +1,6 @@
 # Synctool device and license-selection pipeline
 
-Updated: 2026-09-05. Read-only, owner-authorized static analysis.
+Updated: 2026-09-06. Read-only, owner-authorized static analysis.
 
 ## Result and scope
 
@@ -26,6 +26,11 @@ Labels match the [main report](map_update_2017q2_reverse_engineering.md):
 CONFIRMED = direct evidence; HIGH = strongly supported semantic interpretation;
 INFERRED = plausible but unproved; UNKNOWN = not established. All addresses are
 ELF virtual addresses; range ends are exclusive unless stated otherwise.
+
+Continuation result: **B - PARTIALLY PROVED** (section 12). Sections 8-10
+resolve the configured internal logging endpoints, composite filesystem
+provider and record-to-container-name provenance; no radio-specific numeric
+MY14 mapping is claimed.
 
 ## Reproducible evidence
 
@@ -186,7 +191,7 @@ selector `0x5FF`, encoding it as `0x420005FF`.
 | Media collection | Manager slot `+0x1C` at `0x0011D6E8` resolves to `0x002621DC`, copying the manager `+0x22C` list. |
 | Candidate key | Inner metadata through slot `+0x14` at `0x0011D7F8`; metadata **`+0x10`** loaded at `0x0011D804`. |
 | Activatable check | Record slot `+0x20` called at `0x0011D80C`. |
-| Incompatibility | Binary search `0x0011DB58-0x0011DBA8`, equality comparison `0x0011DB90`; found key reaches incompatible handling at `0x0011DC48` and log `0x0011DCB4`. Absence reaches activable log `0x0011DC0C`. |
+| Incompatibility | Binary search `0x0011DB58-0x0011DBA8`, equality comparison `0x0011DB90`; found key reaches incompatible handling at `0x0011DC48` and log `0x0011DCB4`. Absence reaches the GUI exception check, otherwise activable log `0x0011DC0C`. |
 
 ### Resolve the two metadata accessors
 
@@ -227,7 +232,7 @@ the current count after insertion. This is a manager/runtime-local allocation
 scheme, not evidence of a persistent manufacturer-issued identifier.
 
 **[HIGH]** The scanner groups records with the same source-container identity.
-The precise semantic content of provider slot `+0x40` remains unassigned;
+Provider slot `+0x40` is now resolved as a backing-provider accumulator (section 9);
 equal ordinals must not be strengthened into "same filename" or "all bytes
 identical" without resolving that provider. The traced populated-metadata
 path also does not establish that every failure/partial-parse path has a
@@ -238,8 +243,16 @@ nonzero key.
 **[CONFIRMED]** Result states are `0 = LICENSES_ALL_VALID`,
 `1 = LICENSE_ACTIVATION_NEEDED`, and `2 = LICENSE_INVALID`. Once state 2 is
 set, activation-needed does not overwrite it (`0x0011DC1C-0x0011DC28`).
-Result object lists are `+4` already-valid, `+8` activatable, and `+0xC`
+Result object lists are `+4` accepted/valid, `+8` activatable, and `+0xC`
 invalid/incompatible, with another list at `+0x10`.
+
+**GUI exception [CONFIRMED]:** When an activatable record's key is absent,
+`0x0011DBAC` calls GUI helper `0x00105194`. A true result branches at
+`0x0011DBB4` to `0x0011DDE8`, loads result `+4` at `0x0011DDEC`, and rejoins
+accepted-list insertion at `0x0011D8E8`. Thus `+4` is not exclusively a list
+of records whose raw validity predicate was already true. Ordinary absent-key
+records instead take the activable log/state-1 path. This qualifies the earlier
+unconditional "absent means activatable" statement; it is not a bypass proposal.
 
 **Important policy qualification [CONFIRMED]:** An invalid/incompatible record
 is added to result `+0xC`, but sets enum 2 only when context byte `+0x51`
@@ -276,7 +289,7 @@ from a log string.
 | Discard stage | Evidence |
 | --- | --- |
 | Identify container groups | `0x00124510` obtains each supplied record's metadata; `0x0012452C` reads metadata `+0x10`; `0x001246E4-0x0012477C` builds a sorted unique temporary key vector. |
-| Remember source names | `0x001245DC` calls `0x00240C18`, which reads record `+0x28`; `0x001245EC` converts the returned name and `0x00124618-0x001246D0` inserts it sorted/unique in context `+0x44/+0x48/+0x4C`. |
+| Remember source names | `0x001245DC` calls `0x00240C18`, which follows record `+0x28` to its container and copies the container's name subobject; `0x001245EC` converts the returned name and `0x00124618-0x001246D0` inserts it sorted/unique in context `+0x44/+0x48/+0x4C`. |
 | Remove related result entries | `0x00124818-0x00124840` enumerates result lists `+4/+8/+0xC/+0x10`; `0x00124888` obtains metadata; `0x00124898` addresses its `+0x10` key; matching entries are unlinked at `0x00124ABC-0x00124AD8`. Thus a discarded group's already-valid records can also be removed. |
 | Notify license manager | `0x00124998-0x001249F8` constructs arguments from the stored names and calls manager slot `+0x28` (`0x003127A8 -> 0x0024BFDC`). |
 | Change the file plan | `0x00124A88-0x00124A98` registers callback `0x00113160` with the parent enumerator through `0x001049AC`. The callback compares the plan entry's name with context `+0x44` at `0x0011321C`. On equality, it releases the entry's associated object at `0x00113338` and clears entry `+8` at `0x00113340`. |
@@ -341,12 +354,29 @@ This excludes intact plain-text diagnostic messages containing these exact
 markers in this image, not compression, fragmentation across a marker,
 corruption, different diagnostic spelling, or logs stored only on the radio.
 The probe prints offsets/categories and optional numeric SKU only; it does
-not dump surrounding log contents or protected material.
+not dump surrounding log contents or protected material. It now also computes
+a full SHA-256 token for a complete printable value in the known
+angle-bracket record/file fields. This can correlate repeated runtime values
+across classification and file-exclusion events without emitting the value.
+Matching tokens are strong evidence of equal field bytes; they do not prove that
+a record name, container identity, or filename has a particular semantic role.
+A digest equal to the already documented successful MY14_REVA filename is
+reported as `target=my14_reva`, allowing a future capture to identify exact
+target participation without printing other values or reading a license payload.
+The CLI retains only per-marker target counts, so target detection covers the
+entire input even when individual hit display is capped.
+
+The new token path and synthetic boundary tests are committed but have not been
+executed under Python because the local command service is unavailable. The
+86-test result below records the last executable suite before this enhancement;
+it must not be read as verification of the new tests.
 
 The recovered outer `swdlLog_recovered.txt` was separately scanned in full:
 1,043,885 bytes, zero marker hits. The compiled installer Lua's printable
 launch-related strings did not establish a dedicated Synctool diagnostic-file
-path. Do not assume that the outer SWDL log captures the internal logger.
+path in that earlier pass. Section 8 now identifies the configured endpoints
+through the logger and installer INI. Do not assume that the outer SWDL log
+captures either endpoint.
 
 **[INFERRED]** The file's MY14/REVA label describes how the vendor packaged
 compatible records; a literal filename/model-year switch in this Synctool
@@ -376,7 +406,7 @@ python -m analysis_tools.synctool_log_probe uconnectmapimage.img --max-hits 30
 python -m unittest discover -s analysis_tools/tests
 ```
 
-Verification passed **80 analysis-tool tests** and **51 selected real-ELF
+Verification passed **86 analysis-tool tests** and **83 selected real-ELF
 evidence anchors**, using Python 3.14.4 and Capstone 5.0.9. Anchors cover
 instructions, vtable entries, and property/log names. Tests use synthetic
 fixtures, not vendor files. The [tooling guide](../analysis_tools/README.md) documents scan
@@ -387,3 +417,235 @@ test suite, `cryptography` was installed only under ignored
 
 No direct parser/validation execution, license normalization, credential
 derivation, image repair, firmware patching, or radio flashing was performed.
+
+## 8. Internal logger: sink implementation and configured destinations
+
+**[CONFIRMED]** The investigated messages share logger `0x00143694`:
+App SKU call `0x00110FF4`, invalid record `0x0011D86C`, activable record
+`0x0011DC0C`, incompatible record `0x0011DCB4`, discard counts `0x00124804`,
+and file exclusion `0x00113310`. The App-SKU descriptor has category `synctool`
+(string `0x002F36C4`) and numeric severity 3. Do not invent a vendor severity
+name or assume a separate "Found valid" message exists.
+
+| Boundary | Direct evidence |
+| --- | --- |
+| Singleton and formatting | Global `0x00320440`; constructor `0x001435D4`, allocation `0x2040`. Call `0x001436DC -> 0x0013643C`; `0x0013647C -> 0x00103C10`, resolved through ELF REL/PLT to `vsnprintf`, with capacity `0x2000`. |
+| Fan-out | Logger `+0x2004` heads a sink chain terminated by `-1`. `0x001364B0-0x001364CC` calls each sink's slot `+8`, following sink `+4`. |
+| Early buffer | Constructor `0x001434A8` installs table `0x002F7298`; slot `+8 -> 0x00143404` copies descriptors and duplicates message text into a linked list. This is process memory, not persistent logging. |
+| Configuration | `0x00142780` reads wide `debug` (`0x002F5674`) and wide `log_%d` (`0x002F81D8`), iterating 1 through 10; colon delimiter `0x002F7910`, numeric level conversion `0x00142C08`. |
+| Stdout special name | Exact `stdout` selects constructor `0x00130458`, table `0x002F6B58`, sink `0x00136D58`; tail `0x00136D90 -> printf` at PLT `0x00103E20`. |
+| File/path sink | Other names select constructor `0x001304E8`, table `0x002F6B28`, slot `+8 -> 0x00136EC4`. Name stored at sink `+0xEC`; `0x00136EE8 -> fopen64` (`0x0010376C`) with mode `a`; message write `0x00136F3C -> fwrite` (`0x001035B0`); close tail `0x00136F5C -> fclose` (`0x00103970`). |
+| Filtering | `0x001333CC` rejects severity greater than sink `+0xD4` (`0x001333E8`), and can apply a category filter at `+0xD8`. |
+| Buffered replay | `0x00142A18-0x00142A64` replays buffered entries to configured sinks. `0x00142A68-0x00142A80` destroys the early buffer. No configured sink can mean no retained messages. |
+
+The new `imports` mode reproduces C-library symbol resolution without executing
+firmware or assuming PLT entry ordering. It supports the classic ARM stub shape
+and ELF32 REL jump-slot entries; an empty result for another linker/ISA is not
+proof that a binary imports nothing.
+
+**[CONFIRMED, configuration not historical execution]** In the hash-identified
+2017Q2 installer ISO, `usr/bin/nav/NNG_Synctool/sync_main.ini` configures:
+
+- `[debug] log_1`: `/dev/stdout::3`
+- `[debug] log_2`: `/hbsystem/multicore/navi/3::3`
+
+Both are *path* sinks, including `/dev/stdout` (different from special name
+`stdout`). These diagnostics therefore go through append-open/write/close to
+stdout and the Harman navigation trace endpoint when this configuration is
+applied and the opens succeed. Neither destination is an ordinary persistent
+Synctool log pathname proved by this ELF. The separate `server_logging`
+configuration names navigation channel `/4`; it must not be substituted for
+the internal logger's `/3` channel.
+
+Installer `usr/share/scripts/navi-sync.sh` starts Synctool in its directory
+without redirecting its standard streams. This script alone does not identify
+the inherited stdout consumer. It also does not prove that this was the only
+launcher used by the successful run. QNX slog, stderr, direct socket output,
+and a dedicated diagnostic-file rotation policy are not established for these
+logger calls; stdout/endpoint handling can occur downstream in other processes.
+
+### Follow the concrete /hbsystem lead, with version separation
+
+**[CONFIRMED for recovered RA4 18.45.01 only]** Its boot script
+`analysis_ra4_18.45.01/work/hidden_hbc_ifs/standard_boot/files/bin/boot.sh`
+has SHA-256 `c801d473b0b49e8242114635f4022cc67ccbe03093fec188de3b7188dd636ecf`.
+Lines 169-207 route navigation channel `/3` to `/dev/null` when logging is
+disabled, or start `multicored` mounted at `/hbsystem/multicore`. Existing
+capture configurations name `/fs/mmc1/LOGFILE.DAT`, `/fs/usb0/LOGFILE.DAT`,
+or `/fs/sd0/LOGFILE.DAT`; another branch supplies no explicit capture file.
+These are read-only artifact leads, **not instructions to enable logging**.
+The observed boot capture limit is 524,288,000 bytes, far beyond the new
+application storage budget; it must not be adopted as an application default.
+
+The recovered `multicored` binary imports resource-manager/socket facilities
+and contains logfile, ring-buffer, index and old-file diagnostics. This supports
+the **[HIGH]** interpretation of `/hbsystem` as a diagnostic-service namespace,
+not an ordinary disk directory. No retrospective `cat` of the write endpoint
+is recommended. Full daemon retention/rotation and historical BOLO routing
+remain **[UNKNOWN]**. This later firmware's boot policy cannot establish that
+any `LOGFILE.DAT` was recorded during the 17.11.17 update.
+
+## 9. Provider +0x40: composite filesystem identity, not protected payload
+
+**[CONFIRMED]** The provider retained in loader source descriptors comes from
+`IFILESYS`, not from a license-record SKU or device identity property:
+
+| Stage | Address / layout |
+| --- | --- |
+| Registry | Helper `0x001292C0` obtains descriptor `0x003203CC` (`IFILESYS::NAME()`). |
+| Filesystem construction | Registration `0x001BA704-0x001BA72C`, factory table `0x003043C0`, creation slot `0x003043D0 -> 0x001CF260`, constructor `0x001C4AD4`, installed table `0x00305348`. |
+| Logical provider lookup | Filesystem slot `+0x10` (`0x00305358`) is `0x001C44B0`. It looks up a name in its provider map, or allocates `0x2C` bytes at `0x001C45D0`, constructs via `0x001C0F40` at `0x001C45E0`, and retains the result. |
+| Installed provider table | Constructor `0x001C0F5C` installs `0x003052D8`. Slot `+0x40` (`0x00305318`) is `0x001B5070`. |
+| Identity operation | `0x001B5070` iterates provider map `+0x10`, obtains each entry's backing object at `+0x14`, and calls its **slot `+0x38`** at `0x001B50A8-0x001B50AC`. It forwards the same source descriptor and 16-byte output accumulator. |
+
+**[HIGH]** "Composite logical-filesystem provider" is a descriptive class name;
+the stripped ELF does not recover its original C++ class name. This operation
+updates a caller-supplied four-word accumulator, not a returned integer ID or
+a pointer to 16 bytes of license content. The license manager subsequently
+mixes the segment offset and length at `0x00257C68-0x00257CD0` and assigns a
+runtime map ordinal as already documented in section 4.
+
+**[CONFIRMED, one concrete backing implementation]** `IROOTDIR_FACTORY`
+constructor `0x001B5364` installs `0x00304950`. Slot `+0x20`
+(`0x00304970 -> 0x001B61B4`) constructs a `0xC`-byte backing object with
+table `0x003047A0`. Its slot `+0x38` (`0x003047D8`) is `0x001C9D30`.
+This implementation reads the source descriptor's name at `0x001C9DA0`,
+converts its 32-bit character units to 16-bit units through `0x001312F8`
+(`0x001C9DC8`), and mixes the name, including its terminator, into the four-word
+accumulator. The implementation's data flow does not read file content, an
+inode, a device SWID or a license credential. Its arithmetic is not implemented
+as a tool here; no protected container is decoded.
+
+**[UNKNOWN]** The successful run's complete registered backing-provider set
+and ordering are unavailable. This concrete name-mixing implementation must
+not be promoted to proof that it was the sole contributor. Even with that
+provider alone, a finite accumulator can collide: equal ordinals prove reused
+map identity within one manager instance, not identical source filenames,
+complete bytes, or a persistent ID comparable between different runs.
+
+## 10. Source descriptor to copy-plan filename, without license decoding
+
+**[CONFIRMED]** `0x00260D4C` enumerates logical license sources. In its first
+path, `0x00260EBC` calls `IFILESYS +0x10` with logical provider name `app`,
+from wide `%app%license` at `0x00313B44`. Enumeration helper `0x0023DF10`
+retains the provider at list node `+8` (`0x0023DFC4`) and the enumerated name
+at node `+0xC` (`0x0023DFC8`). This is directory/source metadata, not a value
+decoded from the protected `.lyc` body.
+
+Loader `0x00257E34` reads that provider/name pair. It puts the provider at
+source descriptor `+4` (`0x00257FB0`), copies the name at descriptor `+0`,
+and compares the source extension with wide `lyc` at `0x00313B98`.
+For `.lyc`, it reads successive eight-byte outer segment headers at
+`0x00257FE0-0x00257FFC`; the current position returned at `0x00258014`
+becomes descriptor `+8` at `0x00258024`, and the declared segment length
+becomes `+0xC` at `0x00258020`. The descriptor is passed to `0x00257C28`.
+Only the loader's static control/data flow is inspected, not protected content.
+
+Container constructor `0x002577B8` copies the name and retains descriptor
+fields `+4/+8/+0xC/+0x10`. Record construction saves the container pointer
+at `0x002540B8`, forwards it in `r3` at `0x00254174`, and stores it in
+record `+0x28` at `0x002450AC`. Thus **record `+0x28` is a container
+backpointer**, not an inline filename or a bare C string. Name helper
+`0x00240C18` follows it and copies the name at container `+0`. This completes
+the missing provenance link to section 5's discard-name vector and copy-plan
+filename comparison. It does not identify a historical runtime container
+address or ordinal for MY14_REVA.
+
+### Repository-wide selector-name audit
+
+**[CONFIRMED NEGATIVE]** At branch head `835db76`, all 83 tracked text/source
+files were searched for `0x284`, `0284`, module/name combinations,
+`application_skuid`, and the MY14 filename. Every selector hit was the already
+documented numeric relationship or its tests/plans; no older report contains a
+recovered vendor module name or numeric MY14 mapping. This closes a
+handoff-document omission route, not the ignored-binary or historical-log route.
+
+## 11. Selector 0x284: bounded follow-up result
+
+**[CONFIRMED]** Immediate filtering found seven ARM candidates for `0x284`:
+the query at `0x00110FB8` and six structure-offset ADD instructions at
+`0x0023B2FC`, `0x0023DE90`, `0x0025D3CC`, `0x0025DD78`, `0x0025F2A8`,
+and `0x0025FD38`. Those offsets do not establish module aliases. Aligned word
+searches found no literal `0x00000284` or `0x42000284` table entry in the
+file-backed load segments. Synthesized constants, packed halfwords, indirect
+tables and other binaries are not excluded by these negative checks.
+
+The Application distributor registers `has_module_license` at
+`0x0026196C-0x00261980` (name `0x00313828`). Together with the proved encoded
+query and halfword membership lookup, this supports the **[HIGH]** module/feature
+interpretation and Application subsystem ownership. The vendor feature name,
+and any claimed meaning such as MY14, remain **[UNKNOWN]**. No name is invented.
+
+### Public analogous NNG runtime corroboration
+
+**[CONFIRMED CORROBORATIVE, NOT RA4]:** a publicly indexed, user-uploaded
+Synctool 9.12.42 runtime log from an unrelated Renault build independently
+shows `ILICENSE_DISTRIBUTOR_APPLICATION` and `ILICENSE_DISTRIBUTOR_GUI`
+registered as separate services. It then reports a query for the Application
+license type and separately logs a device ID/SWID, device code, content code,
+platform ID, and a final pair of IDs used by Synctool. The log has zero
+Application records, so it cannot reveal an App SKU or map selector `0x284`.
+
+This is useful for boundaries, not for transplanting values:
+
+- the repository registration ordinal for the Application distributor is a
+  service-registration sequence, not selector `0x284`;
+- device SWID, platform/content identity, and Application license records are
+  distinct runtime identity planes;
+- Application is a record-bearing license type, consistent with the local
+  Application-distributor selection path;
+- the public trace contains no numeric App SKU, module name, MY14 mapping, or
+  Harman/FCA record outcome.
+
+Source provenance is weaker than the local hash-identified artifacts because
+the page is a third-party user upload. It is therefore corroboration only:
+https://www.scribd.com/document/373539260/Synctool-Log
+
+The privacy-preserving log probe now recognizes these identity-plane messages.
+It outputs only SHA-256 equality tokens for line or angle-bracket values and a
+numeric Application-record count; it never prints the underlying device IDs,
+SWIDs, platform IDs, record names, or filenames. Repeated tokens can prove that
+the same byte string reappears across messages without disclosing it.
+
+## 12. Result class and read-only evidence plan
+
+**B - PARTIALLY PROVED.** Static evidence now connects source enumeration,
+composite provider identity, segment descriptors, record container backpointers,
+group pruning and filename exclusion. It also identifies configured diagnostic
+destinations. The independent runtime log proves the MY14_REVA copy. Still absent
+are that run's selected App SKU for module `0x284`, per-file record predicates,
+the device-side ordinal set, backing-provider configuration, and associations
+between those values and the MY14_REVA container. These independent facts do
+not establish a numeric MY14 selection rule or a category-A result.
+
+Highest-value read-only target: an **already recorded Harman multicored capture
+from the successful update**, with its matching index/old-file companions and
+timestamps if present. Check existing owner archives or radio/media inventories
+for the three `LOGFILE.DAT` paths in section 8. A named artifact was not found
+in the inspected recovered RA4 file inventory or the final repository-wide
+filename-only `*LOGFILE*` / `*logfile*` check (including ignored evidence,
+excluding Git/dependency directories). No new blind raw-image scan was run.
+The original image's prior intact-marker scan remains relevant.
+
+Record the current version, existing `/hbsystem/multicore/navi/3` link/resource
+mapping and logging configuration as context only. Do not create flags, change
+configuration, mount writable, start a logger, rerun an update, or request an
+activation operation. The endpoint itself is not proved to support reading
+past records. The current QNX slog buffer is not established as this logger's
+sink, so it is not the primary collection recommendation.
+
+Disk capture files may survive reboot, but daemon reuse/rotation can overwrite
+them; exact retention is unproved. Process buffers and uncaptured streams
+cannot be assumed to survive process exit, ignition cycling or reboot. If the
+historical messages went to `/dev/null`, that path retained nothing to recover.
+Any available capture should be copied **off-radio**, without staging a large
+archive inside the approximately 77 MB free-space pool.
+
+Extract only non-secret `synctool` App-SKU/category/severity messages, source
+filenames, valid/activatable/incompatible/invalid classifications, discard counts
+and copy-plan exclusions. Standard messages may still lack per-record module
+membership, ordinals or the selected-record-to-filename relationship. If so,
+completion needs an **existing, legitimate non-secret diagnostic inventory**
+correlating source name, segment bounds, module membership, SKU and classification
+within the same run. No such inventory interface/path is yet established;
+do not claim that a plain App-SKU log alone closes the mapping.

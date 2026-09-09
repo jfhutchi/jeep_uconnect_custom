@@ -1,6 +1,33 @@
 # 02 - Current RA4 Architecture
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 This document records the current evidence from static analysis of RA4 18.45.01.
+
+## Mandatory resource constraint
+
+The owner reports approximately 77 MB free writable storage, shared with stock
+operation. The [resource budget](ra4_resource_budget.md) protects 45 MB, with
+provisional app caps of 15 MB installed, 4 MB writable growth and 8 MB additional
+peak staging/rollback. Sizes and runtime peaks remain unmeasured. Architecture
+must prioritize a tiny resident projection-integration layer, preserve stock
+screens, reuse stock assets/services, and justify every
+`EXTERNAL_COMPUTE_REQUIRED` feature individually.
+The presence of stock facilities below does not yet prove their APIs/ABIs are
+usable by a new app, nor that a complete projection backend fits locally.
+
+The [resident implementation decision](resident_hmi_decision.md) compares stock
+AIR/SWF, native QNX, hybrid and existing Java/Lua facilities. It provisionally
+prefers stock AIR/SWF reuse, not native code by default; installation and
+independent fallback remain UNKNOWN. The PC-only artifact is now a focused
+projection-ownership state bench, not a replacement navigation model.
 
 ## VERIFIED
 
@@ -59,17 +86,32 @@ Persistency configuration contains projection-related properties including:
 - `Projection_AutoShow`
 - `projectionAutoPlay`
 
+## CONFIRMED integration behavior
+
+- `IPhoneProjection.sessionActive` is independent of the visible branch.
+- `startProjection(ppId)` is distinct from navigating to `DEVICE_PROJECTION`.
+- Projection call/audio/navigation state feeds a dedicated stock status-bar path.
+- Stock call and SMS foreground/TTS presentation are localized downstream of
+  their underlying services.
+- Stock application foreground requests reject for camera, display-off, blocking
+  popup and full emergency presentation and can retry after state changes.
+- Camera layers preempt through DisplayManager/LayerManager and return through the
+  stock navigation stack.
+- HVAC information can use stock popups without replacing the underlying branch.
+
 ## STRONG EVIDENCE
 
-The RA4 uses a shared Harman/FCA HMI codebase that contains projection-aware UI behavior even though the complete projection backend does not appear to be installed in this product build.
+The shared HMI was designed for projection-aware foreground ownership even though
+the complete projection backend appears absent or incomplete in this RA4 build.
 
 ## UNKNOWN
 
-- Exact complete interface contract for `IPhoneProjection`.
-- Whether a compatible replacement `phoneProjectionService` can be supplied without modifying signed firmware.
-- Exact display-surface arbitration rules between stock HMI, camera and an external projection surface.
-- Exact touch routing behavior during an active projection session.
-- Exact application-audio registration/control path required for a new projection source.
+- Complete `IPhoneProjection` backend and `PROJECTION_BACKTO_CAR` consumers.
+- Supported native policy/API for suppressing duplicate Phone/SMS presentation.
+- Compatible legitimate `phoneProjectionService` loading without signed-image modification.
+- Projection video-surface and touch-routing contracts.
+- Projection/HFP audio-focus and microphone ownership.
+- Complete local engine storage, RAM and CPU feasibility.
 
 ## Security constraint
 

@@ -1,12 +1,1151 @@
 # Uconnect RA4 18.45.01 Research Handoff - Current Findings
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](docs/00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 **Status:** current evidence handoff for the owner-authorized, read-only RA4 investigation  
 **Primary target:** RA4 / VP4 18.45.01  
 **Comparison target:** UAS 21.9 only where explicitly labeled  
-**Current implementation status:** STOP - no stock modification, application installation, or flash is yet authorized by the evidence  
+**Current implementation status:** BLOCKED - implementation on hold pending manufacturer hardware/support, legitimate authorization and compatible licensed components  
 **Safety boundary:** no anti-theft PIN bypass or derivation, no service-certificate forgery, no signature disabling, no reuse of vendor credentials, and no stock/vendor material in Git
 
 ## 1. Mission and corrected premise
+
+### September 2026 execution restriction
+
+The owner has exhausted GitHub Actions credits for September. Do not dispatch
+workflows, retry jobs, or perform an action that would trigger a hosted run
+during this period. Verification stays local. Before an otherwise-authorized
+push or PR update, verify applicable workflow triggers remain manual-only;
+if that cannot be established, retain local commits without pushing. The
+repository's sole workflow was verified manual-only and no queued/running
+jobs existed when this instruction was received. This restriction supersedes
+earlier CI-related expectations. Do not automatically enable or run Actions
+when the calendar changes without considering the owner's latest instructions.
+
+### Current checkpoint: 2026-09-07 live incoming-JAR transformation
+
+Started clean at `b2ff21d` on `codex/ra4-driver-temperature`. This continuation
+recovered the secure AMS `Installer` parser and resolves the remaining live
+container ambiguity without contacting a target or performing any signing,
+credential, trust, DRM, firmware, boot, or installation operation.
+
+**PROVED:** the live object is one direct payload JAR, not a wrapper around a
+nested executable JAR or nested `key.jar`. In the recovered production form it
+is conventionally signed. AMS opens the submitted file itself as `JarFile`,
+authenticates its root descriptor through the primary URL,
+and splits members. Exact root `xlet.properties` is copied to both outputs;
+exact case-sensitive `.MF`, `.SF`, `.RSA`, and `.DSA` suffix members go to fixed
+`key.jar`; all other members go to the executable named with the submitted
+basename. `createNewXlet` stores a normalized external descriptor after
+overwriting `xlet.jarFile` with that basename.
+
+Install promotes fixed `__newxlet__` to `<xlet.appId>`. Upgrade delegates to
+install when absent; otherwise it preserves `<appId>/data`, swaps only `prog`
+through sibling `prog.bak`, and removes backup/staging after success.
+`recoverProgIfNeeded` restores `prog.bak` only when `prog` is absent. AMS app IDs
+must be nonempty and use only ASCII alphanumerics plus `_`, `.`, and `-`.
+Installer does not create or consume `magic.txt`; `HB_CMC` is not an AMS
+`Installer` authentication input. Its factory/download or pre-Installer role
+remains unknown.
+
+The enhanced read-only inspector never reconstructs or signs an archive. It
+validates direct single-JAR member/digest/signature structure and inversely
+checks installed payload/key pairs. The deterministic KIM census proves 135/135
+split-consistent installed instances, zero invalid/unreadable cases, and 65
+distinct member content sets. Census SHA-256 is
+`03159b95b64606bb92f0941413a884e59653584c3c1c5c6d4e347da64687255e`.
+
+Fresh local verification: 195 analysis-tool Python tests, 33 focused inspector
+tests within that suite, 16 Hello tests, 20 resident-HMI Node tests, strict C99
+arbiter build/run, Python syntax compilation, two byte-identical census builds,
+and two byte-identical Hello builds pass. Hello's JAR remains unchanged at
+SHA-256 `e3e7fa2cdffc179ea3b031f1744ad0d9958bb5a01b15fcdd3a253b777dc8bbb2`.
+The workflow remains manual-only; no GitHub Action was dispatched.
+
+The [incoming-JAR schema](reports/resident_incoming_jar_schema.md) is the primary
+new evidence report. The single next hard gate is authorized issuance: an
+issuer/tool interface that allocates or accepts the app ID, signs this proved
+archive shape with an AMS-accepted authority or legitimately issues a
+developer/device credential, maps the signer to Principal/policy, and provisions
+matching DRM/manual-launch state. One genuine live package remains useful for
+byte-exact ZIP serialization comparison, but it is no longer required to know
+the member schema. Hello remains unsigned, unissued, non-installable, and was not
+wrapped into a structural fixture.
+
+### Preceding checkpoint: 2026-09-07 resident package and trust contract
+
+All sections from this heading onward are historical checkpoints unless a later
+precedence note explicitly incorporates them. The current checkpoint above and
+the finalized reports in section 15 supersede their older open-question wording.
+
+Started clean at `264e66f`, the deterministic Hello Uconnect host-artifact
+checkpoint. This continuation did not rebuild the broad firmware census or seek
+a Kona/QNX SDK. It bounded the remaining package/trust problem using the
+already-extracted KIM, installer, AMS, AppManager, signature, policy and DRM
+evidence.
+
+**PROVED:** live app-media and catalog installation both submit one local JAR to
+the AppManager/secure-AMS boundary. The exact live JAR schema remains absent.
+Separately, all 135 factory KIM application instances prove the installed
+external descriptor, executable JAR, fixed companion `key.jar`, and `magic.txt`
+shape. `key.jar` is the detached signed envelope: its manifest binds every
+executable member and the signed descriptor, `.SF` binds the manifest, and the
+PKCS#7 `.RSA` block carries the application signer certificate.
+
+The new read-only `resident_package_inspect.py` reproduces that relationship. It
+classifies KIM1 Slacker and KIM3 Application Manager as factory installed-layout
+analogues, covers 513/513 and 580/580 payload members respectively, finds zero
+digest mismatch, verifies their `.SF` full-manifest digests, and extracts only
+public signer metadata. It never signs or installs. Synthetic rejection tests
+cover malformed ZIPs, missing or incorrect `magic.txt`, identity/token
+mismatch, ambiguous same-name payload/envelope members, escaped executable
+paths, incomplete/bad digests, decoupled or malformed signature metadata,
+unsafe signed/installed Hello entitlement flags, unsafe skeleton paths and
+deterministic output.
+
+The Hello build remains byte-identical at SHA-256
+`e3e7fa2cdffc179ea3b031f1744ad0d9958bb5a01b15fcdd3a253b777dc8bbb2`.
+It now generates an ignored installed-layout research skeleton containing only
+the original JAR, logical descriptor, proved sentinel and explicit status. It
+deliberately omits the payload-root signed descriptor and `key.jar` and is
+machine-classified
+`incomplete-installed-layout-skeleton`, `installable=false`.
+
+The [package format](reports/resident_package_format.md),
+[identity model](reports/resident_identity_model.md),
+[signing chain](reports/resident_signing_chain.md),
+[policy/entitlement split](reports/resident_policy_entitlements.md),
+[install lifecycle](reports/resident_install_lifecycle.md), and
+[Hello gap matrix](reports/hello_installability_gap.md) replace the broad
+"signing/package identity unresolved" phrase with the exact remaining boundary.
+The next hard gate is an authorized live single-JAR sample/specification plus
+application-ID, signer/credential, principal/policy and DRM issuance for a new
+identity. No target action, trust change, credential creation or stock identity
+reuse is authorized.
+
+### Preceding checkpoint: 2026-09-07 product readiness and next inputs
+
+Started clean at `930fffd`; fetched origin with no divergence. The preceding
+continuation connected the default frame and qualified disposal completion.
+This checkpoint separates the remaining build inputs from package and runtime
+acceptance. The full resident-first objective remains active.
+
+**EXTERNAL_PROVIDER_GATE:** no confirmed RA4-compatible receiver or approved
+custom-package contract is present in the project evidence. The current shell
+has no qcc, q++ or javac on PATH and no QNX_HOST/QNX_TARGET configuration.
+This is a bounded process-environment observation, not a whole-machine SDK
+search or proof of absence. No approved SDK/document location has been supplied
+for this continuation; the owner was asked for the location of existing
+authorized materials. No provider was contacted.
+
+The [next-action decision](docs/10_evidence_gates.md#current-next-action-decision)
+now identifies minimum useful inputs and what each unlocks. Compatible build
+tools and permitted API materials can unlock an original no-engine host build
+without a receiver or radio. Package issuance, effective ownership, runtime
+recovery and engine qualification remain separate gates. Passive C2 topology
+evidence remains the highest-value hardware input.
+
+The older acquisition queries are labeled as historical baseline work, with
+repetition reserved for materially different inputs or a new product-relevant
+hypothesis. Synctool correlation is not a prerequisite for the projection shell.
+The transport matrix now incorporates the latest notification/completion limits.
+Further static questions remain, but repeated scans cannot supply an authorized
+ABI contract or target measurements. No RA4 runtime gate advanced in this audit.
+
+This checkpoint changes documentation only. Local checks cover the changed
+documents and repository state; the earlier 162-test suite and preceding
+artifact verification remain historical. No target or phone connection,
+compiler installation, engine acquisition, external-compute selection or
+hosted workflow occurred. The next build depends on an existing approved
+materials location or a supported provider contract.
+
+### Preceding checkpoint: 2026-09-07 default frame and disposal completion boundary
+
+Started clean at `1d38c28`; fetched origin with no divergence. The prior goal
+turn established the Screen factory's relationship to Window initialization.
+This continuation connects the conditional default frame and checks disposal
+completion semantics. The full resident-first goal remains active.
+
+**STATIC_PROVED conditional default path:** the frame factory caches
+UndecoratedXletMainFrame; its constructor chain reaches Frame, Window.init
+and the graphics-device setWindow call. The default frame cache is distinct
+from the lower-level screen factory's fresh allocation. A per-app container
+does not thereby own a separate top-level frame or native Screen context.
+
+**STATIC_PROVED:** Window.doDispose's off-dispatch invokeAndWait call is covered
+by InterruptedException and InvocationTargetException handlers that log and
+can still reach postWindowEvent(WINDOW_CLOSED). Event posting is conditional
+on eligibility. Neither call-site reachability nor an eligible closed event
+certifies successful disposal. invokeAndWait posts work before an untimed
+Object.wait. **INFERRED:** an interrupted caller can finish while disposal
+work remains pending; actual timing/late work is unobserved.
+
+Window$1.run requests hiding, Container.removeNotify, input-context disposal
+and Java focus-root cleanup. The body has no explicit pumpEvents write or
+native Screen destruction call; transitive effects remain outside that bound.
+**UNKNOWN:** effective custom factory/device ownership, supported pump lifetime,
+native release and stock input recovery. See the
+[expanded frame/disposal report](reports/ra4_screen_factory_lifetime.md).
+
+Fresh checks reran the preceding artifact chain, rechecked startup/initializer
+hashes and verified 15 ROM bodies, 22 direct resolved call anchors, three
+symbolic references, two superclass links, both disposal exception handlers
+and WINDOW_CLOSED's value. No target/phone test, hosted workflow, provider
+contact or executable product change. The earlier 162-test suite is historical.
+USB, transport, engine, authorization and resource gates remain unchanged.
+All 83 local links across four changed Markdown files resolve; whitespace
+checks pass. The workflow remains the verified manual-only blob; the owner's
+September no-Actions restriction remains in force.
+
+The next meaningful completion gate is a supported native-release and stock
+input recovery contract correlated with actual action completion. Preserve
+raw disposal failures and late-work observations; do not treat a shared-frame
+dispose or closed event as a per-app recovery shortcut. No local capability
+failure or external-compute fallback has been established.
+
+### Preceding checkpoint: 2026-09-06 remaining Screen methods and factory ownership
+
+Started clean at `52c44e5`; fetched origin with no divergence. The previous
+goal turn made concrete progress by reconstructing pumpEvents placement and
+checking the inline writers. This continuation identifies the six non-inline
+implementations and the screen factory's ownership chain. The goal stays active.
+
+**STATIC_PROVED:** the six methods bind to graphics configuration, pixel-depth,
+event conversion and three native image/EGL wrappers. The selected native
+implementations attach the image library or read native handle fields. The
+six listed compiled intervals contain two STRB-family candidates, both verified
+as stillPressed writes at next block +0x13; these do not clear pumpEvents at
++0x12. Transitive calls and computed/wider stores remain outside that census.
+
+**STATIC_PROVED:** getInstance(Window) allocates a new GLESPlatformScreen;
+GLESGraphicsDevice.setWindow stores its result in screen; the initializer
+runnable retains that screen in this$0 and is passed to the daemon thread.
+Window.init invokes the base GraphicsDevice.setWindow method, and the GLES
+device supplies its matching override. This is not evidence of a cached
+singleton or one thread/native context per Xlet. **UNKNOWN:** the effective
+runtime device type and invocation count, approved
+app frame/device ownership, supported stop writer and completed native release.
+See the [factory and compiled-method report](reports/ra4_screen_factory_lifetime.md).
+
+Fresh verification reran the artifact chain and checked 46 ARM anchors, six
+method/adapter bindings, six storage literals, three native targets, two imports,
+two byte stores, six ROM bodies, seven resolved references, the device
+superclass/override relationship and a 4122-pool
+factory-reference census. No target/phone test, executable product change,
+provider contact or GitHub Actions run. The earlier 162-test suite is historical.
+USB, transport, engine, authorization and resource gates remain unchanged.
+All 120 local links across five changed Markdown files resolve; whitespace
+checks pass. The remote workflow retains the verified manual-only blob.
+
+Next useful ownership trace is Window.init's relationship to the approved
+Xlet's frame factory and the corresponding disposal path. Do not
+create app isolation by repeatedly invoking an unqualified screen factory or
+destroying shared stock resources. No measured local failure or external-compute
+fallback is established.
+
+### Preceding checkpoint: 2026-09-06 pumpEvents layout reconstruction
+
+Started clean at `f26a3e7`; fetched origin with no divergence. The previous
+goal turn made concrete progress by resolving the accessor's read mechanics.
+This continuation reconstructs the named field and narrows its writer search.
+The full resident-first goal remains active; verification stays local.
+
+**HIGH:** the loader's selected type/packing rules applied to class 914's
+metadata assign pumpEvents to logical byte location 46, matching access$800.
+java/lang/Object contributes no declared fields; the seed is three logical
+words. Eight other quick getters corroborate the reconstructed layout.
+The loader reuses remaining small-field space, explaining why pumpEvents
+precedes ie in storage despite following it in declaration order. This is
+a cross-checked static reconstruction, not an observed live object layout.
+See the [expanded field-semantics report](reports/ra4_screen_quick_field_semantics.md).
+
+**STATIC_PROVED within the stated boundary:** all 30 inline bodies of the
+class decode, and the sole named putfield to pumpEvents is the constructor's
+true write. There is no false-writing named putfield in those bodies. Six
+non-inline methods, native/reflection/dynamic behavior, other classes and
+optional components remain outside that writer check. **UNKNOWN:** supported
+stop writer, cross-thread observation, effective native event release and
+stock input recovery. No immutable-flag, thread-leak or runtime-failure claim.
+
+Fresh checks reran the prior artifact chain and matched 64 new ARM anchors,
+eight table entries, superclass metadata, 14 instance locations, three static
+exclusions and nine getter comparisons including the target. All 30 inline
+bodies decoded with exactly the constructor write. No committed executable
+code change, target/phone test, provider contact or GitHub Actions run. The
+earlier 162-test suite remains historical. USB, engine, authorization,
+transport and resource gates are unchanged; external compute is not selected.
+All 79 local links across four changed Markdown files resolve; whitespace
+checks pass. The remote workflow remains the verified manual-only blob.
+
+Next useful boundary is the six non-inline methods and supported shared-screen
+ownership/lifetime contract. Do not repeat the completed quick-read or layout
+reconstruction without new evidence. A field location is not an integration
+API; native release and app Return remain independently unqualified.
+
+### Preceding checkpoint: 2026-09-06 Screen-loop quick-field semantics
+
+Started clean at `1ac0ba2`; fetched origin with no divergence on canonical
+`codex/ra4-driver-temperature`. The full resident-first goal remains active.
+Verification stays local under the owner's September no-Actions restriction.
+
+**STATIC_PROVED:** access$800 uses fused D7/D0: local variable zero supplies
+the receiver, and operand 46 selects a segmented signed-byte read. It follows
+one object-block link at +0x1C, then reads at +0x12 in the next block. The
+operand is neither a constant-pool index nor a flat object offset. Both fused
+dispatch variants share their byte handler with D7/D1 and do not apply the
+one-bit mask found in standalone D0. The method's descriptor is Boolean.
+See the [quick-field report](reports/ra4_screen_quick_field_semantics.md).
+
+**STATIC_PROVED:** the selected ordinary putfield path obtains type and
+location from a resolved field descriptor, then uses a segmented byte store
+for B/Z. **UNKNOWN:** class 914 CP4's effective descriptor/location, a proved
+location-46-to-pumpEvents mapping, and the supported false-writing lifecycle
+caller. Hiding an app still does not establish loop exit or native release.
+Do not turn the recovered field location into a direct mutation interface.
+
+Fresh checks reran the previous artifact chain and matched 58 new ARM anchors,
+ten dispatch entries, one literal and five accessor bytes; checked two
+unmasked load spans and six host address examples. No target or VM execution,
+phone bench test, hosted workflow, provider contact or executable product
+change. The earlier 162-test suite remains historical. USB topology, transport,
+engine, authorization and resource gates are unchanged; no external compute.
+All 117 local links across five changed Markdown files resolve; whitespace
+checks pass. The remote workflow retains the verified manual-only blob.
+
+Next useful local target: follow the resolved-field descriptor producer for
+class 914 CP4 and identify a supported lifecycle writer. Avoid repeating the
+completed native lookup or standard-registration investigation without new
+evidence. Passive C2 routing evidence and a legitimate SDK/engine remain
+independent external gates.
+
+### Preceding checkpoint: 2026-09-06 standard JNI registration limit
+
+Started clean at `37b1351`; fetched origin without divergence on canonical
+`codex/ra4-driver-temperature`. The previous turn narrowed dynamic lookup;
+this continuation checks the explicit-registration hypothesis. The full
+resident-first projection goal remains active. All verification remains local.
+
+**STATIC_PROVED:** both recovered JNI interface tables have RegisterNatives
+at index 215 pointing to 0x6207CC and UnregisterNatives at index 216 pointing
+to 0x6207B4. Both entries call the internal not-implemented helper, which
+reaches the imported abort function. These bodies do not process a native
+method-registration array. A following zero-return instruction is not a
+successful registration acknowledgment after that abort call.
+
+**STATIC_PROVED:** initialization obtains both table pointers through their
+getters and stores them in configuration. Both tables expose the same
+GetVersion function returning 0x00010004. Effective selection for a particular
+live caller is unobserved, but neither inspected registration entry is usable
+as a supported standard registration implementation. See the
+[JNI registration report](reports/ra4_jni_registration_limit.md).
+
+The standard RegisterNatives hypothesis is closed for these tables. The
+preceding event-free mismatch cannot be explained by citing generic JNI
+registration. **UNKNOWN:** alternative build-specific binding, another matched
+component/release implementation, event-free invocation and actual native
+release. No runtime crash/leak or measured local capability failure is claimed.
+
+The resident proof and engine-provider requirements now explicitly qualify
+any Java/JNI adapter's binding mechanism on the exact stock VM build. Native
+packages using other supported interfaces are not rejected by this finding.
+Do not modify the stock VM or execute an aborting compatibility probe. USB,
+transport, authorization, engine availability, video/audio and resource gates
+remain open or unchanged. External compute is not selected.
+
+Fresh local checks reran preceding artifact verification and matched 25 new
+ARM anchors, two table headers, six table entries, four literals, the abort
+import and two getter call-site censuses. The earlier 162-test suite remains
+historical; no committed executable code/test changes. No target execution,
+provider contact, protected payload commit or GitHub Actions dispatch/retry.
+All 118 local links across six changed Markdown files resolve; whitespace
+checks pass. The remote workflow remains the verified manual-only blob.
+
+Next useful evidence is the Screen-loop accessor's quick-op field semantics
+and lifecycle control, or a concrete alternative event-release path. Do not
+reopen standard registration through these tables without new evidence.
+
+### Preceding checkpoint: 2026-09-06 dynamic native lookup qualification
+
+Started clean at `c99f917` on canonical `codex/ra4-driver-temperature`.
+The prior goal response handled the owner's no-Actions constraint; this
+continuation resumes substantive local research. The full projection goal
+remains active.
+
+**STATIC_PROVED:** AMS has a native-symbol formatter and loaded-library lookup
+path reaching dlsym. It formats a Java_ name and conditionally retries with an
+argument signature. Lookup traverses Runtime.dynamicLibraries using nativeHandle
+and next. Zero AOT entries or missing AMS imports alone cannot reject dynamic
+native binding. A separate caller looks up JNI_OnLoad.
+
+**INFERRED from the verified formatter and declaration:** ordinary short or
+signature-qualified KSEventAtom.nativeKSFreeEvent lookup does not match the
+inspected library's KSEvent-named export. The ASCII encoder preserves Atom;
+adding __J cannot resolve that class-name difference. Neither candidate nor
+JNI_OnLoad is exported by this library. Explicit registration elsewhere,
+different loaded components or another supported release path remain possible.
+See the [expanded native-release report](reports/ra4_screen_loop_release_boundary.md).
+
+**UNKNOWN:** effective event-free registration and actual release, the loop
+accessor's quick-op field semantics, and completed stock input recovery. No
+runtime link failure, leak or local capability failure is claimed. The resident
+proof now requires a supported matching Java/native component set and qualified
+event-free registration or alternate release implementation. USB, engine,
+authorization, video/audio and resource gates are unchanged; no external
+compute fallback is selected.
+
+Fresh local checks reran the preceding I/O/Screen and loop checks and matched
+46 additional ARM anchors, seven literals, three imports, two direct-call
+censuses and four symbol-name checks. The earlier 162-test suite remains
+historical; no committed executable code/test changes. No GitHub Actions
+workflow was dispatched or retried. The remote canonical workflow blob matches
+the inspected manual-only local file; main has no workflow files. No target
+execution, provider contact or protected payload commit occurred.
+All 69 local links across the three changed Markdown files resolve; whitespace
+checks pass. PR #14 stays draft; main and independent PR #15 remain preserved.
+
+The next evidence target is effective explicit native registration or a
+supported alternative event-release path, alongside accessor field semantics.
+These remain requirements to qualify, not reasons to modify vendor code.
+
+### Preceding checkpoint: 2026-09-06 Screen loop exit and event-release boundary
+
+Started clean at `9d16fe2`; fetched origin with no divergence on canonical
+`codex/ra4-driver-temperature`. The preceding native wait/callback checkpoint
+was progress. This continuation follows event-loop lifetime and ownership;
+the full resident-first projection goal remains active.
+
+**STATIC_PROVED:** initKSWindowData starts a named daemon thread. The compiled
+initializer run checks a Boolean accessor before the native wait; false
+reaches a normal return, while selected event conversion/dispatch loops back.
+The accessor's quick-op field operand is not assigned guessed semantics.
+Separately, the constructor initializes pumpEvents true and setVisible writes
+a different named visibility field. Hiding does not establish loop termination.
+
+**STATIC_PROVED:** KSEventAtom.consume writes consumed before calling its
+nativeKSFreeEvent declaration. The selected native registration has no AOT
+function/adapter entry. libKSLinked exports an event-free function under the
+different KSEvent class name and calls screen_destroy_event there; AMS has no
+FreeEvent dynamic symbol. The effective Java-to-native free binding remains
+unresolved. A 4122-class constant-pool search finds no direct resolved reference
+to consume or the no-argument KSWindow destructor within its explicit boundary.
+See the [event-loop/release report](reports/ra4_screen_loop_release_boundary.md).
+
+**UNKNOWN:** supported per-app loop termination, exact native event ownership/
+release, completed teardown and stock contact recovery. No leak, runtime link
+failure, resource-consumption rate or measured local capability failure is
+claimed. No external-compute fallback is selected. The future resident proof
+requires the shared-thread lifetime and event-release contracts independently
+of visibility, consumed flags, loop return and app AWT detachment.
+
+Next evidence target: accessor field semantics and native event-free
+registration, or their legitimate exact-build SDK/provider contract. Pending
+AIE delivery and effective strictRTSJ remain open. USB topology, role/stack,
+AOA/Android Auto transport, engine/provider, authorization, video/audio and
+resource-budget gates remain unchanged; native input/rollback requirements
+are more precise but no runtime gate passes.
+
+Fresh verification reran the preceding I/O/Screen checks and matched 22 new
+ARM anchors, four storage bindings, seven inline ROM bodies, eight resolved
+references, all 4122 constant pools and selected dynamic symbols. No committed
+executable code/test changes; the earlier 162 host tests remain historical.
+All 123 local links in six changed Markdown files resolve; whitespace checks pass.
+No radio/vehicle/phone execution, provider contact or protected payload commit.
+PR #14 remains draft; main and independent PR #15 remain preserved.
+
+### Preceding checkpoint: 2026-09-06 native I/O callbacks and stock Screen wait
+
+Started clean at `a75f790` on canonical `codex/ra4-driver-temperature`;
+origin had no divergence. This continuation follows the I/O registration and
+native UI boundary identified by the preceding checkpoint. The full
+resident-first projection goal remains active.
+
+**STATIC_PROVED:** 11 direct registration calls resolve to six callbacks:
+four signal requests, one semaphore post and one socket-shutdown handler.
+Registration is conditional on interruption-request state; teardown clears
+the registered callback/payload. The semaphore and socket handlers do not
+uniformly validate their underlying operation results. A callback Boolean
+cannot substitute for actual native-operation completion.
+
+**STATIC_PROVED:** GLESPlatformScreen$KSWindowInitialiser.run passes long
+2000000000 to KSEvent.ksWaitEvent; the adapter and recovered libKSLinked.so
+forward it unchanged to screen_get_event. This actual stock caller uses a
+positive timeout, while the separate no-argument wrapper supplies -1. Later
+QNX API documentation interprets the units as nanoseconds; that context is
+not a measured RA4 deadline. The linked event-post implementation throws
+unsupported-operation. Native window destruction calls both Screen window
+and context destruction, separately from app AWT child detachment. See the
+[native I/O and Screen report](reports/ra4_native_io_screen_wait.md).
+
+**UNKNOWN:** whole-program native cancellation coverage, event-loop exit,
+completed window/contact recovery and per-app containment while shared AMS
+is alive. No whole-context destructor is selected as an app Return action.
+The future resident proof now requires supported per-operation cancellation,
+actual loop return and restored stock input rather than timer/callback proxies.
+
+Next local boundary: stock event-loop termination and native event ownership/
+release, joined to shared platform-screen teardown. Pending-AIE delivery and
+effective strictRTSJ remain unresolved. Legitimate SDK/package, cabin USB
+topology, transport, engine/provider and resource gates remain unchanged.
+No runtime gate passes, no measured local capability fails and external
+compute is not selected.
+
+Fresh checks match two identities, 11 registration sites/six callbacks,
+74 ARM anchors, 13 imports, three AOT bindings, three library exports,
+two inline ROM bodies and four ROM references. No committed executable code
+or tests change; the earlier 162 host tests remain historical. All 121 local
+links across six changed Markdown files resolve. This is
+host-only research with no target footprint, provider contact or vendor
+payload commit. PR #14 remains draft; main and independent PR #15 are preserved.
+
+### Preceding checkpoint: 2026-09-06 native interruption request and cleanup escalation
+
+Started clean at `7faebed` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding worker trace was concrete progress.
+This continuation follows interruption requests and cleanup escalation; the
+full resident-first projection goal remains active.
+
+**STATIC_PROVED:** AIE.fire reaches RealtimeThread.interrupt, which checks
+isAlive and calls the native pending-AIE setter. Non-null setter calls reach
+Thread.interrupt0 and native interrupt-status update; null clears the pending
+reference without that request. A separate native accessor reads/clears the
+interrupt flag. These states do not acknowledge actual action exit.
+
+**STATIC_PROVED:** checkThreadTermination first requests blocking-I/O
+interruption through the permissioned group controller. Its native helper
+uses a VM mutex and conditionally invokes a registered callback. The Java
+caller then performs deadline-based joins, followed when necessary by AIE
+escalation, an exact TimerThread stop path, another 50 ms join per array entry,
+active-count recheck and reduced priority/error 20 for survivors. The initial
+I/O request and later join pass prevent treating the first deadline or stored
+200 timeout as an end-to-end completion bound. See the
+[interrupt/cleanup report](reports/ra4_ams_interrupt_request_cleanup.md).
+
+**UNKNOWN:** full interrupt delivery/defer behavior, I/O callback coverage and
+completion, total cleanup bound, late action activity and native display/input
+recovery. strictRTSJ reads a runtime field; its initializer/value remains
+unresolved after the bounded field search and recovered launch/config review.
+Generic RTSJ semantics are not promoted to build-specific proof. The partial
+ROM decoder's unsupported quick opcode in AIE.fire is explicitly retained as
+a limit; only verified invocation anchors are used from that body.
+
+The future resident proof now separates pending/interrupt state, I/O completion,
+both join stages, surviving app threads and context-finalization attempts.
+The next local boundary is the pending-AIE consumer and actual stock UI I/O
+callback registration/coverage. Legitimate SDK/package, USB topology, transport,
+engine/provider, native recovery and resource gates remain open or unchanged.
+No runtime gate passes, no measured local capability fails, and external compute
+is not selected.
+
+Fresh checks match three identities, six native method bindings, 53 ARM
+anchors, five complete inline bodies, 19 resolved invocations, two imports
+and three property literals. No committed code/test changed; the preceding
+162 host tests are historical. All 124 local links in seven changed Markdown
+files resolve. No radio/vehicle/phone execution, provider
+contact or protected payload commit occurred. PR #14 remains draft, main and
+PR #15 are preserved, and this checkpoint adds no target footprint.
+
+### Preceding checkpoint: 2026-09-06 queued worker and interruption consumer
+
+Started clean at `f3943db` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The previous checkpoint made progress on AOT
+lookup and timeout/finally dispatch. This continuation follows the worker and
+interruption consumer. The full projection goal remains active.
+
+**STATIC_PROVED:** XletThread.run polls an action, builds TimedFromPool and
+an Interruptible callback, invokes the timed body, then on its normal path
+marks done, notifies and returns to its queue loop. TimedFromPool reaches
+javax.realtime.Timed, which starts a timer and calls the AIE dispatcher.
+The dispatcher has concrete run and selected interruptAction calls; the
+AMS interruption callback constructs error 12 and stores it on the action.
+
+**STATIC_PROVED:** XletAction.done only sets its done_ Boolean. Both the
+worker's normal return and the caller's timeout fallback invoke it. Two
+distinct paths now produce AMSError TIMEOUT. Neither that error nor done_
+alone proves action exit or identifies which timeout path occurred. See the
+[worker/interruption report](reports/ra4_ams_worker_interruption.md).
+
+**UNKNOWN:** live interrupt delivery, actual action exit, late activity or
+overlap with caller cleanup, bounded finally-hook completion and native
+visibility/contact recovery. A reusable stock worker differs from surviving
+app-created threads. The future resident proof now requires action-level
+entry/exit and timeout-origin evidence, plus absence of late ownership or
+disposed-resource access. No runtime gate passes, no measured local limit
+fails, and USB/transport/provider/engine/resource gates remain unchanged.
+
+**Next local target:** VM interruption delivery/defer handling reached by
+AIE.fire and the compiled action path, especially shared monitors and native
+calls. Generic RTSJ documentation is contextual, not proof of this build's
+conformance. A legitimate compatible SDK/package and native stock recovery
+remain separate requirements. No target deployment or execution is authorized.
+
+Fresh artifact checks match one identity, five native method bindings,
+13 method-storage bindings, 60 native instruction anchors, four pointer/table
+words, four complete inline bodies and five resolved ROM references. No
+committed implementation/test changed; the preceding 162 host tests are
+historical. All 114 local links across six changed Markdown files resolve.
+No vehicle/radio/phone run, provider contact or payload commit
+occurred. This host-only checkpoint adds no target footprint. PR #14 stays
+draft; main and independent PR #15 remain preserved.
+
+### Preceding checkpoint: 2026-09-06 compiled AMS timeout and finally dispatch
+
+Started clean at `61fb2b2` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding turn made progress on Java container
+and focus cleanup. This continuation resolves native method bodies and adds an
+original bounded registry reader with synthetic tests. The full goal stays active.
+
+**STATIC_PROVED:** the selected registration table maps XletThread
+actionWithTimeout to ARM `0x1AA05C`, actionWithTimeoutNoFinally to `0x1A8EE8`,
+the queued run loop to `0x1A60A8`, and XletCallback.action to `0x1B7DD8`.
+The table has 1,138 class records and 6,668 member records: 6,292 methods and
+376 fields, with 4,102 compiled method pointers. Field/method ordinals are
+separate namespaces. PT_LOAD translation is essential: code/ROM differs from
+file offsets by `0x100000`, writable data by `0x101000`.
+
+**STATIC_PROVED:** the native action wrapper calls its no-finally helper with
+false, then dispatches XletAction.runFinally through its virtual slot. A traced
+phase-1 exception handler also dispatches that hook. The helper checks action
+isDone/thread functional state, calls Wait.wait with clock-based remaining
+time, and constructs AMS error 12 on its selected failure path. See the
+[compiled timeout report](reports/ra4_ams_aot_timeout_runner.md) for method
+registrations, the complete six-entry exception table and native call anchors.
+
+**UNKNOWN:** hard deadlines, actual worker/thread termination, interruption
+delivery and completion of a finally hook that blocks on shared UI state.
+The hook is a synchronous call in the wrapper; an action wait ending does not
+prove hook completion or native visibility/contact release. The future resident
+proof now explicitly distinguishes worker-action and finally-hook completion.
+No runtime gate passes; no measured local limit fails. USB, phone transport,
+provider authorization, engine and resource gates remain unchanged.
+
+**Next technical target:** XletThread.run at `0x1A60A8` and its timed-action /
+interruption consumer, including whether an action is terminated or only marked
+done. Main and independent PR #15 remain preserved, and PR #14 remains draft.
+No radio/vehicle/phone execution, provider contact or protected payload commit
+occurred. The registry reader runs only on the host and adds no target footprint.
+
+Fresh static validation matches the AMS artifact, complete selected registry,
+four named method bindings, 47 native instructions, six exception-table words,
+two descriptor literals and the _setjmp import. All **162 host Python tests
+pass, no skips**, including 12 synthetic registry-reader tests. The actual
+artifact CLI reproduces the registry counts, and all 120 local links across
+the eight changed Markdown files resolve. These are host/static checks only.
+
+### Preceding checkpoint: 2026-09-06 default frame and Java focus cleanup
+
+Started clean at `a658023` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding turn made progress on AMS destroy
+and explicit container-removal calls. This continuation resolves the conditional
+default implementation and its focus/event behavior. The full goal remains active.
+
+**STATIC_PROVED:** AMS selects UndecoratedXletMainFrame's factory only if its
+configured factory is null. That frame's removeChild delegates to AWT Container
+removal. For an attached child of a displayable parent, the path calls child
+removeNotify, clears the parent reference and removes the child-list entry.
+XletContainer inherits Container's recursive removeNotify, which attempts focus
+transfer, clears its lightweight dispatcher and calls Component.removeNotify.
+
+**STATIC_PROVED Java input cleanup:** Component clears most-recent/permanent
+focus state as applicable, conditionally notifies its input context, calls
+EventQueue.removeSourceEvents with false and invokes discardKeyEvents on the
+keyboard focus manager. The false event-removal path preserves six event
+classes, including KeyEvent and FocusEvent. LightweightDispatcher.dispose
+clears its Java mouseEventTarget field; it is not a native touch-cancel proof.
+The [container/focus report](reports/ra4_xlet_container_focus_cleanup.md)
+records method/field identities, factory selection, branches and the distinction
+between resolved and symbolic ROM invocation references.
+
+**HIGH intended default:** no direct frame-factory override was found among
+19 initializer classes / 517 invocation instructions, or direct resolved CP
+references in successfully decoded AMS class slots 0 through 4121. This does
+not cover reflection, uninspected optional JARs or undecoded metadata. The
+factory setter remains available; the live instance is not measured.
+
+**UNKNOWN:** native visibility and touch/contact release, completed focus
+transfer, stock foreground restoration, and bounded cleanup when a shared
+AWT tree lock or app callback hangs. The resident specification now requires
+effective frame identity and shared UI-lock isolation evidence in addition to
+the existing lifecycle/resource prerequisites. No runtime gate passes and no
+measured local limit fails. Transport, provider authorization, engine and
+resource gates are unchanged; no external-compute fallback is selected.
+
+**Next technical target:** the AOT/native actionWithTimeout implementation and
+its timeout/finally completion hooks. The Java removal route is now concrete;
+more Java labels cannot prove bounded recovery from a stalled shared VM.
+PR #14 remains draft; main and independent PR #15 are preserved. No radio,
+vehicle or phone action, provider contact or vendor-payload commit occurred.
+
+Fresh static checks cover three artifact identities, ten selected complete
+method tables, 23 direct call anchors, one symbolic invocation reference,
+factory/parent/mouse-field assignments and all six event-exclusion branches.
+The prior AMS destroy/default checks also pass. The full host Python suite
+passes **150 tests, no skips**, and **103 local links in six changed Markdown
+documents** resolve. No target or provider test ran.
+
+### Preceding checkpoint: 2026-09-06 AMS destroy and container cleanup
+
+Started clean at `51b5a78` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding goal turn made progress on result
+normalization. This continuation advances the actual AMS lifecycle/cleanup
+trace. The full projection goal remains active.
+
+**STATIC_PROVED:** the normalized AMS stop codes are 8,
+`XLET_CAUSED_JAVA_EXCEPTION`; 12, `TIMEOUT`; and 20,
+`XLET_DID_NOT_STOP_ALL_THREADS_ON_DESTROY`. They are constant-valued AMSError
+fields, and the destroy/thread-check bodies have concrete producers for 8/20.
+D-Bus NoReply remains the separate nonzero result 34. Even zero-code stopped
+events cannot certify complete thread termination or physical cleanup.
+
+**STATIC_PROVED:** AMSProperties has separate compiled defaults for destroy
+(10000), destroy-on-error (4000), and thread cleanup (200). The compiled
+callback default is 1000, whereas the external file specifies 10000. These
+stored values are not live or measured deadlines. Ordered field records are
+essential: visible, verbose and secure Boolean fields precede the timeout fields.
+
+**STATIC_PROVED:** the destroy wrapper invokes a timeout-managed destroy
+action, then a separate cleanup action, with exception paths into cleanup.
+The cleanup action reaches LWUIT deinitialization, GLES canvas destruction,
+thread checks and explicit XletContext finalization. That finalizer calls
+`XletMainFrame.removeChild(XletContainer)`. The thread-check exception path
+still attempts context finalization. See the
+[AMS destroy/cleanup contract](reports/ra4_ams_destroy_cleanup_contract.md)
+for artifact identities, method ordinals, constants and exception-table anchors.
+
+**UNKNOWN:** whether these calls complete when an app hangs; the timeout
+runner's AOT/native behavior; concrete main-frame removal's native window,
+focus and input effects; and supported custom-app failure containment. The
+resident proof now requires raw errors, action completion, thread disposition,
+container removal and native presentation/input recovery as distinct evidence.
+No runtime gate passes; no measured local limit fails; external compute is
+not selected. USB topology, phone transport and legitimate engine gates are
+unchanged. PR #15's incorporated reference evidence and independent history
+remain intact; PR #14 remains draft and main is preserved.
+
+**Next technical target:** the concrete XletMainFrame removeChild implementation
+and its native window/focus/input effects, followed by the AOT timeout runner's
+completion hooks. No radio/vehicle/phone actions, provider contact or vendor
+payload commits occurred. Only original analysis/specifications changed.
+
+Fresh evidence validation matched three artifact identities, three named error
+constants, seven constructor defaults, four external timeout keys, seven selected
+complete method tables and 21 resolved call anchors, plus selected byte and
+exception-table checks. The prior callback's 102 native and 14 HMI instruction
+checks also pass. The full host Python suite passes **150 tests, no skips**;
+all **105 local Markdown links in seven changed documents** resolve. These
+are static/host checks, not target recovery measurements.
+
+### Preceding checkpoint: 2026-09-06 callback results versus cleanup
+
+Started clean at `e1f12c5` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding goal turn made progress on pause
+policy and watchdog queueing. This continuation traces the supplied callback
+and the app-level result handler, rather than assuming an event proves cleanup.
+
+**STATIC_PROVED:** callback `0x14ADE8` classifies NoReply separately and maps
+it to result 34. For stop, AMS integer errCode 8, 12 or 20 can instead normalize
+to success; their semantic names remain unproved. NoReply has no extracted AMS
+error object and is not accepted by that normalization helper.
+
+**STATIC_PROVED bookkeeping limit:** the app-level stop-result branch calls
+switchToStop even for a nonzero result. It can remove the app from native
+paused/running lists, announce appListUpdated and mark its status stopped,
+then emit appStopped with the error code intact. Those are AppManager state
+changes, not proof that AMS terminated a hung Xlet or released its container.
+
+**STATIC_PROVED malformed-reply limit:** successful-transport JSON parse failure
+clears the controller's success flag but retains mapped result zero. The
+app-level event can therefore have code zero before later controller logic
+uses the failed-parse flag. This does not prove the original request's final
+outcome or that a malformed reply occurred on the radio. HMI appPaused handling
+checks errorCode before dispatching APP_PAUSED versus START_XLET_ERROR.
+The [result-completion report](reports/ra4_xlet_result_completion.md) records
+the separate response objects, jump tables, mappings and native/HMI anchors.
+
+The resident proof now requires raw response category, raw AMS error when
+present, parse validity and normalized result correlated with app/operation,
+plus independent lifecycle, visibility and input completion. No runtime gate
+passes, no measured resident limit fails, and external compute is not selected.
+
+**Next technical target:** actual AMS pause/destroy implementation and its
+callback-timeout consumer through AWT/Screen container and input cleanup when
+an app fails to return, while AMS retains ownership. More native bookkeeping
+labels cannot substitute for that downstream proof. PR #14 remains draft/open;
+main and independent PR #15 are preserved. Only original documentation changed;
+there were no radio/vehicle actions, vendor payload commits or provider contact.
+
+Fresh verification: **150 host Python tests pass, no skips**; two artifact
+identities, 102 native instructions, two complete tables, nine literals, four
+imports and 14 SWF instructions match, including ABC base/method count.
+All 102 local links in the seven changed Markdown documents resolve.
+
+### Preceding checkpoint: 2026-09-06 pause policy and per-app watchdog
+
+Started clean at `71a054a` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The preceding turn made progress on native display
+visibility and AMS owner-change scope. This continuation advances per-app
+lifecycle evidence; the full projection goal remains active.
+
+**STATIC_PROVED:** native pauseApp tests the app's `xlet.PauseAllowed` byte.
+True selects pause; false selects stop. The properties subobject initialization
+and extraction reset set the field false. The named parser consumes a string
+property; the named serializer emits a JSON Boolean. Two stock packages supply
+true/false examples. Both action wrappers call SVCIPC_asyncInvoke, so immediate
+submission success is not lifecycle completion. The
+[pause/watchdog report](reports/ra4_xlet_pause_watchdog.md) records identities,
+subobject arithmetic, parser/default evidence and exact branch/call anchors.
+
+**STATIC_PROVED recovery candidate:** AppManager's watchdog loop checks enabled
+per-app counters. Expiry clears the app's watch and queues stopApp on the core
+request queue; a conditional daemon branch also queues startApp. The handler
+does not directly reclaim the window/input. App constructors initialize watches
+disabled, and set-watch processing can fail if the watchdog is not running.
+Live activation and permitted custom-app registration are unproved.
+
+**UNKNOWN:** bounded stop/callback completion when a Xlet/VM hangs, effective
+watchdog deadlines, container/input removal and healthy engine continuity.
+The first resident proof now requires qualified effective PauseAllowed, selected
+lifecycle action, and separate completion observations. Queued stop, successful
+IPC submission and daemon restart do not satisfy session preservation or
+fail-open recovery. The older installation report's destroy-timeout claim is
+corrected: AMS has a default callback timeout but no explicit destroy-timeout
+key in the recovered properties. Its consumer remains to be traced.
+
+**Next technical target:** callback `0x14ADE8`, queued stopApp dispatch and the
+AMS pause/destroy consumer through timeout/error handling into container/input
+cleanup while AMS retains ownership. No runtime gate passed; no measured local
+capability failed and external compute is not selected. PR #14 stays draft/open;
+main and independent PR #15 are preserved. All changes are original documents,
+with zero target bytes, target actions or provider contact.
+
+Fresh validation: **150 host Python tests pass, no skips**. Four artifact
+hashes/sizes, 110 native instructions, 13 literals, four pointer records and
+five import resolutions match. The two stock property lines, subobject offsets
+and exact AMS timeout-key set were checked. All 98 local links in the eight
+changed Markdown files resolve. No analysis-tool code changed.
+
+### Preceding checkpoint: 2026-09-06 display visibility and AMS owner scope
+
+Started clean at `7b16ef1` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. The previous turn made progress on pause, Return,
+display-release requests and the SuperApp identity restriction. This turn
+traces the display mechanism and distinguishes service loss from an app hang.
+
+**STATIC_PROVED:** the gateway maps HMI `DisplayManager` to
+`com.harman.service.LayerManager`. The recovered Lua policy registers that
+service, opens `/dev/DisplayManager:0`, and maps an `ams` false request to hiding
+`:AMS`. The native Visibility descriptor reaches screen_set_window_property_iv;
+batch processing reaches screen_flush_context. Lua discards the write/read
+results before returning a normal-path grant, so that grant is not compositor
+completion evidence. The [display-owner report](reports/ra4_display_owner_reclaim.md)
+records the exact mapping, Lua closures/PCs and native descriptor/call anchors.
+
+**STATIC_PROVED service reaction:** LayerManager subscribes to
+`com.aicas.xlet.manager.AMS` owner changes. Its AMS-name branch ignores the old
+and new owner values, restores AMS order 1, hides `:AMS`, and restores HMI
+order 5. It does not explicitly show the HMI or restore input. A selected
+native close-event path removes/destroys the window; neither path proves an
+app/VM hang detector or bounded recovery. The separately found start_display
+script is labeled VP2-only and is not accepted as RA4 boot proof.
+
+**UNKNOWN:** a failed Xlet while AMS remains registered, an unresponsive AMS
+that retains ownership, native input/contact release, actual event delivery,
+live boot selection, custom permission and healthy engine continuity. The
+resident trial now explicitly requires app-only recovery with AMS alive;
+whole-VM loss cannot stand in for that result. No runtime gate passed and no
+measured local limit failed. External compute is not selected.
+
+**Next technical target:** per-Xlet pause/destroy/error acknowledgments and
+container/input removal in AMS/AppManager while the shared service remains
+present, including any independent timeout. The full projection goal remains
+active. PR #14 stays open/draft; main and independent PR #15 are preserved.
+Only original documentation is added, with zero target bytes or target actions.
+
+Fresh validation: **150 host Python tests pass, no skips**; three artifact
+hashes/sizes, 28 Lua anchors and 15 native instruction/literal anchors match.
+All 71 Lua prototypes parsed; the 15 native command descriptors and sentinel
+were checked, including the complete Visibility record. The three Screen
+call targets resolve through the native import inventory. All 83 local links
+in six changed Markdown documents resolve. No analysis-tool code changed.
+
+### Preceding checkpoint: 2026-09-06 Xlet foreground and return handoff
+
+Started clean at `679d73b` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. Previous goal turn made progress on stock Xlet
+graphics. This continuation advances the return/resume and stock-owner path;
+the full projection goal remains active and no target runtime gate passes.
+
+**STATIC_PROVED:** the recovered 640x480 AppsActiveScreen requests the `ams`
+display on entry. Screen exit conditionally requests pause, then releases the
+display request on its normal path. Its Close handler requests stop and avoids
+the ordinary exit pause. Re-entry can dispatch `Resume` for the last paused app.
+Native requestForeground checks a Boolean HMI foregroundClear reply before
+find/start processing. Local HMI availability is a String, converted to a
+Boolean wire response; the earlier foreground report now states that precisely.
+
+**STATIC_PROVED restriction:** requestBackground validates supplied appId but
+uses configured SuperApp UUID in its normal outgoing invokeAppBackButton event.
+The HMI only navigates when event identity matches the running app and the
+active app screen is current. The Java wrapper checks AppMgrPermission("appMgr").
+Neither fact grants a supported Return API to an arbitrary custom Xlet.
+The [handoff report](reports/ra4_xlet_foreground_handoff.md) records artifact
+hashes, Java BCIs, native data flow and SWF branch/call anchors.
+
+**UNKNOWN:** native display/input release completion, bounded IPC, owner-loss
+reclaim, custom authorization and session survival across pause. No wait for
+pause acknowledgment is explicit in the screenOut method, but called code
+may block; this is not a hung-app fail-open guarantee. No engine or target app
+was created, installed or run. The resident trial now separates Return/resume
+observations from explicit Close/stop; resource caps remain unchanged.
+
+**Next technical target:** native DisplayManager's `ams` requester path through
+visibility/input ownership and owner-loss recovery, followed by AMS pause/resume
+acknowledgments. This provides a concrete target for the remaining reclaim
+question. PR #14 stays open/draft; main and independent PR #15 are preserved.
+This continuation contains original documentation only and has zero installed
+radio bytes. No vehicle/radio/phone operation or provider contact occurred.
+
+Fresh verification: **150 Python tests pass, no skips**. Four artifact hashes,
+one class hash, 29 SWF anchors, 16 native instructions and eight Java invocation
+BCIs match fresh reads; all 87 local links in seven changed Markdown files
+resolve. No analysis-tool code or target package changed.
+
+### Preceding checkpoint: 2026-09-06 resident Xlet view path
+
+Started clean at `1484f88` on canonical `codex/ra4-driver-temperature`; fetched
+origin without divergence. Previous goal turn made progress by establishing
+the native gateway incompatibility. The full projection product remains
+unachieved; this continuation advances its independent resident view lane.
+
+**STATIC_PROVED:** Registration and user-guide application classes call
+XletContext.getContainer, AWT Container.setVisible, LWUIT Display.init and
+Display.callSerially. The user guide also constructs/shows a Form and registers
+a Button action listener. Hash-bound AMS ROM class objects identify XletContext,
+Container, Display and aicas GLESCanvas. **HIGH:** stock Xlet/AWT/LWUIT is the
+concrete graphics API family for a candidate control shell. The
+[view report](reports/ra4_resident_xlet_view_path.md) records exact signatures,
+method BCIs, class hashes and ROM ownership anchors.
+
+**UNKNOWN:** custom app acceptance, usable 640x480 area, input/foreground
+arbitration, camera/critical priority, native video-buffer integration and
+hung-app reclaim. The first sample's filename says 800X480 and does not prove
+the Jeep's usable app dimensions. The sampled pause/destroy methods differ;
+they do not establish a universal cleanup recipe. Supported SDK/package access
+and legitimate authorization remain **EXTERNAL_PROVIDER_GATE**.
+
+Added an original host JVM invocation inventory using `jawa==2.2.0`. It reports
+actual instruction references instead of treating constant-pool strings as calls;
+resources/full bytecode are not emitted. Eight selected stock class members
+were parsed, with zero unresolved invokedynamic. Fresh full Python suite:
+**150 tests pass, no skips**, including five new synthetic tests; compileall
+passes. No target package, vehicle/radio/phone operation or provider contact.
+
+The next technical target is the AMS container visibility/focus owner and
+AppManager-to-AMS foreground/reclaim handoff. Transport, engine, authorization,
+resource measurements and rollback runtime gates remain open. All additions
+have zero installed radio bytes; the goal remains active.
+
+### Preceding checkpoint: 2026-09-06 native projection gateway routing
+
+Started clean at `1708c4f` on canonical `codex/ra4-driver-temperature`; fetched
+origin with no divergence. PR #14 remains open/draft. PR #15's independent
+phone/DHU evidence and branch were not changed or rerun.
+
+The new [native gateway trace](reports/ra4_projection_gateway_dispatch.md)
+establishes a **STATIC_PROVED routing gap**: recovered `hmiGateway` has a fixed
+service/object resolver that recognizes neither `phoneProjectionService` nor
+`DeviceConnectionManager`. An unknown destination clears both resolved strings
+and returns `-1`; the command caller exits before invocation and the owner
+notification caller exits before querying/subscribing. Registering a service
+under the HMI's expected name alone cannot make this route work. The stock
+`ConnectionManager` mapping is distinct from `DeviceConnectionManager`.
+
+**HIGH:** shared `main.swf` Connection code, gateway message parsing, SVCIPC
+imports and boot launch identify the native bridge relationship. **INFERRED:**
+the bundled HMI retains a broader build-family contract than this gateway.
+**UNKNOWN:** the deployment reason, matching backend/package/bridge and live
+state. **EXTERNAL_PROVIDER_GATE:** request supported matching bridge, device
+manager, screen and receiver components, or a separate supported app/engine API.
+No stock gateway patch, alias substitution or new deployment is proposed.
+
+The ARM tool now reads `PT_DYNAMIC` PLT relocations when stripped ELF sections
+cannot supply imports. Its 181 gateway import slots match an independent
+pyelftools relocation/symbol read. Five new synthetic tests cover resolution,
+malformed/incomplete metadata, absent PLT metadata and ignored relocation types.
+Fresh full Python suite: **145 tests pass, no skips**; compileall passes.
+The current report records hash-bound native/SWF anchors and USB rule evidence.
+
+The six stock USB device-rule files contain legacy serial/network/storage,
+MTP and iPod matches, with no explicit AOA `18D1:2D01` rule identified.
+`enum_devices.lua` only selects some Fiat iPod configuration links. Exclusive
+AOA ownership and re-enumeration handling remain UNKNOWN; no Windows driver
+conclusion is transferred to RA4. No vehicle, phone or target action occurred.
+
+The backend compatibility requirement is sharper, but no transport, engine,
+video, audio, input, resource or rollback runtime gate passed. Cabin topology
+still needs the passive C2-to-PHY/controller evidence. The resident milestone
+and resource caps are unchanged; installed radio effect remains zero bytes.
+
+### Preceding checkpoint: 2026-09-06 transport, backend and provider gates
+
+Canonical branch remains `codex/ra4-driver-temperature`, draft PR #14. This
+continuation began with a clean checkout on main `6c898a1`, fetched origin and
+switched to the already-current canonical head `174d721`. No local-only work
+needed a fast-forward or preservation move. PR #15 at `93747c8` was reviewed
+selectively; its branch/history was not merged.
+
+Primary decision artifacts:
+
+- [PC-versus-RA4 transport gate matrix](docs/20_projection_transport_gate_matrix.md).
+- [Original PR #15 reference contract and provenance](reports/android_auto_reference_contract.md).
+- [Structured USB census, topology boundary and projection backend contract](reports/ra4_usb_stack_backend_census.md).
+- [Qualified engine/provider paths](docs/11_projection_engine_feasibility.md).
+- [First future no-engine resident proof and prerequisites](docs/21_first_resident_runtime_proof.md).
+
+**PROVED, inherited PC observation:** Android Auto protocol 1.7/TLS/render/input
+and a repeat session succeeded over an ADB development tunnel. Direct USB
+separately reached AOA v2 and real `04E8:6860 -> 18D1:2D01` accessory
+re-enumeration with interface 0 bulk IN `0x81` / OUT `0x01`, then failed
+transport access. There is no successful direct USB projection reference.
+The Windows library/MTP-driver result is not an RA4 blocker.
+
+**STATIC_PROVED:** AOA's relevant RA4 host APIs are materialized:
+`libusbdi.so.2` exposes 62 `usbd_*` symbols including vendor control, bulk I/O,
+descriptor/configuration and pipe lifecycle. Stock clients import them. The
+new structured census covered 4,110 files, 578 ELF images and 91,086 member
+names in 321 ZIP/JARs, with zero parse failures/skipped links. Program-header
+parsing avoids false negatives from stripped QNX ELF sections. No matching
+named DCD/function bundle, usblauncher or projection backend was identified;
+compressed payloads, static/private/renamed/optional implementations are not
+universally excluded. Actual loading and new-app permissions remain UNKNOWN.
+
+**STATIC_PROVED:** HMI `startProjection(ppId)` sends through shared ModuleLink
+`span` to logical destination `phoneProjectionService`. It separately observes
+`DeviceConnectionManager`; the wrapper subscribes to session/back-to-car,
+now-playing/navigation/call/device state. Cinemo CarPlay error constants
+1000/1001 and GAL timeout 2501 supply a concrete **INFERRED provider lead**.
+The service's executable/package, native bridge registration and matching
+`DeviceProjection.swf` are still UNKNOWN. No supported socket/PPS ABI is invented.
+
+**UNKNOWN topology:** selected owner update logs contain image-build HCD rows,
+not a cabin attach trace. The stock hub monitor has topology/status APIs but
+can restore hub power; it is not a passive tool to run. C2 remains unmapped to
+Mentor or EHCI. The decisive passive evidence is one documented unpowered
+C2 D+/D- net trace through the rear-I/O/board boundary to an identified PHY and
+its OMAP USB interface on authorized spare hardware.
+
+**Architecture correction:** AOA keeps RA4 as USB host. Missing device-role
+software alone cannot reject wired Android Auto; a reachable EHCI path would
+not inherently fail AOA. QNX 6.6 CarPlay role-swap/DCD requirements remain a
+separate reference. The actual recovered RA4 generation is **QNX 6.5/ARM32**;
+stale 6.6 target claims in engine/placement qualification were corrected.
+
+**EXTERNAL_PROVIDER_GATE:** QNX, Cinemo and Harman/OEM matching-component routes
+are qualified inquiry targets, with separate Android Auto/CarPlay authorization,
+exact ABI, target bytes and resource measurements still required. None was
+contacted. No measured local gate has failed; external compute is not selected.
+The first resident trial is a legitimately packaged, manual, non-autostart
+original Xlet control surface, <=3 MB installed, conditional on supported view,
+arbitration, failure containment and rollback. No target package was created.
+
+Fresh host verification: 140 Python tests pass, including five new structured
+inventory tests and the sectionless-dynamic regression observed failing before
+the fix. Python compileall passed; 44 candidate ELF hashes were recomputed,
+24 published SWF anchors were checked and 98 local Markdown links resolved.
+Host API exports and selected SWF method/offset relationships were inspected.
+No JavaScript/C99 code changed; their historical
+results below are not represented as newly executed.
+
+Resource envelope unchanged: ~77 MB historical free space, >=45 MB protected
+reserve, <=15 MB installed product, <=4 MB normal growth, <=8 MB additional
+staging, >=5 MB residual. All work adds zero installed radio bytes. No vehicle
+connection, target command, firmware change, service/USB/vehicle-state mutation,
+credential bypass or protected payload publication occurred.
+
+### Preceding checkpoint: 2026-09-06 startup PHY identity
+
+The [startup PHY report](reports/ra4_startup_usb_phy_identity.md) completes the
+startup/I2C/PMIC follow-up. The board-specific startup code names `USB83340C`
+on its EHCI path, accesses `0x480648a4` with encoded port selector 2, and pulses
+GPIO bank 2 bit 6 (GPIO 38) in the reset/identity routine. It reads four PHY ID
+bytes but compares only the vendor low byte `0x24`; intended USB83340-family
+support is HIGH, while fitted silicon and physical wiring remain unproved.
+
+The same startup routine separately writes Mentor Interface Control `0x40` and
+OTG Control `0x86` at the `0x480ab000` controller. The EHCI chip name cannot be
+assigned to Mentor. Generic TWL4030 I2C/audio/graphics strings do not establish
+a USB PMIC or power-switch connection; recovered graphics config sets
+`tw4030 = 0`. Fresh validation checked source/prefix hashes and startup bounds,
+eight ARM ranges (310 instructions), seven instruction anchors and three
+configuration/driver hashes. No new implementation or target execution.
+
+The next hardware evidence is an existing owner-supplied topology/boot capture
+or authorized passive net/board evidence linking Radio C2 to one controller.
+Mentor PHY identity, external VBUS switch, hub reversibility and DCD/function
+support remain open. Keep the two controller paths separate in further work.
+
+### Preceding checkpoint: 2026-09-06 USB PHY and power-control trace
+
+The [USB PHY/power-control report](reports/ra4_usb_phy_power_control.md) closes
+the previous Mentor board-init/ULPI task. It is current for USB static findings:
+
+- Mentor board init writes `0x20` to ULPI `0x05`: PHY Function Control RESET
+  through its SET alias. Port recovery can repeat the reset and set SESSION.
+- The separate stock `usbPowerSwitch` utility accesses the same `0x480ab000`
+  controller and writes ULPI OTG Control `0x0a` with `0x86` or `0xe6`, changing
+  both VBUS-drive bits. This proves the software request path, not actual VBUS
+  voltage, physical routing, PHY identity or device-role operation.
+- Four `onoff/main.lua` call sites link that request to factory load-shed and
+  resume/ignition handling. They discard results. The utility's exhausted-poll
+  path can return success, so an exit status cannot establish hardware success.
+- Fresh static validation matched three artifact hashes, decoded 12 bounded
+  ARM ranges (1,022 instructions), parsed 70 Lua prototypes and checked the four
+  zero-result CALLs. No implementation/tool changes or new host-suite runs.
+
+The subsequent startup report above completes this checkpoint's next target
+and identifies the EHCI-family lead without closing Mentor or Radio C2 wiring.
+
+### Preceding checkpoint: 2026-09-06 after reboot
+
+The active integration line is `codex/ra4-driver-temperature`, draft PR #14.
+It was recovered from local `52a37f1` and fast-forwarded to remote `9eb28ad2`;
+`main` remains `6c898a1`. Two untracked pre-crash reports were preserved outside
+Git. The command runner works again. The
+[post-reboot checkpoint](reports/ra4_post_reboot_checkpoint.md) is authoritative
+for the preceding host verification, commands and corpus coverage:
+
+- 135 Python tests and 20 JavaScript tests pass; all 8 mjs files pass syntax
+  checks, Python compileall passes, and Synctool passes 83/83 hash-gated anchors.
+- The portable arbiter compiled with strict C99 flags and passed its assertions
+  under existing Ubuntu/WSL GCC 13.3.0. This is a host result, not a target build.
+- The current 122-marker probe and correlator completed over seven existing
+  roots: 4,110 files, 1,509,846,870 bytes, no size skips; 628 candidates,
+  including 108 tier 1. Raw scanning misses compressed SWF names.
+- Recovered `.script` loads `io-usb` with OMAP/Mentor at `0x480ab000`, IRQ 92,
+  and EHCI at `0x48064800`, IRQ 77; its environment says `qnx650`.
+  QNX 6.6 documentation is reference evidence, not proof of the installed ABI.
+- Stock `AppPhone.press` can call `callStartProjection(activePpId)` when
+  `BacktoCar` is set before its later session-active navigation check. The
+  previous blanket no-start-on-resume inference is withdrawn; the command's
+  backend meaning and live-session continuity remain unproved.
+- All 610 `hmi_rov` SWFs were parsed for exact return names. `main.swf` maps
+  the projection screen filename, but no `DeviceProjection.swf` file exists in
+  the seven roots and no exact-name back-to-car listener was found in that
+  bounded SWF census. Dynamic names/other variants/packages are not excluded.
+
+The subsequent USB report above completes this checkpoint's board-init/ULPI
+target and narrows the remaining physical-route and device-stack questions.
+Resident authorization, screen/backend availability, camera/critical priority,
+fail-open stock presentation and the existing storage envelope remain gates.
+No radio connection, service launch, firmware edit, vehicle-state mutation or
+credential bypass occurred. Historical verification/publication statements in
+the original investigation below are historical snapshots, not current status.
 
 The project goal remains to understand the smallest safe and reversible owner-authorized path to run an original application while preserving normal vehicle behavior, the factory anti-theft system, AMS secure mode, application authentication, stock update capability, and a verified return to production state.
 
@@ -58,6 +1197,12 @@ The first chain is substantially proved. In the second, native ingress, AMS deve
 
 ## 2. Evidence notation and offset conventions
 
+Current continuation vocabulary is PROVED (observed result, with platform and
+provenance), STATIC_PROVED (direct static relationship), HIGH (corroborated
+but incomplete), INFERRED (interpretation), UNKNOWN and EXTERNAL_PROVIDER_GATE
+(requires legitimate issuer/provider evidence). Historical CONFIRMED findings
+below retain their original scope and do not imply new target execution.
+
 - **CONFIRMED** means a direct operation, data edge, file access, digest, signature, or control-flow edge was reproduced from the named RA4 artifact.
 - **HIGH** means multiple direct artifacts support the conclusion, but one executing endpoint or runtime behavior remains hidden.
 - **INFERRED** means the interpretation best fits the evidence but has a plausible alternative.
@@ -108,7 +1253,7 @@ The three HBC images contain 778 regular files totaling 89,007,481 payload bytes
 | analysis_tools/jamaica_rom_strings.py | 13,329 | 3fdd53837de8eeeef434d1249a0055102ab6ac05a7bc3c29b6752077cb185530 | Bounded JamaicaVM pool, literal-table, member-selector, and class-pointer decoding |
 | analysis_tools/tests/test_jamaica_rom_strings.py | 15,268 | 309420c6bfd8359f49fc7e44793295f7be8c824e80536c0d19bb059329b922a7 | Twenty-two pool/tag, prefix-bound, mapping-table, class-bound, and CLI numeric-bound tests |
 
-Both parser suites pass: six QNX imagefs tests and 22 Jamaica metadata-decoder tests. Together with the 19 developer-token probe tests, repository-wide discovery passes all 47 tests. Other methods used in the reports are static Node file/JAR traversal, manifest digest recomputation, OpenSSL PKCS#7 signature-math verification without trust-chain acceptance, AVM2 parsing, Lua 5.1 decoding, and bounded ARM ELF control-flow analysis. No recovered target executable was run.
+Historical checkpoint: six QNX imagefs, 22 Jamaica metadata-decoder and 19 developer-token probe tests passed (47 total). Current post-reboot discovery passes 135 Python tests; see section 1. Other methods used in the reports are static Node file/JAR traversal, manifest digest recomputation, OpenSSL PKCS#7 signature-math verification without trust-chain acceptance, AVM2 parsing, Lua 5.1 decoding, and bounded ARM ELF control-flow analysis. No recovered target executable was run.
 
 ## 4. Security-domain separation matrix
 
@@ -638,7 +1783,7 @@ The smallest defensible future design in [minimal_change_design.md](reports/mini
 - stock item-19 return to production; and
 - unmodified compatible OEM-signed update media retained only for last-resort recovery.
 
-Stop gates remain: native developer trust, live package format, policy-combination semantics, exhaustive per-app ownership/cleanup and uninstall interruption behavior, install atomicity/power-loss behavior, service-certificate issuance/renewal, read-only runtime state verification, and exact-unit authorized recovery procedure.
+Stop gates remain: authorized developer/signer issuance and native trust acceptance, policy-combination semantics, exhaustive per-app ownership/cleanup and uninstall interruption behavior, install atomicity/power-loss behavior, service-certificate issuance/renewal, read-only runtime state verification, and exact-unit authorized recovery procedure. The direct live-JAR member schema and AMS split are no longer stop gates.
 
 No current evidence supports modifying security.jar, cacerts, jvm.sh, AMS, AppManager, scv, public keys, update signatures, /fs/etfs/disableDRM, or /fs/etfs/enableEngMenu.
 
@@ -663,10 +1808,10 @@ See [uas_comparison.md](reports/uas_comparison.md). Do not adapt or execute UAS 
 
 ### Blockers
 
-1. **Developer trust decision:** the fixed installed `key.jar` association, signer-object source, property-to-token-verifier graph, Base64/SunJCE `RSA/ECB/PKCS1Padding`/exact-ID predicate, and two-stage signer-key promotion are confirmed. The recovered corpus has no usable `Device` provider. Live overlay state, legitimate issuer, AOT certificate extraction/`SigningKeys`, incoming-package association, principal mapping, revocation/time behavior, and production/development policy combination remain unresolved.
-2. **Live package format:** the resident authenticated external dispatcher is proved, but no external manifest or usr/share/APPS reference package establishes the exact accepted container layout.
+1. **Developer trust decision:** the fixed installed `key.jar` association, signer-object source, property-to-token-verifier graph, Base64/SunJCE `RSA/ECB/PKCS1Padding`/exact-ID predicate, two-stage signer-key promotion, incoming direct-JAR association, and AMS split are confirmed. The recovered corpus has no usable `Device` provider. Live overlay state, legitimate issuer, AOT certificate extraction/`SigningKeys`, principal mapping, revocation/time behavior, and production/development policy combination remain unresolved.
+2. **Authorized issuance:** no recovered external manifest, issuer specification, service, or packaging utility establishes identity allocation, accepted authority, DRM grant, or byte-exact issuer serialization. A genuine incoming JAR remains useful for serialization comparison, not for recovering the semantic member schema.
 3. **Permission combination:** the rule combining security-configuration signer/revision, global policy, signed per-app policy, application signer, DRM grant, and optional developer token is unknown.
-4. **Registry and atomicity:** AppManager's QDB whole-list catalog and its post-AMS ordering are confirmed non-atomic with the surrounding lifecycle. `Installer.recoverProgIfNeeded` owns `prog.bak`, but its exact rename/restore semantics, hidden AMS registry schema, boot reconciliation, power-loss behavior, and any upstream launch suppression remain unknown. No explicit per-app enable/disable operation exists in the recovered native/Java surfaces.
+4. **Registry and atomicity:** AppManager's QDB whole-list catalog and its post-AMS ordering are confirmed non-atomic with the surrounding lifecycle. AMS's normal upgrade rename order and `recoverProgIfNeeded` restore condition are proved, but hidden AMS registry schema, exceptional rename failure handling, boot reconciliation, power-loss behavior, and any upstream launch suppression remain unknown. No explicit per-app enable/disable operation exists in the recovered native/Java surfaces.
 5. **Routine uninstall completeness:** the native stop/completion/Xlet-resource/per-app-RMS/native-map/QDB-save path is proved, but AMS payload disposition, interruption behavior, and exhaustive cleanup of registry state and all application-owned data remain unknown.
 6. **Return authorization:** the IOC session/state-4/allowance gate is proved, but the legitimate external challenge authority and service-certificate issuing/renewal process, supported live-state refresh/revocation path, and a validity window sufficient for verified production return are not documented.
 7. **Runtime activation observation:** file owner/mode, actual marker durability, live AMS argv/selected JAR, inherited PATH/user/capabilities, and a supported non-destructive restart boundary require owner-authorized read-only observation.
@@ -713,6 +1858,7 @@ Work should not return to trying to prove the disproven anti-theft-PIN-to-develo
 | [minimal_change_design.md](reports/minimal_change_design.md) | Conditional least-change design and stop gates |
 | [rollback_recovery.md](reports/rollback_recovery.md) | Per-app/production return, failure matrix, and disaster-recovery boundary |
 | [uas_comparison.md](reports/uas_comparison.md) | Strict generation/provenance boundary for UAS 21.9 |
+| [resident_incoming_jar_schema.md](reports/resident_incoming_jar_schema.md) | Direct live-JAR parser, exact AMS member split, preflight/install/upgrade transformation, inverse census, and issuer boundary |
 
 Precedence notes:
 
@@ -724,14 +1870,14 @@ Precedence notes:
 - keyjar_runtime_association.md supersedes the former unknown installed association: Installer constructs the fixed sibling, AMS propagates it to VerificationClassLoader, and signer lookup uses key.jar!/xlet.properties. AOT extraction/SigningKeys and principal assignment remain open.
 - the latest application_install_pipeline.md and usb_update_pipeline.md supersede the former unknown outer-media recognizer: resident detection, nested-ISO authentication, external manifest dispatch, and environment handoff are now confirmed.
 - the hidden-HBC inventory and independent signature replay supersede older usb_update_pipeline.md and rollback_recovery.md statements that /etc/keys/swdl.pub is not materialized; the recovered public key validates both signed header material and the public-recovered full-data hashes for all three stock nested ISOs, but cannot sign modified media.
-- appmanager_registry_atomicity.md supersedes the former hidden-AppManager-registry unknown: `AppManager_JavaApps` is a whole-list QDB record saved after AMS lifecycle completion. The cross-layer path is non-atomic; `Installer.recoverProgIfNeeded` directly owns `prog.bak`, while the exact rename/restore contract remains unresolved.
+- appmanager_registry_atomicity.md and resident_incoming_jar_schema.md supersede the former hidden-AppManager-registry and upgrade-transform unknowns: `AppManager_JavaApps` is a whole-list QDB record saved after AMS lifecycle completion. The cross-layer path is non-atomic; normal AMS upgrade rename order and the `recoverProgIfNeeded` restore condition are proved, while exceptional failure and power-loss behavior remain unresolved.
 - qkcp_kim_copy_semantics.md supersedes the former `qkcp -h` manifest/atomicity unknown: `-h` is progress-only, KIM uses no checkpoint recovery, `xletsdir_ref.txt` is not consumed by the recovered copier, and direct merge/overwrite is non-atomic.
 - app_launch_ui_path.md supersedes the former stock human-facing caller unknown: the generic `AppsMainScreen` item path reaches module `AppManager.startXlet`, emits native `startApp`, and retains native DRM checking; the separate Java API retains its own permission check. application_install_pipeline.md and kona_application_authorization.md remain authoritative for stopped install/autostart policy and the absence of an explicit per-app enable/disable operation in the recovered native/Java surfaces.
 - developer_token_analysis.md and signedid_jce_semantics.md supersede both the old metadata blocker and any implication that the 256-byte decoded value is passed to Java `Signature`. The exact VCL -> KeyVerifier -> SignedId branch, Base64/SunJCE `RSA/ECB/PKCS1Padding`/exact-ID predicate, internal-root bootstrap, and selected-security-JAR signer-key promotion are confirmed. The corpus-wide ID-provider census is negative; the live ID overlay, legitimate issuer, AOT certificate extraction/SigningKeys, and principal/policy mapping remain unresolved.
 
 ## 16. Repository and publication safety
 
-Current repository policy:
+Original investigation publication snapshot (current checkpoint: section 1):
 
 - Stock/vendor firmware tracked: **NO**.
 - Stock/vendor firmware staged: **NO**.
@@ -747,6 +1893,6 @@ This handoff intentionally contains no raw developer token, authentication key v
 
 The RA4 development-security selector is real, factory-shipped, and fully traced from an authenticated Service-menu gate through item 19 to the next secure AMS launch. The authentication gate is a service certificate, not the anti-theft PIN. Both the SERVICEKEY media ingress and IOC-gated internal diagserv staging/finalize route converge on stock platform verification. The IOC requires a diagnostic session and proprietary state 4 with finite allowance; its legitimate external authority remains unresolved and is not an implementation shortcut. State 4 can authorize protected anti-theft comparator provisioning, but the PIN-success path is proved one-way separate and can only trigger the destructive `xletsReturnToNew` restoration/reset in the recovered HMI flow.
 
-The application path is also materially understood: resident USB detection authenticates the installer ISO and can dispatch an external installer; `key.jar` cryptographically binds all application bytes and signed descriptor metadata; installed AMS constructs its fixed sibling path and obtains signer objects from `key.jar!/xlet.properties`; native AppManager performs an enabled DRM gate and requests AMS authenticated package information; catalog install converges on AMS `upgrade`; AMS loads `xlet.developerToken` and evaluates it through `KeyVerifier`; ordinary non-autostart installation completes stopped; the generic stock Apps UI sends the explicit native DRM-checked launch request; and stock uninstall reaches AMS `uninstall`, then performs scoped resource/RMS/map cleanup followed by a queued whole-list QDB catalog save. That sequence is not atomic with AMS state. `Installer.recoverProgIfNeeded` owns `prog.bak`, but its recovery contract is incomplete. What remains is the missing runtime identity provider/encoding, AOT signer-key/principal rule, incoming live package exemplar, exact policy assignment, AMS payload/reconciliation behavior, and dynamically proved per-app rollback.
+The application path is also materially understood: resident USB detection authenticates the installer ISO and can dispatch an external installer; AppManager/AMS receive one direct JAR; AMS authenticated preflight reads its root descriptor; `Installer.copyAndCheck` verifies and splits its members into the executable payload and fixed detached `key.jar`; installed AMS obtains signer objects from `key.jar!/xlet.properties`; native AppManager performs an enabled DRM gate; catalog install converges on AMS `upgrade`; AMS loads `xlet.developerToken` and evaluates it through `KeyVerifier`; ordinary non-autostart installation completes stopped; the generic stock Apps UI sends the explicit native DRM-checked launch request; and stock uninstall reaches AMS `uninstall`, then performs scoped resource/RMS/map cleanup followed by a queued whole-list QDB catalog save. That sequence is not atomic with AMS state. Normal upgrade rename order and `recoverProgIfNeeded`'s restore condition are proved; exceptional failure recovery is incomplete. What remains is the authorized issuer interface and byte-exact serialization, runtime identity provider/encoding, AOT signer-key/principal rule, exact policy assignment, hidden AMS reconciliation state, and dynamically proved per-app rollback.
 
 Until those stop gates are closed with owner-authorized credentials and non-mutating evidence, the safe implementation is no implementation. Preserve every factory security boundary and continue with the next highest-value unresolved dependency rather than reviving the disproven PIN-to-developer premise.

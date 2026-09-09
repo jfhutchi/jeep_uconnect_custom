@@ -1,6 +1,6 @@
 # 2017Q2 VP4 Navigation Map Update Reverse-Engineering Findings
 
-Updated: 2026-09-05
+Updated: 2026-09-06
 
 This report records owner-authorized, read-only analysis of an original Uconnect navigation update image recovered as `uconnectmapimage.img`. The goal is to understand the legitimate update architecture, media layout, compatibility logic, and runtime behavior without deriving activation secrets, forging licenses, bypassing signing, or modifying the original image.
 
@@ -304,7 +304,11 @@ supply metadata `+0x10` at `0x0011D54C`, inserted sorted and unique.
 When an update license is activatable, Synctool extracts another 32-bit metadata value and binary-searches this vector:
 
 - value found -> `Found incompatible activable license record`
-- value not found -> `Found activable license record`
+- value not found -> GUI exception check, otherwise `Found activable license record`
+
+The GUI helper at `0x0011DBAC` can instead branch to accepted-list insertion
+at `0x0011DDE8`. Result list `+4` is therefore accepted/valid, not exclusively
+records whose raw validity predicate was already true.
 
 **[CONFIRMED]** This incompatibility set is therefore built dynamically from existing device-side license metadata. It is not a hard-coded MY13/MY14/MY15 blacklist.
 
@@ -323,9 +327,13 @@ and record constructor `0x00245134-0x0024513C` copies it to record `+0x64`.
 **[HIGH]** Its appropriate descriptive name is **runtime source-container
 identity ordinal**, not application SKU, model-year ID, or module ID. The map
 uses a 16-byte key derived from provider slot `+0x40` and container segment
-offset/length. The provider metadata's exact meaning and the original vendor
-field name remain unknown; matching keys do not by themselves prove matching
-filenames or every file byte. See the focused report for the full chain.
+offset/length. The provider is now resolved to the composite filesystem class:
+constructor `0x001C0F40`, vtable `0x003052D8`, slot `+0x40 -> 0x001B5070`.
+It accumulates contributions from backing providers through their slot `+0x38`.
+One concrete implementation (`0x001C9D30`, table slot `0x003047D8`) mixes the
+source name, not protected file bytes. The runtime backing-provider set and
+original vendor field name remain unknown; matching keys do not prove matching
+filenames or every file byte. See focused report sections 9-10.
 
 ## 14. App SKU routine: caller and implementation resolved
 
@@ -375,7 +383,7 @@ device-side application-license records
 
 media records -> already valid / activatable / invalid
   activatable + container ordinal present in set -> incompatible
-  activatable + container ordinal absent from set -> activatable
+  activatable + container ordinal absent from set -> GUI check or activatable
        -> result lists and enum 0/1/2 -> caller-specific handling
        -> activation/request-code handling separately, when required
 ```
@@ -383,7 +391,8 @@ media records -> already valid / activatable / invalid
 **[CONFIRMED]** Discard implementation `0x0012445C`, reached through adapter
 `0x00124D4C` and tail branch `0x00124D70`, uses the same container ordinal
 to prune all related entries from result lists `+4/+8/+0xC/+0x10`. It also
-collects source names from record `+0x28` through `0x00240C18`, retains them
+collects source names through the container backpointer at record `+0x28`
+using `0x00240C18`, retains them
 at context `+0x44/+0x48/+0x4C`, and passes derived names to manager slot
 `+0x28` at `0x001249F8`. It registers callback `0x00113160`, which compares
 planned filenames against the discard-name vector (`0x0011321C`) and clears
@@ -403,7 +412,26 @@ It does not identify the internal numeric SKU or individual record states.
 The observed filename therefore anchors the outcome, not an inferred numeric
 mapping from model year to license.
 
-## 16. Open questions / next work
+## 16. Public analogous identity-plane evidence
+
+**[CONFIRMED CORROBORATIVE, NOT RA4]** A publicly indexed third-party upload of
+an unrelated NNG Synctool 9.12.42 runtime log independently separates device
+ID/SWID, device and content codes, platform ID, and Application license-record
+enumeration. It also names the Application and GUI license distributors as
+separate registered services. Its Application record count is zero, so it
+does not identify selector `0x284`, an App SKU, or the MY14 REVA relationship.
+
+This supports the local data-flow separation: a device/platform identity pair
+feeds Synctool operation, while the logged App SKU is selected from an
+Application record. It does not turn product labels into a numeric lookup rule.
+The repository registration number shown in that trace is not a module selector.
+
+The log probe now fingerprints these identity values without disclosure and
+records the numeric Application-record count. Equality of tokens can correlate
+the same SWID/platform value across messages; it cannot establish semantic
+meaning by itself. See the focused report for the source and limitations.
+
+## 17. Open questions / next work
 
 The caller, virtual implementation, SKU metadata offset, SWID-property output
 direction, and scanner-key construction have been resolved. The next evidence
@@ -415,8 +443,9 @@ targets needed to tie this mechanism to the exact successful file are:
 2. Locate an existing Synctool diagnostic log from the successful run that
    includes `App SKU ID`, per-file record classifications, and the final plan.
    The recovered outer SWDL log currently supplies only the filename/outcome.
-3. Recover the original name of module selector `0x284`, and the meaning of
-   source provider slot `+0x40`, if needed to refine the descriptive names.
+3. Recover the original name of module selector `0x284` and the historical
+   backing-provider configuration. Slot `+0x40` is now resolved to composite
+   filesystem identity accumulation; the original class name remains unknown.
 4. Keep protected license contents, activation secrets, and bypass construction
    outside this investigation. A numeric MY14/REVA mapping must come from
    legitimate non-secret inventory/diagnostic evidence, not a guessed label.
@@ -426,10 +455,36 @@ bytes of the original image, not just recovered filenames. It found only nine
 embedded format/prefix strings and no runtime-looking instances of the selected
 App-SKU/device/classification markers. That closes the intact-plain-text
 recovery route for these markers; compressed, fragmented, corrupted,
-differently worded, or radio-only logs are not excluded. See the focused
-report for offsets and reproduction commands.
+differently worded, or radio-only logs are not excluded. The probe now emits
+only a full SHA-256 token for complete printable record/file fields, so a
+future capture can correlate classification and exclusion values without
+printing them. Matching tokens are strong correlation evidence for equal field
+bytes, not proof of the field's semantic type. A matching digest for the already
+documented successful filename is labeled `target=my14_reva`; this would prove
+that exact filename's bytes occur in the known diagnostic field, while the event
+marker supplies its classification/exclusion context. Per-marker target totals
+cover the complete scan even when individual hit display is capped. See the
+focused report for offsets and reproduction commands.
 
-## 17. Safety and handling notes
+## 18. Safety and handling notes
+
+### Continued diagnostic evidence
+
+The [focused report](synctool_device_license_selection.md#8-internal-logger-sink-implementation-and-configured-destinations)
+now resolves the internal logger to a sink chain, with `vsnprintf` formatting
+and concrete stdout/file implementations. The 2017Q2 installer configuration
+names `/dev/stdout` and `/hbsystem/multicore/navi/3` at severity threshold 3.
+Append-mode `fopen64` / `fwrite` / `fclose` is proved; a persistent Synctool
+log file is not. Later RA4 18.45.01 boot evidence shows null-routing or
+`multicored` capture to existing `LOGFILE.DAT` files. This is a specific
+read-only capture lead, not proof of historical routing or permission to
+enable logging. Result class remains **B - PARTIALLY PROVED**: the exact
+MY14_REVA record/SKU association still needs contemporaneous non-secret evidence.
+
+The later boot script's large diagnostic-file allowance is not suitable for
+our future app. The [RA4 resource budget](../docs/ra4_resource_budget.md) protects
+45 MB of the approximately 77 MB observed free space; evidence captures should
+not be staged into that pool.
 
 - Keep `uconnectmapimage.img` read-only.
 - Do not run filesystem repair tools such as `chkdsk` against the original image.

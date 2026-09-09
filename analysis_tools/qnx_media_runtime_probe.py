@@ -1,0 +1,358 @@
+#!/usr/bin/env python3
+"""Inventory recovered QNX trees for projection runtime evidence.
+
+The probe covers media/graphics candidates, era-compatible QNX CAR integration
+services, and the Harman-specific service family already observed in RA4. It is
+read-only and reports only controlled marker names, relative paths, sizes,
+SHA-256 hashes, counts, and offsets; it never emits file contents.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+from typing import BinaryIO, Iterable
+
+DEFAULT_MAX_FILE_BYTES = 128 * 1024 * 1024
+DEFAULT_CHUNK_BYTES = 1024 * 1024
+DEFAULT_MAX_OFFSETS = 16
+
+MARKERS: dict[str, bytes] = {
+    "libcodecengine": b"libcodecengine",
+    "decodecombo": b"decodecombo",
+    "dsplink": b"dsplink",
+    "ce_loader": b"ce_loader",
+    "cmem_parameters": b"cmem_parameters",
+    "ce_audio_decoder": b"ce_audio_decoder",
+    "h264": b"h264",
+    "avc_decoder": b"avc_decoder",
+    "openmax": b"openmax",
+    "libomx": b"libomx",
+    "omx_symbol": b"omx_",
+    "gstreamer": b"gstreamer",
+    "libgst": b"libgst",
+    "sgx530": b"sgx530",
+    "libimggles": b"libimggles",
+    "pvrsrv": b"pvrsrv",
+    "libpvr2d": b"libpvr2d",
+    "libscreen": b"libscreen",
+    "screen_window_buffers": b"screen_create_window_buffers",
+    "startup_omap": b"startup-omap",
+    # Era-compatible QNX CAR 2.1 / SDP 6.6 reference interfaces.
+    "pps_launcher": b"/pps/services/launcher",
+    "pps_app_launcher": b"/pps/services/app-launcher",
+    "pps_navigator": b"/pps/system/navigator",
+    "hmi_notification": b"hmi-notification",
+    "libhnm": b"libhnm",
+    "hnm_handsfree_plugin": b"event-source-handsfree",
+    "hnm_hfp_call_incoming": b"hfp_call_incoming",
+    "hnm_event_priorities": b"event-priorities",
+    "pps_bluetooth_handsfree": b"/pps/services/bluetooth/handsfree",
+    "pps_handsfree": b"/pps/services/handsfree",
+    "authman": b"authman",
+    "qtqnxcar2": b"qtqnxcar2",
+    "bar_descriptor": b"bar-descriptor.xml",
+    "qnx_elf_asset": b"qnx/elf",
+    "run_native": b"run_native",
+    "appinst_manager": b"/pps/services/appinst-mgr",
+    "qthomescreen": b"qthomescreen",
+    # QNX CAR 2.1 reference audio, playback, and voice-path boundaries.
+    "audio_manager": b"audio_manager",
+    "audio_manager_get_handle": b"audio_manager_get_handle",
+    "audio_mgr_cmc_config": b"audiomgrcmc.conf",
+    "audio_ctrl_svc": b"audioctrlsvc",
+    "audio_app_source": b"audioapp",
+    "pps_audio_control": b"/pps/services/audio/control",
+    "pps_audio_router_control": b"/pps/services/audio/audio_router_control",
+    "pps_audio_router_status": b"/pps/services/audio/audio_router_status",
+    "pps_audio_devices": b"/pps/services/audio/devices/",
+    "pps_audio_status": b"/pps/services/audio/status",
+    "pps_audio_types": b"/pps/services/audio/types/",
+    "pps_audio_voice_status": b"/pps/services/audio/voice_status",
+    "pps_mediacontroller_control": b"/pps/services/multimedia/mediacontroller/control",
+    "pps_mediaplayer_control": b"/pps/services/multimedia/mediaplayer/control",
+    "pps_mediaplayer_phone": b"/pps/services/multimedia/mediaplayer/phone",
+    "pps_mediaplayer_status": b"/pps/services/multimedia/mediaplayer/status",
+    "io_audio": b"io-audio",
+    "io_acoustic": b"io-acoustic",
+    "pps_bluetooth": b"pps-bluetooth",
+    "nowplaying": b"nowplaying",
+    "mm_control": b"mm-control",
+    "mm_player": b"mm-player",
+    "mm_renderer": b"mm-renderer",
+    "pps_multimedia_renderer": b"/pps/services/multimedia/renderer",
+    "screen_window_group": b"screen_create_window_group",
+    "screen_join_window_group": b"screen_join_window_group",
+    "screen_property_focus": b"screen_property_focus",
+    "screen_property_sensitivity": b"screen_property_sensitivity",
+    "screen_event_mtouch": b"screen_event_mtouch_touch",
+    "video_hmi_class": b"video_hmi",
+    # Startup/configuration anchors used for deterministic correlation.
+    "boot_script": b"boot.sh",
+    "graphics_config": b"graphics.conf",
+    "modulelink_config": b"modulelink.xml",
+    "process_starter": b"processstarter",
+    # Stock-specific comparison markers already evidenced in the RA4 corpus.
+    "servicebroker": b"servicebroker",
+    "modulelink": b"modulelink",
+    "phone_projection_service": b"phoneprojectionservice",
+    "iphone_projection": b"iphoneprojection",
+    "device_projection_swf": b"deviceprojection.swf",
+    "projection_back_to_car": b"projection_backto_car",
+    "phone_projection_event": b"phoneprojectionevent",
+    # Exact stock HMI foreground/presentation anchors recovered from the
+    # hash-identified MainSupplement.swf. These locate the narrow OEM
+    # arbitration seams; they do not authorize changing stock policy.
+    "projection_call_state": b"projectioncallstate",
+    "projection_status_bar": b"projection_status_bar",
+    "projection_session_active": b"sessionactive",
+    "projection_start": b"startprojection",
+    "projection_auto_show": b"key_projection_auto_show",
+    "foreground_availability": b"checkforegroundavailability",
+    "foreground_request": b"onapprequestforeground",
+    "phone_incoming_call": b"phone_incoming_call",
+    "sms_incoming_message": b"sms_incoming_message",
+    "sms_announce": b"announcesmsmessage",
+    "previous_call_screen": b"mprevscreenbeforeactivecall",
+    "rear_camera_status": b"rearcamerastatus",
+    "short_term_camera_layer": b"short_term_cam_full",
+    "camera_popup": b"popup_cameras",
+    "camera_screen": b"screen_camera",
+    "hvac_popup": b"popup_hvac",
+    # Exact RA4 secure application-lifecycle anchors.
+    "ams_service": b"com.aicas.xlet.manager.ams",
+    "app_manager_service": b"com.harman.service.appmanager",
+    "appmanager_javaapps": b"appmanager_javaapps",
+    "xlets_directory": b"/fs/mmc1/xletsdir",
+    "xlet_properties": b"xlet.properties",
+    # QNX 6.6 reference and RA4-adjacent Apple projection transport.
+    "usblauncher": b"usblauncher",
+    "io_usb_dcd": b"io-usb-dcd",
+    "roleswap_digitalipodout": b"roleswap_digitalipodout",
+    "roleswap_appledevice": b"roleswap_appledevice",
+    "iap2": b"iap2",
+    "mm_ipod": b"mm-ipod",
+    "io_fs_media": b"io-fs-media",
+    "itun": b"itun",
+    "libipod": b"libipod",
+    "devu_dcd": b"devu-dcd",
+    # QNX 6.6 DCDs may be named for the exposed function plus hardware
+    # variant (for example devu-usbumass-<HW_VARIANT>.so), not devu-dcd-*.
+    "devu_usbumass_hw": b"devu-usbumass-",
+    "devu_usbser_hw": b"devu-usbser-",
+    "devu_usbncm_hw": b"devu-usbncm-",
+    "devu_usbrndis_hw": b"devu-usbrndis-",
+    "libusbdci": b"libusbdci",
+    "usb_device_stack_rule": b"device_stack",
+    "usb_ctrl_pps": b"/pps/qnx/device/usb_ctrl",
+    "start_stack_device": b"start_stack::device",
+    "ulink_ctrl": b"ulink_ctrl",
+    # Exact OMAP3 host/OTG startup anchors from QNX's public OMAP3730 BSP.
+    "omap3530_mg": b"omap3530-mg",
+    "ehci_omap3": b"ehci-omap3",
+    "pmic_tw4030_cfg": b"pmic_tw4030_cfg",
+    "omap_otg_base": b"0x480ab000",
+}
+
+_MAX_MARKER_BYTES = max(map(len, MARKERS.values()))
+
+
+def _relative_name(path: Path, root: Path) -> str:
+    return path.relative_to(root).as_posix()
+
+
+def _filename_tags(path: Path) -> list[str]:
+    lowered = path.name.casefold().encode("utf-8", "ignore")
+    return sorted(name for name, marker in MARKERS.items() if marker in lowered)
+
+
+def _scan_stream(
+    stream: BinaryIO,
+    *,
+    chunk_bytes: int = DEFAULT_CHUNK_BYTES,
+    max_offsets: int = DEFAULT_MAX_OFFSETS,
+) -> tuple[str, dict[str, dict[str, object]], int]:
+    if chunk_bytes <= 0:
+        raise ValueError("chunk_bytes must be positive")
+    if max_offsets < 0:
+        raise ValueError("max_offsets must not be negative")
+
+    digest = hashlib.sha256()
+    counts = {name: 0 for name in MARKERS}
+    offsets: dict[str, list[int]] = {name: [] for name in MARKERS}
+    tail = b""
+    consumed = 0
+
+    while True:
+        chunk = stream.read(chunk_bytes)
+        if not chunk:
+            break
+        digest.update(chunk)
+        window = tail + chunk
+        lowered = window.lower()
+        window_base = consumed - len(tail)
+        new_data_start = consumed
+
+        for name, marker in MARKERS.items():
+            cursor = 0
+            while True:
+                found = lowered.find(marker, cursor)
+                if found < 0:
+                    break
+                absolute = window_base + found
+                # A match wholly inside the retained tail was counted previously.
+                if absolute + len(marker) > new_data_start:
+                    counts[name] += 1
+                    if len(offsets[name]) < max_offsets:
+                        offsets[name].append(absolute)
+                cursor = found + 1
+
+        consumed += len(chunk)
+        tail = window[-(_MAX_MARKER_BYTES - 1) :] if _MAX_MARKER_BYTES > 1 else b""
+
+    matches = {
+        name: {
+            "count": counts[name],
+            "offsets": offsets[name],
+            "offsets_truncated": counts[name] > len(offsets[name]),
+        }
+        for name in sorted(MARKERS)
+        if counts[name]
+    }
+    return digest.hexdigest(), matches, consumed
+
+
+def scan_root(
+    root: Path,
+    *,
+    max_file_bytes: int = DEFAULT_MAX_FILE_BYTES,
+    chunk_bytes: int = DEFAULT_CHUNK_BYTES,
+    max_offsets: int = DEFAULT_MAX_OFFSETS,
+) -> dict[str, object]:
+    root = root.resolve(strict=True)
+    if not root.is_dir():
+        raise ValueError(f"not a directory: {root}")
+    if max_file_bytes <= 0:
+        raise ValueError("max_file_bytes must be positive")
+
+    findings: list[dict[str, object]] = []
+    skipped: list[dict[str, object]] = []
+    files_scanned = 0
+    bytes_scanned = 0
+
+    for directory, dirnames, filenames in os.walk(root, followlinks=False):
+        dirnames.sort()
+        filenames.sort()
+        base = Path(directory)
+        for filename in filenames:
+            path = base / filename
+            if path.is_symlink() or not path.is_file():
+                continue
+            size = path.stat().st_size
+            relative = _relative_name(path, root)
+            if size > max_file_bytes:
+                skipped.append({"path": relative, "size": size, "reason": "max_file_bytes"})
+                continue
+
+            with path.open("rb") as stream:
+                digest, marker_matches, read_size = _scan_stream(
+                    stream, chunk_bytes=chunk_bytes, max_offsets=max_offsets
+                )
+            if read_size != size:
+                raise OSError(f"short read for {relative}: expected {size}, got {read_size}")
+            files_scanned += 1
+            bytes_scanned += read_size
+            name_tags = _filename_tags(path)
+            if name_tags or marker_matches:
+                findings.append(
+                    {
+                        "path": relative,
+                        "size": size,
+                        "sha256": digest,
+                        "filename_tags": name_tags,
+                        "content_markers": marker_matches,
+                    }
+                )
+
+    return {
+        "root_label": root.name,
+        "files_scanned": files_scanned,
+        "bytes_scanned": bytes_scanned,
+        "files_skipped": len(skipped),
+        "skipped": skipped,
+        "findings": findings,
+    }
+
+
+def build_report(
+    roots: Iterable[Path],
+    *,
+    max_file_bytes: int = DEFAULT_MAX_FILE_BYTES,
+    chunk_bytes: int = DEFAULT_CHUNK_BYTES,
+    max_offsets: int = DEFAULT_MAX_OFFSETS,
+) -> dict[str, object]:
+    reports = [
+        scan_root(
+            root,
+            max_file_bytes=max_file_bytes,
+            chunk_bytes=chunk_bytes,
+            max_offsets=max_offsets,
+        )
+        for root in roots
+    ]
+    label_counts: dict[str, int] = {}
+    for report in reports:
+        label = str(report["root_label"])
+        label_counts[label] = label_counts.get(label, 0) + 1
+    label_ordinals: dict[str, int] = {}
+    for report in reports:
+        label = str(report["root_label"])
+        if label_counts[label] > 1:
+            ordinal = label_ordinals.get(label, 0) + 1
+            label_ordinals[label] = ordinal
+            report["root_label"] = f"{label}#{ordinal}"
+    return {
+        "format": "qnx-media-runtime-evidence-v1",
+        "markers": sorted(MARKERS),
+        "max_file_bytes": max_file_bytes,
+        "max_offsets_per_marker": max_offsets,
+        "roots": reports,
+        "totals": {
+            "roots": len(reports),
+            "files_scanned": sum(int(item["files_scanned"]) for item in reports),
+            "bytes_scanned": sum(int(item["bytes_scanned"]) for item in reports),
+            "files_skipped": sum(int(item["files_skipped"]) for item in reports),
+            "findings": sum(len(item["findings"]) for item in reports),
+        },
+    }
+
+
+def _parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Read-only QNX media-runtime marker census"
+    )
+    parser.add_argument("roots", nargs="+", type=Path)
+    parser.add_argument("--max-file-bytes", type=int, default=DEFAULT_MAX_FILE_BYTES)
+    parser.add_argument("--chunk-bytes", type=int, default=DEFAULT_CHUNK_BYTES)
+    parser.add_argument("--max-offsets", type=int, default=DEFAULT_MAX_OFFSETS)
+    parser.add_argument("--pretty", action="store_true")
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _parser().parse_args(argv)
+    report = build_report(
+        args.roots,
+        max_file_bytes=args.max_file_bytes,
+        chunk_bytes=args.chunk_bytes,
+        max_offsets=args.max_offsets,
+    )
+    print(json.dumps(report, indent=2 if args.pretty else None, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

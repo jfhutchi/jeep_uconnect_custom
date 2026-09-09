@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; img-src 'none'; object-src 'none'; base-uri 'none'">
+  <title>TRAIL / RA4 projection ownership bench</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="study-label">PROJECTION OWNERSHIP BENCH <span>PC-ONLY / NO RADIO</span></div>
+  <div id="hmi" aria-label="640 by 480 projection arbitration prototype"></div>
+  <aside id="scenarios" aria-label="PC simulation controls">
+    <p>STATE INPUTS <span>Outside the 640 x 480 application surface</span></p>
+    <div class="scenario-buttons">
+      <button data-scenario="carplay">Start CarPlay</button>
+      <button data-scenario="android">Start Android Auto</button>
+      <button data-scenario="projection-off">Disconnect projection</button>
+      <button data-scenario="camera">Camera takeover</button>
+      <button data-scenario="critical">Critical takeover</button>
+      <button data-scenario="comfort">Comfort overlay</button>
+      <button data-scenario="call">Projected call</button>
+      <button data-scenario="message">Projected message</button>
+      <button data-scenario="normal">Clear stock takeover/overlay</button>
+      <button data-scenario="offline">Integration offline</button>
+      <button data-scenario="stale">Stop state updates</button>
+    </div>
+    <p class="disclaimer">No projection engine, radio connection, audio, camera
+      video, Bluetooth operation, vehicle command or persistent storage.</p>
+  </aside>
+  <script type="module" src="app.mjs"></script>
+</body>
+</html>

@@ -1,50 +1,101 @@
 # Jeep Uconnect Custom
 
-Modernize a 2014 Jeep Grand Cherokee WK2 RA4 infotainment experience while preserving factory vehicle functionality.
+Research into modernizing a 2014 Jeep Grand Cherokee WK2 RA4 infotainment
+system while preserving factory vehicle functionality.
 
-## Product goal
+**Status: BLOCKED - effectively not achievable as a software-only project with
+our available hardware and authorized access.** We have not established a viable
+legal, manufacturer-authorized route to install this integration. Progress would
+require manufacturer-provided or approved development/service hardware, matching
+credentials and signing/entitlement support, and compatible licensed software.
+Hardware alone is not enough, and no sufficient manufacturer kit or access route
+has been confirmed.
 
-Build a newer-Uconnect-inspired interface with native Android Auto and Apple CarPlay integration while retaining the stock RA4 as the vehicle-services authority for Jeep-specific functions.
+The repository now preserves research and host prototypes. It does not provide a
+working CarPlay/Android Auto upgrade, an installable RA4 app, or flashable firmware.
+See the [project status and reopening conditions](docs/00_project_status.md).
+This is a practical project conclusion, not a blanket legal ruling about all
+independent modifications.
+
+Current decision artifacts: [transport gate matrix](docs/20_projection_transport_gate_matrix.md),
+[USB and projection backend evidence](reports/ra4_usb_stack_backend_census.md),
+[native projection gateway routing gap](reports/ra4_projection_gateway_dispatch.md),
+[stock Xlet view path](reports/ra4_resident_xlet_view_path.md),
+[Xlet foreground admission and return/release handoff](reports/ra4_xlet_foreground_handoff.md),
+[native display visibility and AMS owner-change boundary](reports/ra4_display_owner_reclaim.md),
+[Xlet pause policy and watchdog stop-request boundary](reports/ra4_xlet_pause_watchdog.md),
+[Xlet result normalization and stopped-state limits](reports/ra4_xlet_result_completion.md),
+[AMS destroy, timeout and container-cleanup contract](reports/ra4_ams_destroy_cleanup_contract.md),
+[Xlet container removal and Java focus cleanup](reports/ra4_xlet_container_focus_cleanup.md),
+[compiled AMS timeout runner and finally dispatch](reports/ra4_ams_aot_timeout_runner.md),
+[queued worker interruption and completion-flag limits](reports/ra4_ams_worker_interruption.md),
+[interruption requests and thread-cleanup escalation](reports/ra4_ams_interrupt_request_cleanup.md),
+[native I/O callbacks and stock Screen wait](reports/ra4_native_io_screen_wait.md),
+[Screen loop exit and native event release](reports/ra4_screen_loop_release_boundary.md),
+[JNI native-registration limit](reports/ra4_jni_registration_limit.md),
+[Screen-loop quick-field semantics](reports/ra4_screen_quick_field_semantics.md),
+[Screen factory and compiled-method boundary](reports/ra4_screen_factory_lifetime.md),
+the [independently authored Hello Uconnect host artifact](reports/hello_uconnect_host_artifact.md),
+the [resident package format](reports/resident_package_format.md),
+the [live incoming-JAR schema and AMS transformation](reports/resident_incoming_jar_schema.md),
+[application identity model](reports/resident_identity_model.md),
+[detached signing chain](reports/resident_signing_chain.md),
+[policy/entitlement boundary](reports/resident_policy_entitlements.md),
+[stock install lifecycle](reports/resident_install_lifecycle.md),
+[Hello installability gap](reports/hello_installability_gap.md),
+and [first future resident proof](docs/21_first_resident_runtime_proof.md).
+The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
+canonical draft PR status. No radio deployment is authorized by these reports.
+
+## Original product goal (on hold)
+
+Integrate native Android Auto and Apple CarPlay as first-class projection
+applications inside stock RA4 Uconnect. Production does **not** replace the
+factory Radio, Media, Climate, Controls, Phone, Messaging or Settings screens.
 
 Target experience:
 
-- Modern Jeep/Uconnect-style 640x480 HMI
-- Native Android Auto for Android phones
-- Native Apple CarPlay for iPhone
-- Heated seats preserved
-- Heated steering wheel preserved
-- Dual-zone HVAC preserved
-- Factory backup camera preserved
-- Vehicle settings preserved
-- Factory steering-wheel controls preserved
-- Factory audio path preserved
-- Safe fallback to the stock RA4 UI
+- Stock Uconnect remains the ordinary HMI and vehicle-services authority.
+- Projection may use the full 640x480 display while active.
+- Return to Uconnect and Return to Projection are explicit and easy.
+- Returning to projection resumes the session instead of reconnecting it.
+- Factory camera and permitted comfort overlays preempt projection and reveal it
+  again afterward.
+- During an active projection session, projection owns call/message presentation;
+  duplicate stock Phone/Messaging foreground UI and audio are suppressed without
+  globally disabling Bluetooth/HFP/MAP.
+- Emergency/eCall and critical stock presentation remain stock-owned; an ordinary
+  camera takeover preserves projection interaction ownership.
+- Normal stock phone/message behavior returns when projection is inactive.
 
-## Architecture direction
+## Earlier architecture direction (conditional research)
 
-The working architecture is **integration, not firmware replacement**:
+The earlier architecture was **RA4-resident first, integration rather than
+firmware replacement**. It is retained as a conditional design, not an active
+implementation commitment. Approximately 77 MB observed free space is shared with
+the stock system, not an app allocation. The mandatory
+[resource budget](docs/ra4_resource_budget.md) protects 45 MB and provisionally
+caps installed app size at 15 MB, runtime growth at 4 MB and additional peak
+update/rollback overhead at 8 MB. These are planning caps, not measured artifacts.
 
 ```text
-Phone(s)
-  |-- Android Auto
-  `-- Apple CarPlay
-        |
-        v
-Hidden projection / modern-HMI compute layer
-        |
-        |-- video --> factory display path
-        |-- touch <-- factory QNX Screen / mtouch path
-        |-- audio --> factory multimedia/audio path
-        `-- vehicle controls <--> stock RA4 services
-                                  |
-                                  v
-                           PPS / Harman middleware
-                                  |
-                                  v
-                                 CAN
+Small RA4-resident projection integration (stock AIR/SWF reuse preferred)
+  |-- existing display / touch / assets
+  |-- existing audio / media services
+  |-- existing Harman / PPS vehicle services --> CAN
+  `-- optional external capabilities only when local limits require them
 ```
 
 The original RA4 remains responsible for vehicle-specific logic. New code should consume high-level existing services where possible rather than reimplementing raw CAN behavior.
+
+This supersedes both the earlier external-renderer-first proposal and the later
+six-screen replacement-shell interpretation. The software-only investigation is now blocked by
+manufacturer access, authorization and missing supported components. A complete
+legitimate projection engine remains unresolved. The earlier
+`EXTERNAL_COMPUTE_REQUIRED` classification concerns measured resource fit only;
+it does not describe the separate need for manufacturer development/service
+hardware and authorization. PC mocks and analysis tools remain
+outside deployment.
 
 ## Verified research findings
 
@@ -64,12 +115,21 @@ These findings do **not** imply that a hidden switch alone enables CarPlay or An
 
 Detailed navigation-update findings: [`reports/map_update_2017q2_reverse_engineering.md`](reports/map_update_2017q2_reverse_engineering.md).
 
+Current product integration: the [projection foreground-ownership report](reports/projection_foreground_ownership.md)
+traces stock session/display separation, call/SMS presentation, foreground
+arbitration, camera return and comfort-popup reuse. The separate
+[read-only driver-temperature contract](reports/ra4_driver_temperature_contract.md)
+is retained as read-only research; its prototype stays mock-only and no radio subscription
+or control is enabled.
+
 The focused [Synctool device/license-selection report](reports/synctool_device_license_selection.md)
 traces the App-SKU virtual query, corrects the SWID-property data-flow direction,
 identifies the scanner key as a runtime source-container ordinal, and follows
 record-group pruning into filename exclusion from the copy plan.
 [Reusable analysis tools](analysis_tools/README.md) include hash-gated static
-evidence checks and a read-only diagnostic-marker probe. The exact numerical
+evidence checks, a read-only diagnostic-marker probe, and a schema-validating
+correlator that ranks only redacted QNX runtime candidates for manual XREF and
+startup verification. The exact numerical
 MY14 REVA record mapping remains unobserved; the successful filename and the
 generic selection mechanism are established separately.
 
@@ -84,15 +144,60 @@ This project is analysis-first.
 - Bench-test integration work before testing on the vehicle's only working radio.
 - Preserve a stock-UI fallback path.
 
-## Current milestones
+## Project hold and retained research
 
-1. Reconstruct the projection-facing HMI contract.
-2. Document RA4 display, touch, audio and vehicle-service interfaces.
-3. Design a modern Uconnect-inspired 640x480 HMI.
-4. Define the hidden-compute bridge architecture.
-5. Build bench-test tooling around a spare RA4.
-6. Prototype display/touch/audio integration.
-7. Integrate a legitimate Android Auto / CarPlay projection engine.
-8. Validate vehicle controls and fallback behavior.
+The resident product slice is a tiny projection integration layer inside stock
+Uconnect. The refocused [PC prototype](prototype/resident_hmi/README.md) is an
+executable projection-ownership and failure-policy bench; it contains no
+replacement Radio, Media, Climate, Controls, Phone, Messaging or Settings UI.
+A [transport-free C99 arbiter](prototype/projection_arbiter_c/README.md) provides
+the same policy in a tiny, no-heap target candidate without claiming a recovered
+vendor API or install path.
 
-See `docs/` and the GitHub issue tracker for the detailed plan.
+Implementation milestones are suspended. The next prerequisite is a confirmed
+manufacturer or authorized supplier route covering hardware, access, signing,
+entitlements and licensed components. More host tests or recovered interfaces do
+not close that gap. See the [revised next steps](docs/07_next_steps.md).
+
+The following documents preserve the earlier design and its unresolved gates;
+they are conditional references for any future supported effort.
+
+See the [completion matrix](docs/08_projection_completion_matrix.md) for
+requirement-by-requirement proof, the
+[adapter boundary](docs/09_projection_adapter_boundary.md) for the smallest
+stock-facing implementation path, and the
+[evidence-gate manifest](docs/10_evidence_gates.md) for the exact artifacts,
+contracts and measurements still required. The
+[engine feasibility screen](docs/11_projection_engine_feasibility.md) identifies
+QNX Smartphone Connectivity as the leading vendor-contact architecture. Its
+public 2.0 package is tied to QNX SDP 7.x and is not a direct RA4/QNX 6.6 binary
+candidate; a supported legacy build or authorized port, licensing and resource
+fit remain unproved.
+The [hardware/codec feasibility report](docs/12_ra4_projection_hardware_feasibility.md)
+confirms relevant OMAP3730 display/acceleration blocks but keeps the installed
+video-decoder path and RA4 resource fit explicitly UNKNOWN. The
+[QNX 6.6 OEM integration reference](docs/13_qnx6_oem_integration_reference.md)
+separates era-compatible Navigator/Launcher/Authman/HNM semantics from the
+Harman-specific stack actually evidenced in RA4 and defines the read-only
+census needed before any standard QNX CAR interface can be considered. The
+[QNX 6.6 audio arbitration reference](docs/14_qnx6_audio_arbitration_reference.md)
+separates HFP state, visual notification, audio routing/ducking, playback
+pause/resume and microphone/acoustic ownership. The
+[QNX 6.6 Screen/touch/camera reference](docs/15_qnx6_screen_touch_camera_reference.md)
+requires one stock-managed surface, privileged focus ownership, touch only
+while selected, and autonomous camera restoration.
+The [resident component-placement decision](docs/16_ra4_resident_placement_decision.md)
+separates the conditional stock projection-screen reuse path, the static-proved
+secure launch lane for an already authorized Xlet, the still-unproved backend
+registration contract, and the separately qualified licensed projection engine.
+The [QNX 6.6 CarPlay transport reference](docs/17_qnx6_carplay_transport_reference.md)
+proves that legacy QNX documented host-to-device USB role swap for CarPlay while
+keeping the receiver, RA4 driver presence, licensing and resource fit unproved.
+The [OMAP3730 USB-role report](docs/18_omap3730_usb_role_feasibility.md)
+confirms dual-role silicon and identifies the exact FCC platform as Harman
+BE2800 CMC VP4 NA/CA. The focused
+[media-hub USB-path report](docs/19_ra4_media_hub_usb_path.md) separates the
+SD/USB/AUX data hub from charging-only ports and maps the UCI cable at Radio C2
+to power, D-, D+, and ground. The remaining hardware gate is now the active
+hub/controller or mux role behavior, VBUS switching, BE2800 internal route and
+custom OMAP DCD--not an unspecified cabin harness.

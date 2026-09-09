@@ -325,12 +325,12 @@ The `Installer` class is pointer-table slot 376, bounded file `[0x5BF5A8,0x5C0B8
 
 **[CONFIRMED]** AMS `Installer` contains separate install/upgrade installation-directory rename paths, a dedicated `recoverProgIfNeeded` method that consumes exact `prog.bak`, a backup-presence diagnostic, and the imported `rename` primitive. A blanket conclusion that no installation backup exists anywhere in AMS is wrong.
 
-**[HIGH]** Because installed applications place their program payload beneath `<appId>/prog`, the dedicated name `prog.bak` is consistent with a sibling program-directory backup rather than a whole-application or whole-registry snapshot. Full bytecode semantics are not yet reconstructed, so the parent path and precise choreography remain unproved.
+**[CONFIRMED]** Full Installer bytecode reconstruction proves `prog.bak` is a sibling of `<appId>/prog`. Upgrade reconciles backup state, renames current `prog` to `prog.bak`, promotes staged `prog`, and deletes backup/staging after success. Recovery restores the backup only when `prog` is absent. See `reports/resident_incoming_jar_schema.md`.
 
 **[UNKNOWN]** The recovered ownership and literal-load edges do not yet prove:
 
 - whether `recoverProgIfNeeded` runs for every normal upgrade, only recovery, or another install mode;
-- the complete parent path and the call edge that consumes `prog.bak`;
+- filesystem durability and the boot-time call reachability of normal recovery;
 - whether the `.bak` directory is always a complete prior application version;
 - the exact rename order and failure rollback sequence;
 - when or whether the backup is deleted;
@@ -352,7 +352,7 @@ The recovered ordering exposes several state-divergence windows. This table stat
 | cleanup completes before queued map deletion | resource/RMS cleanup may have occurred | native map and database removal | Runtime/native state can remain stale |
 | map deletion completes before queued list save | volatile native map no longer contains app | QDB JavaApps JSON | A restart can encounter a stale persistent entry; reconciliation is unknown |
 | temp cleanup or resource move is interrupted | prefix of sequential `rm`/`mv` operations | remaining files and bookkeeping durability | No journal, rename group, or retry list is visible in AppManager |
-| AMS installation-directory rename is interrupted | old/new/`prog.bak` names may be in transition | AMS rollback outcome | AMS vocabulary proves a program-backup/rename path exists, but its crash algorithm is not yet reconstructed |
+| AMS installation-directory rename is interrupted | `prog`, staged `prog`, and `prog.bak` may be in transition | filesystem durability and cross-layer outcome | Normal rename/recovery choreography is proved, but power-loss persistence and AppManager/QDB/DRM reconciliation are not |
 | QDB reports key-value corruption | recovery log | preservation of `key_value` database | `qdb_recover.sh` deletes `key_value*` and resets |
 
 The native application map, queued event names, controller flags, and resource vectors are process memory and do not themselves provide reboot persistence. The QDB value and files under MMC/ETFS are intended persistent state, but exact filesystem flush timing is not present in the static evidence.
@@ -373,7 +373,7 @@ The native application map, queued event names, controller flags, and resource v
 
 ### Is there a prior-version backup?
 
-**[CONFIRMED]** `Installer.recoverProgIfNeeded(String)V` directly consumes exact `prog.bak`; `Installer.install` and `Installer.upgrade` directly own their installation-directory rename diagnostics, and AMS imports `rename`. **[HIGH]** This is a real prior program-directory backup/recovery facility. **[UNKNOWN]** remains whether every ordinary upgrade invokes it, whether the backup is complete, when it is committed or discarded, and whether it guarantees rollback after interruption.
+**[CONFIRMED]** `Installer.upgrade` invokes `recoverProgIfNeeded`, stages the new package, moves current `prog` to `prog.bak`, promotes staged `prog`, and removes backup/staging after success. `recoverProgIfNeeded` restores a backup only when `prog` is absent. **[UNKNOWN]** remains filesystem durability, boot-time reachability after interruption, and coordination with AppManager resources, QDB, RMS, and DRM.
 
 ## Highest-value unresolved questions
 

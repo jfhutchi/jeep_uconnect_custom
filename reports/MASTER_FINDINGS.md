@@ -1,6 +1,15 @@
 # RA4 18.45.01 Master Findings
 
-Updated: 2026-09-04
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](../docs/00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
+Project status updated: 2026-09-07; technical evidence below retains its original scope.
 
 This is the authoritative evidence index for the owner-authorized RA4 18.45.01 reverse-engineering project. It reconciles the detailed reports and records what is proved, what remains unknown, and what must be true before any on-unit implementation. It is not a modification or flashing procedure.
 
@@ -244,6 +253,14 @@ Signer-envelope counts are 123 Chrysler, 12 VP4, and two dual Accenture. No app 
 
 `key.jar!/xlet.properties` is in the same signed envelope as executable-member digests. Installed external descriptors may rename app JARs, but the signed descriptor preserves the bound name. `key.jar` is the visible detached payload-and-metadata integrity envelope, not merely a certificate bundle.
 
+**[CONFIRMED live transformation]** The submitted object is one direct payload
+JAR; the recovered production form is conventionally signed. AMS opens it
+directly and splits exact root `xlet.properties` to both
+outputs, `.MF`/`.SF`/`.RSA`/`.DSA` suffix members to `key.jar`, and every other
+member to the executable named with the incoming basename. All 135 installed
+pairs invert consistently; nested executable/key archives are disproved
+(`reports/resident_incoming_jar_schema.md`).
+
 **[CONFIRMED installed-launch association / UNKNOWN AOT details]** `Installer.getKeyJarFile` ignores its `Properties` argument and constructs the fixed sibling `<appId>/prog/jars/key.jar` at `0x5C05BE`. `AMSController.loadXlet` obtains payload and key paths at `0x5BB432/0x5BB43C`; `XletManager` checks key existence and converts it to a URL at `0x5C5FD9..0x5C5FF3`; and `VerificationClassLoader` stores it in `keyJar_`. Its signer lookup calls `getJarEntryCertificates(keyJar_,"xlet.properties")` at `0x5C2AFE..0x5C2B08`. Missing-key fallback uses primary-resource signers. The certificate extractor and `SigningKeys.verify(Object[])` are AOT/native-form, so exact runtime cross-JAR digest recomputation, chain ordering, revocation/time behavior, and final principal assignment remain unknown (`reports/keyjar_runtime_association.md`).
 
 ### 6.4 DRM.jar is separate entitlement
@@ -295,7 +312,7 @@ Boot launches `authenticationService` with stock configuration at `boot.sh:648-6
 | Pause | `0x36CB`; check `0x36D4`; operation/invoke `0x36FE/0x3706` |
 | Stop | `0x3813`; check `0x381C`; operation/invoke `0x3846/0x384E` |
 
-Native AppManager binds AMS service/object at file offsets `0x1156D0/0x1156EC`. Install preparation builds package-info with `auth:true` around VAs `0x19206C`, `0x1920F0`, `0x192878`, and `0x19288C`; `getPackageInfo` is at `0x1928C8`, wrapper call `0x192904`. AMS token-verifier ordering, exact SunJCE RSA predicate, internal bootstrap identities, security-configuration key promotion, fixed installed `key.jar` association, and signer-object source are direct. The remaining gaps are the AOT certificate-extraction/`SigningKeys` bodies, incoming external-package association, legitimate issuer/live ID state, and signer-to-principal/policy mapping.
+Native AppManager binds AMS service/object at file offsets `0x1156D0/0x1156EC`. Install preparation builds package-info with `auth:true` around VAs `0x19206C`, `0x1920F0`, `0x192878`, and `0x19288C`; `getPackageInfo` is at `0x1928C8`, wrapper call `0x192904`. AMS token-verifier ordering, exact SunJCE RSA predicate, internal bootstrap identities, security-configuration key promotion, incoming primary-JAR authentication, split-to-installed association, fixed installed `key.jar`, and signer-object source are direct. The remaining gaps are the AOT certificate-extraction/`SigningKeys` bodies, legitimate issuer/live ID state, and signer-to-principal/policy mapping.
 
 ### 7.2 Package shape
 
@@ -307,7 +324,7 @@ Factory KIM shape is confirmed:
     <KIM>/xlets/<appId>/prog/jars/magic.txt
     optional KIM-root DRM.jar and resources
 
-`magic.txt` is consistently six-byte `HB_CMC`, SHA-256 `0ffe9823746d76b9fb74480676a68d052b3a11634f2dfe67bd9fe9c8f3cd1f80`, not a credential. Factory layout does not prove the live app JAR's outer schema.
+`magic.txt` is consistently six-byte `HB_CMC`, SHA-256 `0ffe9823746d76b9fb74480676a68d052b3a11634f2dfe67bd9fe9c8f3cd1f80`, not a credential. AMS Installer does not create or consume it during live package authentication; the direct outer-JAR schema and production signature split are independently proved from Installer.
 
 Factory KIM copy semantics are now closed at the file-mutation layer. Recovered `analysis_ra4_18.45.01/work/hidden_hbc_ifs/segment_001a0000/files/bin/qkcp` is 50,222 bytes, SHA-256 `aa5605bdd69581aad74c05213553ccac2468399de18f539cf1c2029d58207198` (`inventory.tsv:120`). Its `-h` option creates/maps a 56-byte shared-memory progress record (`shm_open`, `ftruncate64(...,0x38)`, and `mmap64` at VAs `0x105A78..0x105AE8`); it is not manifest authentication. The KIM caller passes no `-f/-r` checkpoint pair and contains no `xletsdir_ref`/MD5 consumer. `qkcp` traverses with `nftw64`, writes/truncates each final destination directly, and imports no `rename`, `unlink`, `remove`, or `rmdir`. **[CONFIRMED]** Factory KIM copying is a monitored, non-atomic merge/overwrite that can leave partial or mixed destination state; it does not enforce the visible MD5/length records or provide rollback (`reports/qkcp_kim_copy_semantics.md`).
 
@@ -327,13 +344,13 @@ The normal-operation recognizer is now proved.
 
 Install/upgrade does not carry `auth=false`; AMS remains `-secure`. Metadata preview is not authentication bypass.
 
-**[STOP]** Stock manifest `analysis_ra4_18.45.01/work/installer_iso/etc/manifest.lua:230-237` has no `external` member. No factory external app manifest, `usr/share/APPS` sample, or complete live JAR exists in the corpus. Dispatcher is proved; authorized signed installer and exact live schema are not.
+**[STOP]** Stock manifest `analysis_ra4_18.45.01/work/installer_iso/etc/manifest.lua:230-237` has no `external` member. No factory external app manifest, `usr/share/APPS` sample, or complete live JAR exists in the corpus. Dispatcher and live member schema are proved; an authorized signed installer/application issuance is not.
 
 ### 7.4 Other ingress and lifecycle
 
 **[CONFIRMED]** KIM3 Application Manager stages `/fs/mmc1/download/<huFileName>`, verifies CRC32 transport integrity, optionally performs server-directed uninstall-first through `filesToDelete`, and calls Kona `installApp(appId,basename)`; `DeleteTask` calls `uninstallApp`. `BaseUpdateInstallTask` enables cleanup plus uninstall-first handling, while its Install/Update subclasses differ primarily in the current version sent to the server. CRC32 is not signer authorization.
 
-**[CONFIRMED]** Native catalog `installApp` performs the authenticated `getPackageInfo` preflight, then `installNow` calls adapter file `0xEA84` from `0x91C40`. That adapter emits request key `uri` and exact AMS method `upgrade` at files `0xEAD4/0xEAD8` and `0xEB34/0xEB38`. Thus catalog fresh install and update converge on AMS `upgrade`; only the USB application script explicitly chooses AMS `install` for an absent app. Whether `upgrade` is implemented as a general upsert remains unknown.
+**[CONFIRMED]** Native catalog `installApp` performs the authenticated `getPackageInfo` preflight, then `installNow` calls adapter file `0xEA84` from `0x91C40`. That adapter emits request key `uri` and exact AMS method `upgrade` at files `0xEAD4/0xEAD8` and `0xEB34/0xEB38`. Thus catalog fresh install and update converge on AMS `upgrade`; only the USB application script explicitly chooses AMS `install` for an absent app. `upgrade` delegates to `install` when the target is absent, proving upsert behavior.
 
 **[CONFIRMED]** Signed full-update Apps unit at `installer_iso/etc/manifest.lua:113-126` uses Xlets installer, `secondary.iso:/usr/share/XLETS`, and destination `/fs/mmc1/`. It is broad factory population, not preferred development ingress.
 
@@ -347,7 +364,7 @@ After cleanup, the dispatcher deletes the native-map entry, emits `appListUpdate
 
 The default PersistentKeyValue rule (`pmem_keyvalue.ini:14-20`) routes this key to QDB `/usr/var/qdb/key_value` (`qdb.cfg:41-44`), table `keyvalueTbl(key TEXT PRIMARY KEY,value TEXT NOT NULL)`, with `journal_mode=truncate`. The `keyvalue` section has no backup directory; `qdb_recover.sh:21-22` deletes `key_value*` on detected corruption.
 
-Jamaica class-object metadata assigns `install(String)Application` at file `0x5BFCC0`, `recoverProgIfNeeded(String)V` at `0x5BFDFD`, and `upgrade(String)Application` at `0x5BFE8C` directly to AMS `Installer`. `recoverProgIfNeeded` loads exact `prog.bak` at `0x5BFE1B` and `0x5BFEE3`; install/upgrade load the exact rename diagnostics at `0x5BFD56`, `0x5BFF2E`, and `0x5BFF5C`. Ownership is confirmed, while parent path, rename order, normal-upgrade invocation, commit/delete behavior, and crash guarantee remain **[UNKNOWN]** (`reports/appmanager_registry_atomicity.md`).
+Jamaica class-object metadata assigns `install(String)Application` at file `0x5BFCC0`, `recoverProgIfNeeded(String)V` at `0x5BFDFD`, and `upgrade(String)Application` at `0x5BFE8C` directly to AMS `Installer`. Install promotes fixed `__newxlet__`; upgrade renames current sibling `prog` to `prog.bak`, promotes staged `prog`, and deletes backup/staging on success; recovery restores backup only when `prog` is absent. Filesystem durability and cross-layer AppManager/QDB/DRM recovery remain **[UNKNOWN]** (`reports/resident_incoming_jar_schema.md`).
 
 **[CONFIRMED]** Native post-install behavior is conditional, not an unconditional launch. `onInstalledSignal` (VA `0x1938A8`) reaches `finishInstall` (VA `0x1935BC`), which calls `autoStartApp` at file `0x93858`. That function starts only when `(DRM mAppLauncherMask bit 2 OR the stock super-app override) AND the global autostart gate`; mask load/test/extract occur at files `0x1BB38/0x1BB3C/0x1BB64`. Otherwise it reaches `INSTALLATION DONE` and success completion at `0x91A30/0x91A64` without calling App start.
 
@@ -360,14 +377,14 @@ Native `parseRequest` compares that `startApp` at file `0x53DD0`, dispatches at 
 | Lifecycle step | Current status |
 | --- | --- |
 | Discover/list/package info | **[HIGH]** client APIs exist; AppManager whole-list JSON/QDB catalog is confirmed, hidden AMS package registry remains unknown |
-| Validate | **[PARTLY CONFIRMED]** key.jar/signer/descriptor/DRM/secure-AMS layers, fixed installed companion association, verifier order, two-stage signer-key bootstrap, and Base64/SunJCE `RSA/ECB/PKCS1Padding`/exact-ID developer-token predicate proved; AOT certificate extraction/SigningKeys, incoming-package association, legitimate issuer/live ID source, and principal mapping unknown |
-| Install/upgrade | **[CONFIRMED]** stock USB calls AMS install/upgrade; catalog calls native installApp, which always converges on AMS upgrade |
+| Validate | **[PARTLY CONFIRMED]** incoming signed-JAR structure, split-to-installed association, key.jar/signer/descriptor/DRM/secure-AMS layers, verifier order, two-stage signer-key bootstrap, and Base64/SunJCE `RSA/ECB/PKCS1Padding`/exact-ID developer-token predicate proved; AOT certificate extraction/SigningKeys, legitimate issuer/live ID source, and principal mapping unknown |
+| Install/upgrade | **[CONFIRMED]** stock USB calls AMS install/upgrade; catalog converges on AMS upgrade; absent target delegates to install; existing target swaps only `prog` through `prog.bak` |
 | Uninstall/remove | **[CONFIRMED PARTIAL]** native flow stops a running app, performs asynchronous AMS completion, removes per-app RMS/resource state, deletes the native-map entry, and queues full-list QDB persistence; AMS payload deletion, exhaustive paths, and interruption recovery remain unknown |
 | Start/pause/stop | **[CONFIRMED UI/module/native route plus API dispatch]** the generic Apps item route sends native `startApp`, which performs the DRM gate before AMS-facing start; separate permissioned Java methods cover start/pause/stop |
 | Enable/disable | **[CONFIRMED bounded negative]** no explicit per-app operation exists in the recovered native parser or Java API; do not conflate this with launcher entitlement/global autostart |
 | Post-install launch | **[CONFIRMED]** ordinary app completes stopped; only DRM launcher-mask bit 2/stock super-app override plus global gate autostarts it, otherwise the generic `AppsMainScreen` -> module `AppManager` -> native DRM-checked `startApp` route launches it |
 | Persistence | **[CONFIRMED PARTIAL]** code under `/fs/mmc1/xletsdir`; RMS under `/fs/etfs/usr/var/appman/xletRMS`; native catalog in QDB `AppManager_JavaApps`; hidden AMS registry/reconciliation unknown |
-| Atomicity/version rollback | **[CONFIRMED non-atomic visible boundary / UNKNOWN AMS recovery]** callback, resource, map, and QDB phases are separate; AMS `Installer.recoverProgIfNeeded` owns `prog.bak`, but no complete rename/restore contract is proved |
+| Atomicity/version rollback | **[CONFIRMED AMS program recovery / UNKNOWN cross-layer durability]** AMS owns staged `prog`/`prog.bak` promotion and missing-`prog` restore; callback, resource, map, DRM, and QDB phases remain separate |
 
 No trial may direct-copy into `xletsdir`, invoke raw `AMSClient`, or equate directory deletion with uninstall.
 
@@ -475,8 +492,8 @@ UAS application/HMI runtime remains encrypted. Its wrapper is materially differe
 1. **[STOP]** What exact certificate extraction, chain ordering, revocation/time, and cache rules exist behind AOT `getJarEntryCertificates(URL,String)` and `SigningKeys.verify(Object[])`, and how are accepted signer principals combined with production/development policies? The installed `key.jar` path and `key.jar!/xlet.properties` signer-object association are now confirmed.
 2. **[STOP]** What signer/private-key authority, runtime `developerId` provider, and token-issuance path is legitimately authorized for owner-developed RA4 apps? The exact SunJCE consumer predicate is proved; legitimate credential creation is not.
 3. **[STOP]** Who legitimately issues/renews RA4 service certificates, establishes the required IOC diagnostic session and proprietary state 4, answers the protected challenge, and authorizes diagserv `0xF010`/`0xF011`? The IOC gate and allowance are proved; the external authority/workflow is not.
-4. **[STOP]** What exact outer JAR schema is accepted below `usr/share/APPS`, and what authorized signed external manifest invokes it?
-5. **[STOP]** What AMS registry/payload state exists beyond the confirmed AppManager whole-list QDB catalog, per-app RMS/common record, resource cleanup, and native-map update; what exact rename/restore contract does `Installer.recoverProgIfNeeded` implement; and how do boot reconciliation and interruption recovery behave?
+4. **[STOP]** What authorized issuer/tool applies the proved outer-JAR member schema, and what authorized signed external manifest invokes it?
+5. **[STOP]** What AMS registry/payload state exists beyond the confirmed AppManager whole-list QDB catalog, per-app RMS/common record, resource cleanup, and native-map update; and how do boot reconciliation, filesystem durability, and cross-layer interruption recovery behave? Normal `prog.bak` promotion/restore is now proved.
 6. **[UNKNOWN]** Does the target unit's native `getAppList` response expose a newly authorized helper with the intended name/icon/category, and does selecting it reproduce the statically proved generic Apps launch behavior? No downstream generic HMI `enabled`, `hidden`, or `suppressed` field was found, but upstream native omission remains possible.
 7. **[UNKNOWN]** Does anything consume `/fs/etfs/service.key` or join it to `service.cert`?
 8. **[UNKNOWN]** What writes `/fs/etfs/enableEngMenu`?
@@ -505,6 +522,7 @@ This master resolves cross-report claims at the highest proved level:
 | `reports/signedid_jce_semantics.md` | ROMized provider order, bare-RSA resolution, RSACipher defaults, and public-decrypt/type-1 semantics |
 | `reports/kona_trust_model.md` | cacerts/signers and trust limits |
 | `reports/keyjar_runtime_association.md` | Fixed installed key.jar ownership, loader propagation, signer-entry association, and verifier ordering |
+| `reports/resident_incoming_jar_schema.md` | Incoming signed-JAR schema, AMS split, install/upgrade normalization, and issuer boundary |
 | `reports/kona_application_authorization.md` | key.jar/DRM verification, permissions, native boundary, definitive `-d` result |
 | `reports/application_install_pipeline.md` | USB/KIM ingress, package, lifecycle, persistence/registry gaps |
 | `reports/app_launch_ui_path.md` | Generic Apps catalog/item event, HMI module command, native DRM-checked launch, and bounded caller census |

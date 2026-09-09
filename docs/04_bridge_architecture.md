@@ -1,107 +1,385 @@
-# 04 - Bridge Architecture
+# 04 - Projection integration architecture
 
-## Objective
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
 
-Add a modern HMI and native phone projection without replacing the RA4's role as the Jeep vehicle-services authority.
+Updated 2026-09-06. This document defines the smallest evidence-backed bridge
+between stock RA4 Uconnect and a legitimate CarPlay/Android Auto projection
+engine. It is not a replacement HMI, a radio-write procedure, or a license,
+signature, or authentication workaround.
 
-## Proposed architecture
+## Product boundary
+
+Stock Uconnect remains authoritative for Radio, Media, Climate, Controls, Phone,
+Messaging, Settings, camera, vehicle configuration, Bluetooth services and
+critical/eCall behavior. Projection is one first-class application that may use
+the full 640x480 display while selected.
 
 ```text
-Android phone -----------------------+
-                                      |
-iPhone ------------------------------+--> Projection engine
-                                                |
-                                                v
-                                   Modern HMI / bridge compute
-                                      |      |       |
-                              video --+      |       +-- audio
-                                             |
-                                           touch
-                                             |
-                                             v
-                                        Stock RA4
-                                      /    |     \
-                                   Screen  MME   Harman/PPS
-                                                   |
-                                                   v
-                                                  CAN
+phone / projection engine
+        |
+        | video, touch, audio, session lifecycle
+        | (backend contract not yet recovered)
+        v
+tiny RA4-resident projection adapter
+        |
+        | complete volatile snapshots and bounded intents
+        v
+transport-free ownership arbiter
+        |
+        +-- request stock foreground / navigate stock stack
+        +-- default-open ordinary call/message presentation lease
+        |
+        v
+stock app arbiter, popups, camera, display, touch and audio services
 ```
 
-## Responsibilities
+The resident adapter is required even if the projection engine later proves
+`EXTERNAL_COMPUTE_REQUIRED`. External compute may move codec/protocol work;
+it may not become the ordinary vehicle HMI or bypass stock arbitration.
 
-### Hidden compute layer
+## Evidence boundary
 
-- Render the modern Uconnect-inspired UI.
-- Host or integrate a legitimate CarPlay / Android Auto projection implementation.
-- Translate high-level user actions into supported RA4 service calls.
-- Present projection video and consume touch input.
-- Maintain a watchdog/fallback policy.
+### Confirmed stock observations
 
-### Stock RA4
+- `IPhoneProjection.sessionActive` is read by
+  `AppStateManager.onPhoneProjectionStatus` at reconstructed FWS
+  `0x002588DF`. The enclosing handler is `0x002588C5-0x002589A8`.
+- An active session and visible `DEVICE_PROJECTION` branch are separate.
+  Auto-show may navigate to that branch at `0x0025892C`.
+- `PhoneProjection.startProjection(ppId)` at
+  `0x002B5177-0x002B519E` is a distinct operation from branch navigation.
+- Stock foreground requests are admitted or rejected by
+  `checkForegroundAvailability` / `onAppRequestForeground` at
+  `0x0025250E-0x002525D2`; a pending request is retried at
+  `0x002524C4-0x002524FD`.
+- Native Bluetooth call presentation begins in `processBTCallState` at
+  `0x00257983`; its ordinary phone goto, incoming-call popup and previous
+  screen return are downstream of HFP state ingestion.
+- Native SMS popup and TTS presentation are isolated at
+  `0x002B6C35-0x002B6C96` and `0x002B85C2-0x002B8750`.
+- DisplayManager and LayerManager handle camera observation, takeover and stack
+  return at `0x002BA764-0x002BA89F` and
+  `0x002D4D6F-0x002D4EF8`.
+- The stock PopupManager can overlay the current branch without replacing it.
+  The recovered HVAC example is `0x0026DA68-0x0026DAB9`.
+- `phoneProjectionService`, ModuleLink, a localhost endpoint,
+  servicebroker, QNX Screen, MME, `audioApp -> MME` and AudioCtrlSvc are
+  present in the recovered corpus.
 
-- Remain responsible for Jeep-specific state and commands.
-- Continue to own vehicle configuration, HVAC/comfort integration, camera behavior and factory service logic.
-- Continue to communicate with vehicle ECUs through its existing middleware and CAN services.
+Addresses prove control-flow observations only. They are not stable APIs and do
+not authorize direct invocation or patching.
 
-## Display path
+### High-confidence deductions
 
-### VERIFIED
+- Returning to active projection must preserve the session. Stock `AppPhone.press`
+  can call `callStartProjection(activePpId)` when `BacktoCar` is set before
+  checking session state and navigating. Its backend effect is UNKNOWN; the
+  [checkpoint](../reports/ra4_post_reboot_checkpoint.md) supersedes the earlier
+  blanket prohibition on a start-named command.
+- Camera return can restore projection when projection was underneath because
+  the stock stack unwinds after the session-independent camera layer clears.
+- The narrowest duplicate-call control point is native presentation after HFP
+  state ingestion, not disabling Bluetooth/HFP.
+- SMS needs both visual and TTS gates. Suppressing only the popup can still create
+  duplicate audio.
+- A permitted comfort popup should remain a stock popup above the current owner;
+  it must not be reimplemented in the projection application.
 
-- QNX Screen is present.
-- Factory utilities can create Screen windows/buffers and access display properties.
+### Unproved contracts
 
-### HYPOTHESIS
+- The implementation and legitimate registration schema for
+  `phoneProjectionService`.
+- Complete consumers of `PROJECTION_BACKTO_CAR` and the exact stock
+  Return-to-Uconnect previous-branch rule.
+- A supported default-open policy hook for ordinary call/SMS presentation.
+- Projection/HFP media, prompt, call, microphone and speaker ownership; the
+  reference planes are mapped, but every RA4 source name and API remains unproved.
+- The projection video-buffer producer, QNX Screen consumer and touch-routing
+  contract.
+- Heated-seat/heated-wheel event-to-popup consumers.
+- A legitimate app/package loader and compatible target toolchain.
+- A legitimate local projection engine and its authentication/resource costs.
 
-A bridge or companion process may be able to present a full-screen surface through supported QNX Screen mechanisms without replacing the stock HMI.
+No adapter may invent values for these gaps.
 
-### Required behavior
+## Session and foreground sequence
 
-- Stock backup camera must preempt the custom UI immediately.
-- A crash or bridge disconnect must return control to stock UI.
-- No boot dependency may prevent normal RA4 startup.
+The confirmed session handler and required product policy combine as follows:
 
-## Touch path
+```text
+backend reports sessionActive
+        |
+        v
+AppStateManager reads session independently of currentBranch
+        |
+        +-- inactive while projection visible
+        |      -> source-derived stock branch or MAIN_PHONE fallback
+        |
+        +-- active and auto-show permitted
+        |      -> stock navigation to DEVICE_PROJECTION
+        |
+        +-- active but user returned / auto-show disabled
+               -> stock branch remains visible; session remains active
+                  and projection still owns ordinary projected interactions
+```
 
-### VERIFIED
+The last case is essential: foreground visibility never grants or revokes
+call/message ownership.
 
-- Factory touch tooling consumes QNX Screen / mtouch events.
+Required explicit navigation:
 
-### HYPOTHESIS
+```text
+Return to Uconnect
+  -> reveal a stock branch
+  -> do not stop session
+  -> do not re-enable native ordinary projected call/message presentation
 
-Projection-active mode can route coordinates to the projection layer while preserving stock behavior outside the projection surface/session.
+Return to Projection
+  -> validate fresh active session
+  -> request stock foreground
+  -> navigate to DEVICE_PROJECTION only after stock permits it
+  -> preserve session; bind BacktoCar/start only after backend proof
+```
 
-## Audio path
+The exact stock Return-to-Uconnect action remains an evidence gate.
 
-### VERIFIED
+## Camera and popup sequence
 
-The system has logical multimedia sources, and an `audioApp` source is mapped into MME in analyzed configuration.
+```text
+camera layer visible
+  -> stock DisplayManager/LayerManager owns takeover
+  -> adapter observes only
+  -> projection session and presentation lease remain active when safe
+camera layer clears
+  -> stock dequeues camera popup / backs out camera screen
+  -> preempted projection returns only if it was underneath and is still active
 
-### HYPOTHESIS
+permitted comfort event
+  -> stock PopupManager shows stock popup
+  -> current branch and projection session do not change
+popup dismissed
+  -> underlying stock or projection foreground is revealed
+```
 
-The projection layer can register or use an application audio source and allow AudioCtrlSvc/MME to retain volume, mute and amplifier behavior.
+The adapter issues no camera or comfort command. Emergency/eCall bypasses ordinary
+projection ownership and remains stock-owned.
 
-## Vehicle-control path
+## Presentation lease sequence
 
-The modern HMI should use high-level existing RA4 services for comfort and vehicle functions.
+Ordinary native call popup/goto, SMS popup and SMS TTS may be suppressed only by
+a volatile, session-scoped, default-open lease:
 
-Preferred order:
+```text
+fresh complete active-session snapshot
+  -> validate version, enum domain, sequence/epoch and service health
+  -> renew short ordinary-presentation lease
+  -> projection owns ordinary call/message presentation
 
-1. Existing Harman ModuleLink API
-2. Existing PPS writable object intended for that feature
-3. Existing servicebroker/SVCIPC/DBus contract
-4. Raw CAN only for passive observation during research, not as the product architecture
+invalid / stale / inactive / disconnected / process death / restart
+  -> lease absent or expired without cleanup
+  -> native Phone/Messaging presentation enabled
 
-## Failure model
+critical/eCall
+  -> stock presentation immediately wins regardless of ordinary lease
+```
 
-Any bridge failure must degrade to stock RA4 behavior.
+Every presentation decision checks freshness at the point of use. The current
+2,000 ms model value is a test constant, not a recovered production duration.
+The actual stock-side mechanism must have owner-death, lease expiry or equivalent
+default-open semantics; a persistent disable flag is unacceptable.
 
-The bridge must never be required for:
+## Service-discovery sequence
 
-- vehicle startup
-- HVAC safety behavior
-- backup-camera availability
-- safety-critical ECU operation
+Only the endpoints and roles are confirmed; the binding details are not:
 
-## Bench-first rule
+```text
+stock HMI ModuleLink client
+        |
+        | requests expected service name/interface
+        v
+localhost servicebroker / ModuleLink infrastructure       CONFIRMED role
+        |
+        | registration, version, owner death, reconnect    UNKNOWN schema
+        v
+phoneProjectionService implementation                      NOT LOCATED
+```
 
-Runtime experiments belong on a spare/bench RA4 before they are attempted on the vehicle's only working unit.
+The first adapter implementation is therefore read-only and output-disabled. It
+may normalize complete stock observations and exercise lease expiry in bounded
+host logs, but it must not connect to an inferred socket, claim the expected
+service name, or send guessed wire fields.
+
+## QNX CAR 2.1 reference boundary
+
+Official QNX SDP 6.6 / QNX CAR 2.1 documentation supplies an era-compatible
+reference architecture, not a recovered RA4 contract:
+
+- application/window management publishes and subscribes through PPS under
+  `/pps/system/navigator` and renders through QNX Screen;
+- the HMI asks Launcher to start an application through
+  `/pps/services/launcher/control`, and Launcher consults Authman;
+- HMI Notification Manager (HNM) arbitrates asynchronous multimodal events by
+  configured priority and publishes status/messaging results through PPS;
+- QNX's reference window layering places rear camera above all applications and
+  allows transient prompts/overlays above ordinary application content.
+
+Sources:
+
+- https://support7.qnx.com/download/download/26216/Application_and_Window_Management.pdf
+- https://www.qnx.com/developers/docs/6.6.0.update/com.qnx.doc.car.arch/topic/app_support.html
+- https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.am.system_services/topic/applauncher.html
+- https://www.qnx.com/download/download/26205/HMI_Notification_Manager.pdf
+
+These semantics are a useful cross-check for OEM-style integration, especially
+authorized launch, independent application processes, top-priority camera, and
+restorable transient notifications. They do **not** prove that stock RA4 ships
+the generic QNX CAR UI Core, Navigator, Launcher, Authman, HNM, QtQnxCar2,
+NowPlaying, or their documented PPS objects. The exact RA4 evidence instead
+shows a customized Adobe AIR/SWF HMI with Harman AppManager/AMS, ModuleLink,
+servicebroker, PopupManager, DisplayManager and LayerManager paths.
+
+Therefore an adapter must not issue the QNX manual-launch example, create or
+write a documented reference PPS object, or substitute HNM for the recovered
+stock popup/call/SMS paths unless the component and caller contract are first
+proved in the RA4 image. The updated recovered-tree probe performs the bounded
+name census needed to decide whether these reference services exist locally.
+
+The HNM reference is more specific than a generic overlay analogy. Its
+HandsFreePhone event-source subscribes to the Bluetooth HFP status object and
+turns HFP state into prioritized presentation events. The documented
+`HFP_CALL_INCOMING` priority is configurable. HNM can choose a fallback window
+type when a requested type cannot preempt the current application, and its
+status returns to the previously displayed event when the higher-priority
+event ends. Thus the reference platform demonstrates that HFP ingestion and
+native foreground presentation can be separated.
+
+That is **CONFIRMED REFERENCE / UNKNOWN ON RA4**. It does not prove that RA4
+uses HNM, that changing an HNM policy is supported, or that SMS visual and TTS
+paths share the same arbiter. If HNM artifacts are found, inspect the existing
+policy and HandsFreePhone plugin read-only; do not modify priorities. Otherwise
+the exact Harman call/SMS presentation seams remain the only supported target.
+
+## Screen, touch, and camera ownership boundary
+
+The official QNX 6.6 Screen model confirms that a projection renderer should be
+managed as one stock-owned window surface, not as an independent top-level HMI.
+Screen composites separate rendering technologies. A window joining a parent
+group becomes managed by that parent and inherits visibility and transparency.
+Group ownership and display focus are privileged manager responsibilities.
+
+**CONFIRMED RA4:** recovered graphics.conf identifies OMAP3730/SGX530 at
+640x480, CMC mtouch/scaling, and a video_hmi class. Factory tools use Screen
+window/buffer APIs and screen_get_event. Harman HMI evidence separately proves
+foreground admission, camera takeover/return, and popup layering.
+
+**HIGH:** the adapter may submit frames and receive normalized touch only through
+a proved stock-managed surface. It must not claim display focus, synthesize
+input, create an unparented always-on-top window, or hide camera/critical layers.
+Session state remains independent of visibility. When stock preempts the
+surface, touch stops without ending the session.
+
+**UNKNOWN:** exact RA4 group owner/name, video_hmi behavior, buffer
+format/stride/count, synchronization, z-order, sensitivity/focus handoff,
+coordinate transform, owner-death, and window type.
+
+See docs/15_qnx6_screen_touch_camera_reference.md. Public Screen calls are
+reference markers only until an installed stock caller contract is recovered.
+
+## Display, touch and audio boundaries
+
+| Path | Stock evidence | Resident responsibility | Remaining gate |
+| --- | --- | --- | --- |
+| video | QNX Screen and stock window/buffer users exist | present one projection surface only | legitimate projection surface/window ownership and measured buffers |
+| touch | mtouch and `screen_get_event` exist in factory tooling | route touch only while projection is the permitted active surface | stock app focus/routing and coordinate contract |
+| media audio | MME, AudioCtrlSvc and `audioApp -> MME` are present | register/use a stock logical source | lifecycle, focus and stock-source restoration |
+| prompts | projection navigation/audio events exist | request the supported transient prompt path | ducking/mixing contract |
+| calls/voice | HFP and projection call state coexist | arbitrate call/mic/speaker ownership without disabling ingestion | supported call/mic focus API and emergency priority |
+| USB | QNX USB and Apple accessory components exist | use only a legitimate authenticated engine/device path | CarPlay/Android Auto backend and authentication requirements |
+
+String or import presence does not prove access permission, ABI compatibility or
+runtime behavior.
+
+## Audio and microphone arbitration boundary
+
+The official QNX 6.6/QNX CAR 2.1 reference narrows the conceptual split but does
+not establish the RA4 wire contract. In that reference, Audio Manager owns
+typed-stream routing and ducking, Now Playing informs players of concurrency,
+players perform pause/resume, HNM owns visual event policy, and the handsfree
+speech path uses io-bluetooth, io-acoustic, and io-audio.
+
+The adapter must expose separate planes rather than one broad "projection
+active" audio switch:
+
+| Plane | Observation | Output only after stock API proof | Fail-open result |
+| --- | --- | --- | --- |
+| media | projection media phase, stock source, concurrency | activate proved media source; obey pause/resume | restore stock source |
+| prompt | navigation/assistant prompt start/end | request proved prompt/TTS class | end ducking; restore audio |
+| call | projected call phase and critical state | request proved call/voice class | stock HFP/call behavior |
+| microphone | assistant/call request, mic owner, voice health | exclusive proved acquire/release | release to stock |
+| visual | session-based interaction ownership | renew ordinary presentation lease | native Phone/SMS UI/TTS |
+
+The microphone lease must be shorter than the session lease and tied to an
+actual call/assistant phase. Return to Uconnect changes display foreground only.
+Camera may preempt display while audio follows stock policy. Emergency/eCall
+takes unconditional stock ownership.
+
+**CONFIRMED RA4:** ignored recovered plaintext
+`P/share/audioDSP/audioMgrCMC.conf:24-29` maps stock sources, including
+`audioApp`, to MME; AudioCtrlSvc is also identified in the corpus.
+projection call state reaches the status bar; native HFP and SMS presentation
+paths are address-traced. **UNKNOWN RA4:** source registration, stream classes,
+priority/ducking, pause/resume callbacks, PCM endpoints, acoustic service,
+microphone transaction, speaker route, crash cleanup, and whether generic QNX
+reference services are present.
+
+See docs/14_qnx6_audio_arbitration_reference.md. No PPS write, audio open,
+source registration, Bluetooth change, or microphone access is authorized.
+
+## Resource contract
+
+The complete product remains capped at 15 MB installed, 4 MB normal writable
+growth and 8 MB additional staging/update peak while protecting 45 MB of the
+approximately 77 MB observed free space. The initial stock-facing adapter target
+is smaller:
+
+| Component | Ceiling |
+| --- | ---: |
+| adapter plus arbiter installed | 256 KiB |
+| live event/snapshot buffers | 4 KiB |
+| persistent configuration | 4 KiB |
+| bounded logs including rotations | 256 KiB |
+| cache and normal temp | 0 |
+| initial complete stock-facing trial | 3 MB installed / 1 MB writable / 6 MB staging |
+
+No bundled maps, media databases, speech models, browsers, fonts, codecs or
+duplicate stock assets are allowed. Reused stock libraries count as zero new
+installed bytes only after their ABI and permitted access are proved; attributable
+runtime state and cache still count.
+
+## Ordered proof path
+
+1. Run bounded XREFs on the hash-identified ignored SWF for return/resume,
+   seat/wheel popup and projection/HFP audio.
+2. Locate a supported service and presentation-policy registration boundary.
+3. Compile both host models; compare identical event sequences and produce a
+   target linked map.
+4. Build a read-only, output-disabled adapter with complete snapshots, point-of-use
+   freshness and bounded removable logs.
+5. Establish a legitimate stock screen/app lifecycle and show a no-engine surface.
+6. On separately authorized spare hardware, test return/resume, camera, overlays,
+   call/SMS fail-open behavior, process death and resource peaks.
+7. Select a legitimate engine only after local storage, RAM, CPU, graphics, USB,
+   authentication and latency measurements. Mark only the engine
+   `EXTERNAL_COMPUTE_REQUIRED` if local gates fail.
+
+The current evidence authorizes none of steps 4-7 on a radio. See
+[the adapter boundary](09_projection_adapter_boundary.md),
+[the completion matrix](08_projection_completion_matrix.md), and
+[the resource budget](ra4_resource_budget.md).
