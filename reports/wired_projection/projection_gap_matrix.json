@@ -1,0 +1,161 @@
+{
+  "negative_searches": [
+    {
+      "id": "named-projection-runtime",
+      "limits": "4,110 files; 578 ELF files; 321 ZIP/JAR containers; 91,086 member names; ELF dynamic metadata plus the controlled raw-marker census. Static-linked, renamed, encrypted, compressed-content-only, optional, or unmaterialized implementations remain outside the negative.",
+      "result": "No named production projection receiver/backend was identified. Dormant HMI vocabulary was identified separately.",
+      "roots": [
+        "analysis_ra4_18.45.01/work/installer_iso",
+        "analysis_ra4_18.45.01/work/primary_iso",
+        "analysis_ra4_18.45.01/work/secondary_iso",
+        "analysis_ra4_18.45.01/work/hidden_hbc_ifs/standard_boot/files",
+        "analysis_ra4_18.45.01/work/hidden_hbc_ifs/segment_001a0000/files",
+        "analysis_ra4_18.45.01/work/hidden_hbc_ifs/segment_00f20000/files",
+        "analysis_ra4_18.45.01/work/hidden_hbc_ifs/segment_019a0000/files"
+      ],
+      "terms": [
+        "androidauto",
+        "libaoa",
+        "autoreceiver",
+        "CarPlay receiver",
+        "Cinemo projection artifact",
+        "MirrorLink",
+        "SmartDeviceLink"
+      ]
+    },
+    {
+      "id": "apple-device-stack",
+      "limits": "122 controlled markers across the recovered trees plus structured path, archive-member, dependency, import and export inspection. Generic filenames and stripped/static code remain limitations.",
+      "result": "Legacy iPod host components were present, but no named iAP2 role-swap/device-function bundle or CarPlay receiver was found.",
+      "roots": [
+        "the same seven recovered 18.45.01 roots"
+      ],
+      "terms": [
+        "iAP2",
+        "Probe_iAP2",
+        "RoleSwap_DigitaliPodOut",
+        "RoleSwap_AppleDevice",
+        "usblauncher",
+        "io-usb-dcd",
+        "devu-dcd",
+        "devu-usbumass-*",
+        "libusbdci",
+        "Device_Stack"
+      ]
+    },
+    {
+      "id": "android-aoa-rules",
+      "limits": "One common file, six production USB rule files and the selected text Lua helper. Other processes, runtime-generated rules and generic/stripped implementations are outside the negative.",
+      "result": "No explicit AOA ownership or personality-switch rule was identified.",
+      "roots": [
+        "hidden_hbc_ifs/segment_001a0000/files/etc/system/enum/common",
+        "hidden_hbc_ifs/segment_001a0000/files/etc/system/enum/devices/usb/*",
+        "primary_iso/usr/share/MMC_IFS_EXTENSION/bin/enum_devices.lua"
+      ],
+      "terms": [
+        "18D1:2D00",
+        "18D1:2D01",
+        "AOA",
+        "OpenAccessory",
+        "ACCESSORY_START"
+      ]
+    },
+    {
+      "id": "h264-runtime",
+      "limits": "Controlled raw markers, filenames, dynamic metadata and tracked text. Unknown names, stripped/static implementations and codec capability hidden behind generic media APIs remain limitations.",
+      "result": "No supported installed H.264 decode client path or ABI was proved.",
+      "roots": [
+        "seven recovered 18.45.01 roots",
+        "85 tracked text/source blobs at the earlier hardware checkpoint"
+      ],
+      "terms": [
+        "H.264",
+        "AVC",
+        "OpenMAX",
+        "libOMX",
+        "Codec Engine",
+        "DSPLink",
+        "GStreamer",
+        "libavcodec"
+      ]
+    }
+  ],
+  "next_objective": {
+    "constraints": "Use a spare/bench setup with a recovery plan and a legitimate load path. Do not alter the vehicle, production radio, safety policy, firmware image, signing path, MFi authentication or projection protocol. This objective proves only the transport primitive.",
+    "id": "prove-ra4-aoa",
+    "success": "On owner-authorized spare/bench hardware, capture the existing host controller and hub path issuing AOA Get Protocol/string/start requests, observe Google accessory VID/PID re-enumeration, claim the bulk IN/OUT endpoints, and exchange bounded deterministic frames in both directions with clean detach/recovery.",
+    "title": "Prove AOA negotiation and bidirectional bulk I/O through the stock RA4 cabin USB path"
+  },
+  "targets": {
+    "android_auto": {
+      "architecture": [
+        {
+          "block": "PHONE",
+          "status": "ALREADY PRESENT"
+        },
+        {
+          "block": "USB SESSION",
+          "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+        },
+        {
+          "block": "PROJECTION PROTOCOL",
+          "status": "MISSING SOFTWARE"
+        },
+        {
+          "block": "VIDEO DECODER / DISPLAY",
+          "status": "UNKNOWN"
+        },
+        {
+          "block": "AUDIO ROUTING",
+          "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+        },
+        {
+          "block": "MIC / INPUT RETURN",
+          "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+        },
+        {
+          "block": "HMI ARBITRATION",
+          "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+        }
+      ],
+      "blocker": "The first blocker is not Internet service or USB device mode; it is proving that a production-compatible RA4 host client can take a phone from normal enumeration through AOA re-enumeration and exchange bidirectional bulk frames without losing the stock cabin path.",
+      "conclusion": "A software prototype is technically plausible because RA4 is already a true USB host with the vendor-control, descriptor and bulk primitives AOA needs, and its display/HMI/audio foundations are substantial. Significant unknowns remain: stock-path AOA ownership, a legitimate receiver, installed H.264 decode, PCM/microphone contracts and measured resources.",
+      "grade": "B"
+    },
+    "carplay": {
+      "architecture": [
+        {
+          "block": "PHONE",
+          "status": "ALREADY PRESENT"
+        },
+        {
+          "block": "USB SESSION",
+          "status": "UNKNOWN"
+        },
+        {
+          "block": "PROJECTION PROTOCOL",
+          "status": "EXTERNAL AUTHENTICATION DEPENDENCY"
+        },
+        {
+          "block": "VIDEO DECODER / DISPLAY",
+          "status": "UNKNOWN"
+        },
+        {
+          "block": "AUDIO ROUTING",
+          "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+        },
+        {
+          "block": "MIC / INPUT RETURN",
+          "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+        },
+        {
+          "block": "HMI ARBITRATION",
+          "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+        }
+      ],
+      "blocker": "Before receiver work, identify a compatible Apple authentication IC and its legitimate integration path, then prove that the active media hub and Radio C2 route can reverse roles with supported VBUS behavior. An existing legacy iPod path is not sufficient evidence.",
+      "conclusion": "CarPlay is silicon-plausible but requires hardware-backed MFi authentication and, on the documented QNX 6.6 path, a reversible cabin USB route plus a device-side controller stack. None is proved present or compatible on RA4; licensed receiver software is also missing.",
+      "grade": "C"
+    }
+  }
+}

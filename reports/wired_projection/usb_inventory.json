@@ -1,0 +1,105 @@
+{
+  "call_graph": [
+    {
+      "component": "68141322AA/68289895AA active media hub -> UCI cable -> Radio C2 D2784B",
+      "stage": "PHONE INSERTION",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "component": "io-usb -> Mentor/MUSB or EHCI OMAP3 HCD -> libusbdi attach/descriptor APIs",
+      "stage": "USB ENUMERATION",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "component": "enum common + six USB rules -> MTP, iPod HID/audio, serial/network or mass-storage client",
+      "stage": "DEVICE CLASSIFICATION",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "component": "connmgr/io-fs-media/iPod media clients exist; AOA negotiator and projection receiver do not",
+      "stage": "SERVICE",
+      "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+    },
+    {
+      "component": "phoneProjectionService/DeviceConnectionManager client vocabulary exists, but hmiGateway rejects both destinations",
+      "stage": "MEDIA/HMI",
+      "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+    }
+  ],
+  "classes": [
+    {
+      "evidence": "usb-true-host",
+      "name": "USB host enumeration/hotplug",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "evidence": "usb-host-stack",
+      "name": "descriptor/config/interface parsing",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "evidence": "usb-arbitrary-bulk",
+      "name": "vendor control and bulk endpoints",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "evidence": "usb-stock-classes",
+      "name": "mass storage",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "evidence": "usb-stock-classes",
+      "name": "MTP/MTPZ",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "evidence": "usb-stock-classes",
+      "name": "PTP",
+      "status": "UNKNOWN"
+    },
+    {
+      "evidence": "apple-legacy",
+      "name": "legacy iPod/iPhone media",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "evidence": "iap2-negative",
+      "name": "iAP2",
+      "status": "MISSING SOFTWARE"
+    },
+    {
+      "evidence": "usb-stock-classes",
+      "name": "USB audio and Apple HID class handling",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "evidence": "button-input",
+      "name": "generic HID injection to projection",
+      "status": "MISSING SOFTWARE"
+    },
+    {
+      "evidence": "aoa-ra4-gap",
+      "name": "Android Open Accessory negotiation",
+      "status": "MISSING SOFTWARE"
+    },
+    {
+      "evidence": "usb-stock-classes",
+      "name": "RNDIS/USB networking rules",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "evidence": "iap2-negative",
+      "name": "QNX USB device/function stack",
+      "status": "MISSING SOFTWARE"
+    },
+    {
+      "evidence": "ra4-auth-hardware",
+      "name": "MFi authentication device",
+      "status": "UNKNOWN"
+    }
+  ],
+  "controller": "QNX io-usb with devu-omap3530-mg.so (Mentor/MUSB OTG block, 0x480ab000, IRQ 92) and devu-ehci-omap3.so (EHCI, 0x48064800, IRQ 77)",
+  "device_role": "OMAP3730 silicon is dual-role, but the installed QNX device stack, DCD, descriptors and cabin-port peripheral-mode route are UNKNOWN.",
+  "host_proof": "Production startup arguments, two host HCDs, libusbdi.so.2 exports, and stock imports prove true host operation independently of media playback.",
+  "media_hub": "The 68141322AA/68289895AA SD/USB/AUX module is active; host transparency is plausible, while CarPlay role reversal and VBUS behavior are UNKNOWN."
+}

@@ -1,0 +1,85 @@
+{
+  "audio": [
+    {
+      "component": "AudioCtrlSvc/MME and audioApp logical source mapping",
+      "evidence": "audio-path",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "component": "projection PCM sink and exact sample-rate/channel contract",
+      "evidence": "audio-path",
+      "status": "UNKNOWN"
+    },
+    {
+      "component": "media/prompt/call focus, ducking, volume, mute and restore adapter",
+      "evidence": "audio-path",
+      "status": "MISSING SOFTWARE"
+    }
+  ],
+  "input": [
+    {
+      "component": "Screen/mtouch event source and stock touch consumers",
+      "evidence": "touch-input",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "component": "absolute coordinate/contact transform and cancellation",
+      "evidence": "touch-input",
+      "status": "UNKNOWN"
+    },
+    {
+      "component": "hard-key, rotary and steering-wheel event sources",
+      "evidence": "button-input",
+      "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+    },
+    {
+      "component": "projection input serialization over the active USB session",
+      "evidence": "touch-input",
+      "status": "MISSING SOFTWARE"
+    }
+  ],
+  "microphone": [
+    {
+      "component": "cabin microphone and stock phone/VR consumers",
+      "evidence": "microphone-path",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "component": "resident application PCM capture API and permissions",
+      "evidence": "microphone-path",
+      "status": "UNKNOWN"
+    },
+    {
+      "component": "assistant/call capture lease, AEC path and USB return",
+      "evidence": "microphone-path",
+      "status": "MISSING SOFTWARE"
+    }
+  ],
+  "video": [
+    {
+      "component": "640x480@60 display, OMAP3730/SGX530 graphics and QNX Screen",
+      "evidence": "display-stack",
+      "status": "ALREADY PRESENT"
+    },
+    {
+      "component": "full-screen application/Xlet container and stock layer arbitration",
+      "evidence": "hmi-arbitration",
+      "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+    },
+    {
+      "component": "IVA2.2-class H.264 silicon capability",
+      "evidence": "h264-silicon",
+      "status": "PRESENT BUT NEEDS ADAPTER/GLUE"
+    },
+    {
+      "component": "installed supported H.264 decoder and client ABI",
+      "evidence": "h264-runtime-gap",
+      "status": "UNKNOWN"
+    },
+    {
+      "component": "pixel format, stride, scaling, rotation, buffer queues and measured frame latency",
+      "evidence": "h264-runtime-gap",
+      "status": "UNKNOWN"
+    }
+  ]
+}

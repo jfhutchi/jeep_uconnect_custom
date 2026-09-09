@@ -1,0 +1,726 @@
+{
+  "schema_version": 1,
+  "baseline": {
+    "branch": "codex/kim19-final-capability-closure",
+    "commit": "5b9826b2b6537f12b4bf08a50003ea6914263700"
+  },
+  "sources": [
+    {
+      "id": "repo-usb-census",
+      "kind": "repository",
+      "title": "RA4 structured USB census and projection backend contract",
+      "path": "reports/ra4_usb_stack_backend_census.md",
+      "sha256": "cd2dbf9b4573bd2c776ddd80bcb165a9cacd942c6d7c124e8f9a21270432897c",
+      "locator": "Structured census boundary; Hash-identified host runtime; Device/function-stack gate"
+    },
+    {
+      "id": "repo-gateway",
+      "kind": "repository",
+      "title": "RA4 projection destination routing and USB ownership boundary",
+      "path": "reports/ra4_projection_gateway_dispatch.md",
+      "sha256": "41bf4406ae9ee28e748e7a3d422a9e79572ef520c462c51c7fefc45f7b85a813",
+      "locator": "Fixed destination resolution; USB ownership follow-up"
+    },
+    {
+      "id": "repo-post-reboot",
+      "kind": "repository",
+      "title": "RA4 post-reboot static checkpoint",
+      "path": "reports/ra4_post_reboot_checkpoint.md",
+      "sha256": "77322b1e48c072e6aefcbf958c74e0d92b640af27461dd7b0008b4ac25b8e5da",
+      "locator": "122-marker corpus census and startup USB paths"
+    },
+    {
+      "id": "repo-usb-power",
+      "kind": "repository",
+      "title": "RA4 USB PHY and VBUS power control",
+      "path": "reports/ra4_usb_phy_power_control.md",
+      "sha256": "81ee93fa8506290079a6122bd8c1aacf41f67f777ccfadbe5a7b8253539421ef",
+      "locator": "Mentor ULPI reset and usbPowerSwitch control-flow trace"
+    },
+    {
+      "id": "repo-usb-startup",
+      "kind": "repository",
+      "title": "RA4 startup USB PHY identity",
+      "path": "reports/ra4_startup_usb_phy_identity.md",
+      "sha256": "74b81f841dcec95fe6bf4439e52dbe914f72632b9691a09c4de667c5bee6d8bd",
+      "locator": "startup-omap3730cmc, USB83340-family EHCI path, GPIO-38 reset"
+    },
+    {
+      "id": "repo-codec",
+      "kind": "repository",
+      "title": "RA4 projection hardware and codec feasibility",
+      "path": "docs/12_ra4_projection_hardware_feasibility.md",
+      "sha256": "66aa7ad7ae735f91ee67d2b01fbfadb48afda1bed66c21905106ec9cb69b8d60",
+      "locator": "Decision; Evidence ladder; New bounded corpus probe"
+    },
+    {
+      "id": "repo-audio",
+      "kind": "repository",
+      "title": "QNX 6.6 audio arbitration reference boundary",
+      "path": "docs/14_qnx6_audio_arbitration_reference.md",
+      "sha256": "08aa4fa073dc55bf8b06a1f2191c5e59c40d79f6743570cfa609182eff683da1",
+      "locator": "Mapping to RA4; Required independent leases"
+    },
+    {
+      "id": "repo-screen",
+      "kind": "repository",
+      "title": "QNX 6.6 Screen, touch, and camera reference boundary",
+      "path": "docs/15_qnx6_screen_touch_camera_reference.md",
+      "sha256": "e6b86ab69ebe2bde489081f01d1f703d833a192b45f29f90a18aeb858f346226",
+      "locator": "Exact RA4 evidence; Required surface contract; Unknowns"
+    },
+    {
+      "id": "repo-hmi",
+      "kind": "repository",
+      "title": "Projection foreground ownership",
+      "path": "reports/projection_foreground_ownership.md",
+      "sha256": "576f8a5e1475fa3d24ea67f5409b00e83609c005f99283b9bb7eff675cd6cd02",
+      "locator": "Confirmed mechanisms; Arbitration contract"
+    },
+    {
+      "id": "repo-aa-bench",
+      "kind": "repository",
+      "title": "Android Auto reference transport contract",
+      "path": "reports/android_auto_reference_contract.md",
+      "sha256": "940ab7e8bd38c62e6c657b6853a7268c96dc50003d6297ab3d105203b53a18da",
+      "locator": "AOA v2 re-enumeration and DHU protocol observations"
+    },
+    {
+      "id": "repo-media-hub",
+      "kind": "repository",
+      "title": "RA4 media-hub USB data path",
+      "path": "docs/19_ra4_media_hub_usb_path.md",
+      "sha256": "1ee9c0b337010a7ade28bfbccb81e8e787965b4d96f15c736c24984f8318085a",
+      "locator": "Decision; Connector evidence; Exact next evidence"
+    },
+    {
+      "id": "repo-engine",
+      "kind": "repository",
+      "title": "Legitimate projection-engine feasibility",
+      "path": "docs/11_projection_engine_feasibility.md",
+      "sha256": "82d3457a3086b476e8552b74fd8f6741947e77ad67dd92f853d4543000a2c847",
+      "locator": "Provider qualification matrix; Licensing and access gates"
+    },
+    {
+      "id": "repo-resources",
+      "kind": "repository",
+      "title": "RA4 resource budget",
+      "path": "docs/ra4_resource_budget.md",
+      "sha256": "835314688c2145f4ec3b8f2d82ec95cc945426d39ea5ca6bc32497384f4dfae2",
+      "locator": "Provisional envelope; External capability ledger"
+    },
+    {
+      "id": "repo-xlet-view",
+      "kind": "repository",
+      "title": "RA4 resident Xlet view path",
+      "path": "reports/ra4_resident_xlet_view_path.md",
+      "sha256": "2d36e62549cc4a42fe67709359cdb9b1a8e5097cbb0f63263e380cbfbbd4238b",
+      "locator": "640x480 Xlet container and lifecycle path"
+    },
+    {
+      "id": "repo-io-screen",
+      "kind": "repository",
+      "title": "RA4 native I/O and Screen wait boundary",
+      "path": "reports/ra4_native_io_screen_wait.md",
+      "sha256": "99a755fa0b14b2cf9b25f9f6596fa1264201b1780bcc1c7df18dedfe53394446",
+      "locator": "Native wait/event handling and Screen boundary"
+    },
+    {
+      "id": "google-aoa",
+      "kind": "public",
+      "title": "Android Open Accessory 1.0",
+      "publisher": "Android Open Source Project / Google",
+      "url": "https://source.android.com/docs/core/interaction/accessories/aoa",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "google-dhu",
+      "kind": "public",
+      "title": "Test using the Desktop Head Unit",
+      "publisher": "Android Developers / Google",
+      "url": "https://developer.android.com/training/cars/testing/dhu",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "apple-security",
+      "kind": "public",
+      "title": "Verifying accessories for Apple devices and services",
+      "publisher": "Apple Platform Security",
+      "url": "https://support.apple.com/guide/security/verifying-accessories-sec70a4f377d/web",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "apple-mfi",
+      "kind": "public",
+      "title": "MFi Program FAQs",
+      "publisher": "Apple",
+      "url": "https://mfi.apple.com/en/faqs",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "qnx-usblauncher",
+      "kind": "public",
+      "title": "Supported third-party applications and protocols",
+      "publisher": "QNX 6.6 Device Publishers Guide",
+      "url": "https://www.qnx.com/developers/docs/6.6.0_anm11_wf10/com.qnx.doc.dev_pub.ref_guide/topic/usblauncher_config_supported_applications.html",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "qnx-sdk",
+      "kind": "public",
+      "title": "QNX SDK for Smartphone Connectivity product brief",
+      "publisher": "BlackBerry QNX",
+      "url": "https://blackberry.qnx.com/content/dam/qnx/products/qnxcar/QNX_SDKForSmartphone_ProductBrief_Online_FINAL.pdf",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "ti-omap",
+      "kind": "public",
+      "title": "AM/DM37x versus OMAP35x comparison",
+      "publisher": "Texas Instruments",
+      "url": "https://www.ti.com/lit/pdf/sprab80",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "fcc-be2800",
+      "kind": "public",
+      "title": "Harman BE2800 VP4 NA/CA internal photographs",
+      "publisher": "Federal Communications Commission filing mirror",
+      "url": "https://fccid.io/QNG-BE2800/Internal-Photos/VP4-NA-and-VP4-CA-Internal-Photos-1790035",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "mopar-2014",
+      "kind": "public",
+      "title": "2014 Jeep Grand Cherokee User Guide",
+      "publisher": "Mopar / FCA",
+      "url": "https://vehicleinfo.mopar.com/assets/publications/en-us/Jeep/2014/Grand_Cherokee/100303_14_WK_UG_EN_USC_E11_V1_DIGITAL.pdf",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "fcc-vp4rac",
+      "kind": "public",
+      "title": "Panasonic VP4RAC equipment authorization",
+      "publisher": "Federal Communications Commission filing mirror",
+      "url": "https://fccid.io/ACJ-VP4RAC",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "mopar-uconnect4",
+      "kind": "public",
+      "title": "2018 Uconnect 4C/4C NAV 8.4-inch Radio Book",
+      "publisher": "Mopar / FCA",
+      "url": "https://vehicleinfo.mopar.com/assets/publications/en-us/Ram/2018/1500/9353.pdf",
+      "accessed": "2026-09-09"
+    },
+    {
+      "id": "mopar-later-hub",
+      "kind": "public",
+      "title": "Mopar media hub USB port 68294075AC",
+      "publisher": "Official Mopar eStore",
+      "url": "https://store.mopar.com/oem-parts/mopar-mopar-media-hub-usb-port-68294075ac",
+      "accessed": "2026-09-09"
+    }
+  ],
+  "claims": [
+    {
+      "id": "usb-host-stack",
+      "level": "PROVED",
+      "statement": "RA4 materializes QNX 6.5 io-usb with Mentor/MUSB and EHCI OMAP3 host-controller drivers, plus a host client library exporting descriptor, configuration, vendor-control, pipe, bulk, attach and detach APIs.",
+      "source_ids": ["repo-usb-census", "repo-post-reboot"]
+    },
+    {
+      "id": "usb-true-host",
+      "level": "PROVED",
+      "statement": "The radio is a true USB host in the recovered production startup: io-usb loads devu-omap3530-mg.so at 0x480ab000/IRQ 92 and devu-ehci-omap3.so at 0x48064800/IRQ 77.",
+      "source_ids": ["repo-usb-census", "repo-post-reboot"]
+    },
+    {
+      "id": "usb-phy-power",
+      "level": "PROVED",
+      "statement": "Recovered board code requests Mentor ULPI reset and controls VBUS-drive bits through usbPowerSwitch; the exact electrical result and cabin-port controller remain unknown.",
+      "source_ids": ["repo-usb-power", "repo-usb-startup"]
+    },
+    {
+      "id": "usb-stock-classes",
+      "level": "PROVED",
+      "statement": "Stock production rules and clients cover mass storage, MTP/MTPZ, serial/network classes, legacy Apple HID/audio, and iPod media; they do not establish a projection session.",
+      "source_ids": ["repo-usb-census", "repo-gateway"]
+    },
+    {
+      "id": "usb-arbitrary-bulk",
+      "level": "STRONGLY SUPPORTED",
+      "statement": "The materialized host API can perform arbitrary vendor control and bidirectional bulk transfers, but access, exclusive ownership, sustained throughput, and new-client loadability are unproved.",
+      "source_ids": ["repo-usb-census"]
+    },
+    {
+      "id": "apple-legacy",
+      "level": "STRONGLY SUPPORTED",
+      "statement": "RA4 has active legacy iPod/iPhone media support through iofs-usb-ipod, libipod/itun-adjacent paths, and Apple HID/audio enumeration rules; no recovered activation chain proves iAP2.",
+      "source_ids": ["repo-usb-census", "repo-gateway", "repo-post-reboot"]
+    },
+    {
+      "id": "iap2-negative",
+      "level": "PROVED",
+      "statement": "The bounded recovered-tree census found no named iAP2 probe/role-swap service, usblauncher, io-usb-dcd, compatible device-function bundle, or CarPlay receiver.",
+      "source_ids": ["repo-usb-census", "repo-post-reboot"]
+    },
+    {
+      "id": "aoa-reference",
+      "level": "PROVED",
+      "statement": "AOA requires the accessory to remain USB host, issue vendor control requests 51/52/53, wait for Google VID/PID re-enumeration, and then use bulk IN/OUT endpoints.",
+      "source_ids": ["google-aoa"]
+    },
+    {
+      "id": "aa-dhu-reference",
+      "level": "PROVED",
+      "statement": "Google's current DHU supports Android Auto over USB AOA and exposes 800x480 at 30 fps as a supported head-unit test configuration.",
+      "source_ids": ["google-dhu", "repo-aa-bench"]
+    },
+    {
+      "id": "aoa-ra4-gap",
+      "level": "UNKNOWN",
+      "statement": "No installed RA4 AOA negotiator or explicit 18D1:2D01 rule is identified; MTP detachment, phone re-enumeration, endpoint ownership and sustained bulk traffic remain untested on RA4.",
+      "source_ids": ["repo-gateway", "repo-usb-census"]
+    },
+    {
+      "id": "projection-hmi-remnant",
+      "level": "PROVED",
+      "statement": "The HMI contains dormant production vocabulary and call sites for phoneProjectionService, DeviceConnectionManager, startProjection(ppId), CarPlay/GAL errors, session status, BackToCar, navigation, now-playing and call state.",
+      "source_ids": ["repo-usb-census", "repo-hmi"]
+    },
+    {
+      "id": "projection-gateway-gap",
+      "level": "PROVED",
+      "statement": "The hash-identified production hmiGateway rejects both projection destinations before command invocation or owner subscription; a matching bridge/backend is missing from this build.",
+      "source_ids": ["repo-gateway"]
+    },
+    {
+      "id": "display-stack",
+      "level": "PROVED",
+      "statement": "RA4 configures QNX Screen at 640x480@60 with OMAP3730/SGX530 libraries, video_hmi, CMC mtouch/scaling, window/buffer APIs and factory event consumers.",
+      "source_ids": ["repo-codec", "repo-screen", "repo-io-screen"]
+    },
+    {
+      "id": "h264-silicon",
+      "level": "STRONGLY SUPPORTED",
+      "statement": "OMAP3730 contains Cortex-A8, IVA2.2 and SGX530 blocks, and an adjacent IVA2.2 reference demonstrates VGA H.264 Baseline decode at 30 fps; this is plausibility, not an RA4 benchmark.",
+      "source_ids": ["repo-codec", "ti-omap"]
+    },
+    {
+      "id": "h264-runtime-gap",
+      "level": "UNKNOWN",
+      "statement": "No supported installed H.264 decoder, DSP codec server, OpenMAX component, client ABI, pixel format, buffer contract or measured latency is proved on RA4.",
+      "source_ids": ["repo-codec", "repo-post-reboot"]
+    },
+    {
+      "id": "touch-input",
+      "level": "PROVED",
+      "statement": "Stock Screen/mtouch and HMI application paths receive touch and foreground events; exact projection coordinates, contact lifecycle, focus/sensitivity ownership and serialization require an adapter and runtime proof.",
+      "source_ids": ["repo-screen", "repo-xlet-view", "repo-io-screen"]
+    },
+    {
+      "id": "button-input",
+      "level": "STRONGLY SUPPORTED",
+      "statement": "Stock HMI mechanisms receive hard-key, rotary and steering-wheel-related events, but the exact projection mapping and voice-button ownership are not closed.",
+      "source_ids": ["repo-hmi", "repo-xlet-view"]
+    },
+    {
+      "id": "audio-path",
+      "level": "PROVED",
+      "statement": "RA4 contains AudioCtrlSvc/MME infrastructure and a configured audioApp-to-MME logical source mapping; exact PCM sink ABI, sample formats, focus priority, volume and restore callbacks remain unknown.",
+      "source_ids": ["repo-audio", "repo-hmi"]
+    },
+    {
+      "id": "microphone-path",
+      "level": "UNKNOWN",
+      "statement": "Cabin microphone use by stock phone/VR is evident, but no ordinary resident-application PCM capture API, format, permission, arbitration or owner-death contract is proved.",
+      "source_ids": ["repo-audio", "repo-hmi"]
+    },
+    {
+      "id": "hmi-arbitration",
+      "level": "PROVED",
+      "statement": "Stock AppStateManager, DisplayManager and LayerManager provide foreground admission, camera/critical preemption, temporary HVAC overlays, session-versus-visibility separation and navigation-stack return.",
+      "source_ids": ["repo-hmi", "repo-screen"]
+    },
+    {
+      "id": "media-hub",
+      "level": "STRONGLY SUPPORTED",
+      "statement": "The RA4 cabin module is an active SD/USB/AUX hub or multiplexer on one upstream D+/D- pair; fixed downstream behavior would not block host-side AOA, but reverse-role transparency for CarPlay is unknown.",
+      "source_ids": ["repo-media-hub", "mopar-2014"]
+    },
+    {
+      "id": "carplay-role-swap",
+      "level": "PROVED",
+      "statement": "The documented QNX 6.6 CarPlay sequence probes Apple devices, requests Digital iPod Out role swap, stops the host stack, and starts io-usb-dcd with device-stack rules.",
+      "source_ids": ["qnx-usblauncher", "repo-media-hub"]
+    },
+    {
+      "id": "carplay-auth",
+      "level": "PROVED",
+      "statement": "CarPlay video uses MFi-SAP and an Apple-provided authentication IC for the signed authorization exchange; MFi program access and certification are hard external dependencies.",
+      "source_ids": ["apple-security", "apple-mfi"]
+    },
+    {
+      "id": "ra4-auth-hardware",
+      "level": "UNKNOWN",
+      "statement": "No compatible MFi authentication IC is identified in RA4 artifacts or public board evidence; legacy iPod support does not prove that any existing device is CarPlay-capable.",
+      "source_ids": ["repo-usb-census", "fcc-be2800", "apple-security"]
+    },
+    {
+      "id": "aa-auth-boundary",
+      "level": "STRONGLY SUPPORTED",
+      "statement": "AOA itself specifies no dedicated hardware authenticator, but a production Android Auto receiver/provider, protocol security, product approval and integration contract remain external software/licensing dependencies.",
+      "source_ids": ["google-aoa", "google-dhu", "qnx-sdk", "repo-engine"]
+    },
+    {
+      "id": "later-uconnect",
+      "level": "PROVED",
+      "statement": "Public 2018 Uconnect 4C documentation proves production wired Android Auto and CarPlay through media USB with touch, knobs and voice; FCC records identify at least one VP4RAC implementation as a newer Panasonic radio, not the Harman BE2800.",
+      "source_ids": ["mopar-uconnect4", "fcc-vp4rac", "fcc-be2800"]
+    },
+    {
+      "id": "later-hardware-unknown",
+      "level": "UNKNOWN",
+      "statement": "Public sources used here do not establish the later unit's SoC, CPU, GPU, RAM, storage, OS, USB controller, audio DSP, authentication-IC location or projection-daemon implementation.",
+      "source_ids": ["fcc-vp4rac", "mopar-uconnect4"]
+    },
+    {
+      "id": "later-media-hub",
+      "level": "STRONGLY SUPPORTED",
+      "statement": "Mopar assigns later projection-era vehicles a different media-hub part family, but the public catalog does not explain whether the change is electrical, power, protocol, speed or authentication related.",
+      "source_ids": ["repo-media-hub", "mopar-later-hub"]
+    },
+    {
+      "id": "resource-fit",
+      "level": "INFERRED",
+      "statement": "VGA-class wired projection is plausible on the silicon and display, but overall resident fit is not proved because RAM, available CPU, decoder reservation, USB throughput and receiver size are unmeasured.",
+      "source_ids": ["repo-codec", "repo-resources", "google-dhu"]
+    }
+  ],
+  "negative_searches": [
+    {
+      "id": "named-projection-runtime",
+      "roots": [
+        "analysis_ra4_18.45.01/work/installer_iso",
+        "analysis_ra4_18.45.01/work/primary_iso",
+        "analysis_ra4_18.45.01/work/secondary_iso",
+        "analysis_ra4_18.45.01/work/hidden_hbc_ifs/standard_boot/files",
+        "analysis_ra4_18.45.01/work/hidden_hbc_ifs/segment_001a0000/files",
+        "analysis_ra4_18.45.01/work/hidden_hbc_ifs/segment_00f20000/files",
+        "analysis_ra4_18.45.01/work/hidden_hbc_ifs/segment_019a0000/files"
+      ],
+      "terms": [
+        "androidauto",
+        "libaoa",
+        "autoreceiver",
+        "CarPlay receiver",
+        "Cinemo projection artifact",
+        "MirrorLink",
+        "SmartDeviceLink"
+      ],
+      "limits": "4,110 files; 578 ELF files; 321 ZIP/JAR containers; 91,086 member names; ELF dynamic metadata plus the controlled raw-marker census. Static-linked, renamed, encrypted, compressed-content-only, optional, or unmaterialized implementations remain outside the negative.",
+      "result": "No named production projection receiver/backend was identified. Dormant HMI vocabulary was identified separately."
+    },
+    {
+      "id": "apple-device-stack",
+      "roots": [
+        "the same seven recovered 18.45.01 roots"
+      ],
+      "terms": [
+        "iAP2",
+        "Probe_iAP2",
+        "RoleSwap_DigitaliPodOut",
+        "RoleSwap_AppleDevice",
+        "usblauncher",
+        "io-usb-dcd",
+        "devu-dcd",
+        "devu-usbumass-*",
+        "libusbdci",
+        "Device_Stack"
+      ],
+      "limits": "122 controlled markers across the recovered trees plus structured path, archive-member, dependency, import and export inspection. Generic filenames and stripped/static code remain limitations.",
+      "result": "Legacy iPod host components were present, but no named iAP2 role-swap/device-function bundle or CarPlay receiver was found."
+    },
+    {
+      "id": "android-aoa-rules",
+      "roots": [
+        "hidden_hbc_ifs/segment_001a0000/files/etc/system/enum/common",
+        "hidden_hbc_ifs/segment_001a0000/files/etc/system/enum/devices/usb/*",
+        "primary_iso/usr/share/MMC_IFS_EXTENSION/bin/enum_devices.lua"
+      ],
+      "terms": [
+        "18D1:2D00",
+        "18D1:2D01",
+        "AOA",
+        "OpenAccessory",
+        "ACCESSORY_START"
+      ],
+      "limits": "One common file, six production USB rule files and the selected text Lua helper. Other processes, runtime-generated rules and generic/stripped implementations are outside the negative.",
+      "result": "No explicit AOA ownership or personality-switch rule was identified."
+    },
+    {
+      "id": "h264-runtime",
+      "roots": [
+        "seven recovered 18.45.01 roots",
+        "85 tracked text/source blobs at the earlier hardware checkpoint"
+      ],
+      "terms": [
+        "H.264",
+        "AVC",
+        "OpenMAX",
+        "libOMX",
+        "Codec Engine",
+        "DSPLink",
+        "GStreamer",
+        "libavcodec"
+      ],
+      "limits": "Controlled raw markers, filenames, dynamic metadata and tracked text. Unknown names, stripped/static implementations and codec capability hidden behind generic media APIs remain limitations.",
+      "result": "No supported installed H.264 decode client path or ABI was proved."
+    }
+  ],
+  "usb_inventory": {
+    "controller": "QNX io-usb with devu-omap3530-mg.so (Mentor/MUSB OTG block, 0x480ab000, IRQ 92) and devu-ehci-omap3.so (EHCI, 0x48064800, IRQ 77)",
+    "host_proof": "Production startup arguments, two host HCDs, libusbdi.so.2 exports, and stock imports prove true host operation independently of media playback.",
+    "device_role": "OMAP3730 silicon is dual-role, but the installed QNX device stack, DCD, descriptors and cabin-port peripheral-mode route are UNKNOWN.",
+    "media_hub": "The 68141322AA/68289895AA SD/USB/AUX module is active; host transparency is plausible, while CarPlay role reversal and VBUS behavior are UNKNOWN.",
+    "classes": [
+      {"name": "USB host enumeration/hotplug", "status": "ALREADY PRESENT", "evidence": "usb-true-host"},
+      {"name": "descriptor/config/interface parsing", "status": "ALREADY PRESENT", "evidence": "usb-host-stack"},
+      {"name": "vendor control and bulk endpoints", "status": "ALREADY PRESENT", "evidence": "usb-arbitrary-bulk"},
+      {"name": "mass storage", "status": "ALREADY PRESENT", "evidence": "usb-stock-classes"},
+      {"name": "MTP/MTPZ", "status": "ALREADY PRESENT", "evidence": "usb-stock-classes"},
+      {"name": "PTP", "status": "UNKNOWN", "evidence": "usb-stock-classes"},
+      {"name": "legacy iPod/iPhone media", "status": "ALREADY PRESENT", "evidence": "apple-legacy"},
+      {"name": "iAP2", "status": "MISSING SOFTWARE", "evidence": "iap2-negative"},
+      {"name": "USB audio and Apple HID class handling", "status": "ALREADY PRESENT", "evidence": "usb-stock-classes"},
+      {"name": "generic HID injection to projection", "status": "MISSING SOFTWARE", "evidence": "button-input"},
+      {"name": "Android Open Accessory negotiation", "status": "MISSING SOFTWARE", "evidence": "aoa-ra4-gap"},
+      {"name": "RNDIS/USB networking rules", "status": "ALREADY PRESENT", "evidence": "usb-stock-classes"},
+      {"name": "QNX USB device/function stack", "status": "MISSING SOFTWARE", "evidence": "iap2-negative"},
+      {"name": "MFi authentication device", "status": "UNKNOWN", "evidence": "ra4-auth-hardware"}
+    ],
+    "call_graph": [
+      {"stage": "PHONE INSERTION", "component": "68141322AA/68289895AA active media hub -> UCI cable -> Radio C2 D2784B", "status": "ALREADY PRESENT"},
+      {"stage": "USB ENUMERATION", "component": "io-usb -> Mentor/MUSB or EHCI OMAP3 HCD -> libusbdi attach/descriptor APIs", "status": "ALREADY PRESENT"},
+      {"stage": "DEVICE CLASSIFICATION", "component": "enum common + six USB rules -> MTP, iPod HID/audio, serial/network or mass-storage client", "status": "ALREADY PRESENT"},
+      {"stage": "SERVICE", "component": "connmgr/io-fs-media/iPod media clients exist; AOA negotiator and projection receiver do not", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"},
+      {"stage": "MEDIA/HMI", "component": "phoneProjectionService/DeviceConnectionManager client vocabulary exists, but hmiGateway rejects both destinations", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"}
+    ]
+  },
+  "av_pipeline": {
+    "video": [
+      {"component": "640x480@60 display, OMAP3730/SGX530 graphics and QNX Screen", "status": "ALREADY PRESENT", "evidence": "display-stack"},
+      {"component": "full-screen application/Xlet container and stock layer arbitration", "status": "PRESENT BUT NEEDS ADAPTER/GLUE", "evidence": "hmi-arbitration"},
+      {"component": "IVA2.2-class H.264 silicon capability", "status": "PRESENT BUT NEEDS ADAPTER/GLUE", "evidence": "h264-silicon"},
+      {"component": "installed supported H.264 decoder and client ABI", "status": "UNKNOWN", "evidence": "h264-runtime-gap"},
+      {"component": "pixel format, stride, scaling, rotation, buffer queues and measured frame latency", "status": "UNKNOWN", "evidence": "h264-runtime-gap"}
+    ],
+    "audio": [
+      {"component": "AudioCtrlSvc/MME and audioApp logical source mapping", "status": "ALREADY PRESENT", "evidence": "audio-path"},
+      {"component": "projection PCM sink and exact sample-rate/channel contract", "status": "UNKNOWN", "evidence": "audio-path"},
+      {"component": "media/prompt/call focus, ducking, volume, mute and restore adapter", "status": "MISSING SOFTWARE", "evidence": "audio-path"}
+    ],
+    "microphone": [
+      {"component": "cabin microphone and stock phone/VR consumers", "status": "ALREADY PRESENT", "evidence": "microphone-path"},
+      {"component": "resident application PCM capture API and permissions", "status": "UNKNOWN", "evidence": "microphone-path"},
+      {"component": "assistant/call capture lease, AEC path and USB return", "status": "MISSING SOFTWARE", "evidence": "microphone-path"}
+    ],
+    "input": [
+      {"component": "Screen/mtouch event source and stock touch consumers", "status": "ALREADY PRESENT", "evidence": "touch-input"},
+      {"component": "absolute coordinate/contact transform and cancellation", "status": "UNKNOWN", "evidence": "touch-input"},
+      {"component": "hard-key, rotary and steering-wheel event sources", "status": "PRESENT BUT NEEDS ADAPTER/GLUE", "evidence": "button-input"},
+      {"component": "projection input serialization over the active USB session", "status": "MISSING SOFTWARE", "evidence": "touch-input"}
+    ]
+  },
+  "hmi": {
+    "mechanisms": [
+      {"component": "projection session state separate from visible foreground", "status": "ALREADY PRESENT", "evidence": "projection-hmi-remnant"},
+      {"component": "Apps/Xlet 640x480 foreground lifecycle", "status": "PRESENT BUT NEEDS ADAPTER/GLUE", "evidence": "hmi-arbitration"},
+      {"component": "camera and critical/eCall preemption", "status": "ALREADY PRESENT", "evidence": "hmi-arbitration"},
+      {"component": "HVAC temporary overlays without branch replacement", "status": "ALREADY PRESENT", "evidence": "hmi-arbitration"},
+      {"component": "Return-to-Uconnect and Return-to-Projection behavior", "status": "PRESENT BUT NEEDS ADAPTER/GLUE", "evidence": "projection-hmi-remnant"},
+      {"component": "matching projection bridge/backend owner", "status": "MISSING SOFTWARE", "evidence": "projection-gateway-gap"},
+      {"component": "projection-specific audio, mic and input leases", "status": "MISSING SOFTWARE", "evidence": "audio-path"}
+    ],
+    "arbitration": [
+      "camera / critical and emergency stock takeover",
+      "permitted temporary stock overlay",
+      "active projection foreground",
+      "ordinary stock HMI"
+    ]
+  },
+  "hardware_comparison": [
+    {"component": "product/supplier", "ra4": "Harman BE2800 CMC VP4 NA/CA", "later": "At least one Uconnect 4 VP4RAC is Panasonic; no board identity continuity is established", "confidence": "PROVED"},
+    {"component": "SoC / CPU", "ra4": "TI OMAP3730, 32-bit Cortex-A8", "later": "UNKNOWN from selected public sources", "confidence": "RA4 PROVED / later UNKNOWN"},
+    {"component": "GPU / video", "ra4": "SGX530 and IVA2.2-class acceleration; installed H.264 ABI UNKNOWN", "later": "Production phone projection proves an integrated decode/display path; silicon UNKNOWN", "confidence": "RA4 PROVED+INFERRED / later functional PROVED"},
+    {"component": "RAM", "ra4": "Capacity and normal-operation headroom UNKNOWN", "later": "UNKNOWN", "confidence": "UNKNOWN"},
+    {"component": "storage", "ra4": "Approximately 77 MB writable observed; total device geometry and safe projection footprint UNKNOWN", "later": "UNKNOWN", "confidence": "RA4 observation / later UNKNOWN"},
+    {"component": "USB controller", "ra4": "OMAP Mentor/MUSB and EHCI host HCDs; device-side route UNKNOWN", "later": "Production wired Android Auto/CarPlay through media USB; controller identity UNKNOWN", "confidence": "RA4 PROVED / later functional PROVED"},
+    {"component": "media hub", "ra4": "68141322AA/68289895AA SD/USB/AUX active module", "later": "Different Mopar hub family including 68294075AC; internal reason for change UNKNOWN", "confidence": "STRONGLY SUPPORTED"},
+    {"component": "audio codec / DSP", "ra4": "AudioCtrlSvc/MME and audioApp mapping; silicon and PCM client contract UNKNOWN", "later": "Projection audio, voice and Siri function in production; component identity UNKNOWN", "confidence": "Functional only"},
+    {"component": "Bluetooth / Wi-Fi", "ra4": "Stock Bluetooth and wireless infrastructure present; exact projection dependency outside USB is not required for the transport conclusion", "later": "VP4RAC FCC equipment includes BT/Wi-Fi/LTE", "confidence": "PROVED at system level"},
+    {"component": "display / touch", "ra4": "640x480 QNX Screen + CMC mtouch", "later": "8.4-inch touch HMI supports projection, knobs and voice; pixel resolution/interface UNKNOWN", "confidence": "Functional PROVED"},
+    {"component": "operating system", "ra4": "QNX 6.5 ARM32", "later": "UNKNOWN", "confidence": "RA4 PROVED / later UNKNOWN"},
+    {"component": "middleware / HMI", "ra4": "Adobe AIR/SWF, Harman ModuleLink/SVCIPC, dormant projection client contract and incompatible gateway", "later": "Production Projection Manager behavior; internal architecture UNKNOWN", "confidence": "RA4 PROVED / later functional PROVED"},
+    {"component": "Apple authentication", "ra4": "Compatible authentication IC not identified", "later": "MFi authorization necessarily implemented; IC location not public in selected sources", "confidence": "Hard dependency PROVED / placement UNKNOWN"},
+    {"component": "projection receiver", "ra4": "Named backend absent in bounded census", "later": "Android Auto and CarPlay production receiver present", "confidence": "PROVED within stated scopes"}
+  ],
+  "targets": {
+    "android_auto": {
+      "grade": "B",
+      "conclusion": "A software prototype is technically plausible because RA4 is already a true USB host with the vendor-control, descriptor and bulk primitives AOA needs, and its display/HMI/audio foundations are substantial. Significant unknowns remain: stock-path AOA ownership, a legitimate receiver, installed H.264 decode, PCM/microphone contracts and measured resources.",
+      "blocker": "The first blocker is not Internet service or USB device mode; it is proving that a production-compatible RA4 host client can take a phone from normal enumeration through AOA re-enumeration and exchange bidirectional bulk frames without losing the stock cabin path.",
+      "architecture": [
+        {"block": "PHONE", "status": "ALREADY PRESENT"},
+        {"block": "USB SESSION", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"},
+        {"block": "PROJECTION PROTOCOL", "status": "MISSING SOFTWARE"},
+        {"block": "VIDEO DECODER / DISPLAY", "status": "UNKNOWN"},
+        {"block": "AUDIO ROUTING", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"},
+        {"block": "MIC / INPUT RETURN", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"},
+        {"block": "HMI ARBITRATION", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"}
+      ]
+    },
+    "carplay": {
+      "grade": "C",
+      "conclusion": "CarPlay is silicon-plausible but requires hardware-backed MFi authentication and, on the documented QNX 6.6 path, a reversible cabin USB route plus a device-side controller stack. None is proved present or compatible on RA4; licensed receiver software is also missing.",
+      "blocker": "Before receiver work, identify a compatible Apple authentication IC and its legitimate integration path, then prove that the active media hub and Radio C2 route can reverse roles with supported VBUS behavior. An existing legacy iPod path is not sufficient evidence.",
+      "architecture": [
+        {"block": "PHONE", "status": "ALREADY PRESENT"},
+        {"block": "USB SESSION", "status": "UNKNOWN"},
+        {"block": "PROJECTION PROTOCOL", "status": "EXTERNAL AUTHENTICATION DEPENDENCY"},
+        {"block": "VIDEO DECODER / DISPLAY", "status": "UNKNOWN"},
+        {"block": "AUDIO ROUTING", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"},
+        {"block": "MIC / INPUT RETURN", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"},
+        {"block": "HMI ARBITRATION", "status": "PRESENT BUT NEEDS ADAPTER/GLUE"}
+      ]
+    }
+  },
+  "next_objective": {
+    "id": "prove-ra4-aoa",
+    "title": "Prove AOA negotiation and bidirectional bulk I/O through the stock RA4 cabin USB path",
+    "success": "On owner-authorized spare/bench hardware, capture the existing host controller and hub path issuing AOA Get Protocol/string/start requests, observe Google accessory VID/PID re-enumeration, claim the bulk IN/OUT endpoints, and exchange bounded deterministic frames in both directions with clean detach/recovery.",
+    "constraints": "Use a spare/bench setup with a recovery plan and a legitimate load path. Do not alter the vehicle, production radio, safety policy, firmware image, signing path, MFi authentication or projection protocol. This objective proves only the transport primitive."
+  },
+  "main_sections": [
+    {
+      "title": "Executive conclusion",
+      "body": "RA4 hardware plausibly supports VGA-class wired projection, but the recovered build is not one switch away from either product. Android Auto is **B**: the shortest viable route starts with the existing host stack and adds an authorized AOA/receiver adapter. CarPlay is **C**: it inherits the same AV/HMI gaps and additionally crosses an unproved reversible USB path plus a hard MFi authentication boundary. Pursue Android Auto first. Internet connectivity is supplied by the phone and is independent of this transport decision."
+    },
+    {
+      "title": "RA4 USB architecture",
+      "body": "[usb-true-host] proves real host operation: production `io-usb` loads Mentor/MUSB at `0x480ab000`/IRQ 92 and EHCI at `0x48064800`/IRQ 77. `libusbdi.so.2` exports attach/detach, descriptor parsing, configuration/interface selection, pipe, vendor-control and bulk I/O entry points; stock clients import them. The physical chain is phone -> active SD/USB/AUX hub -> UCI cable -> Radio C2 D2784B -> unproved internal PHY/controller mapping. See `docs/ra4_usb_architecture.md` for the exact call graph."
+    },
+    {
+      "title": "Apple/iAP support",
+      "body": "RA4 has active **legacy** Apple media integration: Apple HID/audio rules and `iofs-usb-ipod.so`/iPod media clients are present [apple-legacy]. The exact protocol generation used by those clients is not fully named, but the production activation chain does not prove iAP2. The bounded 122-marker and structured census found no `Probe_iAP2`, iAP2 role-swap service, `usblauncher`, `io-usb-dcd`, device-function bundle or CarPlay receiver [iap2-negative]. Therefore iPhone music support must not be promoted to iAP2 or CarPlay support."
+    },
+    {
+      "title": "Android/AOA support",
+      "body": "Google AOA keeps the head unit/accessory as USB host and uses vendor requests 51/52/53, re-enumeration to Google accessory VID/PIDs, and bulk IN/OUT endpoints [aoa-reference]. RA4 already has the corresponding low-level primitives [usb-arbitrary-bulk]. What is missing is a production AOA negotiator, explicit AOA rule/ownership handoff, re-enumeration conflict handling and sustained-traffic proof [aoa-ra4-gap]. ADB/manufacturing references are not counted as production capability."
+    },
+    {
+      "title": "Existing projection remnants",
+      "body": "The HMI has production-grade vocabulary for `phoneProjectionService`, `DeviceConnectionManager`, `startProjection(ppId)`, CarPlay/GAL error states, session, BackToCar, navigation, now-playing and calls [projection-hmi-remnant]. It is dormant/incomplete, not active projection. The recovered native `hmiGateway` has a fixed destination table that rejects both projection destinations before command invocation and owner subscription [projection-gateway-gap]. No matching receiver or bridge owner was found in the bounded corpus."
+    },
+    {
+      "title": "Video/display pipeline",
+      "body": "RA4 already configures QNX Screen, OMAP3730/SGX530 graphics, `video_hmi`, CMC mtouch and a 640x480@60 display [display-stack]. The silicon includes IVA2.2-class acceleration and related reference data makes 640x480 H.264 Baseline at 30 fps plausible [h264-silicon]. The decisive software fact is still UNKNOWN: no supported installed H.264 decoder/client ABI, pixel/buffer contract, or measured decode-to-display latency is proved [h264-runtime-gap]. Full-screen app/layer integration is plausible but requires stock foreground ownership."
+    },
+    {
+      "title": "Touch/input return path",
+      "body": "Screen/mtouch and stock HMI/Xlet consumers prove touch-event infrastructure and application lifecycle [touch-input]. Stock event architecture also strongly supports hard-key, rotary and steering-wheel ingestion [button-input]. Projection still needs coordinate/contact normalization, focus/sensitivity grant, preemption cancellation, button mapping and serialization into the active USB session. Absolute touch delivery and the voice-button contract remain runtime/API unknowns."
+    },
+    {
+      "title": "Audio output path",
+      "body": "AudioCtrlSvc, MME and `audioApp -> MME` mapping prove a stock application/media audio plane [audio-path]. The shortest sink is therefore a stock logical application/media source, not a new sound server. However, the PCM open ABI, sample formats/rates, channels, routing, focus priority, duck/pause, volume/mute and restoration callbacks are not yet recovered. Projection media, prompt and call audio require separate fail-open leases."
+    },
+    {
+      "title": "Microphone path",
+      "body": "The cabin microphone is consumed by stock phone/VR paths, but ordinary resident-application PCM access is not proved [microphone-path]. Sample format/rate, privilege, exclusivity, AEC integration, assistant-versus-call arbitration and owner-death release remain UNKNOWN. This is a material blocker for Google Assistant, Siri and projected calls, but not for the first transport primitive."
+    },
+    {
+      "title": "HMI integration",
+      "body": "Stock mechanisms already separate projection session state from visible foreground and implement foreground admission, camera/critical preemption, HVAC popups and navigation-stack return [hmi-arbitration]. A legitimate projection app should enter through the stock application/full-screen container, preserve the session while backgrounded, and use independent visual/audio/mic/input leases. Camera, emergency/eCall, display-off and vehicle-safety policy remain stock-owned. No safety behavior is bypassed."
+    },
+    {
+      "title": "Media-hub architecture",
+      "body": "The factory 68141322AA/68289895AA module combines SD, USB and AUX behind one radio-facing D+/D- pair, so it contains active hub/controller or mux logic [media-hub]. A conventional downstream hub can still carry host-side AOA and is not presently an Android Auto blocker. The QNX CarPlay role-swap path makes the same module a possible CarPlay blocker: reverse data direction and VBUS behavior are unproved. A different later Mopar hub family exists, but public catalogs do not disclose what changed."
+    },
+    {
+      "title": "Later FCA/Harman comparison",
+      "body": "The immediate public Uconnect 4 comparison proves production wired Android Auto and CarPlay with media USB, touch, knobs, voice and HMI source takeover [later-uconnect]. It does **not** prove RA4 ancestry: the cited VP4RAC FCC implementation is Panasonic, whereas RA4 is Harman BE2800. Selected public evidence does not expose the later SoC, OS, RAM, USB controller, DSP or receiver internals [later-hardware-unknown]. The defensible conclusion is combination **B+C+D+E**: changed media-hub family, required Apple authentication, a newer/different head-unit platform, and a complete licensed projection software stack; exact contribution of each is UNKNOWN."
+    },
+    {
+      "title": "CarPlay authentication boundary",
+      "body": "Apple states that CarPlay video uses MFi-SAP and that the authorization challenge/response is handled by an Apple-provided authentication IC [carplay-auth]. This is a hard external dependency; no keys, credentials or bypass are sought. RA4 has no identified compatible IC [ra4-auth-hardware]. It may contain an older authenticator for legacy Apple media, but compatibility and physical location are UNKNOWN. Until the chip is identified, additional compatible authentication hardware must be budgeted as required."
+    },
+    {
+      "title": "Android Auto authentication/protocol boundary",
+      "body": "AOA has no dedicated hardware-authenticator requirement in its public transport specification [aoa-reference]. Android Auto above AOA remains a licensed/approved receiver and secure protocol integration problem [aa-auth-boundary]; the repository's DHU reference observed the authorized development path but does not supply a production receiver. Consequently Android Auto is materially easier to prototype because it avoids both the CarPlay USB role reversal and Apple authentication-IC dependency."
+    },
+    {
+      "title": "Resource feasibility",
+      "body": "The 640x480 display, USB 2.0 host primitives and IVA2.2-class silicon make 800x480-ish/30-fps projection credible [resource-fit]. Hardware proved: OMAP3730/Cortex-A8/SGX530/IVA2.2 family and 640x480 display. Software proved: Screen, mtouch, USB host, HMI lifecycle and audio-service foundations. Inferred performance: VGA H.264 at automotive frame rates. UNKNOWN: RAM capacity/headroom, installed decoder, receiver footprint, measured CPU/USB/display bandwidth and end-to-end latency. The approximate 77 MB writable observation is not a RAM or safe-install budget."
+    },
+    {
+      "title": "Android Auto classification",
+      "body": "**Grade B — plausible but one or more significant unknowns remain.** Host transport is the strongest completed primitive, while AOA ownership, receiver/provider, video decode, audio/mic and measured resources remain open. This grade is not A because no complete local video/audio/session path has been exercised."
+    },
+    {
+      "title": "CarPlay classification",
+      "body": "**Grade C — requires additional or newly verified hardware-backed authentication and likely USB-path work, while remaining technically plausible.** OMAP dual-role silicon alone is insufficient. The active hub, DCD/function stack, VBUS role lifecycle, MFi IC and licensed receiver are not present as a proved chain."
+    },
+    {
+      "title": "Minimum architecture for each",
+      "body": "Both targets reuse stock display, application lifecycle, HMI priority, audio-service and input foundations. Android Auto keeps RA4 in host mode and adds AOA plus an authorized receiver. The documented CarPlay route adds iAP2 probing, role swap, device-side USB, MFi authentication and an authorized Apple receiver. The tables mark each block at the evidence-supported ceiling."
+    },
+    {
+      "title": "Exact blockers",
+      "body": "Android Auto: production-compatible AOA ownership and re-enumeration on the actual cabin path; authorized receiver; installed H.264 client path; stock PCM/mic/input contracts; measured resources. CarPlay: all shared AV/HMI blockers plus reversible hub/C2/PHY/VBUS behavior, compatible QNX device stack/DCD/descriptors, a compatible Apple authentication IC, MFi authorization and licensed Apple receiver. Neither target is blocked by obsolete embedded Internet service."
+    },
+    {
+      "title": "One recommended next engineering objective",
+      "body": "**Prove AOA negotiation and bidirectional bulk I/O through the stock RA4 cabin USB path.** On an owner-authorized spare/bench system, issue the standard AOA control sequence, observe accessory-mode re-enumeration, claim bulk IN/OUT and exchange bounded deterministic frames with clean detach/recovery. This single result validates the shortest Android transport primitive, characterizes media-hub transparency, and avoids projection-client, vehicle and MFi work."
+    },
+    {
+      "title": "Verification",
+      "body": "The authoritative base is hash-bound. The baseline Python suite passed 305 tests after installing host-only dependencies. The final suite passes 311 tests, including six renderer/model tests. The renderer validates evidence levels, source hashes, negative-search scope, target/status vocabularies, forbidden scope, exact output set and one next objective. Closure also requires two identical `--check` runs, `git diff --check`, input hashes, and equality of the original dirty-checkout fingerprints. No target binary is executed."
+    },
+    {
+      "title": "Git branch/commit",
+      "body": "Work is isolated on `codex/ra4-wired-projection-feasibility` from `5b9826b2b6537f12b4bf08a50003ea6914263700`. The final Git commit SHA is reported after commit; embedding it in its own generated content would be self-referential. No pull request is created."
+    }
+  ],
+  "target_sections": {
+    "android_auto": [
+      {
+        "title": "Why Android Auto is first",
+        "body": "AOA maps directly to RA4's proved host-side vendor-control, descriptor and bulk APIs. The radio does not need USB peripheral mode, an MFi authentication IC or Internet service. The remaining transport uncertainty can be retired with one narrow bench primitive before acquiring a full receiver."
+      },
+      {
+        "title": "Authentication and licensing",
+        "body": "AOA is an open transport without a dedicated accessory authentication chip. Android Auto remains a Google-controlled production receiver/protocol integration and must be obtained and authorized legitimately; DHU is a development reference, not a redistributable RA4 engine."
+      }
+    ],
+    "carplay": [
+      {
+        "title": "Hard authentication dependency",
+        "body": "Apple's published security architecture ties CarPlay video to MFi-SAP and a custom authentication IC. Software cannot substitute for that authorized hardware boundary. The corpus does not identify a compatible RA4 IC or prove that any legacy iPod authenticator is sufficient."
+      },
+      {
+        "title": "Physical and software placement",
+        "body": "Public evidence does not locate the later FCA authentication IC in the head unit versus media hub, so placement is UNKNOWN. The documented QNX path places role-swap/device-stack logic in the head-unit software; the RA4 hub must at least be electrically transparent in the reversed state. A separate authorized schematic or part identification is needed to locate the IC."
+      }
+    ]
+  },
+  "verification": {
+    "baseline_tests": "305 Python tests passed with no failures or skips after resolving three host-only dependencies",
+    "final_tests": "311 Python tests passed with no failures or skips",
+    "check_runs": 2,
+    "compile_check": "`python -m compileall -q analysis_tools` exited 0",
+    "diff_check": "`git diff --check` exited 0",
+    "compiler_limit": "the optional C arbiter smoke test was unavailable because no C compiler is installed on the analysis host",
+    "original_checkout": "pre-work status, binary diff, cached diff and untracked-file SHA-256 fingerprints must remain unchanged"
+  }
+}

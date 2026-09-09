@@ -1,0 +1,86 @@
+[
+  {
+    "component": "product/supplier",
+    "confidence": "PROVED",
+    "later": "At least one Uconnect 4 VP4RAC is Panasonic; no board identity continuity is established",
+    "ra4": "Harman BE2800 CMC VP4 NA/CA"
+  },
+  {
+    "component": "SoC / CPU",
+    "confidence": "RA4 PROVED / later UNKNOWN",
+    "later": "UNKNOWN from selected public sources",
+    "ra4": "TI OMAP3730, 32-bit Cortex-A8"
+  },
+  {
+    "component": "GPU / video",
+    "confidence": "RA4 PROVED+INFERRED / later functional PROVED",
+    "later": "Production phone projection proves an integrated decode/display path; silicon UNKNOWN",
+    "ra4": "SGX530 and IVA2.2-class acceleration; installed H.264 ABI UNKNOWN"
+  },
+  {
+    "component": "RAM",
+    "confidence": "UNKNOWN",
+    "later": "UNKNOWN",
+    "ra4": "Capacity and normal-operation headroom UNKNOWN"
+  },
+  {
+    "component": "storage",
+    "confidence": "RA4 observation / later UNKNOWN",
+    "later": "UNKNOWN",
+    "ra4": "Approximately 77 MB writable observed; total device geometry and safe projection footprint UNKNOWN"
+  },
+  {
+    "component": "USB controller",
+    "confidence": "RA4 PROVED / later functional PROVED",
+    "later": "Production wired Android Auto/CarPlay through media USB; controller identity UNKNOWN",
+    "ra4": "OMAP Mentor/MUSB and EHCI host HCDs; device-side route UNKNOWN"
+  },
+  {
+    "component": "media hub",
+    "confidence": "STRONGLY SUPPORTED",
+    "later": "Different Mopar hub family including 68294075AC; internal reason for change UNKNOWN",
+    "ra4": "68141322AA/68289895AA SD/USB/AUX active module"
+  },
+  {
+    "component": "audio codec / DSP",
+    "confidence": "Functional only",
+    "later": "Projection audio, voice and Siri function in production; component identity UNKNOWN",
+    "ra4": "AudioCtrlSvc/MME and audioApp mapping; silicon and PCM client contract UNKNOWN"
+  },
+  {
+    "component": "Bluetooth / Wi-Fi",
+    "confidence": "PROVED at system level",
+    "later": "VP4RAC FCC equipment includes BT/Wi-Fi/LTE",
+    "ra4": "Stock Bluetooth and wireless infrastructure present; exact projection dependency outside USB is not required for the transport conclusion"
+  },
+  {
+    "component": "display / touch",
+    "confidence": "Functional PROVED",
+    "later": "8.4-inch touch HMI supports projection, knobs and voice; pixel resolution/interface UNKNOWN",
+    "ra4": "640x480 QNX Screen + CMC mtouch"
+  },
+  {
+    "component": "operating system",
+    "confidence": "RA4 PROVED / later UNKNOWN",
+    "later": "UNKNOWN",
+    "ra4": "QNX 6.5 ARM32"
+  },
+  {
+    "component": "middleware / HMI",
+    "confidence": "RA4 PROVED / later functional PROVED",
+    "later": "Production Projection Manager behavior; internal architecture UNKNOWN",
+    "ra4": "Adobe AIR/SWF, Harman ModuleLink/SVCIPC, dormant projection client contract and incompatible gateway"
+  },
+  {
+    "component": "Apple authentication",
+    "confidence": "Hard dependency PROVED / placement UNKNOWN",
+    "later": "MFi authorization necessarily implemented; IC location not public in selected sources",
+    "ra4": "Compatible authentication IC not identified"
+  },
+  {
+    "component": "projection receiver",
+    "confidence": "PROVED within stated scopes",
+    "later": "Android Auto and CarPlay production receiver present",
+    "ra4": "Named backend absent in bounded census"
+  }
+]
