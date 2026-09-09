@@ -1,0 +1,676 @@
+{
+  "edges": [
+    {
+      "effect": "Typed launch request",
+      "evidence": [
+        "runtime_activation",
+        "runtime_graph"
+      ],
+      "flow": "Select installed stock app",
+      "id": "e01",
+      "label": "PROVED",
+      "level": 3,
+      "source": "input:user",
+      "target": "service:appmanager"
+    },
+    {
+      "effect": "Xlet lifecycle dispatch",
+      "evidence": [
+        "runtime_activation"
+      ],
+      "flow": "DRM-authorized app identity",
+      "id": "e02",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:appmanager",
+      "target": "service:ams"
+    },
+    {
+      "effect": "Splash/home/search UI",
+      "evidence": [
+        "yelp_gates"
+      ],
+      "flow": "Yelp lifecycle",
+      "id": "e03",
+      "label": "PROVED",
+      "level": 1,
+      "source": "service:ams",
+      "target": "app:yelp"
+    },
+    {
+      "effect": "Local request construction",
+      "evidence": [
+        "yelp_gates"
+      ],
+      "flow": "Touch/category/text",
+      "id": "e04",
+      "label": "PROVED",
+      "level": 2,
+      "source": "input:user",
+      "target": "app:yelp"
+    },
+    {
+      "effect": "Recognized text callback",
+      "evidence": [
+        "runtime_graph",
+        "yelp_handoffs"
+      ],
+      "flow": "Speech",
+      "id": "e05",
+      "label": "PROVED",
+      "level": 3,
+      "source": "input:user",
+      "target": "service:voice"
+    },
+    {
+      "effect": "Same search request as touch",
+      "evidence": [
+        "runtime_graph",
+        "yelp_handoffs"
+      ],
+      "flow": "Recognized string",
+      "id": "e06",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:voice",
+      "target": "app:yelp"
+    },
+    {
+      "effect": "Coordinates/geocode",
+      "evidence": [
+        "yelp_handoffs"
+      ],
+      "flow": "Location state",
+      "id": "e07",
+      "label": "PROVED",
+      "level": 3,
+      "source": "input:vehicle",
+      "target": "service:location"
+    },
+    {
+      "effect": "Search, distance and destination data",
+      "evidence": [
+        "yelp_handoffs"
+      ],
+      "flow": "Coordinates/geocode",
+      "id": "e08",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:location",
+      "target": "app:yelp"
+    },
+    {
+      "effect": "HTTPS search/geocode request",
+      "evidence": [
+        "runtime_graph",
+        "yelp_gates"
+      ],
+      "flow": "Typed query/location",
+      "id": "e09",
+      "label": "PROVED",
+      "level": 2,
+      "source": "app:yelp",
+      "target": "service:yelp_https"
+    },
+    {
+      "effect": "Legacy JSON/status parsing",
+      "evidence": [
+        "yelp_gates"
+      ],
+      "flow": "Stock service response",
+      "id": "e10",
+      "label": "PROVED",
+      "level": 2,
+      "source": "input:network",
+      "target": "service:yelp_https"
+    },
+    {
+      "effect": "Results/details UI",
+      "evidence": [
+        "yelp_handoffs"
+      ],
+      "flow": "Place/address/phone models",
+      "id": "e11",
+      "label": "PROVED",
+      "level": 2,
+      "source": "service:yelp_https",
+      "target": "app:yelp"
+    },
+    {
+      "effect": "Bluetooth dial request",
+      "evidence": [
+        "yelp_handoffs"
+      ],
+      "flow": "Selected typed phone string",
+      "id": "e12",
+      "label": "PROVED",
+      "level": 3,
+      "source": "app:yelp",
+      "target": "service:phone"
+    },
+    {
+      "effect": "HMI route request",
+      "evidence": [
+        "yelp_handoffs"
+      ],
+      "flow": "Selected Geocode",
+      "id": "e13",
+      "label": "PROVED",
+      "level": 3,
+      "source": "app:yelp",
+      "target": "service:navigation"
+    },
+    {
+      "effect": "Performance UI",
+      "evidence": [
+        "runtime_activation"
+      ],
+      "flow": "Condition-selected variant lifecycle",
+      "id": "e14",
+      "label": "PROVED",
+      "level": 1,
+      "source": "service:ams",
+      "target": "app:performance"
+    },
+    {
+      "effect": "Stock timer model/HTML",
+      "evidence": [
+        "performance_export"
+      ],
+      "flow": "Timer/vehicle data",
+      "id": "e15",
+      "label": "PROVED",
+      "level": 2,
+      "source": "input:vehicle",
+      "target": "app:performance"
+    },
+    {
+      "effect": "Select fixed stock output",
+      "evidence": [
+        "performance_export"
+      ],
+      "flow": "Save/upload option",
+      "id": "e16",
+      "label": "PROVED",
+      "level": 2,
+      "source": "input:user",
+      "target": "app:performance"
+    },
+    {
+      "effect": "Create fixed-destination .html",
+      "evidence": [
+        "performance_export",
+        "performance_consumers"
+      ],
+      "flow": "Generated name and timer HTML",
+      "id": "e17",
+      "label": "PROVED",
+      "level": 2,
+      "source": "app:performance",
+      "target": "service:storage"
+    },
+    {
+      "effect": "Runtime file persistence",
+      "evidence": [
+        "performance_export"
+      ],
+      "flow": "Mounted/writable medium",
+      "id": "e18",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "level": 2,
+      "source": "input:media",
+      "target": "service:storage"
+    },
+    {
+      "effect": "Typed local remote",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "VSB lookup/callback bind",
+      "id": "e19",
+      "label": "PROVED",
+      "level": 3,
+      "source": "app:performance",
+      "target": "service:ixc"
+    },
+    {
+      "effect": "Exact configured-operation lookup",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Fixed gskills operation/timer payload",
+      "id": "e20",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:ixc",
+      "target": "service:vsb"
+    },
+    {
+      "effect": "Configured MQTT publish",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network"
+      ],
+      "flow": "Daemon-built envelope",
+      "id": "e21",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:vsb",
+      "target": "service:mqtt"
+    },
+    {
+      "effect": "Configured stock route",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Delivery/incoming callback",
+      "id": "e22",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:mqtt",
+      "target": "app:vsb"
+    },
+    {
+      "effect": "Recipient-specific notification",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Resolved callback remote",
+      "id": "e23",
+      "label": "PROVED",
+      "level": 3,
+      "source": "app:vsb",
+      "target": "service:ixc"
+    },
+    {
+      "effect": "Release latch/status UI",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "notifySuccess/notifyFailure",
+      "id": "e24",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:ixc",
+      "target": "app:performance"
+    },
+    {
+      "effect": "Catalog/account loading",
+      "evidence": [
+        "runtime_activation"
+      ],
+      "flow": "Store lifecycle",
+      "id": "e25",
+      "label": "PROVED",
+      "level": 1,
+      "source": "service:ams",
+      "target": "app:store"
+    },
+    {
+      "effect": "Typed HTTP transaction",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Stock discovery/catalog/vault request",
+      "id": "e26",
+      "label": "PROVED",
+      "level": 3,
+      "source": "app:store",
+      "target": "service:mts"
+    },
+    {
+      "effect": "Stock account/catalog/provisioning models",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "MTS response",
+      "id": "e27",
+      "label": "PROVED",
+      "level": 2,
+      "source": "input:network",
+      "target": "service:mts"
+    },
+    {
+      "effect": "AppManager.chain",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Fixed Register GUID after confirmation",
+      "id": "e28",
+      "label": "PROVED",
+      "level": 3,
+      "source": "app:store",
+      "target": "service:appmanager"
+    },
+    {
+      "effect": "Registration UI/MTS workflow",
+      "evidence": [
+        "runtime_graph",
+        "runtime_activation"
+      ],
+      "flow": "Register lifecycle",
+      "id": "e29",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:ams",
+      "target": "app:register"
+    },
+    {
+      "effect": "DRM worker",
+      "evidence": [
+        "runtime_activation"
+      ],
+      "flow": "Conditional daemon lifecycle",
+      "id": "e30",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:ams",
+      "target": "app:drm"
+    },
+    {
+      "effect": "Configured daemon routing",
+      "evidence": [
+        "runtime_network",
+        "runtime_graph"
+      ],
+      "flow": "Finite operations/topics/tasks",
+      "id": "e31",
+      "label": "PROVED",
+      "level": 3,
+      "source": "input:configuration",
+      "target": "app:vsb"
+    },
+    {
+      "effect": "Configured topic callback",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Authenticated subscribed message",
+      "id": "e32",
+      "label": "PROVED",
+      "level": 3,
+      "source": "input:network",
+      "target": "service:mqtt"
+    },
+    {
+      "effect": "Queue stock processing",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Matching shoulder-tap callback",
+      "id": "e33",
+      "label": "PROVED",
+      "level": 3,
+      "source": "service:ixc",
+      "target": "app:drm"
+    },
+    {
+      "effect": "Stock application/provisioning state",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network"
+      ],
+      "flow": "Typed sync/grant/reset/install workflow",
+      "id": "e34",
+      "label": "PROVED",
+      "level": 3,
+      "source": "app:drm",
+      "target": "action:app_state"
+    },
+    {
+      "effect": "Assistance UI",
+      "evidence": [
+        "runtime_activation"
+      ],
+      "flow": "ASSIST lifecycle",
+      "id": "e35",
+      "label": "PROVED",
+      "level": 1,
+      "source": "service:ams",
+      "target": "app:assist"
+    },
+    {
+      "effect": "Typed stock request/call",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Assistance service choice",
+      "id": "e36",
+      "label": "PROVED",
+      "level": 3,
+      "source": "input:user",
+      "target": "app:assist"
+    },
+    {
+      "effect": "Stock service communication",
+      "evidence": [
+        "runtime_graph"
+      ],
+      "flow": "Fixed assistance request",
+      "id": "e37",
+      "label": "PROVED",
+      "level": 3,
+      "source": "app:assist",
+      "target": "service:vsb"
+    },
+    {
+      "effect": "Stock UI only",
+      "evidence": [
+        "yelp_gates",
+        "yelp_handoffs"
+      ],
+      "flow": "Local/pre-backend and result models",
+      "id": "e38",
+      "label": "PROVED",
+      "level": 1,
+      "source": "app:yelp",
+      "target": "action:ui"
+    },
+    {
+      "effect": "Stock status UI",
+      "evidence": [
+        "runtime_graph",
+        "performance_export"
+      ],
+      "flow": "Save/upload completion",
+      "id": "e39",
+      "label": "PROVED",
+      "level": 2,
+      "source": "app:performance",
+      "target": "action:ui"
+    }
+  ],
+  "evidence_inputs": {
+    "part_resolution": {
+      "path": "reports/target_production_state/part_number_resolution.json",
+      "sha256": "a80a9cad3049340e0c071121ccf0daa2732abe92e131b607159c261815b856e6"
+    },
+    "performance_consumers": {
+      "path": "reports/kim19_runtime_analysis/performance_pages_consumer_census.json",
+      "sha256": "6dc0d47586db504eb8d63f1d2631099ef6778dc2d1dc726ff63b5a433fd1c70d"
+    },
+    "performance_export": {
+      "path": "reports/kim19_runtime_analysis/performance_pages_export_summary.json",
+      "sha256": "9ef4d13dac2dcc4985e875248da40e0ab64a9edc14116af090b539247641a569"
+    },
+    "runtime_activation": {
+      "path": "reports/kim19_runtime_analysis/application_activation_matrix.json",
+      "sha256": "110e73422041811f1ab51fba4385db9534a01f183e59714306c012581e25d077"
+    },
+    "runtime_graph": {
+      "path": "reports/kim19_runtime_analysis/application_service_graph.json",
+      "sha256": "b415fcd7ff3d4c8dcb048246380cd71799e905771b9f70da5ae6081684f3e98f"
+    },
+    "runtime_network": {
+      "path": "reports/kim19_runtime_analysis/network_capabilities.json",
+      "sha256": "e4a87a93a2ef8284780f99869bad53ca86c15ef78d1ee46348ab691398a1541e"
+    },
+    "runtime_validation": {
+      "path": "reports/kim19_runtime_analysis/validation.json",
+      "sha256": "4c17e74ef2c58c282d1a53de9baa71b6df7f479abc01599a85a8286ec5b7bc5f"
+    },
+    "socket_findings": {
+      "path": "reports/stock_signed_capability/findings.json",
+      "sha256": "ebb7832f634da56122ed169794cebd8213c2a646b58af87c917280a2f193eccc"
+    },
+    "socket_validation": {
+      "path": "reports/stock_signed_capability/validation.json",
+      "sha256": "560acb77928c18b88169847796116ed12390ad433b578ed13fee137d2101c621"
+    },
+    "target_inventory": {
+      "path": "reports/target_production_state/package_inventory.json",
+      "sha256": "eb0755ff8c1d46c5da792e842a59e1609da0eeb223dd8a5bb46808bd850a0db5"
+    },
+    "yelp_gates": {
+      "path": "reports/kim19_yelp/runtime_gates.json",
+      "sha256": "0aaedb4b5820f87d7980359ba82360ac6719f18789a90064ff3a7522cd8b91bf"
+    },
+    "yelp_handoffs": {
+      "path": "reports/kim19_yelp/stock_handoffs.json",
+      "sha256": "608b0d5c7dd0000372c1c8f24ff4a7256aa0b5f001f493cf10d1a7de323fb163"
+    }
+  },
+  "interpretation_rules": [
+    "A string/model response is data, not executable behavior, unless a recovered receiver interprets it as a command, class, script, process, or typed action.",
+    "IXC names are local Java remote identifiers, not hostnames or open ports.",
+    "VSB accepts exact daemon-configured operations; the three-string method does not prove arbitrary caller or operation authority.",
+    "USB/SD is a proved output sink for Performance Pages; no stock KIM19 consumer edge returns the file to an interpreter.",
+    "Every target-dependent edge remains conditional even when its static sender/receiver call graph is proved."
+  ],
+  "nodes": [
+    {
+      "id": "input:user",
+      "kind": "input",
+      "name": "User touch/text/voice/selection"
+    },
+    {
+      "id": "input:network",
+      "kind": "input",
+      "name": "Authenticated HTTP/MQTT response or callback"
+    },
+    {
+      "id": "input:media",
+      "kind": "input",
+      "name": "USB/SD medium"
+    },
+    {
+      "id": "input:configuration",
+      "kind": "input",
+      "name": "Descriptor/PPS/daemon configuration"
+    },
+    {
+      "id": "input:vehicle",
+      "kind": "input",
+      "name": "Location/vehicle/timer data"
+    },
+    {
+      "id": "app:yelp",
+      "kind": "application",
+      "name": "Yelp"
+    },
+    {
+      "id": "app:performance",
+      "kind": "application",
+      "name": "Performance Pages variants"
+    },
+    {
+      "id": "app:store",
+      "kind": "application",
+      "name": "Store"
+    },
+    {
+      "id": "app:register",
+      "kind": "application",
+      "name": "Register"
+    },
+    {
+      "id": "app:assist",
+      "kind": "application",
+      "name": "ASSIST"
+    },
+    {
+      "id": "app:drm",
+      "kind": "application",
+      "name": "DRMSync_VSB"
+    },
+    {
+      "id": "app:vsb",
+      "kind": "application",
+      "name": "VSBClient"
+    },
+    {
+      "id": "service:appmanager",
+      "kind": "service",
+      "name": "AppManager/DRM"
+    },
+    {
+      "id": "service:ams",
+      "kind": "service",
+      "name": "AMS lifecycle"
+    },
+    {
+      "id": "service:ixc",
+      "kind": "service",
+      "name": "Local IXC registry/remotes"
+    },
+    {
+      "id": "service:vsb",
+      "kind": "service",
+      "name": "VSB configured operation service"
+    },
+    {
+      "id": "service:yelp_https",
+      "kind": "service",
+      "name": "Yelp HTTPS client/backend"
+    },
+    {
+      "id": "service:mts",
+      "kind": "service",
+      "name": "MTS client/backend"
+    },
+    {
+      "id": "service:mqtt",
+      "kind": "service",
+      "name": "Configured TLS/MQTT broker"
+    },
+    {
+      "id": "service:voice",
+      "kind": "service",
+      "name": "Platform speech/VR"
+    },
+    {
+      "id": "service:location",
+      "kind": "service",
+      "name": "Platform location/geocoder"
+    },
+    {
+      "id": "service:phone",
+      "kind": "service",
+      "name": "PhoneImpl/BluetoothService"
+    },
+    {
+      "id": "service:navigation",
+      "kind": "service",
+      "name": "NavigationImpl/HMIGatewayService"
+    },
+    {
+      "id": "service:storage",
+      "kind": "service",
+      "name": "Fixed USB/SD timer output"
+    },
+    {
+      "id": "action:ui",
+      "kind": "action",
+      "name": "Stock local UI/results/status"
+    },
+    {
+      "id": "action:app_state",
+      "kind": "action",
+      "name": "Stock application/provisioning state"
+    }
+  ],
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "45d8f0704569cda7daa388c60bd755bb55a993477b7db247d6ed83567bd1febe",
+  "schema_version": 1,
+  "scope": "Recovered stock-signed KIM19 for part 68224525AM; target runtime unobserved"
+}

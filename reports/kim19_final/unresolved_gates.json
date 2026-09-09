@@ -1,0 +1,327 @@
+{
+  "decision": {
+    "choice": "B",
+    "completion_status": "STATIC RESEARCH COMPLETE",
+    "label": "INFERRED",
+    "reason": "All plausible level-changing recovered-artifact families are closed or bounded. Remaining gates are mutable target installation, authorization, services, connectivity, media, and historical state that static artifacts cannot resolve.",
+    "recommended_next_action": "Run A1, then B1 only if Yelp is visible; record the first stable state and stop.",
+    "statement": "Static research is exhausted; one or more specific target observations are now the correct next step."
+  },
+  "evidence_inputs": {
+    "part_resolution": {
+      "path": "reports/target_production_state/part_number_resolution.json",
+      "sha256": "a80a9cad3049340e0c071121ccf0daa2732abe92e131b607159c261815b856e6"
+    },
+    "performance_consumers": {
+      "path": "reports/kim19_runtime_analysis/performance_pages_consumer_census.json",
+      "sha256": "6dc0d47586db504eb8d63f1d2631099ef6778dc2d1dc726ff63b5a433fd1c70d"
+    },
+    "performance_export": {
+      "path": "reports/kim19_runtime_analysis/performance_pages_export_summary.json",
+      "sha256": "9ef4d13dac2dcc4985e875248da40e0ab64a9edc14116af090b539247641a569"
+    },
+    "runtime_activation": {
+      "path": "reports/kim19_runtime_analysis/application_activation_matrix.json",
+      "sha256": "110e73422041811f1ab51fba4385db9534a01f183e59714306c012581e25d077"
+    },
+    "runtime_graph": {
+      "path": "reports/kim19_runtime_analysis/application_service_graph.json",
+      "sha256": "b415fcd7ff3d4c8dcb048246380cd71799e905771b9f70da5ae6081684f3e98f"
+    },
+    "runtime_network": {
+      "path": "reports/kim19_runtime_analysis/network_capabilities.json",
+      "sha256": "e4a87a93a2ef8284780f99869bad53ca86c15ef78d1ee46348ab691398a1541e"
+    },
+    "runtime_validation": {
+      "path": "reports/kim19_runtime_analysis/validation.json",
+      "sha256": "4c17e74ef2c58c282d1a53de9baa71b6df7f479abc01599a85a8286ec5b7bc5f"
+    },
+    "socket_findings": {
+      "path": "reports/stock_signed_capability/findings.json",
+      "sha256": "ebb7832f634da56122ed169794cebd8213c2a646b58af87c917280a2f193eccc"
+    },
+    "socket_validation": {
+      "path": "reports/stock_signed_capability/validation.json",
+      "sha256": "560acb77928c18b88169847796116ed12390ad433b578ed13fee137d2101c621"
+    },
+    "target_inventory": {
+      "path": "reports/target_production_state/package_inventory.json",
+      "sha256": "eb0755ff8c1d46c5da792e842a59e1609da0eeb223dd8a5bb46808bd850a0db5"
+    },
+    "yelp_gates": {
+      "path": "reports/kim19_yelp/runtime_gates.json",
+      "sha256": "0aaedb4b5820f87d7980359ba82360ac6719f18789a90064ff3a7522cd8b91bf"
+    },
+    "yelp_handoffs": {
+      "path": "reports/kim19_yelp/stock_handoffs.json",
+      "sha256": "608b0d5c7dd0000372c1c8f24ff4a7256aa0b5f001f493cf10d1a7de323fb163"
+    }
+  },
+  "excluded_first_pass_actions": [
+    "No Yelp search, voice request, dial, or route during B1.",
+    "No TCP 11111 or other listener probe, port forwarding, local helper, or diagnostic command.",
+    "No credential, TLS interception, DNS override, backend replay, or private/historical endpoint contact.",
+    "No registration, purchase, ASSIST call, VSB/DRM trigger, application install/update/reset, timer export, or upload.",
+    "No policy, trust, signature, firmware, vehicle configuration, or recovered artifact change."
+  ],
+  "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
+  "notes_sha256": "45d8f0704569cda7daa388c60bd755bb55a993477b7db247d6ed83567bd1febe",
+  "observations": [
+    {
+      "action": "Record the existing software/part-number screen, then photograph every ordinary Apps page, category, favorites, and running view without launching an app.",
+      "category": "A",
+      "changes_persistent_state": false,
+      "dependencies": [
+        "Normal HMI access only"
+      ],
+      "falsifies": "A claimed currently visible tile if absent from every recorded ordinary view; it does not falsify installation or daemon execution.",
+      "id": "A1",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "Passive stock inventory",
+      "proves": "What the ordinary HMI exposes at that time and whether Yelp/Store/Register/ASSIST/Performance entries are visible.",
+      "requires_network": false,
+      "stop_condition": "Stop after all existing Apps views and version screen are recorded; do not open a tile.",
+      "transmits_data": false,
+      "visible_states": [
+        "Reported part/software values",
+        "Each visible tile/name",
+        "No tile for a headless daemon is expected"
+      ]
+    },
+    {
+      "action": "If an owner already has a non-mutating official package/version export, service log, or IXC inventory, preserve it and compare exact app versions/bind names; issue no new diagnostic command.",
+      "category": "A",
+      "changes_persistent_state": false,
+      "dependencies": [
+        "Already-existing owner evidence"
+      ],
+      "falsifies": "Only the matching recorded identity/state; absence does not prove the component never ran.",
+      "id": "A2",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "Existing package/service evidence only",
+      "proves": "Artifact identity or setup at the recorded time, subject to provenance.",
+      "requires_network": false,
+      "stop_condition": "Stop if obtaining evidence would require a command, policy change, listener probe, or new logging.",
+      "transmits_data": false,
+      "visible_states": [
+        "Exact old/KIM19 app version",
+        "Existing VSB/DRM init or bind record",
+        "No relevant existing record"
+      ]
+    },
+    {
+      "action": "After A1, if Yelp is visible, tap it once and record the first screen, exact error text, splash, time to transition, whether home/search appears, and whether it stays visible. Enter no search and press no phone/navigation action.",
+      "category": "B",
+      "changes_persistent_state": true,
+      "dependencies": [
+        "Visible Yelp tile",
+        "Normal Apps HMI",
+        "Possible platform location service"
+      ],
+      "falsifies": "Only prerequisites earlier than the observed boundary; a failure does not falsify later static code paths or identify its cause without an exact error.",
+      "id": "B1",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "One normal Yelp launch",
+      "proves": "The deepest observed boundary among catalog visibility, authorization/AMS lifecycle, local resources/container, and pre-backend UI.",
+      "requires_network": false,
+      "stop_condition": "Stop immediately at the first stable home screen, exact error, or return to Apps; no search, voice, call, route, packet injection, or socket probe.",
+      "transmits_data": false,
+      "visible_states": [
+        "No Yelp tile",
+        "Immediate authorization/registration error or return",
+        "Splash only then failure",
+        "Pre-backend category/search home",
+        "Unexpected screen"
+      ]
+    },
+    {
+      "action": "Only if Yelp is absent and the owner chooses the second candidate, tap the visible Performance Pages tile once and record name/variant cues, first screen, exact error, and stable landing UI. Do not start a timer, save, export, or upload.",
+      "category": "B",
+      "changes_persistent_state": true,
+      "dependencies": [
+        "Visible Performance Pages tile",
+        "Vehicle PPS/configuration"
+      ],
+      "falsifies": "Only the corresponding observed activation hypothesis; it does not test media or VSB.",
+      "id": "B2",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "One normal Performance Pages launch",
+      "proves": "Visible variant and progress through vehicle predicate/AMS/local UI gates.",
+      "requires_network": false,
+      "stop_condition": "Stop at first stable landing/error/return; do not enter timer or save/upload flows.",
+      "transmits_data": false,
+      "visible_states": [
+        "No tile",
+        "Authorization/vehicle-feature error",
+        "Viper/Jeep/L-Series landing UI",
+        "Unexpected screen"
+      ]
+    },
+    {
+      "action": "Only after successful B1 and separate owner approval for network transmission, select one ordinary fixed category once; record loading, exact error, results, and details availability without choosing phone/navigation.",
+      "category": "C",
+      "changes_persistent_state": true,
+      "dependencies": [
+        "Successful B1",
+        "Location/connectivity",
+        "Current stock backend acceptance"
+      ],
+      "falsifies": "A result list falsifies claims that the current stock search path is wholly unavailable; a failure does not uniquely identify DNS, TLS, credential, account, or schema cause.",
+      "id": "C1",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "One stock Yelp category search",
+      "proves": "Progress through request construction, network/TLS/backend/schema, and stock result rendering to the deepest observed boundary.",
+      "requires_network": true,
+      "stop_condition": "Stop at first results/details screen or exact error; do not dial, route, repeat, alter DNS/TLS, or inspect credentials.",
+      "transmits_data": true,
+      "visible_states": [
+        "Connectivity error",
+        "TLS/service/backend error",
+        "No results",
+        "Result list/details"
+      ]
+    },
+    {
+      "action": "Only after C1 and separate approval, invoke Yelp's ordinary voice action once, speak a harmless generic term, and record recognition/cancel/error and whether the same results UI appears.",
+      "category": "C",
+      "changes_persistent_state": true,
+      "dependencies": [
+        "Successful B1/C1",
+        "Microphone and platform VR",
+        "Location/connectivity/backend"
+      ],
+      "falsifies": "A successful result falsifies a claim that voice is disconnected from search; failure does not falsify the static listener/callback graph.",
+      "id": "C2",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "One stock voice search",
+      "proves": "Live VR discovery/session/callback and convergence into the stock request path to the deepest observed boundary.",
+      "requires_network": true,
+      "stop_condition": "Stop after one recognition/result/error; do not repeat or use sensitive speech.",
+      "transmits_data": true,
+      "visible_states": [
+        "VR unavailable",
+        "Recognition/cancel state",
+        "Recognized term then network error",
+        "Same result UI as touch"
+      ]
+    },
+    {
+      "action": "With explicit owner approval for the selected side effect, choose exactly one result and either initiate the phone action or request navigation, never both in the same observation.",
+      "category": "D",
+      "changes_persistent_state": true,
+      "dependencies": [
+        "Successful C1",
+        "Paired phone for dial or GPS/OpenNav/HMI for route"
+      ],
+      "falsifies": "Only the selected live service hypothesis; it does not alter the proved static sender/receiver chain.",
+      "id": "D1",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "Typed Yelp phone or navigation handoff",
+      "proves": "Runtime availability of the selected typed receiver path to the deepest visible boundary.",
+      "requires_network": false,
+      "stop_condition": "Stop/cancel at the first confirmation, call-state, route-state, or exact error; follow local law and owner safety requirements.",
+      "transmits_data": true,
+      "visible_states": [
+        "Service unavailable dialog",
+        "Phone confirmation/call state",
+        "Navigation activation/error/route state"
+      ]
+    },
+    {
+      "action": "With explicit approval and empty owner-controlled media, create one ordinary timer record and select one stock USB or SD save option; inspect the resulting timersResult file off-unit after supported removal.",
+      "category": "D",
+      "changes_persistent_state": true,
+      "dependencies": [
+        "Launchable correct variant",
+        "Timer state",
+        "Writable USB/SD"
+      ],
+      "falsifies": "A complete file falsifies a claim that the direct writer is unusable on that setup; UI success alone does not prove complete bytes.",
+      "id": "D2",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "One Performance Pages media export",
+      "proves": "Live variant, timer UI, mount/grant/write path, and off-unit durability to the observed boundary.",
+      "requires_network": false,
+      "stop_condition": "Stop after one file inspection; do not craft names/content, reinsert for consumption, or upload.",
+      "transmits_data": false,
+      "visible_states": [
+        "Media absent/unavailable",
+        "Stock save failure",
+        "Stock success but no/partial file",
+        "Complete generated HTML file"
+      ]
+    },
+    {
+      "action": "Do not use as closure probes. Registration, Store purchase/account confirmation, ASSIST calls, Performance upload, DRMSync/VSB triggers, app install/update/reset, and diagnostic/test commands require a separate objective and explicit authorization.",
+      "category": "D",
+      "changes_persistent_state": true,
+      "dependencies": [
+        "Separate safety plan and owner authorization"
+      ],
+      "falsifies": "Nothing when skipped.",
+      "id": "D3",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "name": "State-changing service workflows",
+      "proves": "Nothing when skipped; their static paths are already classified.",
+      "requires_network": true,
+      "stop_condition": "Stop before initiating any listed workflow.",
+      "transmits_data": true,
+      "visible_states": [
+        "Not part of this runbook"
+      ]
+    }
+  ],
+  "recommended_observation": "B1",
+  "schema_version": 1,
+  "scope": "Recovered stock-signed KIM19 for part 68224525AM; target runtime unobserved",
+  "unknowns": [
+    {
+      "id": "u01",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "question": "Which KIM19 applications/versions are currently installed, registered, visible, and authorized on the radio?",
+      "static_stop_reason": "Recovered preload and installer state cannot reveal current mutable AMS/DRM state."
+    },
+    {
+      "id": "u02",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "question": "Does Yelp launch through splash into the pre-backend home/search UI?",
+      "static_stop_reason": "Lifecycle and UI construction are proved; actual container, theme, grant, and service state are runtime facts."
+    },
+    {
+      "id": "u03",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "question": "Do current location, VR, phone/Bluetooth, OpenNav, HMIGateway, and connectivity services satisfy the typed Yelp paths?",
+      "static_stop_reason": "Service implementation paths are recovered but liveness/permission/device state is not in artifacts."
+    },
+    {
+      "id": "u04",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "question": "Do current DNS/TLS/authentication/backend/schema states accept stock Yelp/MTS/VSB traffic?",
+      "static_stop_reason": "No live/private/historical endpoint or credential testing is authorized or needed for static closure."
+    },
+    {
+      "id": "u05",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "question": "Which Performance Pages variant is visible/launchable, and is removable media writable/durable?",
+      "static_stop_reason": "Vehicle predicates and writer semantics are proved; live PPS, grants, mounts, and media state are runtime facts."
+    },
+    {
+      "id": "u06",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "question": "Are VSBClient/DRMSync running, bound in IXC, configured, and connected?",
+      "static_stop_reason": "Daemon declarations and setup are not current liveness; ordinary UI cannot uniquely attribute daemon state."
+    },
+    {
+      "id": "u07",
+      "label": "TARGET OBSERVATION REQUIRED",
+      "question": "Does the target retain any exact old Tweddle Yelp/iHeart/Application Manager copy containing SocketCommandSource?",
+      "static_stop_reason": "The shipped KIM19 map excludes them, but historical mutable installation state is not recoverable statically."
+    },
+    {
+      "id": "u08",
+      "label": "UNKNOWN",
+      "question": "Could an unrecovered native/AOT/platform component expose another consumer/listener/forwarder?",
+      "static_stop_reason": "The final negative claims are explicitly bounded to recovered artifacts; no new reference justifies another broad search."
+    }
+  ]
+}

@@ -1,0 +1,379 @@
+{
+  "schema_version": 1,
+  "evidence_inputs": [
+    {"id": "target_inventory", "path": "reports/target_production_state/package_inventory.json", "sha256": "eb0755ff8c1d46c5da792e842a59e1609da0eeb223dd8a5bb46808bd850a0db5"},
+    {"id": "part_resolution", "path": "reports/target_production_state/part_number_resolution.json", "sha256": "a80a9cad3049340e0c071121ccf0daa2732abe92e131b607159c261815b856e6"},
+    {"id": "runtime_activation", "path": "reports/kim19_runtime_analysis/application_activation_matrix.json", "sha256": "110e73422041811f1ab51fba4385db9534a01f183e59714306c012581e25d077"},
+    {"id": "runtime_graph", "path": "reports/kim19_runtime_analysis/application_service_graph.json", "sha256": "b415fcd7ff3d4c8dcb048246380cd71799e905771b9f70da5ae6081684f3e98f"},
+    {"id": "runtime_network", "path": "reports/kim19_runtime_analysis/network_capabilities.json", "sha256": "e4a87a93a2ef8284780f99869bad53ca86c15ef78d1ee46348ab691398a1541e"},
+    {"id": "runtime_validation", "path": "reports/kim19_runtime_analysis/validation.json", "sha256": "4c17e74ef2c58c282d1a53de9baa71b6df7f479abc01599a85a8286ec5b7bc5f"},
+    {"id": "socket_findings", "path": "reports/stock_signed_capability/findings.json", "sha256": "ebb7832f634da56122ed169794cebd8213c2a646b58af87c917280a2f193eccc"},
+    {"id": "socket_validation", "path": "reports/stock_signed_capability/validation.json", "sha256": "560acb77928c18b88169847796116ed12390ad433b578ed13fee137d2101c621"},
+    {"id": "yelp_handoffs", "path": "reports/kim19_yelp/stock_handoffs.json", "sha256": "608b0d5c7dd0000372c1c8f24ff4a7256aa0b5f001f493cf10d1a7de323fb163"},
+    {"id": "yelp_gates", "path": "reports/kim19_yelp/runtime_gates.json", "sha256": "0aaedb4b5820f87d7980359ba82360ac6719f18789a90064ff3a7522cd8b91bf"},
+    {"id": "performance_export", "path": "reports/kim19_runtime_analysis/performance_pages_export_summary.json", "sha256": "9ef4d13dac2dcc4985e875248da40e0ab64a9edc14116af090b539247641a569"},
+    {"id": "performance_consumers", "path": "reports/kim19_runtime_analysis/performance_pages_consumer_census.json", "sha256": "6dc0d47586db504eb8d63f1d2631099ef6778dc2d1dc726ff63b5a433fd1c70d"}
+  ],
+  "capability_ladder": [
+    {"level": 0, "name": "No useful user-controlled action", "rule": "Presence, constants, or unreachable helpers without a closed useful action."},
+    {"level": 1, "name": "Useful local UI only", "rule": "A stock application can render or manipulate its own local UI without a cross-component effect."},
+    {"level": 2, "name": "Constrained application-defined action/output", "rule": "The application performs a fixed-schema, fixed-destination, or otherwise application-defined output."},
+    {"level": 3, "name": "Typed stock-service invocation", "rule": "A recovered caller reaches a typed interface in another stock application or platform service."},
+    {"level": 4, "name": "Generalized stock-signed dispatcher/extensibility", "rule": "User or external data controls a selector or payload entering a generalized dispatcher over existing stock behavior."},
+    {"level": 5, "name": "General-purpose execution", "rule": "Controllable input produces arbitrary code/process/script execution or equivalent behavior."}
+  ],
+  "surface_defaults": {
+    "activation": {"label": "UNKNOWN", "finding": "Application-specific activation is supplied by the profile; physical presence is not target execution.", "evidence": ["runtime_activation"]},
+    "permissions": {"label": "PROVED", "finding": "The descriptor names an app policy and default full.policy; primary-JAR policy declarations are inventoried, while effective target grants remain UNKNOWN.", "evidence": ["target_inventory"]},
+    "registration_catalog": {"label": "TARGET OBSERVATION REQUIRED", "finding": "Recovered catalog, registration, visibility, and DRM paths do not reveal the target's current installed/authorized state.", "evidence": ["runtime_activation", "part_resolution"]},
+    "appmanager_ams": {"label": "PROVED", "finding": "Normal execution crosses the native AppManager/DRM authorization boundary and AMS lifecycle; current authorization remains target-dependent.", "evidence": ["runtime_activation", "runtime_graph"]},
+    "ixc": {"label": "PROVED", "finding": "No app-specific IXC bind, lookup, or exported remote is present in the reviewed graph for this profile.", "evidence": ["runtime_graph"]},
+    "networking": {"label": "PROVED", "finding": "No app-specific useful network path beyond the separately listed profile findings is established; API presence alone is not reachability.", "evidence": ["runtime_network"]},
+    "filesystem_storage": {"label": "PROVED", "finding": "No app-specific general filesystem handoff or cross-application persistent consumer is established.", "evidence": ["runtime_network", "performance_consumers"]},
+    "usb_sd": {"label": "PROVED", "finding": "No app-specific USB/SD action is established.", "evidence": ["runtime_network", "performance_consumers"]},
+    "phone_bluetooth": {"label": "PROVED", "finding": "No app-specific Phone/Bluetooth invocation is established.", "evidence": ["runtime_graph", "yelp_handoffs"]},
+    "navigation_hmi": {"label": "PROVED", "finding": "No app-specific Navigation/HMI route invocation is established.", "evidence": ["runtime_graph", "yelp_handoffs"]},
+    "speech_vr": {"label": "PROVED", "finding": "No app-specific speech/VR input route is established.", "evidence": ["runtime_network", "yelp_handoffs"]},
+    "media": {"label": "PROVED", "finding": "No app-specific media-open/playback handoff is established.", "evidence": ["runtime_network", "performance_consumers"]},
+    "browser_html_script": {"label": "PROVED", "finding": "The scoped KIM19 census establishes no browser/WebView, JavaScript engine, or script execution chain for this profile.", "evidence": ["runtime_network", "yelp_handoffs"]},
+    "dynamic_loading": {"label": "PROVED", "finding": "No controllable ClassLoader/Class.forName/reflection chain is established for this profile; stock factories and library infrastructure are classified separately.", "evidence": ["runtime_network", "socket_findings"]},
+    "process_native": {"label": "PROVED", "finding": "No app-specific controllable Runtime.exec, ProcessBuilder, shell, or native-code execution chain is established.", "evidence": ["runtime_network", "socket_findings"]},
+    "sockets_listeners": {"label": "PROVED", "finding": "The all-19-JAR KIM19 invocation census found no ServerSocket, DatagramSocket, or MulticastSocket listener chain.", "evidence": ["runtime_network", "runtime_validation"]},
+    "vsb_sdp_broker": {"label": "PROVED", "finding": "No app-specific VSB/SDP/broker call is established for this profile.", "evidence": ["runtime_graph", "runtime_network"]},
+    "inter_application": {"label": "PROVED", "finding": "No app-specific cross-application edge beyond normal AMS lifecycle and separately listed platform services is established.", "evidence": ["runtime_graph"]},
+    "configuration_extensions": {"label": "INFERRED", "finding": "Descriptor/resources select fixed stock behavior; no user-writable configuration-to-new-code path is proved.", "evidence": ["target_inventory", "runtime_network"]},
+    "developer_diagnostic": {"label": "PROVED", "finding": "No activated user-accessible developer, test, or diagnostic command surface is established in this KIM19 profile.", "evidence": ["runtime_network", "socket_findings"]},
+    "external_data_actions": {"label": "PROVED", "finding": "External data reaches ordinary typed models/UI only unless an explicit profile handoff says otherwise; returned strings are not treated as executable.", "evidence": ["runtime_graph", "runtime_network"]}
+  },
+  "application_profiles": [
+    {
+      "identifier": "1D5347C0-8B5E-11E2-9E96-0800200C9A66",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "GUI Xlet; normal Apps selection crosses AppManager/DRM and AMS, then init/start schedules splash and pre-backend home/search UI.", "evidence": ["runtime_activation", "yelp_gates"]},
+        "ixc": {"label": "PROVED", "finding": "Yelp obtains IxcRegistry but the complete JAR census finds no Yelp bind or lookup call.", "evidence": ["yelp_handoffs"]},
+        "networking": {"label": "PROVED", "finding": "Touch/category/recognized-speech search constructs direct HTTPS search/geocode requests; connectivity, TLS, backend, and schema acceptance are target-dependent.", "evidence": ["runtime_network", "yelp_gates"]},
+        "filesystem_storage": {"label": "PROVED", "finding": "Normal preferences/RMS may change, but no generic file-import/export or cross-Xlet storage handoff is established.", "evidence": ["runtime_activation", "yelp_handoffs"]},
+        "phone_bluetooth": {"label": "PROVED", "finding": "Details action sends a typed number through PhoneImpl permission checks to BluetoothService.dial; pairing and call success require the target.", "evidence": ["yelp_handoffs"]},
+        "navigation_hmi": {"label": "PROVED", "finding": "Details action constructs Geocode, crosses OpenNavActivation, and reaches HMIGatewayService.routeToLocation.", "evidence": ["yelp_handoffs"]},
+        "speech_vr": {"label": "PROVED", "finding": "Platform VR listener callbacks provide recognized text to the same GpSearchRequest used by touch text.", "evidence": ["runtime_graph", "yelp_handoffs"]},
+        "browser_html_script": {"label": "PROVED", "finding": "Complete Yelp census finds no browser/WebView, HTML interpreter, JavaScript engine, or active-content sink.", "evidence": ["yelp_handoffs"]},
+        "dynamic_loading": {"label": "PROVED", "finding": "Yelp contains no dynamic loader; platform phone/navigation managers choose fixed stock implementations.", "evidence": ["yelp_handoffs", "socket_findings"]},
+        "sockets_listeners": {"label": "PROVED", "finding": "KIM19 Yelp 03.00.33 contains no SocketCommandSource or CommandLooper and exposes no inbound command socket.", "evidence": ["yelp_handoffs", "socket_findings"]},
+        "inter_application": {"label": "PROVED", "finding": "Useful handoffs are typed platform voice, location, phone, navigation, and normal AMS lifecycle; no arbitrary app launcher is reached.", "evidence": ["runtime_graph", "yelp_handoffs"]},
+        "external_data_actions": {"label": "PROVED", "finding": "Search responses populate Place models and UI; user selection alone reaches typed dial/route actions. Response strings are not executed.", "evidence": ["yelp_handoffs"]}
+      }
+    },
+    {
+      "identifier": "2BA676FA-1542-11E1-A537-1F614824019B",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "Declared daemon/headless; init creates a worker, AppManager listener, ignition sensor, VSB locator, and notification service. Native conditional autostart remains target-dependent.", "evidence": ["runtime_activation", "runtime_graph"]},
+        "ixc": {"label": "PROVED", "finding": "Looks up VSB, rebinds IxcFromVSB callback, registers callback name, and enumerates/looks up DRM notification remotes.", "evidence": ["runtime_graph"]},
+        "networking": {"label": "PROVED", "finding": "Constructed MTS subscriber/grant/content requests use the stock client; VSB supplies the broker path. Live authentication and acceptance are unknown.", "evidence": ["runtime_graph", "runtime_network"]},
+        "filesystem_storage": {"label": "PROVED", "finding": "Uses fixed internal download/provisioning paths for stock grant/content state, not a general user-selected file service.", "evidence": ["target_inventory", "runtime_network"]},
+        "vsb_sdp_broker": {"label": "PROVED", "finding": "VSB callback can mark a shoulder tap pending or queue processing; processing can update/reset/install stock application state.", "evidence": ["runtime_graph"]},
+        "inter_application": {"label": "PROVED", "finding": "Receives configured VSB callbacks and dispatches typed app/process/registration/reset notifications through IXC and AppManager listeners.", "evidence": ["runtime_graph"]},
+        "configuration_extensions": {"label": "PROVED", "finding": "MTS/VSB/configuration records select finite stock workflows; no controllable new handler or code origin is established.", "evidence": ["runtime_network", "runtime_graph"]},
+        "external_data_actions": {"label": "PROVED", "finding": "Authenticated service/broker data can drive stock grant, sync, reset-warning, and application-state processing; these are state-changing and not benign probes.", "evidence": ["runtime_graph", "runtime_network"]}
+      }
+    },
+    {
+      "identifier": "3bbeae36-1542-11e1-b393-31614824019b",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "GUI ASSIST Xlet schedules its splash/main landing through normal lifecycle; current visibility and authorization require observation.", "evidence": ["runtime_activation"]},
+        "ixc": {"label": "PROVED", "finding": "VSBClientLocator performs local lookup and callback registration; all three recovered incoming callback bodies are no-ops.", "evidence": ["runtime_graph"]},
+        "networking": {"label": "PROVED", "finding": "ASSIST service actions call stock VSB/platform services; no standalone inbound listener is established.", "evidence": ["runtime_graph", "runtime_network"]},
+        "phone_bluetooth": {"label": "PROVED", "finding": "ASSIST service actions may place a typed stock assistance call; this is an external side effect, not a liveness probe.", "evidence": ["runtime_graph"]},
+        "vsb_sdp_broker": {"label": "PROVED", "finding": "User service action can send a fixed stock VSB request; VSB notification/success/failure callbacks in ASSIST perform no work.", "evidence": ["runtime_graph"]},
+        "inter_application": {"label": "PROVED", "finding": "Typed local handoff to VSB and platform phone state exists; no generalized callback effect is present.", "evidence": ["runtime_graph"]},
+        "external_data_actions": {"label": "PROVED", "finding": "User-selected service action can trigger stock communication/call behavior; incoming VSB callback data has no ASSIST effect in recovered bodies.", "evidence": ["runtime_graph"]}
+      }
+    },
+    {
+      "identifier": "52c79381-6719-11e1-b86c-0800200c9a66",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "Viper Performance Pages uses HMI/fullStartDaemonXlet routing and showConditions requiring Performance Pages present plus vehicle line 43.", "evidence": ["runtime_activation"]},
+        "ixc": {"label": "PROVED", "finding": "VSB fallback looks up VSB, binds an IxcFromVSB callback, registers/removes the operation mapping, and unbinds during cleanup.", "evidence": ["runtime_graph"]},
+        "networking": {"label": "PROVED", "finding": "Fixed timer upload first uses SDP; only an exception selects VSB. Null SDP is local failure, not VSB fallback.", "evidence": ["runtime_graph", "runtime_network"]},
+        "filesystem_storage": {"label": "PROVED", "finding": "Direct java.io writer creates application-named .html timer reports under fixed timersResult destinations; collision can produce no-write success.", "evidence": ["performance_export"]},
+        "usb_sd": {"label": "PROVED", "finding": "UI selects fixed /fs/usb0/timersResult or /mnt/sd0/timersResult output; no stock-signed consumer handoff is proved.", "evidence": ["performance_export", "performance_consumers"]},
+        "browser_html_script": {"label": "PROVED", "finding": "Generates fixed-template HTML as inert output; no KIM19 browser/script consumer is connected to the file.", "evidence": ["performance_export", "performance_consumers"]},
+        "vsb_sdp_broker": {"label": "PROVED", "finding": "Exception fallback sends fixed gskills operation with stock timer data/name through the configured VSB dispatcher and receives delivery-status callback.", "evidence": ["runtime_graph", "performance_export"]},
+        "inter_application": {"label": "PROVED", "finding": "Typed VSB/IXC request and callback form a stock app-service-app loop; media is an output sink with no recovered consumer.", "evidence": ["runtime_graph", "performance_consumers"]},
+        "external_data_actions": {"label": "PROVED", "finding": "Vehicle/timer data and user save/upload choice produce constrained HTML/media output or a fixed-schema VSB message, not generalized dispatch authority.", "evidence": ["performance_export", "runtime_graph"]}
+      }
+    },
+    {
+      "identifier": "550e8400-e29b-41d4-a716-446655440000",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "GUI Store Xlet starts a loading/catalog/account workflow through normal Apps/AMS lifecycle.", "evidence": ["runtime_activation"]},
+        "networking": {"label": "PROVED", "finding": "Constructed MTS discovery/catalog/vault requests reach the stock HTTP client; live account/authentication/backend state is unknown.", "evidence": ["runtime_graph", "runtime_network"]},
+        "filesystem_storage": {"label": "UNKNOWN", "finding": "RMS/account objects and Base64 ObjectInputStream helpers exist, but no externally controllable serialization-to-effect or shared file handoff is closed.", "evidence": ["target_inventory", "socket_findings"]},
+        "dynamic_loading": {"label": "PROVED", "finding": "Serialization/reflection support exists, but no controllable class-selection or new-byte loading chain is established.", "evidence": ["socket_findings", "runtime_network"]},
+        "inter_application": {"label": "PROVED", "finding": "On a specific invalid-account confirmation branch, Store calls AppManager.chain with the fixed Register GUID.", "evidence": ["runtime_graph"]},
+        "external_data_actions": {"label": "PROVED", "finding": "Backend/account data populates stock catalog UI; explicit user confirmation can request fixed Register launch. No arbitrary application identifier is supplied.", "evidence": ["runtime_graph"]}
+      }
+    },
+    {
+      "identifier": "6BFD02C0-40C3-11E2-A25F-0800200C9A66",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "Jeep Performance Pages uses HMI/fullStartDaemonXlet routing and showConditions requiring Performance Pages present plus vehicle line 1.", "evidence": ["runtime_activation"]},
+        "ixc": {"label": "PROVED", "finding": "VSB fallback looks up VSB, binds an IxcFromVSB callback, registers/removes the operation mapping, and unbinds during cleanup.", "evidence": ["runtime_graph"]},
+        "networking": {"label": "PROVED", "finding": "Fixed timer upload first uses SDP; only an exception selects VSB. Null SDP is local failure, not VSB fallback.", "evidence": ["runtime_graph", "runtime_network"]},
+        "filesystem_storage": {"label": "PROVED", "finding": "Direct java.io writer creates application-named .html timer reports under fixed timersResult destinations; collision can produce no-write success.", "evidence": ["performance_export"]},
+        "usb_sd": {"label": "PROVED", "finding": "UI selects fixed /fs/usb0/timersResult or /mnt/sd0/timersResult output; no stock-signed consumer handoff is proved.", "evidence": ["performance_export", "performance_consumers"]},
+        "browser_html_script": {"label": "PROVED", "finding": "Generates fixed-template HTML as inert output; no KIM19 browser/script consumer is connected to the file.", "evidence": ["performance_export", "performance_consumers"]},
+        "vsb_sdp_broker": {"label": "PROVED", "finding": "Exception fallback sends fixed gskills operation with stock timer data/name through the configured VSB dispatcher and receives delivery-status callback.", "evidence": ["runtime_graph", "performance_export"]},
+        "inter_application": {"label": "PROVED", "finding": "Typed VSB/IXC request and callback form a stock app-service-app loop; media is an output sink with no recovered consumer.", "evidence": ["runtime_graph", "performance_consumers"]},
+        "external_data_actions": {"label": "PROVED", "finding": "Vehicle/timer data and user save/upload choice produce constrained HTML/media output or a fixed-schema VSB message, not generalized dispatch authority.", "evidence": ["performance_export", "runtime_graph"]}
+      }
+    },
+    {
+      "identifier": "7DEC7834-535D-47B5-BD33-695477EDCD57",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "L-Series Performance Pages uses HMI/fullStartDaemonXlet routing, requires Performance Pages present and vehicle line 44/41/2, and throws on unsupported line in module lifecycle.", "evidence": ["runtime_activation"]},
+        "ixc": {"label": "PROVED", "finding": "VSB fallback looks up VSB, binds an IxcFromVSB callback, registers/removes the operation mapping, and unbinds during cleanup.", "evidence": ["runtime_graph"]},
+        "networking": {"label": "PROVED", "finding": "Fixed timer upload first uses SDP; only an exception selects VSB. Null SDP is local failure, not VSB fallback.", "evidence": ["runtime_graph", "runtime_network"]},
+        "filesystem_storage": {"label": "PROVED", "finding": "Direct java.io writer creates application-named .html timer reports under fixed timersResult destinations; collision can produce no-write success.", "evidence": ["performance_export"]},
+        "usb_sd": {"label": "PROVED", "finding": "UI selects fixed /fs/usb0/timersResult or /mnt/sd0/timersResult output; no stock-signed consumer handoff is proved.", "evidence": ["performance_export", "performance_consumers"]},
+        "browser_html_script": {"label": "PROVED", "finding": "Generates fixed-template HTML as inert output; no KIM19 browser/script consumer is connected to the file.", "evidence": ["performance_export", "performance_consumers"]},
+        "dynamic_loading": {"label": "PROVED", "finding": "LWUIT Affiner extracts and System.load's a fixed packaged native resource; no external library bytes or configurable library name reaches it.", "evidence": ["runtime_network", "socket_findings"]},
+        "process_native": {"label": "PROVED", "finding": "Three native methods and fixed Affiner loading exist; no user-controlled native library or command execution route is established.", "evidence": ["runtime_network", "socket_findings"]},
+        "vsb_sdp_broker": {"label": "PROVED", "finding": "Exception fallback sends fixed gskills operation with stock timer data/name through the configured VSB dispatcher and receives delivery-status callback.", "evidence": ["runtime_graph", "performance_export"]},
+        "inter_application": {"label": "PROVED", "finding": "Typed VSB/IXC request and callback form a stock app-service-app loop; media is an output sink with no recovered consumer.", "evidence": ["runtime_graph", "performance_consumers"]},
+        "external_data_actions": {"label": "PROVED", "finding": "Vehicle/timer data and user save/upload choice produce constrained HTML/media output or a fixed-schema VSB message, not generalized dispatch authority.", "evidence": ["performance_export", "runtime_graph"]}
+      }
+    },
+    {
+      "identifier": "A7A4B215-9B5A-7DAA-457C-15545178E72F",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "GUI registration Xlet checks cached stage and may destroy itself; otherwise it initializes loading/MTS subscriber and registration UI.", "evidence": ["runtime_activation"]},
+        "networking": {"label": "PROVED", "finding": "Constructed MTS subscriber/registration requests reach the stock client; live provisioning and backend state are unknown.", "evidence": ["runtime_graph", "runtime_network"]},
+        "filesystem_storage": {"label": "PROVED", "finding": "Uses stock cached registration/account state; no general shared-file or removable-media interface is established.", "evidence": ["target_inventory", "runtime_activation"]},
+        "inter_application": {"label": "PROVED", "finding": "Can be launched by the fixed Store AppManager.chain request after normal native/AMS authorization.", "evidence": ["runtime_graph"]},
+        "external_data_actions": {"label": "PROVED", "finding": "Account/backend state controls stock registration/welcome/error UI and provisioning workflow; actions may persist subscriber state.", "evidence": ["runtime_graph", "runtime_activation"]}
+      }
+    },
+    {
+      "identifier": "f7583530-8d53-11e0-91e4-0800200c9a66",
+      "highest_supported_level": 3,
+      "surface_overrides": {
+        "activation": {"label": "PROVED", "finding": "Declared daemon/headless; init queues configuration, WMA, MQTT/TLS, IXC, task-queue, and platform-service setup. Native conditional autostart is target-dependent.", "evidence": ["runtime_activation", "runtime_graph"]},
+        "permissions": {"label": "PROVED", "finding": "Primary policy declares ppp0 interface, private sensor, on/off control, and AppManager permissions plus default full.policy; effective grants remain UNKNOWN.", "evidence": ["target_inventory"]},
+        "ixc": {"label": "PROVED", "finding": "Rebinds VSB:com.sprint.chrysler.vsbclient.ixc.VSBClient, enumerates registry names, refreshes lifecycle consumers, and invokes configured IxcFromVSB callbacks.", "evidence": ["runtime_graph"]},
+        "networking": {"label": "PROVED", "finding": "Configured TLS/MQTT client and WMA receivers feed finite topic/task routing; endpoint and authorization material remain intentionally unreported.", "evidence": ["runtime_network", "runtime_graph"]},
+        "phone_bluetooth": {"label": "INFERRED", "finding": "Platform/service tasks include stock communication state, but no generalized user-supplied phone command is established.", "evidence": ["runtime_network", "runtime_graph"]},
+        "dynamic_loading": {"label": "PROVED", "finding": "Configured operation/task factories select stock classes; no external class bytes or user-controlled class-name source reaches a loader.", "evidence": ["runtime_network", "socket_findings"]},
+        "vsb_sdp_broker": {"label": "PROVED", "finding": "Exposes a shared IXC service for a finite daemon-owned configured operation set, builds envelopes, publishes over authenticated MQTT, and routes completion/incoming callbacks.", "evidence": ["runtime_graph", "runtime_network"]},
+        "inter_application": {"label": "PROVED", "finding": "Concrete consumers are DRMSync, ASSIST, and all three Performance variants; callback bodies constrain their actual effects.", "evidence": ["runtime_graph"]},
+        "configuration_extensions": {"label": "PROVED", "finding": "Operation/topic/task routing is configuration-driven but exact-match and daemon-owned; no path for a user to add operations or handlers is proved.", "evidence": ["runtime_graph", "runtime_network"]},
+        "external_data_actions": {"label": "PROVED", "finding": "Authenticated subscribed messages can reach configured stock tasks and IXC callbacks, including state-changing DRM work; arbitrary nearby-client or arbitrary-operation authority is not established.", "evidence": ["runtime_graph", "runtime_network"]}
+      }
+    }
+  ],
+  "ranked_capabilities": [
+    {"id": "yelp-ui-services", "rank": 1, "level": 3, "label": "PROVED", "candidate": "Yelp local UI/search plus typed phone/navigation handoffs", "practical_value": "Highest: useful local UI exists before backend; search and typed stock actions have complete static chains.", "gates": "Target installation/visibility/DRM, launch, platform services, connectivity/backend for search, and user selection."},
+    {"id": "performance-export", "rank": 2, "level": 2, "label": "PROVED", "candidate": "Performance Pages fixed USB/SD timer HTML export", "practical_value": "Useful ordinary data output without a backend on the direct media branch.", "gates": "Correct vehicle variant, target authorization, timer state, writable media, and durable close; no stock consumer proved."},
+    {"id": "apps-launch", "rank": 3, "level": 3, "label": "PROVED", "candidate": "Apps UI to AppManager/DRM to AMS typed launch", "practical_value": "Benign stock mechanism for selecting an already-installed authorized application.", "gates": "Actual catalog contents, grants, visibility, and current AMS state."},
+    {"id": "performance-vsb", "rank": 4, "level": 3, "label": "PROVED", "candidate": "Performance Pages fixed timer upload through SDP/VSB and IXC callback", "practical_value": "Existing app-to-service output with visible delivery status, not general messaging.", "gates": "SDP exception fallback, VSB lookup/grant/config/TLS/broker, and backend acceptance."},
+    {"id": "store-register", "rank": 5, "level": 3, "label": "PROVED", "candidate": "Store MTS workflow and fixed AppManager.chain to Register", "practical_value": "Catalog/account UI and fixed cross-app launch request.", "gates": "Account/backend state, explicit confirmation, native authorization, and target registration."},
+    {"id": "assist-service", "rank": 6, "level": 3, "label": "PROVED", "candidate": "ASSIST typed VSB/platform call workflow", "practical_value": "Existing assistance UI, but the useful action may place a call and is not a benign probe.", "gates": "Visibility, platform phone/service state, VSB, network, and user confirmation."},
+    {"id": "register-mts", "rank": 7, "level": 3, "label": "PROVED", "candidate": "Register typed MTS provisioning workflow", "practical_value": "Existing registration UI and account-state path, inherently state-changing.", "gates": "Cached stage, lifecycle, connectivity, account/backend acceptance."},
+    {"id": "drm-vsb", "rank": 8, "level": 3, "label": "PROVED", "candidate": "DRMSync typed VSB/MTS/AppManager processing", "practical_value": "Stock application/provisioning maintenance, unsafe as a liveness probe.", "gates": "Daemon start, VSB, provisioning/VIN, MTS, grants, and processing state."},
+    {"id": "vsb-dispatch", "rank": 9, "level": 3, "label": "PROVED", "candidate": "VSB finite configured-operation broker and IXC callback service", "practical_value": "Reusable by configured stock operations only; no arbitrary caller/operation authority proved.", "gates": "Daemon start, IXC grants/bindings, configuration, credentials/TLS, broker subscription and sender authority."}
+  ],
+  "ixc_services": [
+    {"id": "ixc-vsb-service", "level": 3, "label": "PROVED", "name": "VSBClient exported remote", "registry_name": "VSB:com.sprint.chrysler.vsbclient.ixc.VSBClient", "producer": "VSBClientImpl", "consumers": ["DRMSync_VSB", "ASSIST", "Performance Pages Viper", "Performance Pages Jeep", "Performance Pages L-Series"], "permission_gate": "AMS/IXC identity and effective grants UNKNOWN", "disposition": "Useful typed local service; not an IP listener and not generalized caller authority."},
+    {"id": "ixc-vsb-callbacks", "level": 3, "label": "PROVED", "name": "IxcFromVSB callback bindings", "registry_name": "Application-created bind names mapped to configured operation names", "producer": "DRMSync/ASSIST/Performance callers", "consumers": ["VSBClient completion and incoming routers"], "permission_gate": "Successful bind/lookup and live authorized remotes", "disposition": "Actual effects are recipient-specific: DRM queues work, ASSIST no-ops, Performance releases status latch."},
+    {"id": "ixc-drm-notifications", "level": 3, "label": "PROVED", "name": "DRM notification remotes", "registry_name": "Enumerated registry entries matched to DRM listeners", "producer": "DRMSync notification dispatcher", "consumers": ["Bound stock application listeners only"], "permission_gate": "Consumer lifecycle/bind and IXC grants", "disposition": "Typed app/process/registration/reset notifications; no universal consumer or user-controlled remote proved."},
+    {"id": "ixc-yelp-none", "level": 0, "label": "PROVED", "name": "Yelp registry handle", "registry_name": "None", "producer": "Yelp obtains registry only", "consumers": [], "permission_gate": "Not applicable", "disposition": "No bind/lookup/exported object; no indirect route to SocketCommandSource."}
+  ],
+  "dynamic_mechanisms": [
+    {"id": "fixed-platform-factories", "scope": "KIM19/shared Kona", "level": 3, "label": "PROVED", "mechanism": "Class.forName/reflection in phone, navigation, media, connectivity, audio and other platform factories", "caller_activation": "Typed manager acquisition", "controllable_input": "Mostly fixed framework-owned implementation names", "disposition": "Platform adaptation, not external plugin ingress."},
+    {"id": "vsb-operation-factory", "scope": "KIM19 VSBClient", "level": 3, "label": "PROVED", "mechanism": "Configuration-selected finite operation/task factory", "caller_activation": "Daemon config plus exact operation/topic match", "controllable_input": "Message values enter stock tasks; operation set and routes are daemon-owned", "disposition": "Typed configured dispatch; insufficient for Level 4 in KIM19."},
+    {"id": "store-serialization", "scope": "KIM19 Store", "level": 0, "label": "UNKNOWN", "mechanism": "Base64 ObjectInputStream/resolveClass and reflection helpers", "caller_activation": "Library/helper presence", "controllable_input": "No closed external serialized-object-to-effect path", "disposition": "Infrastructure only; do not infer deserialization execution."},
+    {"id": "lseries-affiner", "scope": "KIM19 L-Series", "level": 2, "label": "PROVED", "mechanism": "Fixed Affiner resource extraction and System.load", "caller_activation": "Stock LWUIT graphics helper", "controllable_input": "Fixed packaged resource and name", "disposition": "Native stock implementation loading, not externally supplied code."},
+    {"id": "connector-providers", "scope": "Shared platform", "level": 0, "label": "PROVED", "mechanism": "ConnectorImpl URI-scheme/configured protocol provider Class.forName", "caller_activation": "Connector open plus resident configuration", "controllable_input": "URI chooses among resident protocol providers; class root/platform is configured", "disposition": "No new class-byte origin or arbitrary executable input proved."},
+    {"id": "xml-logging-providers", "scope": "Shared libraries", "level": 0, "label": "PROVED", "mechanism": "JAXP/Xerces/DOM/SAX and logging provider reflection", "caller_activation": "System/resource/property factory lookup", "controllable_input": "External write authority over provider names/resources is UNKNOWN", "disposition": "Generic library infrastructure, not a closed KIM19 extension route."},
+    {"id": "fixed-executor", "scope": "Shared AMS/Kona", "level": 3, "label": "PROVED", "mechanism": "Runtime.exec(String[]) wrappers", "caller_activation": "AMS TimeMgrService fixed update task; second wrapper has no external Java caller", "controllable_input": "No user command string reaches the wrappers", "disposition": "Typed fixed platform task, not shell authority."},
+    {"id": "archived-json-invoke", "scope": "Archived KIM1/KIM3/KIM12 only", "level": 4, "label": "PROVED", "mechanism": "Socket JSON invoke selects public listener-wrapper method and runtime-typed arguments", "caller_activation": "Exact older app lifecycle plus loopback client", "controllable_input": "Method selector and arguments, but receiver fixed to wrapper", "disposition": "Generalized fixed-stock UI/test dispatcher; excluded from KIM19 selection."},
+    {"id": "archived-test-loader", "scope": "Archived KIM1/KIM3/KIM12 only", "level": 5, "label": "UNKNOWN", "mechanism": "runUnitTests can construct URLClassLoader for a local archive and ask inherited JUnit runner to load a class", "caller_activation": "Archived socket command plus file, policy, client and JUnit dependencies", "controllable_input": "Archive and JUnit command strings", "disposition": "Instructions exist, but no JUnit classes in 300-JAR census and no executable new-code chain established; Level 5 is not assigned."},
+    {"id": "archived-http-injection", "scope": "Archived Tweddle copies", "level": 2, "label": "PROVED", "mechanism": "Disabled-by-default file-backed HTTP response injection", "caller_activation": "Injection enablement plus local XML plan and old package", "controllable_input": "External file writer and enablement are UNKNOWN", "disposition": "Data substitution, not listener or code execution; package-excluded."},
+    {"id": "airbiquity-test-server", "scope": "Other recovered HUP packages", "level": 4, "label": "UNKNOWN", "mechanism": "Emulator/download-gated unit-test HTTP server and reflection", "caller_activation": "No recovered external startUnitTest caller; emulator/enableUT gate", "controllable_input": "Potential test protocol only after unproved start", "disposition": "Not a reachable KIM19 route."},
+    {"id": "script-browser-negative", "scope": "KIM19 Java census", "level": 0, "label": "PROVED", "mechanism": "Script engines, JavaScript, WebView/browser, ProcessBuilder, shell abstractions", "caller_activation": "No complete invocation chain found", "controllable_input": "None established", "disposition": "Scoped negative; native Lua and separate Help HTML are not KIM19 executable-input proof."}
+  ],
+  "platform_services": [
+    {"id": "platform-navigation", "level": 3, "label": "PROVED", "service": "NavigationImpl -> OpenNavActivation -> HMIGatewayService.routeToLocation", "caller": "Yelp details action", "input": "Selected Place/geocode plus optional stock geocoder result", "target_gate": "Navigation activation, permission, service state, valid coordinates"},
+    {"id": "platform-phone", "level": 3, "label": "PROVED", "service": "PhoneImpl -> PhonePermission -> BluetoothService.dial", "caller": "Yelp details action; ASSIST has separate stock call workflow", "input": "Selected result phone string or fixed assistance action", "target_gate": "Pairing/phone availability, permission, Bluetooth/DBus state"},
+    {"id": "platform-voice", "level": 3, "label": "PROVED", "service": "Kona VR session/listener", "caller": "Yelp", "input": "Recognized speech text", "target_gate": "VR service/session/language and microphone state"},
+    {"id": "platform-location", "level": 3, "label": "PROVED", "service": "Kona location/geocode", "caller": "Yelp", "input": "Platform location and selected Place address", "target_gate": "Location service/fix and optional network geocoder"},
+    {"id": "platform-appmanager", "level": 3, "label": "PROVED", "service": "Native AppManager/DRM/AMS and Kona AppManager", "caller": "Apps UI, Store fixed Register chain, DRMSync listener", "input": "Installed app identity or fixed Register GUID; DRM state", "target_gate": "Installed registration, visibility, authorization and AMS state"},
+    {"id": "platform-media-storage", "level": 2, "label": "PROVED", "service": "Direct java.io fixed removable paths plus separate Kona FileIO/EcoDrive APIs", "caller": "Performance Pages direct writer; no KIM19 FileIO/EcoDrive timer caller", "input": "Stock timer template/data and application-generated name", "target_gate": "Correct variant, media mount, policy, writable path and durable close"},
+    {"id": "platform-vehicle", "level": 2, "label": "PROVED", "service": "PPS/sensor vehicle signals", "caller": "Performance Pages and daemon/service code", "input": "Vehicle configuration and telemetry", "target_gate": "Vehicle line/features/sensors and live PPS"},
+    {"id": "platform-network", "level": 3, "label": "PROVED", "service": "Connectivity/TLS/HTTP/MQTT/WMA clients", "caller": "Yelp, Store, Register, DRMSync, ASSIST, Performance, VSBClient", "input": "Fixed stock requests plus typed user/model data", "target_gate": "Interfaces, DNS/TLS, credentials, account and backend acceptance"},
+    {"id": "platform-diagnostics", "level": 0, "label": "PROVED", "service": "Test/listener/provider candidates in wider recovered corpus", "caller": "No user-accessible KIM19 activation path", "input": "No authorized benign client established", "target_gate": "Do not probe or enable; historical package/runtime state only by passive inventory"}
+  ],
+  "socket_command_source": {
+    "final_classification": "STATICALLY PRESENT BUT UNREACHABLE",
+    "scope": "Recovered ordinary 18.45.01 installation for part 68224525AM / KIM19",
+    "label": "PROVED",
+    "owners": ["Tweddle Yelp 0.9.4799 in KIM1/KIM12", "Tweddle iHeart 0.8.4991 in KIM1/KIM12", "Tweddle Application Manager 1.0.4825 in KIM3"],
+    "occurrences": 5,
+    "class_sha256": "55bf4d4ca3872b4434f69c4d9fe0c04e64fcef69da0682381ca91d904d972edb",
+    "construction": "Concrete old Xlet init -> AbstractHUXlet.initCommandLooper -> CommandLooper -> CommandSource.create -> no-arg SocketCommandSource",
+    "activation": "Old Xlet init constructs the looper; startXlet starts one worker; destroy stops and closes it.",
+    "endpoint": "IPv4 127.0.0.1 TCP 11111 from the only recovered factory; no wildcard caller or forwarding path proved.",
+    "protocol": "One platform-default-charset JSON line per TCP connection; command plus args; optional one-line JSON response.",
+    "dispatcher": ["touch", "putText", "touchListItem", "itemElement", "scrollUp", "scrollDown", "getCurrentForm", "verifyElement", "getLabelText", "getListSize", "getRuntimeInfo", "gc", "setSettings", "closeKeyboard", "runUnitTests", "invoke"],
+    "authorization": "No application-layer authentication or per-command check found; full.policy requests socket/reflection/loading permissions, but effective target domain remains UNKNOWN.",
+    "production_gate": "All copies are confined to KIM1/KIM3/KIM12; none is selected by the shipped 289-assignment map and KIM19 Yelp uses a different main class without the framework.",
+    "stock_reachability": "No KIM19 app, HMI action, IXC remote, VSB route, or native forwarder reaches or activates it.",
+    "target_exception": "TARGET OBSERVATION REQUIRED only to determine whether a particular radio retained an exact older legitimately installed copy from historical state; do not probe port 11111."
+  },
+  "historical_conditional": {
+    "candidate": "SocketCommandSource invoke dispatcher",
+    "level": 4,
+    "scope": "archived KIM1/KIM3/KIM12 only; excluded from KIM19",
+    "label": "TARGET OBSERVATION REQUIRED",
+    "condition": "An exact older containing application is already legitimately installed and launchable, loopback bind succeeds, and an already-authorized on-unit client exists.",
+    "limit": "Still loopback-only and fixed to wrapper methods; no current target instance or client is established. URLClassLoader/JUnit does not promote this to proved Level 5."
+  },
+  "scoped_negatives": [
+    {"label": "PROVED", "scope": "All 19 KIM19 JARs / 4,572 classes", "finding": "No ServerSocket, DatagramSocket, MulticastSocket, script-engine, or process-launch invocation chain."},
+    {"label": "PROVED", "scope": "Complete KIM19 Yelp JAR plus receiver trace", "finding": "No SocketCommandSource, CommandLooper, browser/WebView, HTML/script sink, dynamic loader, VSB/SDP path, media handoff, or arbitrary app launcher."},
+    {"label": "PROVED", "scope": "KIM19/common-base Performance consumer census", "finding": "No exact stock-signed reader/importer consumes the generated timersResult HTML; zero reviewed exact candidates."},
+    {"label": "PROVED", "scope": "300 recovered JARs / 72,507 class occurrences", "finding": "No direct ClassLoader subclass, resident defineClass call, or general-purpose Java script interpreter chain; zero JUnit classes for the archived test runner."},
+    {"label": "PROVED", "scope": "Recovered installer and shipped KIM map", "finding": "No map output selects KIM1, KIM3, or KIM12, the only packages containing SocketCommandSource."},
+    {"label": "UNKNOWN", "scope": "Live radio native/AOT/runtime and historical install state", "finding": "Scoped Java/recovered-artifact negatives do not prove global absence from unrecovered or historically retained components."}
+  ],
+  "ceiling": {
+    "highest_proved_kim19_level": 3,
+    "highest_proved_candidate": "Typed stock-service invocation through Yelp phone/navigation, Apps/AppManager/AMS, VSB/IXC, MTS, and related fixed stock contracts.",
+    "highest_conditional_kim19_level": 3,
+    "highest_conditional_kim19_candidate": "The same typed Level-3 paths after target installation, grants, services, and connectivity gates are satisfied.",
+    "historical_archive_conditional_level": 4,
+    "level_4_kim19_result": "No KIM19 path lets user/external data control a generalized dispatcher beyond finite configured stock contracts.",
+    "level_5_result": "No general-purpose execution path is proved or conditionally justified for KIM19.",
+    "larger_objective": "No path materially extends functionality beyond the behavior designed into existing stock applications; no new resident UI/runtime or arbitrary-code capability results."
+  },
+  "handoff_nodes": [
+    {"id": "input:user", "kind": "input", "name": "User touch/text/voice/selection"},
+    {"id": "input:network", "kind": "input", "name": "Authenticated HTTP/MQTT response or callback"},
+    {"id": "input:media", "kind": "input", "name": "USB/SD medium"},
+    {"id": "input:configuration", "kind": "input", "name": "Descriptor/PPS/daemon configuration"},
+    {"id": "input:vehicle", "kind": "input", "name": "Location/vehicle/timer data"},
+    {"id": "app:yelp", "kind": "application", "name": "Yelp"},
+    {"id": "app:performance", "kind": "application", "name": "Performance Pages variants"},
+    {"id": "app:store", "kind": "application", "name": "Store"},
+    {"id": "app:register", "kind": "application", "name": "Register"},
+    {"id": "app:assist", "kind": "application", "name": "ASSIST"},
+    {"id": "app:drm", "kind": "application", "name": "DRMSync_VSB"},
+    {"id": "app:vsb", "kind": "application", "name": "VSBClient"},
+    {"id": "service:appmanager", "kind": "service", "name": "AppManager/DRM"},
+    {"id": "service:ams", "kind": "service", "name": "AMS lifecycle"},
+    {"id": "service:ixc", "kind": "service", "name": "Local IXC registry/remotes"},
+    {"id": "service:vsb", "kind": "service", "name": "VSB configured operation service"},
+    {"id": "service:yelp_https", "kind": "service", "name": "Yelp HTTPS client/backend"},
+    {"id": "service:mts", "kind": "service", "name": "MTS client/backend"},
+    {"id": "service:mqtt", "kind": "service", "name": "Configured TLS/MQTT broker"},
+    {"id": "service:voice", "kind": "service", "name": "Platform speech/VR"},
+    {"id": "service:location", "kind": "service", "name": "Platform location/geocoder"},
+    {"id": "service:phone", "kind": "service", "name": "PhoneImpl/BluetoothService"},
+    {"id": "service:navigation", "kind": "service", "name": "NavigationImpl/HMIGatewayService"},
+    {"id": "service:storage", "kind": "service", "name": "Fixed USB/SD timer output"},
+    {"id": "action:ui", "kind": "action", "name": "Stock local UI/results/status"},
+    {"id": "action:app_state", "kind": "action", "name": "Stock application/provisioning state"}
+  ],
+  "handoff_edges": [
+    {"id": "e01", "source": "input:user", "target": "service:appmanager", "label": "PROVED", "flow": "Select installed stock app", "effect": "Typed launch request", "level": 3, "evidence": ["runtime_activation", "runtime_graph"]},
+    {"id": "e02", "source": "service:appmanager", "target": "service:ams", "label": "PROVED", "flow": "DRM-authorized app identity", "effect": "Xlet lifecycle dispatch", "level": 3, "evidence": ["runtime_activation"]},
+    {"id": "e03", "source": "service:ams", "target": "app:yelp", "label": "PROVED", "flow": "Yelp lifecycle", "effect": "Splash/home/search UI", "level": 1, "evidence": ["yelp_gates"]},
+    {"id": "e04", "source": "input:user", "target": "app:yelp", "label": "PROVED", "flow": "Touch/category/text", "effect": "Local request construction", "level": 2, "evidence": ["yelp_gates"]},
+    {"id": "e05", "source": "input:user", "target": "service:voice", "label": "PROVED", "flow": "Speech", "effect": "Recognized text callback", "level": 3, "evidence": ["runtime_graph", "yelp_handoffs"]},
+    {"id": "e06", "source": "service:voice", "target": "app:yelp", "label": "PROVED", "flow": "Recognized string", "effect": "Same search request as touch", "level": 3, "evidence": ["runtime_graph", "yelp_handoffs"]},
+    {"id": "e07", "source": "input:vehicle", "target": "service:location", "label": "PROVED", "flow": "Location state", "effect": "Coordinates/geocode", "level": 3, "evidence": ["yelp_handoffs"]},
+    {"id": "e08", "source": "service:location", "target": "app:yelp", "label": "PROVED", "flow": "Coordinates/geocode", "effect": "Search, distance and destination data", "level": 3, "evidence": ["yelp_handoffs"]},
+    {"id": "e09", "source": "app:yelp", "target": "service:yelp_https", "label": "PROVED", "flow": "Typed query/location", "effect": "HTTPS search/geocode request", "level": 2, "evidence": ["runtime_graph", "yelp_gates"]},
+    {"id": "e10", "source": "input:network", "target": "service:yelp_https", "label": "PROVED", "flow": "Stock service response", "effect": "Legacy JSON/status parsing", "level": 2, "evidence": ["yelp_gates"]},
+    {"id": "e11", "source": "service:yelp_https", "target": "app:yelp", "label": "PROVED", "flow": "Place/address/phone models", "effect": "Results/details UI", "level": 2, "evidence": ["yelp_handoffs"]},
+    {"id": "e12", "source": "app:yelp", "target": "service:phone", "label": "PROVED", "flow": "Selected typed phone string", "effect": "Bluetooth dial request", "level": 3, "evidence": ["yelp_handoffs"]},
+    {"id": "e13", "source": "app:yelp", "target": "service:navigation", "label": "PROVED", "flow": "Selected Geocode", "effect": "HMI route request", "level": 3, "evidence": ["yelp_handoffs"]},
+    {"id": "e14", "source": "service:ams", "target": "app:performance", "label": "PROVED", "flow": "Condition-selected variant lifecycle", "effect": "Performance UI", "level": 1, "evidence": ["runtime_activation"]},
+    {"id": "e15", "source": "input:vehicle", "target": "app:performance", "label": "PROVED", "flow": "Timer/vehicle data", "effect": "Stock timer model/HTML", "level": 2, "evidence": ["performance_export"]},
+    {"id": "e16", "source": "input:user", "target": "app:performance", "label": "PROVED", "flow": "Save/upload option", "effect": "Select fixed stock output", "level": 2, "evidence": ["performance_export"]},
+    {"id": "e17", "source": "app:performance", "target": "service:storage", "label": "PROVED", "flow": "Generated name and timer HTML", "effect": "Create fixed-destination .html", "level": 2, "evidence": ["performance_export", "performance_consumers"]},
+    {"id": "e18", "source": "input:media", "target": "service:storage", "label": "TARGET OBSERVATION REQUIRED", "flow": "Mounted/writable medium", "effect": "Runtime file persistence", "level": 2, "evidence": ["performance_export"]},
+    {"id": "e19", "source": "app:performance", "target": "service:ixc", "label": "PROVED", "flow": "VSB lookup/callback bind", "effect": "Typed local remote", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e20", "source": "service:ixc", "target": "service:vsb", "label": "PROVED", "flow": "Fixed gskills operation/timer payload", "effect": "Exact configured-operation lookup", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e21", "source": "service:vsb", "target": "service:mqtt", "label": "PROVED", "flow": "Daemon-built envelope", "effect": "Configured MQTT publish", "level": 3, "evidence": ["runtime_graph", "runtime_network"]},
+    {"id": "e22", "source": "service:mqtt", "target": "app:vsb", "label": "PROVED", "flow": "Delivery/incoming callback", "effect": "Configured stock route", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e23", "source": "app:vsb", "target": "service:ixc", "label": "PROVED", "flow": "Resolved callback remote", "effect": "Recipient-specific notification", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e24", "source": "service:ixc", "target": "app:performance", "label": "PROVED", "flow": "notifySuccess/notifyFailure", "effect": "Release latch/status UI", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e25", "source": "service:ams", "target": "app:store", "label": "PROVED", "flow": "Store lifecycle", "effect": "Catalog/account loading", "level": 1, "evidence": ["runtime_activation"]},
+    {"id": "e26", "source": "app:store", "target": "service:mts", "label": "PROVED", "flow": "Stock discovery/catalog/vault request", "effect": "Typed HTTP transaction", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e27", "source": "input:network", "target": "service:mts", "label": "PROVED", "flow": "MTS response", "effect": "Stock account/catalog/provisioning models", "level": 2, "evidence": ["runtime_graph"]},
+    {"id": "e28", "source": "app:store", "target": "service:appmanager", "label": "PROVED", "flow": "Fixed Register GUID after confirmation", "effect": "AppManager.chain", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e29", "source": "service:ams", "target": "app:register", "label": "PROVED", "flow": "Register lifecycle", "effect": "Registration UI/MTS workflow", "level": 3, "evidence": ["runtime_graph", "runtime_activation"]},
+    {"id": "e30", "source": "service:ams", "target": "app:drm", "label": "PROVED", "flow": "Conditional daemon lifecycle", "effect": "DRM worker", "level": 3, "evidence": ["runtime_activation"]},
+    {"id": "e31", "source": "input:configuration", "target": "app:vsb", "label": "PROVED", "flow": "Finite operations/topics/tasks", "effect": "Configured daemon routing", "level": 3, "evidence": ["runtime_network", "runtime_graph"]},
+    {"id": "e32", "source": "input:network", "target": "service:mqtt", "label": "PROVED", "flow": "Authenticated subscribed message", "effect": "Configured topic callback", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e33", "source": "service:ixc", "target": "app:drm", "label": "PROVED", "flow": "Matching shoulder-tap callback", "effect": "Queue stock processing", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e34", "source": "app:drm", "target": "action:app_state", "label": "PROVED", "flow": "Typed sync/grant/reset/install workflow", "effect": "Stock application/provisioning state", "level": 3, "evidence": ["runtime_graph", "runtime_network"]},
+    {"id": "e35", "source": "service:ams", "target": "app:assist", "label": "PROVED", "flow": "ASSIST lifecycle", "effect": "Assistance UI", "level": 1, "evidence": ["runtime_activation"]},
+    {"id": "e36", "source": "input:user", "target": "app:assist", "label": "PROVED", "flow": "Assistance service choice", "effect": "Typed stock request/call", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e37", "source": "app:assist", "target": "service:vsb", "label": "PROVED", "flow": "Fixed assistance request", "effect": "Stock service communication", "level": 3, "evidence": ["runtime_graph"]},
+    {"id": "e38", "source": "app:yelp", "target": "action:ui", "label": "PROVED", "flow": "Local/pre-backend and result models", "effect": "Stock UI only", "level": 1, "evidence": ["yelp_gates", "yelp_handoffs"]},
+    {"id": "e39", "source": "app:performance", "target": "action:ui", "label": "PROVED", "flow": "Save/upload completion", "effect": "Stock status UI", "level": 2, "evidence": ["runtime_graph", "performance_export"]}
+  ],
+  "handoff_interpretation_rules": [
+    "A string/model response is data, not executable behavior, unless a recovered receiver interprets it as a command, class, script, process, or typed action.",
+    "IXC names are local Java remote identifiers, not hostnames or open ports.",
+    "VSB accepts exact daemon-configured operations; the three-string method does not prove arbitrary caller or operation authority.",
+    "USB/SD is a proved output sink for Performance Pages; no stock KIM19 consumer edge returns the file to an interpreter.",
+    "Every target-dependent edge remains conditional even when its static sender/receiver call graph is proved."
+  ],
+  "unknowns": [
+    {"id": "u01", "label": "TARGET OBSERVATION REQUIRED", "question": "Which KIM19 applications/versions are currently installed, registered, visible, and authorized on the radio?", "static_stop_reason": "Recovered preload and installer state cannot reveal current mutable AMS/DRM state."},
+    {"id": "u02", "label": "TARGET OBSERVATION REQUIRED", "question": "Does Yelp launch through splash into the pre-backend home/search UI?", "static_stop_reason": "Lifecycle and UI construction are proved; actual container, theme, grant, and service state are runtime facts."},
+    {"id": "u03", "label": "TARGET OBSERVATION REQUIRED", "question": "Do current location, VR, phone/Bluetooth, OpenNav, HMIGateway, and connectivity services satisfy the typed Yelp paths?", "static_stop_reason": "Service implementation paths are recovered but liveness/permission/device state is not in artifacts."},
+    {"id": "u04", "label": "TARGET OBSERVATION REQUIRED", "question": "Do current DNS/TLS/authentication/backend/schema states accept stock Yelp/MTS/VSB traffic?", "static_stop_reason": "No live/private/historical endpoint or credential testing is authorized or needed for static closure."},
+    {"id": "u05", "label": "TARGET OBSERVATION REQUIRED", "question": "Which Performance Pages variant is visible/launchable, and is removable media writable/durable?", "static_stop_reason": "Vehicle predicates and writer semantics are proved; live PPS, grants, mounts, and media state are runtime facts."},
+    {"id": "u06", "label": "TARGET OBSERVATION REQUIRED", "question": "Are VSBClient/DRMSync running, bound in IXC, configured, and connected?", "static_stop_reason": "Daemon declarations and setup are not current liveness; ordinary UI cannot uniquely attribute daemon state."},
+    {"id": "u07", "label": "TARGET OBSERVATION REQUIRED", "question": "Does the target retain any exact old Tweddle Yelp/iHeart/Application Manager copy containing SocketCommandSource?", "static_stop_reason": "The shipped KIM19 map excludes them, but historical mutable installation state is not recoverable statically."},
+    {"id": "u08", "label": "UNKNOWN", "question": "Could an unrecovered native/AOT/platform component expose another consumer/listener/forwarder?", "static_stop_reason": "The final negative claims are explicitly bounded to recovered artifacts; no new reference justifies another broad search."}
+  ],
+  "observations": [
+    {"id": "A1", "category": "A", "label": "TARGET OBSERVATION REQUIRED", "name": "Passive stock inventory", "action": "Record the existing software/part-number screen, then photograph every ordinary Apps page, category, favorites, and running view without launching an app.", "visible_states": ["Reported part/software values", "Each visible tile/name", "No tile for a headless daemon is expected"], "proves": "What the ordinary HMI exposes at that time and whether Yelp/Store/Register/ASSIST/Performance entries are visible.", "falsifies": "A claimed currently visible tile if absent from every recorded ordinary view; it does not falsify installation or daemon execution.", "transmits_data": false, "changes_persistent_state": false, "requires_network": false, "dependencies": ["Normal HMI access only"], "stop_condition": "Stop after all existing Apps views and version screen are recorded; do not open a tile."},
+    {"id": "A2", "category": "A", "label": "TARGET OBSERVATION REQUIRED", "name": "Existing package/service evidence only", "action": "If an owner already has a non-mutating official package/version export, service log, or IXC inventory, preserve it and compare exact app versions/bind names; issue no new diagnostic command.", "visible_states": ["Exact old/KIM19 app version", "Existing VSB/DRM init or bind record", "No relevant existing record"], "proves": "Artifact identity or setup at the recorded time, subject to provenance.", "falsifies": "Only the matching recorded identity/state; absence does not prove the component never ran.", "transmits_data": false, "changes_persistent_state": false, "requires_network": false, "dependencies": ["Already-existing owner evidence"], "stop_condition": "Stop if obtaining evidence would require a command, policy change, listener probe, or new logging."},
+    {"id": "B1", "category": "B", "label": "TARGET OBSERVATION REQUIRED", "name": "One normal Yelp launch", "action": "After A1, if Yelp is visible, tap it once and record the first screen, exact error text, splash, time to transition, whether home/search appears, and whether it stays visible. Enter no search and press no phone/navigation action.", "visible_states": ["No Yelp tile", "Immediate authorization/registration error or return", "Splash only then failure", "Pre-backend category/search home", "Unexpected screen"], "proves": "The deepest observed boundary among catalog visibility, authorization/AMS lifecycle, local resources/container, and pre-backend UI.", "falsifies": "Only prerequisites earlier than the observed boundary; a failure does not falsify later static code paths or identify its cause without an exact error.", "transmits_data": false, "changes_persistent_state": true, "requires_network": false, "dependencies": ["Visible Yelp tile", "Normal Apps HMI", "Possible platform location service"], "stop_condition": "Stop immediately at the first stable home screen, exact error, or return to Apps; no search, voice, call, route, packet injection, or socket probe."},
+    {"id": "B2", "category": "B", "label": "TARGET OBSERVATION REQUIRED", "name": "One normal Performance Pages launch", "action": "Only if Yelp is absent and the owner chooses the second candidate, tap the visible Performance Pages tile once and record name/variant cues, first screen, exact error, and stable landing UI. Do not start a timer, save, export, or upload.", "visible_states": ["No tile", "Authorization/vehicle-feature error", "Viper/Jeep/L-Series landing UI", "Unexpected screen"], "proves": "Visible variant and progress through vehicle predicate/AMS/local UI gates.", "falsifies": "Only the corresponding observed activation hypothesis; it does not test media or VSB.", "transmits_data": false, "changes_persistent_state": true, "requires_network": false, "dependencies": ["Visible Performance Pages tile", "Vehicle PPS/configuration"], "stop_condition": "Stop at first stable landing/error/return; do not enter timer or save/upload flows."},
+    {"id": "C1", "category": "C", "label": "TARGET OBSERVATION REQUIRED", "name": "One stock Yelp category search", "action": "Only after successful B1 and separate owner approval for network transmission, select one ordinary fixed category once; record loading, exact error, results, and details availability without choosing phone/navigation.", "visible_states": ["Connectivity error", "TLS/service/backend error", "No results", "Result list/details"], "proves": "Progress through request construction, network/TLS/backend/schema, and stock result rendering to the deepest observed boundary.", "falsifies": "A result list falsifies claims that the current stock search path is wholly unavailable; a failure does not uniquely identify DNS, TLS, credential, account, or schema cause.", "transmits_data": true, "changes_persistent_state": true, "requires_network": true, "dependencies": ["Successful B1", "Location/connectivity", "Current stock backend acceptance"], "stop_condition": "Stop at first results/details screen or exact error; do not dial, route, repeat, alter DNS/TLS, or inspect credentials."},
+    {"id": "C2", "category": "C", "label": "TARGET OBSERVATION REQUIRED", "name": "One stock voice search", "action": "Only after C1 and separate approval, invoke Yelp's ordinary voice action once, speak a harmless generic term, and record recognition/cancel/error and whether the same results UI appears.", "visible_states": ["VR unavailable", "Recognition/cancel state", "Recognized term then network error", "Same result UI as touch"], "proves": "Live VR discovery/session/callback and convergence into the stock request path to the deepest observed boundary.", "falsifies": "A successful result falsifies a claim that voice is disconnected from search; failure does not falsify the static listener/callback graph.", "transmits_data": true, "changes_persistent_state": true, "requires_network": true, "dependencies": ["Successful B1/C1", "Microphone and platform VR", "Location/connectivity/backend"], "stop_condition": "Stop after one recognition/result/error; do not repeat or use sensitive speech."},
+    {"id": "D1", "category": "D", "label": "TARGET OBSERVATION REQUIRED", "name": "Typed Yelp phone or navigation handoff", "action": "With explicit owner approval for the selected side effect, choose exactly one result and either initiate the phone action or request navigation, never both in the same observation.", "visible_states": ["Service unavailable dialog", "Phone confirmation/call state", "Navigation activation/error/route state"], "proves": "Runtime availability of the selected typed receiver path to the deepest visible boundary.", "falsifies": "Only the selected live service hypothesis; it does not alter the proved static sender/receiver chain.", "transmits_data": true, "changes_persistent_state": true, "requires_network": false, "dependencies": ["Successful C1", "Paired phone for dial or GPS/OpenNav/HMI for route"], "stop_condition": "Stop/cancel at the first confirmation, call-state, route-state, or exact error; follow local law and owner safety requirements."},
+    {"id": "D2", "category": "D", "label": "TARGET OBSERVATION REQUIRED", "name": "One Performance Pages media export", "action": "With explicit approval and empty owner-controlled media, create one ordinary timer record and select one stock USB or SD save option; inspect the resulting timersResult file off-unit after supported removal.", "visible_states": ["Media absent/unavailable", "Stock save failure", "Stock success but no/partial file", "Complete generated HTML file"], "proves": "Live variant, timer UI, mount/grant/write path, and off-unit durability to the observed boundary.", "falsifies": "A complete file falsifies a claim that the direct writer is unusable on that setup; UI success alone does not prove complete bytes.", "transmits_data": false, "changes_persistent_state": true, "requires_network": false, "dependencies": ["Launchable correct variant", "Timer state", "Writable USB/SD"], "stop_condition": "Stop after one file inspection; do not craft names/content, reinsert for consumption, or upload."},
+    {"id": "D3", "category": "D", "label": "TARGET OBSERVATION REQUIRED", "name": "State-changing service workflows", "action": "Do not use as closure probes. Registration, Store purchase/account confirmation, ASSIST calls, Performance upload, DRMSync/VSB triggers, app install/update/reset, and diagnostic/test commands require a separate objective and explicit authorization.", "visible_states": ["Not part of this runbook"], "proves": "Nothing when skipped; their static paths are already classified.", "falsifies": "Nothing when skipped.", "transmits_data": true, "changes_persistent_state": true, "requires_network": true, "dependencies": ["Separate safety plan and owner authorization"], "stop_condition": "Stop before initiating any listed workflow."}
+  ],
+  "recommended_observation": "B1",
+  "excluded_first_pass_actions": [
+    "No Yelp search, voice request, dial, or route during B1.",
+    "No TCP 11111 or other listener probe, port forwarding, local helper, or diagnostic command.",
+    "No credential, TLS interception, DNS override, backend replay, or private/historical endpoint contact.",
+    "No registration, purchase, ASSIST call, VSB/DRM trigger, application install/update/reset, timer export, or upload.",
+    "No policy, trust, signature, firmware, vehicle configuration, or recovered artifact change."
+  ],
+  "decision": {
+    "choice": "B",
+    "label": "INFERRED",
+    "statement": "Static research is exhausted; one or more specific target observations are now the correct next step.",
+    "completion_status": "STATIC RESEARCH COMPLETE",
+    "reason": "All plausible level-changing recovered-artifact families are closed or bounded. Remaining gates are mutable target installation, authorization, services, connectivity, media, and historical state that static artifacts cannot resolve.",
+    "recommended_next_action": "Run A1, then B1 only if Yelp is visible; record the first stable state and stop."
+  }
+}
