@@ -16,23 +16,23 @@
 - Create: `analysis_tools/tests/test_kim19_final_capability.py`
 - Create: `analysis_tools/kim19_final_notes.json`
 
-- [ ] **Step 1: Add a failing canonical-output test**
+- [x] **Step 1: Add a failing canonical-output test**
 
 Create a test that imports `REPORT_NAMES`, `build_reports`, `canonical_bytes`, `load_and_validate_notes`, and `verify_evidence_inputs` from `analysis_tools.kim19_final_capability`; asserts exactly `capability_matrix`, `handoff_graph`, and `unresolved_gates`; and asserts sorted ASCII JSON with one trailing LF.
 
-- [ ] **Step 2: Add failing semantic-contract tests**
+- [x] **Step 2: Add failing semantic-contract tests**
 
 Assert nine unique KIM19 application identities, all 19 JAR records, capability levels limited to `0..5`, highest proved KIM19 level `3`, highest conditional KIM19 level `3`, archived SocketCommandSource level `4` only in a separately scoped historical conditional, decision `B`, and the exact completion marker `STATIC RESEARCH COMPLETE`.
 
-- [ ] **Step 3: Add failing graph and observation tests**
+- [x] **Step 3: Add failing graph and observation tests**
 
 Assert every handoff edge references a declared node and source evidence, the graph contains user/network/media/configuration/vehicle inputs and typed phone/navigation/AppManager/IXC/VSB outputs, and unresolved observations cover categories `A`, `B`, `C`, and `D` with transmission, persistence, dependency, falsification, and stop-condition fields.
 
-- [ ] **Step 4: Add failing stale-input and check-mode tests**
+- [x] **Step 4: Add failing stale-input and check-mode tests**
 
 Use temporary fixtures to prove evidence SHA-256 mismatch, duplicate IDs, unknown labels, dangling edges, stale output, missing output, and unexpected output all fail closed.
 
-- [ ] **Step 5: Run the focused test and observe the expected RED result**
+- [x] **Step 5: Run the focused test and observe the expected RED result**
 
 Run:
 
@@ -48,27 +48,27 @@ Expected: import failure for the not-yet-created `analysis_tools.kim19_final_cap
 - Create: `analysis_tools/kim19_final_capability.py`
 - Modify: `analysis_tools/kim19_final_notes.json`
 
-- [ ] **Step 1: Implement canonical encoding and evidence locking**
+- [x] **Step 1: Implement canonical encoding and evidence locking**
 
 Implement `canonical_bytes()` with sorted keys, ASCII escaping, `allow_nan=False`, and LF termination. Load only declared repository-relative JSON/Markdown evidence paths, reject traversal/absolute paths, compare exact SHA-256 values, and parse JSON without executing recovered code.
 
-- [ ] **Step 2: Validate the reviewed notes schema**
+- [x] **Step 2: Validate the reviewed notes schema**
 
 Require the labels `PROVED`, `STRONGLY SUPPORTED`, `INFERRED`, `UNKNOWN`, and `TARGET OBSERVATION REQUIRED`; unique IDs; nine applications; 19 inventory JARs; valid levels; complete A-D observation metadata; known graph endpoints; and explicit scope separation between KIM19 and historical archived-package findings.
 
-- [ ] **Step 3: Cross-check existing authoritative reports**
+- [x] **Step 3: Cross-check existing authoritative reports**
 
 Compare application identities, versions, entry points, descriptors, startup modes, and the 19 JAR paths/hashes against `application_activation_matrix.json` and `network_capabilities.json`. Require KIM19 part resolution, 4,572-class/19-JAR coverage, all-JAR hash verification, 23 existing service edges, Yelp phone/navigation receiver closure, and archived KIM1/KIM3/KIM12 socket-package exclusion.
 
-- [ ] **Step 4: Build exactly three reports**
+- [x] **Step 4: Build exactly three reports**
 
 Emit `capability_matrix.json` with the inventory, ladder, ranked candidates, per-app/API census, ceiling, scoped negatives, and completion decision; `handoff_graph.json` with typed cross-app taint/handoff paths; and `unresolved_gates.json` with the A-D observation matrix, unknowns, excluded actions, and recommended bounded observation.
 
-- [ ] **Step 5: Implement write and exact-byte check modes**
+- [x] **Step 5: Implement write and exact-byte check modes**
 
 Write only the three declared JSON files. In `--check` mode reject stale, missing, or unexpected JSON files and print a concise verified count.
 
-- [ ] **Step 6: Run the focused test and observe GREEN**
+- [x] **Step 6: Run the focused test and observe GREEN**
 
 Run:
 
@@ -85,7 +85,7 @@ Expected: all focused tests pass with zero errors.
 - Create: `reports/kim19_final/handoff_graph.json`
 - Create: `reports/kim19_final/unresolved_gates.json`
 
-- [ ] **Step 1: Generate the reports**
+- [x] **Step 1: Generate the reports**
 
 Run:
 
@@ -95,11 +95,11 @@ Run:
 
 Expected: `3 reports written; evidence inputs verified`.
 
-- [ ] **Step 2: Verify exact bytes immediately**
+- [x] **Step 2: Verify exact bytes immediately**
 
 Run the same command with `--check` and require `3 reports verified; evidence inputs verified`.
 
-- [ ] **Step 3: Inspect semantic invariants**
+- [x] **Step 3: Inspect semantic invariants**
 
 Confirm nine applications, 19 JARs, all required evidence labels, graph endpoint closure, A-D observation coverage, decision `B`, the KIM19 Level-3 ceiling, separately scoped historical Level-4 socket condition, and `STATIC RESEARCH COMPLETE`.
 
@@ -110,19 +110,19 @@ Confirm nine applications, 19 JARs, all required evidence labels, graph endpoint
 - Create: `docs/kim19_stock_capability_graph.md`
 - Create: `docs/kim19_target_observation_runbook.md`
 
-- [ ] **Step 1: Write the 18-section final assessment**
+- [x] **Step 1: Write the 18-section final assessment**
 
 Cover the executive conclusion; exact inventory; ranked table; graph; SocketCommandSource, IXC, dynamic-extension, and platform-service dispositions; per-app findings; scoped negatives; unknowns; observation matrix; proved and conditional ceilings; action; completion marker; verification; and Git checkpoint. Cite concrete committed reports and keep every inference labeled.
 
-- [ ] **Step 2: Write the stock capability graph**
+- [x] **Step 2: Write the stock capability graph**
 
 Document the input-to-app-to-handoff-to-action paths, cross-application edges, receiver semantics, and why ordinary returned strings/models are not executable. Include a compact Mermaid graph plus a machine-readable report link.
 
-- [ ] **Step 3: Write the target observation runbook**
+- [x] **Step 3: Write the target observation runbook**
 
 Define the smallest passive, local-only, network-transmitting, and state-changing observations. For every row include exact action, visible outcomes, proof, falsification boundary, transmission/persistence flags, dependencies, and stop condition; prohibit active socket probing, credentials, backend substitution, calls, routes, registration, media writes, uploads, and installs in the recommended first observation.
 
-- [ ] **Step 4: Cross-check Markdown against JSON**
+- [x] **Step 4: Cross-check Markdown against JSON**
 
 Require matching candidate order, levels, socket/IXC/dynamic conclusions, observation IDs, decision `B`, and completion marker.
 
@@ -132,19 +132,19 @@ Require matching candidate order, levels, socket/IXC/dynamic conclusions, observ
 - Create: `reports/kim19_final/verification.md`
 - Modify: `docs/superpowers/plans/2026-09-08-kim19-final-capability-closure.md`
 
-- [ ] **Step 1: Run focused and full tests**
+- [x] **Step 1: Run focused and full tests**
 
 Run the final analyzer tests, existing Yelp/runtime/stock/target tests, then full `analysis_tools/tests` discovery in the documented analysis environment. Require zero failures and errors.
 
-- [ ] **Step 2: Run every applicable check-mode generator**
+- [x] **Step 2: Run every applicable check-mode generator**
 
 Check the final reports, KIM19 Yelp reports, KIM19 runtime reports, target production reports, stock-signed reports, Yelp observation report, and Performance Pages reports using their documented inputs. Record exact commands and outcomes.
 
-- [ ] **Step 3: Verify evidence and repository consistency**
+- [x] **Step 3: Verify evidence and repository consistency**
 
 Run `git diff --check`, inspect `git diff --stat` and `git status`, confirm the recovered KIM19 analyzer still reports all 19 JAR hashes unchanged, and compare the original dirty checkout's HEAD/status/diff fingerprints to the recorded baseline.
 
-- [ ] **Step 4: Record verification evidence and close plan checkboxes**
+- [x] **Step 4: Record verification evidence and close plan checkboxes**
 
 Write exact test counts, generator results, evidence hashes, isolation results, and remaining target-only boundaries to `reports/kim19_final/verification.md`; then mark every completed plan item checked.
 
@@ -154,18 +154,18 @@ Write exact test counts, generator results, evidence hashes, isolation results, 
 - Modify: `docs/kim19_final_capability_assessment.md`
 - Modify: `reports/kim19_final/verification.md`
 
-- [ ] **Step 1: Commit the implementation and generated evidence**
+- [x] **Step 1: Commit the implementation and generated evidence**
 
 Stage only this plan's files and create a descriptive research commit.
 
-- [ ] **Step 2: Insert the real commit SHA without falsifying a clean checkpoint**
+- [x] **Step 2: Insert the real commit SHA without falsifying a clean checkpoint**
 
 Use a second documentation-only commit to record the first content commit SHA as the reproducible report checkpoint; describe the final tip SHA in the final response and Git state rather than recursively embedding it.
 
-- [ ] **Step 3: Re-run final verification from the committed tree**
+- [x] **Step 3: Re-run final verification from the committed tree**
 
 Run focused/full tests, final `--check`, `git diff --check`, and status checks after the documentation commit.
 
-- [ ] **Step 4: Push without opening a PR**
+- [x] **Step 4: Push without opening a PR**
 
 Push `codex/kim19-final-capability-closure` to `origin`, verify local/remote SHA equality and a clean isolated worktree, and recheck that the original dirty checkout baseline is unchanged.

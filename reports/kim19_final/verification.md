@@ -101,7 +101,7 @@ These exactly match the completed Yelp checkpoint record. No stash, reset, clean
 
 ## Commit checkpoint
 
-Content and verification checkpoint: `CONTENT_COMMIT_SHA`.
+Content and verification checkpoint: `bebe8f87dfc08d5ac70d8501cb55cf62de79ad45`.
 
 The final documentation-only commit records that stable content SHA. Its own tip SHA is reported externally and verified against the pushed remote because a commit cannot recursively embed its own identifier.
 
