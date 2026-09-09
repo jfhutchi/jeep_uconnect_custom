@@ -1,5 +1,14 @@
 # 17 - QNX 6.6 Apple CarPlay transport reference
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Updated 2026-09-06. This note closes one narrow engine-generation question with
 official QNX 6.6-era documentation and separates USB transport enablement from
 the licensed CarPlay receiver. It is reference research only. No USB rule,

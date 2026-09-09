@@ -1,5 +1,14 @@
 # 12 - RA4 projection hardware and codec feasibility
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Updated 2026-09-06. This report separates three questions that must not be
 collapsed: what the OMAP3730 silicon contains, what the recovered RA4 actually
 configures, and what a legitimate projection engine can call. It is static and

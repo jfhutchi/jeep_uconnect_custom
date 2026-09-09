@@ -1,9 +1,18 @@
 # Uconnect RA4 18.45.01 Research Handoff - Current Findings
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](docs/00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 **Status:** current evidence handoff for the owner-authorized, read-only RA4 investigation  
 **Primary target:** RA4 / VP4 18.45.01  
 **Comparison target:** UAS 21.9 only where explicitly labeled  
-**Current implementation status:** STOP - no stock modification, application installation, or flash is yet authorized by the evidence  
+**Current implementation status:** BLOCKED - implementation on hold pending manufacturer hardware/support, legitimate authorization and compatible licensed components  
 **Safety boundary:** no anti-theft PIN bypass or derivation, no service-certificate forgery, no signature disabling, no reuse of vendor credentials, and no stock/vendor material in Git
 
 ## 1. Mission and corrected premise

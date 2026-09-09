@@ -1,5 +1,14 @@
 # 16 - RA4 resident projection component placement
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Updated 2026-09-06. This decision separates four concerns that earlier plans
 risked conflating: stock projection UI, application identity/lifecycle, the
 stock-facing backend adapter, and the licensed phone-projection engine. It is

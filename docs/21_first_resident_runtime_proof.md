@@ -1,5 +1,14 @@
 # First future resident runtime proof: original, manual, no engine
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Date: 2026-09-07. **Host artifact only. No accepted target package has been
 created, authorized, deployed or executed.** Work remains on the host until the
 gates below are resolved and a future target experiment is separately authorized.

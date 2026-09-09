@@ -1,5 +1,14 @@
 # Resident HMI decision: stock-runtime first, deployment not yet proved
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Date: 2026-09-05. Scope: owner-authorized source, mocks and read-only analysis.
 No installation, firmware changes, signing changes, CAN writes or projection
 engine implementation. This decision supersedes the premature native-only

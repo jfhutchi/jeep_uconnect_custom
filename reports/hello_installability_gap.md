@@ -1,5 +1,14 @@
 # Hello Uconnect Installability Gap
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](../docs/00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 ## Result
 
 Hello Uconnect remains a genuine, deterministic RA4-compatible Java/Xlet host

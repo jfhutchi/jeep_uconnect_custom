@@ -1,5 +1,14 @@
 # Resident Incoming-JAR Schema Investigation Plan
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](../../00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 > **Execution mode:** Static, read-only firmware research. No signing, credential generation, target connection, installation, trust-store change, DRM change, or vendor-binary execution.
 
 **Goal:** Recover the AMS contract for the single resident-application JAR, prove the incoming-to-installed transformation, and state the smallest remaining legitimate issuance gate.

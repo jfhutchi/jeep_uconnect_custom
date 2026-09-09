@@ -1,5 +1,14 @@
 # Portable projection arbiter core
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](../../docs/00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Original C99 candidate for the RA4-resident integration layer. It mirrors the
 version-2 ownership semantics in `prototype/resident_hmi/model.mjs` without a
 browser, JavaScript runtime, heap allocation, filesystem, networking, graphics,

@@ -1,5 +1,14 @@
 # PC reference versus RA4 projection gates
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Updated: 2026-09-07. Decision artifact for canonical draft PR #14. Status explicitly
 separates reference observations from the RA4's static and runtime evidence.
 The [bench contract](../reports/android_auto_reference_contract.md) preserves

@@ -1,5 +1,14 @@
 # RA4 resource budget: stock-system headroom comes first
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Updated: 2026-09-05. Mandatory product constraint; supersedes earlier assumptions
 that a hidden external computer should render the entire modern HMI by default.
 

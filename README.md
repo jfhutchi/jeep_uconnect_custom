@@ -1,6 +1,21 @@
 # Jeep Uconnect Custom
 
-Modernize a 2014 Jeep Grand Cherokee WK2 RA4 infotainment experience while preserving factory vehicle functionality.
+Research into modernizing a 2014 Jeep Grand Cherokee WK2 RA4 infotainment
+system while preserving factory vehicle functionality.
+
+**Status: BLOCKED - effectively not achievable as a software-only project with
+our available hardware and authorized access.** We have not established a viable
+legal, manufacturer-authorized route to install this integration. Progress would
+require manufacturer-provided or approved development/service hardware, matching
+credentials and signing/entitlement support, and compatible licensed software.
+Hardware alone is not enough, and no sufficient manufacturer kit or access route
+has been confirmed.
+
+The repository now preserves research and host prototypes. It does not provide a
+working CarPlay/Android Auto upgrade, an installable RA4 app, or flashable firmware.
+See the [project status and reopening conditions](docs/00_project_status.md).
+This is a practical project conclusion, not a blanket legal ruling about all
+independent modifications.
 
 Current decision artifacts: [transport gate matrix](docs/20_projection_transport_gate_matrix.md),
 [USB and projection backend evidence](reports/ra4_usb_stack_backend_census.md),
@@ -32,7 +47,7 @@ and [first future resident proof](docs/21_first_resident_runtime_proof.md).
 The [current handoff](RA4_RESEARCH_HANDOFF_CURRENT_FINDINGS.md) records the
 canonical draft PR status. No radio deployment is authorized by these reports.
 
-## Product goal
+## Original product goal (on hold)
 
 Integrate native Android Auto and Apple CarPlay as first-class projection
 applications inside stock RA4 Uconnect. Production does **not** replace the
@@ -53,10 +68,11 @@ Target experience:
   camera takeover preserves projection interaction ownership.
 - Normal stock phone/message behavior returns when projection is inactive.
 
-## Architecture direction
+## Earlier architecture direction (conditional research)
 
-The working architecture is **RA4-resident first, integration rather than
-firmware replacement**. Approximately 77 MB observed free space is shared with
+The earlier architecture was **RA4-resident first, integration rather than
+firmware replacement**. It is retained as a conditional design, not an active
+implementation commitment. Approximately 77 MB observed free space is shared with
 the stock system, not an app allocation. The mandatory
 [resource budget](docs/ra4_resource_budget.md) protects 45 MB and provisionally
 caps installed app size at 15 MB, runtime growth at 4 MB and additional peak
@@ -73,10 +89,12 @@ Small RA4-resident projection integration (stock AIR/SWF reuse preferred)
 The original RA4 remains responsible for vehicle-specific logic. New code should consume high-level existing services where possible rather than reimplementing raw CAN behavior.
 
 This supersedes both the earlier external-renderer-first proposal and the later
-six-screen replacement-shell interpretation. First determine the largest credible
-software-only projection integration. A complete legitimate projection engine
-remains unresolved; classify it `EXTERNAL_COMPUTE_REQUIRED` only when measured
-local storage/CPU/RAM feasibility fails. PC mocks and analysis tools remain
+six-screen replacement-shell interpretation. The software-only investigation is now blocked by
+manufacturer access, authorization and missing supported components. A complete
+legitimate projection engine remains unresolved. The earlier
+`EXTERNAL_COMPUTE_REQUIRED` classification concerns measured resource fit only;
+it does not describe the separate need for manufacturer development/service
+hardware and authorization. PC mocks and analysis tools remain
 outside deployment.
 
 ## Verified research findings
@@ -101,7 +119,7 @@ Current product integration: the [projection foreground-ownership report](report
 traces stock session/display separation, call/SMS presentation, foreground
 arbitration, camera return and comfort-popup reuse. The separate
 [read-only driver-temperature contract](reports/ra4_driver_temperature_contract.md)
-remains active research; its prototype stays mock-only and no radio subscription
+is retained as read-only research; its prototype stays mock-only and no radio subscription
 or control is enabled.
 
 The focused [Synctool device/license-selection report](reports/synctool_device_license_selection.md)
@@ -126,7 +144,7 @@ This project is analysis-first.
 - Bench-test integration work before testing on the vehicle's only working radio.
 - Preserve a stock-UI fallback path.
 
-## Current milestones
+## Project hold and retained research
 
 The resident product slice is a tiny projection integration layer inside stock
 Uconnect. The refocused [PC prototype](prototype/resident_hmi/README.md) is an
@@ -136,11 +154,13 @@ A [transport-free C99 arbiter](prototype/projection_arbiter_c/README.md) provide
 the same policy in a tiny, no-heap target candidate without claiming a recovered
 vendor API or install path.
 
-1. Complete projection foreground and Return-to-Uconnect contract recovery.
-2. Trace projection-back, comfort-popup and audio-focus XREFs.
-3. Establish authorized app/screen lifecycle and measure a tiny target trial.
-4. Prove camera, popup, phone/message arbitration, fallback and resource headroom.
-5. Continue read-only temperature-quality research independently.
+Implementation milestones are suspended. The next prerequisite is a confirmed
+manufacturer or authorized supplier route covering hardware, access, signing,
+entitlements and licensed components. More host tests or recovered interfaces do
+not close that gap. See the [revised next steps](docs/07_next_steps.md).
+
+The following documents preserve the earlier design and its unresolved gates;
+they are conditional references for any future supported effort.
 
 See the [completion matrix](docs/08_projection_completion_matrix.md) for
 requirement-by-requirement proof, the

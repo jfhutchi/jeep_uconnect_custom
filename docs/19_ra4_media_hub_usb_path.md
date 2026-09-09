@@ -1,5 +1,14 @@
 # 19 - RA4 media-hub USB data path
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 Updated 2026-09-06. This report narrows the physical USB path between the
 2014 Grand Cherokee cabin media port and the Harman BE2800 RA4. It is a
 read-only correlation of official Mopar catalog/user-guide data, a

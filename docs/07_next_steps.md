@@ -1,82 +1,36 @@
-# 07 - Product-first next steps
+# 07 - Project hold and reopening conditions
 
-Updated 2026-09-06. Production is projection inside stock Uconnect, not a
-replacement shell. The refocused PC prototype exercises only projection
-ownership, adapter boundaries and failure policy.
+Updated: 2026-09-07.
 
-## Next highest-value evidence
+**Implementation is blocked without manufacturer support.** The software-only
+RA4 integration is effectively not achievable with the equipment and authorized
+access available to this project. See the canonical
+[project status](00_project_status.md) for the conclusion and supporting evidence.
 
-The [post-reboot checkpoint](../reports/ra4_post_reboot_checkpoint.md) executed
-135 Python tests, 20 JS tests, the strict C99 build/run, the seven-root 122-marker
-census and bounded foreground XREFs. Do not repeat those acquisitions without
-new evidence or code changes.
+The next meaningful prerequisite is a supported manufacturer or authorized
+supplier route, including the required development/service hardware, legitimate
+credentials and packaging/signing support. Hardware alone is insufficient:
+compatible software, application entitlements, projection licensing and supported
+integration interfaces are also required. No sufficient kit or access route is
+currently confirmed.
 
-1. Correlate existing owner-supplied topology/boot captures or authorized
-   passive board/net evidence to Radio C2. The completed
-   [startup PHY trace](../reports/ra4_startup_usb_phy_identity.md) identifies
-   intended USB83340-family EHCI support and GPIO-38 reset, separately from
-   Mentor's ULPI power configuration. Mentor PHY and physical port mapping
-   remain unproved; neither generic PMIC names nor utility success close them.
-2. Obtain a matching owner-supplied `DeviceProjection.swf`/backend or legitimate
-   provider contract. The seven-root filename census and 610-SWF exact-name
-   census did not locate the screen or a back-to-car event listener.
-3. Determine the backend meaning of stock BacktoCar-triggered
-   `callStartProjection(activePpId)`. Preserve session continuity; do not infer
-   teardown or prohibit this command solely from its name.
-4. Finish heated-seat/heated-wheel popup event control flow and the separate
-   MME source registration, ducking/call route and microphone owner-death trace.
-5. Acquire authorized hub/controller/net evidence for Radio C2. The installed
-   host paths are known; the physical phone-port and reversible DCD lane are not.
+## While blocked
 
-Current evidence: [projection foreground ownership](../reports/projection_foreground_ownership.md).
-The [completion matrix](08_projection_completion_matrix.md) separates static,
-host-model and target proof so these tasks cannot be closed by a narrow test.
-The [resident placement decision](16_ra4_resident_placement_decision.md) separates
-proved authorized-Xlet launch from the still-external package authorization and
-projection backend/screen gates. The [evidence-gate manifest](10_evidence_gates.md)
-names the exact local artifacts,
-historical log fields, legitimate contracts and spare-bench measurements needed.
+- Preserve the existing evidence and reproducible host artifacts.
+- Keep any further analysis read-only and host prototypes local.
+- Treat the architecture, completion matrix and runtime-proof checklists as
+  conditional references, not a queue of active radio implementation tasks.
+- Do not generate deployment packages, attempt installation, flash firmware or
+  pursue signing/credential workarounds to overcome this blocker.
 
-Continue the [driver-temperature trace](../reports/ra4_driver_temperature_contract.md)
-independently: close units-change/service-restart quality and stale-cache behavior
-without adding a live radio subscription or replacement Climate screen.
+## Reopening implementation
 
-## Static-contract exit
+Reopen only when the manufacturer-support, authorization and licensed-software
+prerequisites in the [project status](00_project_status.md) are met. Then reassess
+existing evidence gates and define a separately authorized spare-bench plan
+before target work. A spare radio or additional PC test results alone do not
+close the authorization or integration gaps.
 
-Recover session versus foreground lifecycle, return/resume behavior, call/SMS
-visual and audio gates, camera stack return, permitted overlays and temperature
-quality with explicit CONFIRMED/HIGH/INFERRED/UNKNOWN evidence.
-
-## Authorized lifecycle/resource proof
-
-Establish a supported screen/app boundary and compatible toolchain. Build only a
-tiny integration trial. Measure installed bytes, runtime writes, update peak, RAM,
-CPU and startup. Preserve the 45 MB stock reserve. No roadmap step authorizes radio
-modification.
-
-## Bench-only proofs
-
-Under separate authorization on spare hardware: show/hide projection through the
-stock arbiter; verify camera/popup priority; verify Return to Uconnect and session
-resume; verify no duplicate call/SMS foreground or TTS while active and normal
-behavior while inactive; verify crash fallback.
-
-## Engine feasibility
-
-The [official-source candidate screen](11_projection_engine_feasibility.md)
-identifies QNX SDK for Smartphone Connectivity as the first legitimate resident
-candidate family. Obtain exact RA4/QNX/ARM compatibility, Apple/Google program
-access and component-level target sizes before requesting binaries or assuming
-integration.
-
-Evaluate that legitimate engine against local storage, RAM, CPU, video, touch, USB
-and audio contracts. Do not choose external hardware merely for convenience. Mark
-the engine `EXTERNAL_COMPUTE_REQUIRED` only if resident feasibility fails while
-keeping the RA4 integration layer tiny.
-
-## Definition of done
-
-Projection behaves like an OEM Uconnect application: full-screen when selected,
-easy to leave/resume, subordinate to camera/critical overlays, compatible with
-temporary comfort popups, and sole presenter of projected calls/messages while
-active. Ordinary factory screens and disconnected behavior remain stock.
+The original desired experience remains documented in the
+[system goal](01_system_goal.md). It is an unfulfilled design goal, not a promised
+upgrade or a currently supported implementation path.

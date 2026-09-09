@@ -1,5 +1,14 @@
 # Resident projection integration contract v2
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 This contract governs the executable PC reference model in
 `prototype/resident_hmi`. The transport-free C99 candidate in
 `prototype/projection_arbiter_c` mirrors the same ownership semantics for a

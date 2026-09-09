@@ -1,6 +1,15 @@
 # RA4 18.45.01 Master Findings
 
-Updated: 2026-09-04
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](../docs/00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
+Project status updated: 2026-09-07; technical evidence below retains its original scope.
 
 This is the authoritative evidence index for the owner-authorized RA4 18.45.01 reverse-engineering project. It reconciles the detailed reports and records what is proved, what remains unknown, and what must be true before any on-unit implementation. It is not a modification or flashing procedure.
 

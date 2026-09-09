@@ -1,5 +1,14 @@
 # RA4 18.45.01 Firmware Analysis Plan
 
+> **Project status - 2026-09-07: BLOCKED without manufacturer support.**
+> The software-only integration is effectively not achievable with the hardware
+> and authorized access available to this project. Manufacturer-provided or
+> approved development/service hardware, credentials, signing/entitlements and
+> compatible licensed software are prerequisites; no sufficient route is confirmed.
+> This document is retained as research or a conditional design, not an active
+> deployment roadmap. The [current project status](../../00_project_status.md)
+> supersedes earlier implementation priorities and defines reopening conditions.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use subagent-driven-development to execute this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Produce a reproducible, read-only architecture and CarPlay feasibility assessment of `Uconnect_VP4,18.45.01-My13-17.zip` without executing or altering firmware payloads.
