@@ -82,15 +82,26 @@ def _unique(rows: list[dict[str, Any]], field: str, what: str) -> set[str]:
     return set(values)
 
 
-def _validate_claim(claim: object, location: str) -> None:
+def _validate_evidence_refs(
+    row: dict[str, Any], evidence_ids: set[str], location: str
+) -> None:
+    evidence = row.get("evidence")
+    if not isinstance(evidence, list) or not evidence:
+        raise ValueError(f"missing evidence at {location}")
+    if not set(evidence) <= evidence_ids:
+        raise ValueError(f"unknown evidence at {location}")
+
+
+def _validate_claim(
+    claim: object, location: str, evidence_ids: set[str]
+) -> None:
     if not isinstance(claim, dict):
         raise ValueError(f"{location} must be a claim object")
     if claim.get("label") not in LABELS:
         raise ValueError(f"invalid label at {location}")
     if not isinstance(claim.get("finding"), str) or not claim["finding"]:
         raise ValueError(f"missing finding at {location}")
-    if not isinstance(claim.get("evidence"), list) or not claim["evidence"]:
-        raise ValueError(f"missing evidence at {location}")
+    _validate_evidence_refs(claim, evidence_ids, location)
 
 
 def load_and_validate_notes(
@@ -108,11 +119,54 @@ def load_and_validate_notes(
         if not isinstance(digest, str) or len(digest) != 64:
             raise ValueError("evidence input requires SHA-256")
 
+    id_bound_groups = (
+        "ranked_capabilities",
+        "dynamic_mechanisms",
+        "ixc_services",
+        "platform_services",
+        "unknowns",
+        "observations",
+    )
+    singleton_keys = (
+        "socket_command_source",
+        "historical_conditional",
+        "ceiling",
+        "decision",
+    )
+    bindings = notes.get("evidence_bindings")
+    expected_binding_keys = set(id_bound_groups) | {"scoped_negatives", "singletons"}
+    if not isinstance(bindings, dict) or set(bindings) != expected_binding_keys:
+        raise ValueError("evidence bindings must cover every summary group")
+    for group in id_bound_groups:
+        rows = notes.get(group, [])
+        row_ids = _unique(rows, "id", group)
+        group_bindings = bindings[group]
+        if not isinstance(group_bindings, dict) or set(group_bindings) != row_ids:
+            raise ValueError(f"evidence bindings do not exactly cover {group}")
+        for row in rows:
+            row["evidence"] = copy.deepcopy(group_bindings[row["id"]])
+            _validate_evidence_refs(row, evidence_ids, f"{group}.{row['id']}")
+
+    negatives = notes.get("scoped_negatives", [])
+    negative_bindings = bindings["scoped_negatives"]
+    if not isinstance(negative_bindings, list) or len(negative_bindings) != len(negatives):
+        raise ValueError("evidence bindings do not exactly cover scoped_negatives")
+    for index, (row, evidence) in enumerate(zip(negatives, negative_bindings)):
+        row["evidence"] = copy.deepcopy(evidence)
+        _validate_evidence_refs(row, evidence_ids, f"scoped_negatives.{index}")
+
+    singleton_bindings = bindings["singletons"]
+    if not isinstance(singleton_bindings, dict) or set(singleton_bindings) != set(singleton_keys):
+        raise ValueError("evidence bindings do not exactly cover summary singletons")
+    for key in singleton_keys:
+        notes[key]["evidence"] = copy.deepcopy(singleton_bindings[key])
+        _validate_evidence_refs(notes[key], evidence_ids, key)
+
     defaults = notes.get("surface_defaults", {})
     if set(defaults) != SURFACE_KEYS:
         raise ValueError("surface defaults do not cover exact inventory fields")
     for key, claim in defaults.items():
-        _validate_claim(claim, f"surface_defaults.{key}")
+        _validate_claim(claim, f"surface_defaults.{key}", evidence_ids)
 
     profiles = notes.get("application_profiles", [])
     if len(profiles) != 9:
@@ -123,7 +177,7 @@ def load_and_validate_notes(
         if not isinstance(overrides, dict) or not set(overrides) <= SURFACE_KEYS:
             raise ValueError("application profile has unknown surface")
         for key, claim in overrides.items():
-            _validate_claim(claim, f"{profile['identifier']}.{key}")
+            _validate_claim(claim, f"{profile['identifier']}.{key}", evidence_ids)
 
     for group in ("ranked_capabilities", "dynamic_mechanisms", "ixc_services", "platform_services"):
         rows = notes.get(group, [])
@@ -147,10 +201,7 @@ def load_and_validate_notes(
             raise ValueError("handoff edge references unknown node")
         if edge.get("label") not in LABELS:
             raise ValueError("invalid label in handoff edge")
-        if not isinstance(edge.get("evidence"), list) or not edge["evidence"]:
-            raise ValueError("handoff edge requires evidence")
-        if not set(edge["evidence"]) <= evidence_ids:
-            raise ValueError("handoff edge references unknown evidence")
+        _validate_evidence_refs(edge, evidence_ids, f"handoff_edges.{edge['id']}")
 
     observations = notes.get("observations", [])
     _unique(observations, "id", "observation")

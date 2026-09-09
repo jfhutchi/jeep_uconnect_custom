@@ -32,6 +32,14 @@
     }
   ],
   "ceiling": {
+    "evidence": [
+      "runtime_graph",
+      "runtime_network",
+      "yelp_handoffs",
+      "socket_findings",
+      "socket_validation",
+      "performance_consumers"
+    ],
     "highest_conditional_kim19_candidate": "The same typed Level-3 paths after target installation, grants, services, and connectivity gates are satisfied.",
     "highest_conditional_kim19_level": 3,
     "highest_proved_candidate": "Typed stock-service invocation through Yelp phone/navigation, Apps/AppManager/AMS, VSB/IXC, MTS, and related fixed stock contracts.",
@@ -44,6 +52,13 @@
   "decision": {
     "choice": "B",
     "completion_status": "STATIC RESEARCH COMPLETE",
+    "evidence": [
+      "runtime_validation",
+      "socket_findings",
+      "socket_validation",
+      "yelp_handoffs",
+      "performance_consumers"
+    ],
     "label": "INFERRED",
     "reason": "All plausible level-changing recovered-artifact families are closed or bounded. Remaining gates are mutable target installation, authorization, services, connectivity, media, and historical state that static artifacts cannot resolve.",
     "recommended_next_action": "Run A1, then B1 only if Yelp is visible; record the first stable state and stop.",
@@ -54,6 +69,10 @@
       "caller_activation": "Typed manager acquisition",
       "controllable_input": "Mostly fixed framework-owned implementation names",
       "disposition": "Platform adaptation, not external plugin ingress.",
+      "evidence": [
+        "socket_findings",
+        "yelp_handoffs"
+      ],
       "id": "fixed-platform-factories",
       "label": "PROVED",
       "level": 3,
@@ -64,6 +83,10 @@
       "caller_activation": "Daemon config plus exact operation/topic match",
       "controllable_input": "Message values enter stock tasks; operation set and routes are daemon-owned",
       "disposition": "Typed configured dispatch; insufficient for Level 4 in KIM19.",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network"
+      ],
       "id": "vsb-operation-factory",
       "label": "PROVED",
       "level": 3,
@@ -74,6 +97,10 @@
       "caller_activation": "Library/helper presence",
       "controllable_input": "No closed external serialized-object-to-effect path",
       "disposition": "Infrastructure only; do not infer deserialization execution.",
+      "evidence": [
+        "socket_findings",
+        "runtime_network"
+      ],
       "id": "store-serialization",
       "label": "UNKNOWN",
       "level": 0,
@@ -84,6 +111,10 @@
       "caller_activation": "Stock LWUIT graphics helper",
       "controllable_input": "Fixed packaged resource and name",
       "disposition": "Native stock implementation loading, not externally supplied code.",
+      "evidence": [
+        "runtime_network",
+        "runtime_validation"
+      ],
       "id": "lseries-affiner",
       "label": "PROVED",
       "level": 2,
@@ -94,6 +125,9 @@
       "caller_activation": "Connector open plus resident configuration",
       "controllable_input": "URI chooses among resident protocol providers; class root/platform is configured",
       "disposition": "No new class-byte origin or arbitrary executable input proved.",
+      "evidence": [
+        "socket_findings"
+      ],
       "id": "connector-providers",
       "label": "PROVED",
       "level": 0,
@@ -104,6 +138,9 @@
       "caller_activation": "System/resource/property factory lookup",
       "controllable_input": "External write authority over provider names/resources is UNKNOWN",
       "disposition": "Generic library infrastructure, not a closed KIM19 extension route.",
+      "evidence": [
+        "socket_findings"
+      ],
       "id": "xml-logging-providers",
       "label": "PROVED",
       "level": 0,
@@ -114,6 +151,9 @@
       "caller_activation": "AMS TimeMgrService fixed update task; second wrapper has no external Java caller",
       "controllable_input": "No user command string reaches the wrappers",
       "disposition": "Typed fixed platform task, not shell authority.",
+      "evidence": [
+        "socket_findings"
+      ],
       "id": "fixed-executor",
       "label": "PROVED",
       "level": 3,
@@ -124,6 +164,10 @@
       "caller_activation": "Exact older app lifecycle plus loopback client",
       "controllable_input": "Method selector and arguments, but receiver fixed to wrapper",
       "disposition": "Generalized fixed-stock UI/test dispatcher; excluded from KIM19 selection.",
+      "evidence": [
+        "socket_findings",
+        "socket_validation"
+      ],
       "id": "archived-json-invoke",
       "label": "PROVED",
       "level": 4,
@@ -134,6 +178,10 @@
       "caller_activation": "Archived socket command plus file, policy, client and JUnit dependencies",
       "controllable_input": "Archive and JUnit command strings",
       "disposition": "Instructions exist, but no JUnit classes in 300-JAR census and no executable new-code chain established; Level 5 is not assigned.",
+      "evidence": [
+        "socket_findings",
+        "socket_validation"
+      ],
       "id": "archived-test-loader",
       "label": "UNKNOWN",
       "level": 5,
@@ -144,6 +192,9 @@
       "caller_activation": "Injection enablement plus local XML plan and old package",
       "controllable_input": "External file writer and enablement are UNKNOWN",
       "disposition": "Data substitution, not listener or code execution; package-excluded.",
+      "evidence": [
+        "socket_findings"
+      ],
       "id": "archived-http-injection",
       "label": "PROVED",
       "level": 2,
@@ -154,6 +205,9 @@
       "caller_activation": "No recovered external startUnitTest caller; emulator/enableUT gate",
       "controllable_input": "Potential test protocol only after unproved start",
       "disposition": "Not a reachable KIM19 route.",
+      "evidence": [
+        "socket_findings"
+      ],
       "id": "airbiquity-test-server",
       "label": "UNKNOWN",
       "level": 4,
@@ -164,6 +218,11 @@
       "caller_activation": "No complete invocation chain found",
       "controllable_input": "None established",
       "disposition": "Scoped negative; native Lua and separate Help HTML are not KIM19 executable-input proof.",
+      "evidence": [
+        "socket_findings",
+        "runtime_network",
+        "runtime_validation"
+      ],
       "id": "script-browser-negative",
       "label": "PROVED",
       "level": 0,
@@ -224,6 +283,11 @@
   "historical_conditional": {
     "candidate": "SocketCommandSource invoke dispatcher",
     "condition": "An exact older containing application is already legitimately installed and launchable, loopback bind succeeds, and an already-authorized on-unit client exists.",
+    "evidence": [
+      "socket_findings",
+      "socket_validation",
+      "part_resolution"
+    ],
     "label": "TARGET OBSERVATION REQUIRED",
     "level": 4,
     "limit": "Still loopback-only and fixed to wrapper methods; no current target instance or client is established. URLClassLoader/JUnit does not promote this to proved Level 5.",
@@ -239,6 +303,10 @@
         "Performance Pages L-Series"
       ],
       "disposition": "Useful typed local service; not an IP listener and not generalized caller authority.",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network"
+      ],
       "id": "ixc-vsb-service",
       "label": "PROVED",
       "level": 3,
@@ -252,6 +320,10 @@
         "VSBClient completion and incoming routers"
       ],
       "disposition": "Actual effects are recipient-specific: DRM queues work, ASSIST no-ops, Performance releases status latch.",
+      "evidence": [
+        "runtime_graph",
+        "performance_export"
+      ],
       "id": "ixc-vsb-callbacks",
       "label": "PROVED",
       "level": 3,
@@ -265,6 +337,9 @@
         "Bound stock application listeners only"
       ],
       "disposition": "Typed app/process/registration/reset notifications; no universal consumer or user-controlled remote proved.",
+      "evidence": [
+        "runtime_graph"
+      ],
       "id": "ixc-drm-notifications",
       "label": "PROVED",
       "level": 3,
@@ -276,6 +351,9 @@
     {
       "consumers": [],
       "disposition": "No bind/lookup/exported object; no indirect route to SocketCommandSource.",
+      "evidence": [
+        "yelp_handoffs"
+      ],
       "id": "ixc-yelp-none",
       "label": "PROVED",
       "level": 0,
@@ -2217,10 +2295,14 @@
     }
   ],
   "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
-  "notes_sha256": "45d8f0704569cda7daa388c60bd755bb55a993477b7db247d6ed83567bd1febe",
+  "notes_sha256": "aea735d00ca94b170fc97cb18a6542cdbc11529aa7d0533f3085706637688f83",
   "platform_services": [
     {
       "caller": "Yelp details action",
+      "evidence": [
+        "yelp_handoffs",
+        "runtime_graph"
+      ],
       "id": "platform-navigation",
       "input": "Selected Place/geocode plus optional stock geocoder result",
       "label": "PROVED",
@@ -2230,6 +2312,10 @@
     },
     {
       "caller": "Yelp details action; ASSIST has separate stock call workflow",
+      "evidence": [
+        "yelp_handoffs",
+        "runtime_graph"
+      ],
       "id": "platform-phone",
       "input": "Selected result phone string or fixed assistance action",
       "label": "PROVED",
@@ -2239,6 +2325,10 @@
     },
     {
       "caller": "Yelp",
+      "evidence": [
+        "yelp_handoffs",
+        "runtime_graph"
+      ],
       "id": "platform-voice",
       "input": "Recognized speech text",
       "label": "PROVED",
@@ -2248,6 +2338,10 @@
     },
     {
       "caller": "Yelp",
+      "evidence": [
+        "yelp_handoffs",
+        "runtime_graph"
+      ],
       "id": "platform-location",
       "input": "Platform location and selected Place address",
       "label": "PROVED",
@@ -2257,6 +2351,10 @@
     },
     {
       "caller": "Apps UI, Store fixed Register chain, DRMSync listener",
+      "evidence": [
+        "runtime_activation",
+        "runtime_graph"
+      ],
       "id": "platform-appmanager",
       "input": "Installed app identity or fixed Register GUID; DRM state",
       "label": "PROVED",
@@ -2266,6 +2364,10 @@
     },
     {
       "caller": "Performance Pages direct writer; no KIM19 FileIO/EcoDrive timer caller",
+      "evidence": [
+        "performance_export",
+        "performance_consumers"
+      ],
       "id": "platform-media-storage",
       "input": "Stock timer template/data and application-generated name",
       "label": "PROVED",
@@ -2275,6 +2377,10 @@
     },
     {
       "caller": "Performance Pages and daemon/service code",
+      "evidence": [
+        "runtime_activation",
+        "performance_export"
+      ],
       "id": "platform-vehicle",
       "input": "Vehicle configuration and telemetry",
       "label": "PROVED",
@@ -2284,6 +2390,10 @@
     },
     {
       "caller": "Yelp, Store, Register, DRMSync, ASSIST, Performance, VSBClient",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network"
+      ],
       "id": "platform-network",
       "input": "Fixed stock requests plus typed user/model data",
       "label": "PROVED",
@@ -2293,6 +2403,11 @@
     },
     {
       "caller": "No user-accessible KIM19 activation path",
+      "evidence": [
+        "socket_findings",
+        "socket_validation",
+        "runtime_network"
+      ],
       "id": "platform-diagnostics",
       "input": "No authorized benign client established",
       "label": "PROVED",
@@ -2304,6 +2419,12 @@
   "ranked_capabilities": [
     {
       "candidate": "Yelp local UI/search plus typed phone/navigation handoffs",
+      "evidence": [
+        "runtime_activation",
+        "runtime_graph",
+        "yelp_handoffs",
+        "yelp_gates"
+      ],
       "gates": "Target installation/visibility/DRM, launch, platform services, connectivity/backend for search, and user selection.",
       "id": "yelp-ui-services",
       "label": "PROVED",
@@ -2313,6 +2434,11 @@
     },
     {
       "candidate": "Performance Pages fixed USB/SD timer HTML export",
+      "evidence": [
+        "performance_export",
+        "performance_consumers",
+        "runtime_graph"
+      ],
       "gates": "Correct vehicle variant, target authorization, timer state, writable media, and durable close; no stock consumer proved.",
       "id": "performance-export",
       "label": "PROVED",
@@ -2322,6 +2448,10 @@
     },
     {
       "candidate": "Apps UI to AppManager/DRM to AMS typed launch",
+      "evidence": [
+        "runtime_activation",
+        "runtime_graph"
+      ],
       "gates": "Actual catalog contents, grants, visibility, and current AMS state.",
       "id": "apps-launch",
       "label": "PROVED",
@@ -2331,6 +2461,11 @@
     },
     {
       "candidate": "Performance Pages fixed timer upload through SDP/VSB and IXC callback",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network",
+        "performance_export"
+      ],
       "gates": "SDP exception fallback, VSB lookup/grant/config/TLS/broker, and backend acceptance.",
       "id": "performance-vsb",
       "label": "PROVED",
@@ -2340,6 +2475,10 @@
     },
     {
       "candidate": "Store MTS workflow and fixed AppManager.chain to Register",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network"
+      ],
       "gates": "Account/backend state, explicit confirmation, native authorization, and target registration.",
       "id": "store-register",
       "label": "PROVED",
@@ -2349,6 +2488,10 @@
     },
     {
       "candidate": "ASSIST typed VSB/platform call workflow",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network"
+      ],
       "gates": "Visibility, platform phone/service state, VSB, network, and user confirmation.",
       "id": "assist-service",
       "label": "PROVED",
@@ -2358,6 +2501,11 @@
     },
     {
       "candidate": "Register typed MTS provisioning workflow",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network",
+        "runtime_activation"
+      ],
       "gates": "Cached stage, lifecycle, connectivity, account/backend acceptance.",
       "id": "register-mts",
       "label": "PROVED",
@@ -2367,6 +2515,11 @@
     },
     {
       "candidate": "DRMSync typed VSB/MTS/AppManager processing",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network",
+        "runtime_activation"
+      ],
       "gates": "Daemon start, VSB, provisioning/VIN, MTS, grants, and processing state.",
       "id": "drm-vsb",
       "label": "PROVED",
@@ -2376,6 +2529,10 @@
     },
     {
       "candidate": "VSB finite configured-operation broker and IXC callback service",
+      "evidence": [
+        "runtime_graph",
+        "runtime_network"
+      ],
       "gates": "Daemon start, IXC grants/bindings, configuration, credentials/TLS, broker subscription and sender authority.",
       "id": "vsb-dispatch",
       "label": "PROVED",
@@ -2388,31 +2545,58 @@
   "scope": "Recovered stock-signed KIM19 for part 68224525AM; target runtime unobserved",
   "scoped_negatives": [
     {
+      "evidence": [
+        "runtime_network",
+        "runtime_validation",
+        "socket_findings"
+      ],
       "finding": "No ServerSocket, DatagramSocket, MulticastSocket, script-engine, or process-launch invocation chain.",
       "label": "PROVED",
       "scope": "All 19 KIM19 JARs / 4,572 classes"
     },
     {
+      "evidence": [
+        "yelp_handoffs",
+        "yelp_gates",
+        "socket_findings"
+      ],
       "finding": "No SocketCommandSource, CommandLooper, browser/WebView, HTML/script sink, dynamic loader, VSB/SDP path, media handoff, or arbitrary app launcher.",
       "label": "PROVED",
       "scope": "Complete KIM19 Yelp JAR plus receiver trace"
     },
     {
+      "evidence": [
+        "performance_export",
+        "performance_consumers"
+      ],
       "finding": "No exact stock-signed reader/importer consumes the generated timersResult HTML; zero reviewed exact candidates.",
       "label": "PROVED",
       "scope": "KIM19/common-base Performance consumer census"
     },
     {
+      "evidence": [
+        "socket_findings",
+        "socket_validation"
+      ],
       "finding": "No direct ClassLoader subclass, resident defineClass call, or general-purpose Java script interpreter chain; zero JUnit classes for the archived test runner.",
       "label": "PROVED",
       "scope": "300 recovered JARs / 72,507 class occurrences"
     },
     {
+      "evidence": [
+        "part_resolution",
+        "socket_findings"
+      ],
       "finding": "No map output selects KIM1, KIM3, or KIM12, the only packages containing SocketCommandSource.",
       "label": "PROVED",
       "scope": "Recovered installer and shipped KIM map"
     },
     {
+      "evidence": [
+        "socket_findings",
+        "runtime_validation",
+        "performance_consumers"
+      ],
       "finding": "Scoped Java/recovered-artifact negatives do not prove global absence from unrecovered or historically retained components.",
       "label": "UNKNOWN",
       "scope": "Live radio native/AOT/runtime and historical install state"
@@ -2442,6 +2626,12 @@
       "invoke"
     ],
     "endpoint": "IPv4 127.0.0.1 TCP 11111 from the only recovered factory; no wildcard caller or forwarding path proved.",
+    "evidence": [
+      "socket_findings",
+      "socket_validation",
+      "yelp_handoffs",
+      "part_resolution"
+    ],
     "final_classification": "STATICALLY PRESENT BUT UNREACHABLE",
     "label": "PROVED",
     "occurrences": 5,

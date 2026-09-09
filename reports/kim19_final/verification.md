@@ -17,7 +17,7 @@ ModuleNotFoundError: No module named 'analysis_tools.kim19_final_capability'
 Ran 1 test; FAILED (errors=1)
 ```
 
-After implementation, the focused suite passed 7 tests. It covers canonical ASCII/LF output, the exact three-report set, nine identities/19 JARs, KIM19 versus historical scope separation, Level-3/Level-4 ceilings, graph endpoint/evidence closure, A-D observation safety fields, evidence hash/path confinement, invalid labels, duplicate IDs, dangling edges, and stale/missing/unexpected output rejection.
+After implementation and the final provenance audit, the focused suite passed 8 tests. The audit first failed with 61 expected missing-evidence errors, then passed after every summary claim was bound to the declared hash-locked evidence set. The suite covers canonical ASCII/LF output, the exact three-report set, nine identities/19 JARs, KIM19 versus historical scope separation, Level-3/Level-4 ceilings, graph and summary evidence closure, A-D observation safety fields, evidence hash/path confinement, invalid/unknown evidence rejection, invalid labels, duplicate IDs, dangling edges, and stale/missing/unexpected output rejection.
 
 ## Final test results
 
@@ -25,7 +25,7 @@ Using `E:/Documents/GitHub/jeep_uconnect_custom/analysis_work/post_reboot_202609
 
 | Suite | Result |
 |---|---:|
-| `python -m unittest discover -s analysis_tools/tests -p 'test_*.py'` | 304 passed; 0 failures/errors |
+| `python -m unittest discover -s analysis_tools/tests -p 'test_*.py'` | 305 passed; 0 failures/errors |
 | `python -m unittest discover -s prototype/hello_uconnect/tests -p 'test_*.py'` | 18 passed; 0 failures/errors |
 | `python -m unittest discover -s prototype/network_probe/tests -p 'test_*.py'` | 17 passed; 0 failures/errors |
 | `node --test prototype/resident_hmi/tests/*.test.mjs` | 20 passed; 0 failed/cancelled/skipped |
@@ -68,12 +68,12 @@ The KIM19 runtime check re-inventoried all 37 package files, 19 JARs, and 4,572 
 
 | File | SHA-256 |
 |---|---|
-| `analysis_tools/kim19_final_notes.json` | `856d8e54a5cfcf55b01460daf29c7c5b5ccb55a74bf9806b333aee465dc30ef6` |
-| `reports/kim19_final/capability_matrix.json` | `65155775c210eaeee626b8b3c45e79e820a10eee3f73e01af24ca10cfaead638` |
-| `reports/kim19_final/handoff_graph.json` | `da69b67a2b9fcd08aaa0cc7d8e21b2917f64ef117bf0f289c469105f9f4821be` |
-| `reports/kim19_final/unresolved_gates.json` | `53449a6f0caa91af5609243a8589e36ac489ca5f7cbcb6d210228544e9f9afc9` |
+| `analysis_tools/kim19_final_notes.json` | `64a073b5453a6dd9d47311c041c5d2b30cfd6face1a8e215adde33c253dc5c9d` |
+| `reports/kim19_final/capability_matrix.json` | `419cf163a0fc3884e3267c5e47586170df78e7995d96ca7ea9bd51da99edc54f` |
+| `reports/kim19_final/handoff_graph.json` | `8ec67760c5a47636ce0df73e2a565078a725a01a17e94b56ea0bddbc0a46b5db` |
+| `reports/kim19_final/unresolved_gates.json` | `856673115031cc1ee46b04df496d842fe81cbf3066783cde4710f3b32e2fc487` |
 
-All three JSON reports are sorted ASCII, contain no CR bytes, and end in LF. The model contains nine explicit per-app inventories, 19 JAR records, nine ranked capabilities, 26 graph nodes, 39 graph edges, nine target observations across categories A-D, project decision B, and the exact marker `STATIC RESEARCH COMPLETE`.
+All three JSON reports are sorted ASCII, contain no CR bytes, and end in LF. The model contains nine explicit per-app inventories, 19 JAR records, nine ranked capabilities, 26 graph nodes, 39 graph edges, nine target observations across categories A-D, project decision B, and the exact marker `STATIC RESEARCH COMPLETE`. Every positive and negative summary row, unresolved question, observation, ceiling, and decision has a nonempty validated evidence-reference list.
 
 ## Document and repository checks
 

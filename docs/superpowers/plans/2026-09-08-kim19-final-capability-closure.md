@@ -169,3 +169,29 @@ Run focused/full tests, final `--check`, `git diff --check`, and status checks a
 - [x] **Step 4: Push without opening a PR**
 
 Push `codex/kim19-final-capability-closure` to `origin`, verify local/remote SHA equality and a clean isolated worktree, and recheck that the original dirty checkout baseline is unchanged.
+
+### Task 7: Close summary-level evidence provenance
+
+**Files:**
+- Modify: `analysis_tools/kim19_final_capability.py`
+- Modify: `analysis_tools/kim19_final_notes.json`
+- Modify: `analysis_tools/tests/test_kim19_final_capability.py`
+- Regenerate: `reports/kim19_final/*.json`
+- Modify: `docs/kim19_final_capability_assessment.md`
+- Modify: `reports/kim19_final/verification.md`
+
+- [x] **Step 1: Add and run a failing provenance test**
+
+Require every ranked capability, IXC/dynamic/platform row, scoped negative, unknown, observation, socket/history singleton, ceiling, and decision to carry nonempty evidence IDs from the declared input set. Observe the expected RED result for 61 unbound summary claims.
+
+- [x] **Step 2: Bind and validate every summary claim**
+
+Add an exact evidence-binding map, inject references deterministically into generated rows, and reject missing group coverage, empty lists, or unknown evidence IDs.
+
+- [x] **Step 3: Regenerate and rerun all verification**
+
+Regenerate the three canonical reports, pass 8 focused and 305 full analysis tests, rerun all bounded generators and prototype suites, update hashes, and recheck isolation.
+
+- [x] **Step 4: Commit, push, and verify the final branch**
+
+Create a new content checkpoint followed by a documentation-only checkpoint, push without a PR, and confirm the local/remote tips match with a clean worktree.

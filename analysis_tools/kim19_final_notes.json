@@ -14,6 +14,85 @@
     {"id": "performance_export", "path": "reports/kim19_runtime_analysis/performance_pages_export_summary.json", "sha256": "9ef4d13dac2dcc4985e875248da40e0ab64a9edc14116af090b539247641a569"},
     {"id": "performance_consumers", "path": "reports/kim19_runtime_analysis/performance_pages_consumer_census.json", "sha256": "6dc0d47586db504eb8d63f1d2631099ef6778dc2d1dc726ff63b5a433fd1c70d"}
   ],
+  "evidence_bindings": {
+    "ranked_capabilities": {
+      "yelp-ui-services": ["runtime_activation", "runtime_graph", "yelp_handoffs", "yelp_gates"],
+      "performance-export": ["performance_export", "performance_consumers", "runtime_graph"],
+      "apps-launch": ["runtime_activation", "runtime_graph"],
+      "performance-vsb": ["runtime_graph", "runtime_network", "performance_export"],
+      "store-register": ["runtime_graph", "runtime_network"],
+      "assist-service": ["runtime_graph", "runtime_network"],
+      "register-mts": ["runtime_graph", "runtime_network", "runtime_activation"],
+      "drm-vsb": ["runtime_graph", "runtime_network", "runtime_activation"],
+      "vsb-dispatch": ["runtime_graph", "runtime_network"]
+    },
+    "dynamic_mechanisms": {
+      "fixed-platform-factories": ["socket_findings", "yelp_handoffs"],
+      "vsb-operation-factory": ["runtime_graph", "runtime_network"],
+      "store-serialization": ["socket_findings", "runtime_network"],
+      "lseries-affiner": ["runtime_network", "runtime_validation"],
+      "connector-providers": ["socket_findings"],
+      "xml-logging-providers": ["socket_findings"],
+      "fixed-executor": ["socket_findings"],
+      "archived-json-invoke": ["socket_findings", "socket_validation"],
+      "archived-test-loader": ["socket_findings", "socket_validation"],
+      "archived-http-injection": ["socket_findings"],
+      "airbiquity-test-server": ["socket_findings"],
+      "script-browser-negative": ["socket_findings", "runtime_network", "runtime_validation"]
+    },
+    "ixc_services": {
+      "ixc-vsb-service": ["runtime_graph", "runtime_network"],
+      "ixc-vsb-callbacks": ["runtime_graph", "performance_export"],
+      "ixc-drm-notifications": ["runtime_graph"],
+      "ixc-yelp-none": ["yelp_handoffs"]
+    },
+    "platform_services": {
+      "platform-navigation": ["yelp_handoffs", "runtime_graph"],
+      "platform-phone": ["yelp_handoffs", "runtime_graph"],
+      "platform-voice": ["yelp_handoffs", "runtime_graph"],
+      "platform-location": ["yelp_handoffs", "runtime_graph"],
+      "platform-appmanager": ["runtime_activation", "runtime_graph"],
+      "platform-media-storage": ["performance_export", "performance_consumers"],
+      "platform-vehicle": ["runtime_activation", "performance_export"],
+      "platform-network": ["runtime_graph", "runtime_network"],
+      "platform-diagnostics": ["socket_findings", "socket_validation", "runtime_network"]
+    },
+    "unknowns": {
+      "u01": ["target_inventory", "runtime_activation"],
+      "u02": ["runtime_activation", "yelp_gates"],
+      "u03": ["runtime_graph", "yelp_handoffs"],
+      "u04": ["runtime_network", "yelp_gates"],
+      "u05": ["runtime_activation", "performance_export"],
+      "u06": ["runtime_graph", "runtime_network"],
+      "u07": ["part_resolution", "socket_findings", "socket_validation"],
+      "u08": ["socket_findings", "performance_consumers", "runtime_validation"]
+    },
+    "observations": {
+      "A1": ["runtime_activation", "part_resolution"],
+      "A2": ["runtime_graph", "socket_findings"],
+      "B1": ["yelp_gates", "runtime_activation"],
+      "B2": ["runtime_activation", "performance_export"],
+      "C1": ["yelp_gates", "runtime_network"],
+      "C2": ["yelp_handoffs", "runtime_graph", "yelp_gates"],
+      "D1": ["yelp_handoffs"],
+      "D2": ["performance_export", "performance_consumers"],
+      "D3": ["runtime_graph", "runtime_network", "socket_findings"]
+    },
+    "scoped_negatives": [
+      ["runtime_network", "runtime_validation", "socket_findings"],
+      ["yelp_handoffs", "yelp_gates", "socket_findings"],
+      ["performance_export", "performance_consumers"],
+      ["socket_findings", "socket_validation"],
+      ["part_resolution", "socket_findings"],
+      ["socket_findings", "runtime_validation", "performance_consumers"]
+    ],
+    "singletons": {
+      "socket_command_source": ["socket_findings", "socket_validation", "yelp_handoffs", "part_resolution"],
+      "historical_conditional": ["socket_findings", "socket_validation", "part_resolution"],
+      "ceiling": ["runtime_graph", "runtime_network", "yelp_handoffs", "socket_findings", "socket_validation", "performance_consumers"],
+      "decision": ["runtime_validation", "socket_findings", "socket_validation", "yelp_handoffs", "performance_consumers"]
+    }
+  },
   "capability_ladder": [
     {"level": 0, "name": "No useful user-controlled action", "rule": "Presence, constants, or unreachable helpers without a closed useful action."},
     {"level": 1, "name": "Useful local UI only", "rule": "A stock application can render or manipulate its own local UI without a cross-component effect."},

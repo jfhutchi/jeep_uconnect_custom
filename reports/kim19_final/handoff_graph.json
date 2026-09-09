@@ -670,7 +670,7 @@
     }
   ],
   "notes_hash_encoding": "Canonical sorted ASCII JSON with LF",
-  "notes_sha256": "45d8f0704569cda7daa388c60bd755bb55a993477b7db247d6ed83567bd1febe",
+  "notes_sha256": "aea735d00ca94b170fc97cb18a6542cdbc11529aa7d0533f3085706637688f83",
   "schema_version": 1,
   "scope": "Recovered stock-signed KIM19 for part 68224525AM; target runtime unobserved"
 }

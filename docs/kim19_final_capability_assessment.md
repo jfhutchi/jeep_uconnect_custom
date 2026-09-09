@@ -193,7 +193,7 @@ Every plausible level-changing family is now one of: proved and bounded below Le
 
 ## 17. Tests and verification
 
-The final synthesis verifies 12 authoritative evidence inputs by exact SHA-256, cross-checks nine identities/19 JARs/4,572 classes/23 reviewed service edges, and emits exactly three sorted ASCII/LF JSON reports. Focused test-driven development observed the missing-module failure before implementation; the focused suite then passed 7 tests. Full final commands, counts, check-mode results, source-integrity results, and isolation fingerprints are recorded in [verification.md](../reports/kim19_final/verification.md).
+The final synthesis verifies 12 authoritative evidence inputs by exact SHA-256, cross-checks nine identities/19 JARs/4,572 classes/23 reviewed service edges, and emits exactly three sorted ASCII/LF JSON reports. Every summary-level capability, negative, unknown, observation, ceiling, and decision row now carries nonempty evidence IDs that the generator validates against that hash-locked input set. Focused test-driven development observed both the initial missing-module failure and the later missing-provenance failure before implementation; the focused suite then passed 8 tests. Full final commands, counts, check-mode results, source-integrity results, and isolation fingerprints are recorded in [verification.md](../reports/kim19_final/verification.md).
 
 Verification checkpoint: `bebe8f87dfc08d5ac70d8501cb55cf62de79ad45`.
 

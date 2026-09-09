@@ -62,6 +62,38 @@ class Kim19FinalCapabilityTests(unittest.TestCase):
         self.assertTrue({"input:user", "input:network", "input:media", "input:configuration", "input:vehicle"} <= nodes)
         self.assertTrue({"service:phone", "service:navigation", "service:appmanager", "service:ixc", "service:vsb"} <= nodes)
 
+    def test_every_summary_claim_has_valid_evidence_references(self):
+        evidence_ids = {item["id"] for item in self.notes["evidence_inputs"]}
+        matrix = self.reports["capability_matrix"]
+        gates = self.reports["unresolved_gates"]
+        report_groups = {
+            group: matrix[group]
+            for group in (
+                "ranked_capabilities",
+                "dynamic_mechanisms",
+                "ixc_services",
+                "platform_services",
+                "scoped_negatives",
+            )
+        }
+        report_groups.update({group: gates[group] for group in ("unknowns", "observations")})
+
+        for group, rows in report_groups.items():
+            for index, row in enumerate(rows):
+                with self.subTest(group=group, index=index):
+                    self.assertTrue(row["evidence"])
+                    self.assertLessEqual(set(row["evidence"]), evidence_ids)
+
+        for key in (
+            "socket_command_source",
+            "historical_conditional",
+            "ceiling",
+            "decision",
+        ):
+            with self.subTest(key=key):
+                self.assertTrue(matrix[key]["evidence"])
+                self.assertLessEqual(set(matrix[key]["evidence"]), evidence_ids)
+
     def test_observations_cover_a_through_d_with_complete_safety_fields(self):
         gates = self.reports["unresolved_gates"]
         self.assertEqual({row["category"] for row in gates["observations"]}, set("ABCD"))
@@ -87,6 +119,16 @@ class Kim19FinalCapabilityTests(unittest.TestCase):
         bad = copy.deepcopy(self.notes)
         bad["handoff_edges"][0]["target"] = "missing"
         with self.assertRaisesRegex(ValueError, "unknown node"):
+            load_and_validate_notes(data=bad)
+
+        bad = copy.deepcopy(self.notes)
+        bad["evidence_bindings"]["ranked_capabilities"]["yelp-ui-services"] = ["missing"]
+        with self.assertRaisesRegex(ValueError, "unknown evidence"):
+            load_and_validate_notes(data=bad)
+
+        bad = copy.deepcopy(self.notes)
+        del bad["evidence_bindings"]["observations"]["A1"]
+        with self.assertRaisesRegex(ValueError, "exactly cover observations"):
             load_and_validate_notes(data=bad)
 
     def test_evidence_inputs_are_hash_bound_and_paths_are_confined(self):
