@@ -1,0 +1,980 @@
+{
+  "aoa": {
+    "accessory_pids": [
+      11520,
+      11521
+    ],
+    "accessory_vid": 6353,
+    "control_requests": [
+      {
+        "bRequest": 51,
+        "bmRequestType": 192,
+        "expected": "exactly two bytes containing protocol version 1 or 2 in little-endian order",
+        "failure": "on stall, timeout, short response, zero, or unsupported version, release and wait for a new attachment",
+        "payload": "2-byte IN buffer; no OUT payload",
+        "state": "GET_PROTOCOL",
+        "timeout_ms": 1000,
+        "wIndex": 0,
+        "wValue": 0
+      },
+      {
+        "bRequest": 52,
+        "bmRequestType": 64,
+        "expected": "complete control OUT transfer",
+        "failure": "abort the sequence and release the device",
+        "payload": "NUL-terminated UTF-8 manufacturer string, at most 256 bytes including NUL",
+        "state": "SEND_STRING_0",
+        "timeout_ms": 1000,
+        "wIndex": 0,
+        "wValue": 0
+      },
+      {
+        "bRequest": 52,
+        "bmRequestType": 64,
+        "expected": "complete control OUT transfer",
+        "failure": "abort the sequence and release the device",
+        "payload": "NUL-terminated UTF-8 model string, at most 256 bytes including NUL",
+        "state": "SEND_STRING_1",
+        "timeout_ms": 1000,
+        "wIndex": 1,
+        "wValue": 0
+      },
+      {
+        "bRequest": 52,
+        "bmRequestType": 64,
+        "expected": "complete control OUT transfer",
+        "failure": "abort the sequence and release the device",
+        "payload": "NUL-terminated UTF-8 description string, at most 256 bytes including NUL",
+        "state": "SEND_STRING_2",
+        "timeout_ms": 1000,
+        "wIndex": 2,
+        "wValue": 0
+      },
+      {
+        "bRequest": 52,
+        "bmRequestType": 64,
+        "expected": "complete control OUT transfer",
+        "failure": "abort the sequence and release the device",
+        "payload": "NUL-terminated UTF-8 version string, at most 256 bytes including NUL",
+        "state": "SEND_STRING_3",
+        "timeout_ms": 1000,
+        "wIndex": 3,
+        "wValue": 0
+      },
+      {
+        "bRequest": 52,
+        "bmRequestType": 64,
+        "expected": "complete control OUT transfer",
+        "failure": "abort the sequence and release the device",
+        "payload": "NUL-terminated UTF-8 URI string, at most 256 bytes including NUL",
+        "state": "SEND_STRING_4",
+        "timeout_ms": 1000,
+        "wIndex": 4,
+        "wValue": 0
+      },
+      {
+        "bRequest": 52,
+        "bmRequestType": 64,
+        "expected": "complete control OUT transfer",
+        "failure": "abort the sequence and release the device",
+        "payload": "NUL-terminated UTF-8 serial string, at most 256 bytes including NUL",
+        "state": "SEND_STRING_5",
+        "timeout_ms": 1000,
+        "wIndex": 5,
+        "wValue": 0
+      },
+      {
+        "bRequest": 53,
+        "bmRequestType": 64,
+        "expected": "complete zero-length control OUT transfer followed by device detach",
+        "failure": "on stall, timeout, or no detach within 5000 ms, release and fail without retrying in place",
+        "payload": "none",
+        "state": "START_ACCESSORY",
+        "timeout_ms": 1000,
+        "wIndex": 0,
+        "wValue": 0
+      }
+    ],
+    "control_timeout_ms": 1000,
+    "identity": [
+      {
+        "index": 0,
+        "name": "manufacturer",
+        "value": "Owner Lab"
+      },
+      {
+        "index": 1,
+        "name": "model",
+        "value": "RA4 AOA Probe"
+      },
+      {
+        "index": 2,
+        "name": "description",
+        "value": "Bounded transport test"
+      },
+      {
+        "index": 3,
+        "name": "version",
+        "value": "1.0"
+      },
+      {
+        "index": 4,
+        "name": "uri",
+        "value": "https://example.invalid/ra4-aoa"
+      },
+      {
+        "index": 5,
+        "name": "serial",
+        "value": "RA4-AOA-0001"
+      }
+    ],
+    "protocol_versions": [
+      1,
+      2
+    ],
+    "reenumeration_timeout_ms": 5000,
+    "state_machine": [
+      "DETECT",
+      "GET_PROTOCOL",
+      "SEND_IDENTITY",
+      "START_ACCESSORY",
+      "WAIT_DETACH",
+      "WAIT_ACCESSORY",
+      "SELECT_INTERFACE",
+      "BULK_EXCHANGE",
+      "RELEASE",
+      "COMPLETE"
+    ]
+  },
+  "baseline": {
+    "branch": "codex/ra4-wired-projection-feasibility",
+    "commit": "a2daff8c5af6c091c8c199a7e4f75009c47f1169"
+  },
+  "raw_artifacts": [
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "stock USB host process named by boot.sh",
+      "path": "hidden_hbc_ifs/standard_boot/files/bin/io-usb",
+      "sha256": "3ac3777b8986c6aebd3c0d226715ee8fa935895c2ee5775bc874ceef569cd3f4",
+      "size": 128629
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "USB host and hub-monitor startup commands",
+      "path": "hidden_hbc_ifs/standard_boot/files/bin/boot.sh",
+      "sha256": "c801d473b0b49e8242114635f4022cc67ccbe03093fec188de3b7188dd636ecf",
+      "size": 29268
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "OMAP USB host-controller driver loaded by io-usb",
+      "path": "hidden_hbc_ifs/standard_boot/files/lib/dll/devu-omap3530-mg.so",
+      "sha256": "6916bd0f398f28bf111ace6c3a08e425a90127f283e0105e2bb6f0b58df881a1",
+      "size": 45936
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "EHCI USB host-controller driver loaded by io-usb",
+      "path": "hidden_hbc_ifs/standard_boot/files/lib/dll/devu-ehci-omap3.so",
+      "sha256": "4e267106c1f209e9b32c596d2d04f39d3ee2d3337d0d5601f74f58a33114c03e",
+      "size": 40215
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "USB host API exports and fixed-purpose import consumers",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/lib/dll/libusbdi.so.2",
+      "sha256": "08c1de09a0ea97da4481275dcdf8191efba7208544fee4f6757a57f48f1b3923",
+      "size": 47302
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "stock USB enumerator and Microsoft OS descriptor query client",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/bin/enum-usb",
+      "sha256": "b07b6a8ff791f46f6db5988df77cd3a509c8d22265ff54fe2c581212b605b460",
+      "size": 22594
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "installed descriptor/topology diagnostic utility",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/bin/usb",
+      "sha256": "10627356ba9a83acc8baa18d273dd1f48a12f9799ae6721640e6279a32b1c560",
+      "size": 30961
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "boot-selected hub overcurrent monitor candidate",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/usr/bin/usb_hub_oc",
+      "sha256": "5efe54280bdcbe73c15f62156f11c46db273a8441df8f7f5b2b48fd1c0b03c1c",
+      "size": 16648
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "fixed USB power-control diagnostic helper",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/usr/bin/usbPowerSwitch",
+      "sha256": "9290f73bd2e5248a6fb0675919a3157ff1e9ce899b6b33b5b5591c79bb6979e4",
+      "size": 8226
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "fixed-purpose USB mass-storage class driver",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/bin/devb-umass",
+      "sha256": "98996317b2efb961f1ffb94fcc55cf75dd94c82f558f220a3f6f0af5a7db658b",
+      "size": 45394
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "fixed-purpose USB serial class driver",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/bin/devc-serusb",
+      "sha256": "3bd75f39baace1141fcc7cc731e07c18a2f275888bae0b622763b8e0354c5e17",
+      "size": 125795
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "fixed destination dispatch and owner-subscription gateway",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/bin/hmiGateway",
+      "sha256": "8d7fe8789bb012a66fbebd1bd44eefa506c672a5d70c90fbf92b3a5a6f01ec82",
+      "size": 153124
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "fixed USB enumeration quirks and configuration selection",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/etc/enum-usb.conf",
+      "sha256": "7b77902d6a23b670d1e9989f57321d60b8669148c12c7823693e22221620b7bb",
+      "size": 762
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "enum-devices invocation of enum-usb check_MS_desc",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/etc/system/enum/common",
+      "sha256": "bb84dc4cbb0beadb693167f97ceea397b39f7f76b1c01579458a9fc6a105bcc5",
+      "size": 280
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "generic MTP and MTPZ io-fs-media launch rules",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/etc/system/enum/devices/usb/mtp",
+      "sha256": "41d2345596e0b7efcc05110dcd1204c2b2cc0d5890913794a01b6ed7586ca9a0",
+      "size": 933
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "legacy Apple media-handler launch rules",
+      "path": "hidden_hbc_ifs/segment_001a0000/files/etc/system/enum/devices/usb/ipod",
+      "sha256": "6786b05e8a2f1089854e253cfdd527a532496baf623daab35433d5de3dee4b1d",
+      "size": 590
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "stock device-connection observer and rule consumer",
+      "path": "hidden_hbc_ifs/segment_00f20000/files/bin/connmgr",
+      "sha256": "1d40e0762f50d89c29a866e8106bdf1c6d35546cff2e9f1c4956e366daf89a36",
+      "size": 262855
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "MTP/PTP interface claim and bulk transport implementation",
+      "path": "hidden_hbc_ifs/segment_00f20000/files/lib/dll/iofs-pfs.so",
+      "sha256": "453002e0715fe2e84d6890092df115895d4a1b1309e6969b5ca27a867d8c8e35",
+      "size": 117594
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "legacy Apple USB media transport implementation",
+      "path": "hidden_hbc_ifs/segment_00f20000/files/lib/dll/iofs-usb-ipod.so",
+      "sha256": "087cb7e158248cc0345fed2f50a5c3223ced2faf1b413cb31c686dc7a84714ec",
+      "size": 19937
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "boot-selected connection-manager rules and unhandled-device policy",
+      "path": "hidden_hbc_ifs/segment_00f20000/files/etc/system/config/connmgr_P_1_2.json",
+      "sha256": "417f3a481f24de077c2faa699ea288c2d3999984301f6b7a5ae199ff11bbe718",
+      "size": 7797
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "alternate connection-manager rules including iPod/media devices",
+      "path": "hidden_hbc_ifs/segment_00f20000/files/etc/system/config/connmgr_P_2_2.json",
+      "sha256": "31e8236f5ced6770cc5a026fe98adba0cf47aec07a25c4d389855c7cfced0546",
+      "size": 22921
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "alternate installed hub overcurrent monitor",
+      "path": "primary_iso/usr/share/MMC_IFS_EXTENSION/bin/usb_hub_oc",
+      "sha256": "15a6d1a3b9de2a123236e11cb32931e2cdd491c0ca8d394ff4a874094b7b0bb6",
+      "size": 19595
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "ROV HMI client carrying the dormant projection contract",
+      "path": "primary_iso/usr/share/MMC_IFS_EXTENSION/share/hmi_rov/MainSupplement.swf",
+      "sha256": "e9d796ea4b4c83ed518bfe3b3c341e54e510a1ae0f78ebbffbd655b7c36a3258",
+      "size": 1407783
+    },
+    {
+      "corpus": "RA4_CORPUS",
+      "locator": "ROV ModuleLink destination configuration",
+      "path": "primary_iso/usr/share/MMC_IFS_EXTENSION/share/hmi_rov/ModuleLink.xml",
+      "sha256": "46cacc8e084ba4b3024cdf68191da1b7165754cc2bedbc2bf44949a9ab59e533",
+      "size": 115
+    }
+  ],
+  "execution_surfaces": [
+    {
+      "authority_evidence": "No authorized new-client load or signing route is available.",
+      "classification": "REQUIRES NEW CODE",
+      "concrete_route": "An authorized native host client would link libusbdi and call its documented APIs.",
+      "name": "libusbdi.so.2 host API",
+      "operations": [
+        "attach and detach callbacks",
+        "descriptor reads",
+        "configuration and interface selection",
+        "endpoint parsing and pipe claims",
+        "vendor control",
+        "bulk IN and OUT",
+        "device and pipe reset"
+      ],
+      "permissions": "io-usb client access, a device connection, and exclusive ownership of the selected interface",
+      "production_use": "The hash-identified library exports 62 usbd_* functions and fixed-purpose production clients import subsets.",
+      "remaining_unknown": "live permissions and ABI for any future legitimately authorized caller",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census",
+        "qnx-usbd"
+      ]
+    },
+    {
+      "authority_evidence": "Its CLI accepts enumeration/configuration options, not raw setup packets or bulk payloads.",
+      "classification": "PRODUCTION INTERNAL",
+      "concrete_route": "enum-devices invokes enum-usb with check_MS_desc through /etc/system/enum/common.",
+      "name": "enum-usb",
+      "operations": [
+        "attach",
+        "device, configuration, and interface descriptors",
+        "configuration selection",
+        "fixed Microsoft OS descriptor vendor query",
+        "device and pipe reset",
+        "detach"
+      ],
+      "permissions": "runs inside the stock enumeration lifecycle",
+      "production_use": "Classifies devices and applies fixed enum-usb.conf quirks, including Apple configuration selection and NoMSString exceptions.",
+      "remaining_unknown": "no structured extension or plug-in interface accepting arbitrary AOA requests was recovered",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-gateway",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "authority_evidence": "Installed command-line utility with descriptor-only options; an ordinary authorized target shell remains unproved.",
+      "classification": "TEST/DIAGNOSTIC",
+      "concrete_route": "usb displays stored or live standard and vendor-unique descriptors for selected bus/device numbers.",
+      "name": "usb descriptor utility",
+      "operations": [
+        "topology",
+        "attach",
+        "stored or live descriptor reads"
+      ],
+      "permissions": "target shell plus io-usb access",
+      "production_use": "Diagnostic descriptor display only; it imports no vendor setup, bulk, reset, configuration selection, or endpoint claim API.",
+      "remaining_unknown": "legitimate interactive shell availability on a normal unit",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census"
+      ]
+    },
+    {
+      "authority_evidence": "Stock boot invokes the monitor with fixed polling options; it exposes no raw downstream transfer method.",
+      "classification": "PRODUCTION INTERNAL",
+      "concrete_route": "boot.sh starts usb_hub_oc to poll hub status and restore port power after overcurrent.",
+      "name": "usb_hub_oc",
+      "operations": [
+        "hub topology",
+        "hub port status",
+        "hub feature requests",
+        "port-power recovery"
+      ],
+      "permissions": "stock startup context and hub access",
+      "production_use": "Monitors hub overcurrent and re-enables port power.",
+      "remaining_unknown": "which recovered binary variant resolves at runtime and which physical cabin hub port it controls",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census",
+        "repo-usb-power"
+      ]
+    },
+    {
+      "authority_evidence": "The utility accepts only power on/off and verbosity options.",
+      "classification": "TEST/DIAGNOSTIC",
+      "concrete_route": "usbPowerSwitch -p0/-p1 requests the stock USB power path to turn off or on.",
+      "name": "usbPowerSwitch",
+      "operations": [
+        "electrical disconnect and reconnect candidate"
+      ],
+      "permissions": "target process execution and stock USB power-control service availability",
+      "production_use": "Fixed power-control helper; it does not link libusbdi and cannot issue AOA requests or bulk transfers.",
+      "remaining_unknown": "electrical effect on the cabin port and legitimate interactive invocation surface",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-power"
+      ]
+    },
+    {
+      "authority_evidence": "Only mass-storage options and SCSI pass-through are exposed; no raw AOA operation input exists.",
+      "classification": "PRODUCTION INTERNAL",
+      "concrete_route": "enum rules launch devb-umass for class-08 devices with fixed bus/device/interface arguments.",
+      "name": "devb-umass",
+      "operations": [
+        "bulk IN and OUT",
+        "class-specific vendor/control requests",
+        "pipe and device reset",
+        "detach"
+      ],
+      "permissions": "mass-storage interface match and exclusive class-driver claim",
+      "production_use": "USB mass-storage block driver using SCSI/CAM semantics.",
+      "remaining_unknown": "none of its fixed class command surface maps to AOA identity or arbitrary bounded frames",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census"
+      ]
+    },
+    {
+      "authority_evidence": "Only supported USB-serial device/options are exposed; no raw AOA operation input exists.",
+      "classification": "PRODUCTION INTERNAL",
+      "concrete_route": "enum rules launch devc-serusb for enumerated serial/modem VID/PID matches.",
+      "name": "devc-serusb",
+      "operations": [
+        "bulk IN and OUT",
+        "class/vendor setup",
+        "pipe and device reset",
+        "detach"
+      ],
+      "permissions": "matching serial interface and exclusive class-driver claim",
+      "production_use": "USB serial/modem character driver.",
+      "remaining_unknown": "no general transfer service or AOA rule was recovered",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census"
+      ]
+    },
+    {
+      "authority_evidence": "The driver options select MTP/PTP behavior and a bus/device/interface; they do not accept raw setup packets.",
+      "classification": "PRODUCTION INTERNAL",
+      "concrete_route": "MTP and MTPZ enum rules launch io-fs-media -dpfs, which loads iofs-pfs.so and claims the matched interface.",
+      "name": "io-fs-media / iofs-pfs.so MTP handler",
+      "operations": [
+        "descriptor and interface selection",
+        "vendor/control requests",
+        "bulk IN and OUT",
+        "pipe and device reset",
+        "detach"
+      ],
+      "permissions": "MTP/MTPZ match and exclusive media-driver ownership",
+      "production_use": "Implements PTP/MTP command/data/event transport and filesystem/media presentation.",
+      "remaining_unknown": "exact scheduling race between the enum match and interface claim on a live phone",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-gateway",
+        "repo-usb-census",
+        "google-aoa1"
+      ]
+    },
+    {
+      "authority_evidence": "The module is loaded only through the fixed Apple HID/audio enum rule and iPod transport options.",
+      "classification": "PRODUCTION INTERNAL",
+      "concrete_route": "Apple-specific enum-usb configuration selects an iPod configuration, then io-fs-media loads iofs-usb-ipod.so.",
+      "name": "iofs-usb-ipod.so legacy Apple handler",
+      "operations": [
+        "descriptor reads",
+        "configuration selection",
+        "vendor/control and interrupt transfers",
+        "pipe handling",
+        "detach"
+      ],
+      "permissions": "Apple VID/configuration match and media-driver ownership",
+      "production_use": "Legacy iPod HID/audio/media integration, not AOA or a projection receiver.",
+      "remaining_unknown": "exact iPod protocol generation; no Android or general raw-transfer contract",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census",
+        "repo-feasibility"
+      ]
+    },
+    {
+      "authority_evidence": "Its SvcIPC methods manage connectivity properties; no method accepts USB setup packets, endpoints, or payloads.",
+      "classification": "PRODUCTION INTERNAL",
+      "concrete_route": "connmgr attaches to io-usb, reads device descriptors/strings, applies fixed JSON rules, and publishes selected device events.",
+      "name": "connmgr USB detector",
+      "operations": [
+        "attach and detach observation",
+        "device descriptors and strings"
+      ],
+      "permissions": "stock service context; fixed rule configuration",
+      "production_use": "Tracks selected USB, MCD, file, and DBus device properties; unhandled USB tracking is disabled.",
+      "remaining_unknown": "no raw USB IPC extension point was identified",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-gateway",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "authority_evidence": "Recovered methods exercise ConnMgr/Bluetooth/Wi-Fi connectivity APIs, not libusbdi operations.",
+      "classification": "TEST/DIAGNOSTIC",
+      "concrete_route": "CcmTestService and CallMethod.sh can invoke fixed connectivity test methods when that test service is active.",
+      "name": "ConnMgr test utilities",
+      "operations": [
+        "connectivity-service method invocation"
+      ],
+      "permissions": "test-service activation and SvcIPC/DBus access",
+      "production_use": "Already-installed test assets, with no AOA or raw USB method vocabulary.",
+      "remaining_unknown": "whether the test service is normally started; irrelevant to missing USB methods",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census"
+      ]
+    },
+    {
+      "authority_evidence": "Only client-side names and calls were recovered, and hmiGateway rejects both destinations before owner lookup.",
+      "classification": "UNREACHABLE",
+      "concrete_route": "MainSupplement.swf attempts ModuleLink commands/events through hmiGateway.",
+      "name": "phoneProjectionService / DeviceConnectionManager destinations",
+      "operations": [
+        "projection start request",
+        "projection and device status events"
+      ],
+      "permissions": "would require a supported gateway destination and an installed service owner",
+      "production_use": "Dormant HMI client contract retained in the recovered build.",
+      "remaining_unknown": "owner executable, object/interface, package, variant, and USB responsibilities",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-gateway",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "authority_evidence": "No resident policy entitlement, JNI method, or stock wrapper accepting structured USB operations was recovered.",
+      "classification": "UNREACHABLE",
+      "concrete_route": "Existing Xlets run through AMS with fixed signed policy and available Java/native APIs.",
+      "name": "resident Java/Xlet/JNI surface",
+      "operations": [
+        "none recovered for direct USB host control"
+      ],
+      "permissions": "stock package identity, AMS policy, and any native wrapper entitlement",
+      "production_use": "Existing applications have no proved direct USB host operation surface.",
+      "remaining_unknown": "private dynamically resolved code outside the bounded recovered corpus",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-policy",
+        "repo-usb-census"
+      ]
+    }
+  ],
+  "hub": {
+    "classification": "STRONGLY SUPPORTED",
+    "conclusion": "The active 68141322AA/68289895AA SD/USB/AUX module already carries downstream device enumeration, standard and class/vendor control traffic, disconnects, and sustained MTP/iPod/mass-storage data over one radio-facing USB path. AOA keeps the radio as host, so no CarPlay-style role reversal is required and no recovered filtering rule targets Google accessory IDs.",
+    "limits": "Exact hub or mux silicon, packet-level behavior, C2-to-controller routing, power budget, Google VID/PID observation, and physical AOA traffic remain unobserved; this is strong architectural support, not PROVED TRANSPARENT.",
+    "source_ids": [
+      "repo-hub",
+      "repo-usb-census",
+      "repo-feasibility"
+    ]
+  },
+  "next_objective": {
+    "constraints": "Use an owner-authorized spare radio and an OEM/provider-supported signing, packaging, or development path; do not bypass signing, AMS/DRM, trust, firmware, or vehicle configuration.",
+    "id": "legitimate-native-environment",
+    "success": "An authorized QNX 6.5 ARM32 host client can run on the spare RA4, obtain the cabin-phone USB device before MTP, and execute bounded libusbdi control and bulk operations with clean recovery.",
+    "title": "Establish a legitimate native execution/development environment on a spare RA4"
+  },
+  "operation_mapping": [
+    {
+      "aoa_operation": "detect Android device",
+      "implementation": "io-usb plus enum-usb/connmgr attach callbacks",
+      "permissions": "io-usb client connection and hotplug ownership",
+      "production_use": "yes, for fixed stock classifiers",
+      "ra4_api": "usbd_attach, usbd_connect, usbd_device_descriptor",
+      "remaining_unknown": "which HCD serves Radio C2 and how a new authorized owner receives first chance",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "read device/configuration/interface descriptors",
+      "implementation": "libusbdi.so.2; used by enum-usb, usb, connmgr, and media drivers",
+      "permissions": "connected device handle",
+      "production_use": "yes, internally",
+      "ra4_api": "usbd_device_descriptor, usbd_configuration_descriptor, usbd_interface_descriptor, usbd_parse_descriptors",
+      "remaining_unknown": "no authorized general caller",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-census",
+        "qnx-usbd"
+      ]
+    },
+    {
+      "aoa_operation": "AOA GET_PROTOCOL request 51",
+      "implementation": "libusbdi.so.2 vendor URB submitted synchronously",
+      "permissions": "device control endpoint ownership",
+      "production_use": "vendor requests are used internally, but AOA request 51 is not identified",
+      "ra4_api": "usbd_alloc_urb, usbd_setup_vendor, usbd_io, usbd_urb_status",
+      "remaining_unknown": "authorized AOA caller and live timeout/status behavior",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "AOA SEND_STRING requests 52, indices 0 through 5",
+      "implementation": "libusbdi.so.2 vendor OUT URBs in fixed index order",
+      "permissions": "device control endpoint ownership",
+      "production_use": "vendor OUT exists in fixed clients, but no AOA identity sender is identified",
+      "ra4_api": "usbd_alloc, usbd_alloc_urb, usbd_setup_vendor, usbd_io, usbd_urb_status",
+      "remaining_unknown": "authorized AOA caller",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "AOA START_ACCESSORY request 53",
+      "implementation": "libusbdi.so.2 zero-length vendor OUT URB",
+      "permissions": "device control endpoint ownership",
+      "production_use": "generic primitive exists; AOA request 53 is not identified",
+      "ra4_api": "usbd_alloc_urb, usbd_setup_vendor, usbd_io, usbd_urb_status",
+      "remaining_unknown": "authorized AOA caller and physical phone response",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "observe detach after START_ACCESSORY",
+      "implementation": "io-usb event callback consumed by stock USB clients",
+      "permissions": "registered hotplug callback and correct device identity",
+      "production_use": "yes, internally",
+      "ra4_api": "usbd_disconnect callback, usbd_detach",
+      "remaining_unknown": "AOA-specific timeout and ownership arbitration",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "observe accessory re-enumeration and Google VID/PID",
+      "implementation": "io-usb attach callback plus device descriptor read",
+      "permissions": "hotplug callback before an incompatible stock claimant",
+      "production_use": "generic re-enumeration exists; no 18D1:2D00/2D01 rule was found",
+      "ra4_api": "usbd_attach, usbd_connect, usbd_device_descriptor",
+      "remaining_unknown": "physical hub behavior and AOA owner selection",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "repo-gateway",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "select configuration 1",
+      "implementation": "libusbdi.so.2; enum-usb and iPod clients select fixed configurations",
+      "permissions": "connected accessory-mode device",
+      "production_use": "yes, internally",
+      "ra4_api": "usbd_configuration_descriptor, usbd_select_config",
+      "remaining_unknown": "authorized AOA owner",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "select accessory interface and identify bulk endpoints",
+      "implementation": "libusbdi.so.2; class drivers parse and select their own interfaces",
+      "permissions": "unclaimed interface and descriptor access",
+      "production_use": "yes, internally for non-AOA classes",
+      "ra4_api": "usbd_select_interface, usbd_parse_descriptors, usbd_endpoint_descriptor, usbd_open_pipe",
+      "remaining_unknown": "exclusive AOA claim and 2D01 first-interface selection",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "bulk OUT bounded frame",
+      "implementation": "libusbdi.so.2 bulk URB on the accessory interface OUT pipe",
+      "permissions": "claimed accessory interface and open OUT pipe",
+      "production_use": "bulk OUT is used by mass-storage, serial, and MTP clients; not AOA",
+      "ra4_api": "usbd_setup_bulk, usbd_io, usbd_urb_status",
+      "remaining_unknown": "authorized caller, short-write semantics, and physical transport",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "bulk IN bounded frame",
+      "implementation": "libusbdi.so.2 bulk URB on the accessory interface IN pipe",
+      "permissions": "claimed accessory interface and open IN pipe",
+      "production_use": "bulk IN is used by mass-storage, serial, and MTP clients; not AOA",
+      "ra4_api": "usbd_setup_bulk, usbd_io, usbd_urb_status",
+      "remaining_unknown": "authorized caller, short-read framing, and physical transport",
+      "requires_new_code": true,
+      "source_ids": [
+        "google-aoa1",
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "abort and release pipes/interface",
+      "implementation": "libusbdi.so.2 cleanup used by fixed-purpose class clients",
+      "permissions": "ownership of opened pipes and connection",
+      "production_use": "yes, internally",
+      "ra4_api": "usbd_abort_pipe, usbd_close_pipe, usbd_detach, usbd_disconnect",
+      "remaining_unknown": "owner-death behavior for a future AOA service",
+      "requires_new_code": true,
+      "source_ids": [
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "device or pipe reset",
+      "implementation": "libusbdi.so.2 reset APIs used by enum/class drivers",
+      "permissions": "device/pipe ownership",
+      "production_use": "yes, internally",
+      "ra4_api": "usbd_reset_device, usbd_reset_pipe",
+      "remaining_unknown": "whether reset is safe after each AOA failure state on the physical phone",
+      "requires_new_code": true,
+      "source_ids": [
+        "qnx-usbd",
+        "repo-usb-census"
+      ]
+    },
+    {
+      "aoa_operation": "electrically equivalent disconnect and clean reconnect",
+      "implementation": "usbPowerSwitch or hub port feature handling is a candidate stock mechanism",
+      "permissions": "legitimate helper invocation and correct cabin-port mapping",
+      "production_use": "hub overcurrent recovery and USB power control exist",
+      "ra4_api": "stock USB power-control service plus hub usbd_feature/status operations",
+      "remaining_unknown": "actual cabin-port electrical effect and authorized experiment invocation",
+      "requires_new_code": true,
+      "source_ids": [
+        "repo-usb-power",
+        "repo-hub"
+      ]
+    }
+  ],
+  "ownership": {
+    "current_owner": "On a generic Android phone that advertises the Microsoft-compatible MTP identifier, enum-devices invokes enum-usb check_MS_desc, the MTP rule launches io-fs-media -dpfs for the selected bus/device/interface, and iofs-pfs.so becomes the bulk-transfer owner. connmgr observes only configured USB classes and has trackUnhandledUsbDevice=0; it is not the generic MTP bulk owner.",
+    "intercept": "The AOA negotiator must receive the initial device after descriptor/MS-OS classification but before the MTP/MTPZ rule launches io-fs-media and iofs-pfs claims the interface. After START_ACCESSORY detach, the same owner must recognize 18D1:2D00/2D01 before normal unknown-device disposal and claim the first accessory bulk interface.",
+    "lifecycle": [
+      "phone attach through cabin hub",
+      "io-usb/HCD enumeration",
+      "enum-devices invokes enum-usb check_MS_desc",
+      "descriptor and Microsoft-compatible-ID classification",
+      "MTP/MTPZ rule launches io-fs-media -dpfs",
+      "iofs-pfs selects and claims the MTP interface",
+      "bulk media operations",
+      "detach callback, abort/release, and driver exit"
+    ],
+    "narrowest_change": "Add an authorized pre-MTP AOA classifier/owner that gets first refusal for eligible phones, suppresses the MTP launch during negotiation, survives logical detach as service state, recognizes Google accessory re-enumeration, and releases back to normal enumeration on failure. No stock configuration change is authorized by this report.",
+    "source_ids": [
+      "google-aoa1",
+      "repo-gateway",
+      "repo-usb-census"
+    ]
+  },
+  "phase7": {
+    "blocker": "No existing stock-authorized process or service exposes a caller-controlled route that combines arbitrary AOA vendor requests, detach/re-enumeration ownership, accessory-interface claiming, and bounded bulk IN/OUT. The matching libusbdi primitives exist, but executing a new native caller is blocked by the unresolved legitimate signing/authorization environment.",
+    "classification": "B",
+    "decided_before_prototype": true,
+    "exact_execution_surface": "There is no complete legitimate AOA execution surface in the bounded recovered RA4 build. The closest components are fixed-purpose production-internal clients: enum-usb can issue a Microsoft OS descriptor vendor request and select configurations; iofs-pfs, devb-umass, and devc-serusb can perform class-bound bulk/control/reset operations; usb_hub_oc and usbPowerSwitch can monitor or cycle USB power. None accepts the structured AOA sequence or arbitrary deterministic bulk frames.",
+    "external_instrumentation": "A passive analyzer can answer whether the hub forwards traffic only after some authorized host originates that traffic. A transparent active interposer could act as the AOA host, but that would prove phone-plus-hub wiring behavior, not RA4-originated control, RA4 ownership, or RA4 bulk I/O; it therefore does not justify classification C.",
+    "prototype_policy": "Create only a host-executable deterministic AOA state machine and mock USB device labeled NOT TARGET VERIFIED; create no RA4/QNX binary, build file, installer, service, Xlet, firmware, or companion projection implementation.",
+    "source_ids": [
+      "google-aoa1",
+      "repo-policy",
+      "repo-usb-census",
+      "repo-gateway"
+    ]
+  },
+  "physical_success": [
+    {
+      "criterion": "phone physically enumerates through the cabin USB/hub path",
+      "evidence": "stock media devices use the path, but no controlled Android AOA observation was performed",
+      "proved": false
+    },
+    {
+      "criterion": "GET_PROTOCOL succeeds",
+      "evidence": "API compatibility only; request 51 was not issued on RA4",
+      "proved": false
+    },
+    {
+      "criterion": "START_ACCESSORY succeeds",
+      "evidence": "API compatibility only; request 53 was not issued on RA4",
+      "proved": false
+    },
+    {
+      "criterion": "phone re-enumerates into accessory mode",
+      "evidence": "not physically observed on RA4",
+      "proved": false
+    },
+    {
+      "criterion": "expected Google VID/PID is observed",
+      "evidence": "no RA4 observation of 18D1:2D00 or 18D1:2D01",
+      "proved": false
+    },
+    {
+      "criterion": "bulk endpoints are claimed",
+      "evidence": "non-AOA class drivers claim bulk endpoints; no AOA claim occurred",
+      "proved": false
+    },
+    {
+      "criterion": "RA4-side host transmits data",
+      "evidence": "non-AOA bulk capability only; no AOA frame was transmitted",
+      "proved": false
+    },
+    {
+      "criterion": "phone-side endpoint transmits data",
+      "evidence": "not physically observed on RA4",
+      "proved": false
+    },
+    {
+      "criterion": "deterministic frames succeed in both directions",
+      "evidence": "host mock testing only after the Phase-7 B decision",
+      "proved": false
+    },
+    {
+      "criterion": "clean detach/reconnect works",
+      "evidence": "generic stock cleanup exists, but no AOA detach/reconnect was exercised",
+      "proved": false
+    }
+  ],
+  "projection_contract": {
+    "device_connection_manager": "A separate ModuleLink/SvcIPC destination supplies projection-device status through DCM events. Exact projection device enum values and an owner implementation were not recovered.",
+    "expected_owner": "A missing optional, variant, licensed, or shared/newer Harman projection backend is the evidence-supported inference. The CMC_MY16_Trunk provenance and Cinemo/GAL vocabulary are leads, not proof of deployment or Android USB ownership.",
+    "gateway": "The recovered hmiGateway fixed destination table rejects phoneProjectionService and DeviceConnectionManager before command invocation, nameHasOwner, or owner-change subscription. Registering those names alone would not make the route reachable.",
+    "phone_projection_service": "The HMI expects startProjection with opaque ppId and subscribes to projectionSessionStatus, projectionBackToCar, now-playing, navigation, call, and device status. It checks service-owner availability through the shared ModuleLink span client.",
+    "source_ids": [
+      "repo-gateway",
+      "repo-usb-census",
+      "repo-feasibility"
+    ],
+    "usb_relationship": "No recovered command, argument, event, or owner proves that phoneProjectionService or DeviceConnectionManager performs AOA, MTP arbitration, USB role management, or endpoint ownership. The contract is a designed insertion point for projection lifecycle/status, while its USB implementation remains absent or outside the bounded corpus."
+  },
+  "prototype": {
+    "kind": "HOST_MODEL",
+    "label": "NOT TARGET VERIFIED",
+    "scope": "AOA control-state sequencing, re-enumeration validation, endpoint selection, bounded deterministic framing, failure cleanup, and reconnect against an in-memory mock only",
+    "target_code": false
+  },
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "repo-usb-census",
+      "kind": "repository",
+      "locator": "Hash-identified host runtime; host reproduction and limits",
+      "path": "reports/ra4_usb_stack_backend_census.md",
+      "sha256": "cd2dbf9b4573bd2c776ddd80bcb165a9cacd942c6d7c124e8f9a21270432897c"
+    },
+    {
+      "id": "repo-gateway",
+      "kind": "repository",
+      "locator": "Fixed destination dispatch; USB ownership follow-up",
+      "path": "reports/ra4_projection_gateway_dispatch.md",
+      "sha256": "41bf4406ae9ee28e748e7a3d422a9e79572ef520c462c51c7fefc45f7b85a813"
+    },
+    {
+      "id": "repo-usb-power",
+      "kind": "repository",
+      "locator": "usbPowerSwitch and hub/power control-flow trace",
+      "path": "reports/ra4_usb_phy_power_control.md",
+      "sha256": "81ee93fa8506290079a6122bd8c1aacf41f67f777ccfadbe5a7b8253539421ef"
+    },
+    {
+      "id": "repo-hub",
+      "kind": "repository",
+      "locator": "Connector evidence; active hub boundary; exact unknowns",
+      "path": "docs/19_ra4_media_hub_usb_path.md",
+      "sha256": "1ee9c0b337010a7ade28bfbccb81e8e787965b4d96f15c736c24984f8318085a"
+    },
+    {
+      "id": "repo-policy",
+      "kind": "repository",
+      "locator": "Resident policy entitlement matrix",
+      "path": "reports/resident_policy_entitlements.md",
+      "sha256": "41bde2899dd53bd445a1bfa584f3e1a10e2a4f57e5cc9b2a5fe1ca0a69a60257"
+    },
+    {
+      "id": "repo-feasibility",
+      "kind": "repository",
+      "locator": "Authoritative feasibility conclusion and evidence ledger",
+      "path": "docs/wired_projection_feasibility.md",
+      "sha256": "886c7f29b181574f71308464d77c3bb5fbda5e0dc3d8af6a18ccf98e42818380"
+    },
+    {
+      "accessed": "2026-09-09",
+      "id": "google-aoa1",
+      "kind": "public",
+      "publisher": "Android Open Source Project / Google",
+      "title": "Android Open Accessory 1.0",
+      "url": "https://source.android.com/docs/core/interaction/accessories/aoa"
+    },
+    {
+      "accessed": "2026-09-09",
+      "id": "google-aoa2",
+      "kind": "public",
+      "publisher": "Android Open Source Project / Google",
+      "title": "Android Open Accessory 2.0",
+      "url": "https://source.android.com/docs/core/interaction/accessories/aoa2"
+    },
+    {
+      "accessed": "2026-09-09",
+      "id": "google-usb-accessory",
+      "kind": "public",
+      "publisher": "Android Developers / Google",
+      "title": "USB accessory overview",
+      "url": "https://developer.android.com/develop/connectivity/usb/accessory"
+    },
+    {
+      "accessed": "2026-09-09",
+      "id": "qnx-usbd",
+      "kind": "public",
+      "publisher": "QNX Software Systems",
+      "title": "QNX SDP 6.5.0 SP1 USB DDK API index",
+      "url": "https://www.qnx.com/developers/docs/6.5.0SP1.update/index.html"
+    }
+  ],
+  "test_plan": {
+    "frame_limit": 256,
+    "identity": "six fixed harmless strings: Owner Lab, RA4 AOA Probe, Bounded transport test, 1.0, example.invalid URI, and RA4-AOA-0001",
+    "recovery": "abort and close pipes, release the claimed interface/device, preserve the primary error, then accept one clean fresh-device reconnect",
+    "request_payload": "RA4-AOA-PING",
+    "response_payload": "RA4-AOA-PONG"
+  },
+  "verification": {
+    "artifact_hashes": "all 24 raw recovered artifacts matched their recorded byte sizes and SHA-256 values after implementation",
+    "baseline_tests": "311 tests passed before implementation",
+    "branch": "codex/ra4-aoa-transport",
+    "diff_check": "git diff --check passed with no whitespace errors",
+    "generator_checks": "renderer ran twice and --check passed twice with no second-run drift",
+    "json_parse": "all three generated JSON documents parsed successfully",
+    "new_tests": "327 analysis tests, 19 AOA host-model tests, 18 Hello Uconnect tests, 17 network-probe tests, 20 resident-HMI Node tests, and the strict C99 projection-arbiter assertions passed",
+    "original_checkout": "branch codex/ra4-driver-temperature at 894afe8e5361c3595623de599e62ba0f0c0d9f78 retained the exact status list, unstaged hash 33a13317707d962e24e9f25f12728dd8b3198466, empty staged hash e69de29bb2d1d6434b8b29ae775ad8c2e48c5391, and untracked no-filter hash 5cd7495dd780e5a53d9928a2d4ef1f72df533c80",
+    "physical_test": "not performed because Phase 7 is B"
+  }
+}

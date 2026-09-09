@@ -1,0 +1,147 @@
+{
+  "accessory_pids": [
+    11520,
+    11521
+  ],
+  "accessory_vid": 6353,
+  "control_requests": [
+    {
+      "bRequest": 51,
+      "bmRequestType": 192,
+      "expected": "exactly two bytes containing protocol version 1 or 2 in little-endian order",
+      "failure": "on stall, timeout, short response, zero, or unsupported version, release and wait for a new attachment",
+      "payload": "2-byte IN buffer; no OUT payload",
+      "state": "GET_PROTOCOL",
+      "timeout_ms": 1000,
+      "wIndex": 0,
+      "wValue": 0
+    },
+    {
+      "bRequest": 52,
+      "bmRequestType": 64,
+      "expected": "complete control OUT transfer",
+      "failure": "abort the sequence and release the device",
+      "payload": "NUL-terminated UTF-8 manufacturer string, at most 256 bytes including NUL",
+      "state": "SEND_STRING_0",
+      "timeout_ms": 1000,
+      "wIndex": 0,
+      "wValue": 0
+    },
+    {
+      "bRequest": 52,
+      "bmRequestType": 64,
+      "expected": "complete control OUT transfer",
+      "failure": "abort the sequence and release the device",
+      "payload": "NUL-terminated UTF-8 model string, at most 256 bytes including NUL",
+      "state": "SEND_STRING_1",
+      "timeout_ms": 1000,
+      "wIndex": 1,
+      "wValue": 0
+    },
+    {
+      "bRequest": 52,
+      "bmRequestType": 64,
+      "expected": "complete control OUT transfer",
+      "failure": "abort the sequence and release the device",
+      "payload": "NUL-terminated UTF-8 description string, at most 256 bytes including NUL",
+      "state": "SEND_STRING_2",
+      "timeout_ms": 1000,
+      "wIndex": 2,
+      "wValue": 0
+    },
+    {
+      "bRequest": 52,
+      "bmRequestType": 64,
+      "expected": "complete control OUT transfer",
+      "failure": "abort the sequence and release the device",
+      "payload": "NUL-terminated UTF-8 version string, at most 256 bytes including NUL",
+      "state": "SEND_STRING_3",
+      "timeout_ms": 1000,
+      "wIndex": 3,
+      "wValue": 0
+    },
+    {
+      "bRequest": 52,
+      "bmRequestType": 64,
+      "expected": "complete control OUT transfer",
+      "failure": "abort the sequence and release the device",
+      "payload": "NUL-terminated UTF-8 URI string, at most 256 bytes including NUL",
+      "state": "SEND_STRING_4",
+      "timeout_ms": 1000,
+      "wIndex": 4,
+      "wValue": 0
+    },
+    {
+      "bRequest": 52,
+      "bmRequestType": 64,
+      "expected": "complete control OUT transfer",
+      "failure": "abort the sequence and release the device",
+      "payload": "NUL-terminated UTF-8 serial string, at most 256 bytes including NUL",
+      "state": "SEND_STRING_5",
+      "timeout_ms": 1000,
+      "wIndex": 5,
+      "wValue": 0
+    },
+    {
+      "bRequest": 53,
+      "bmRequestType": 64,
+      "expected": "complete zero-length control OUT transfer followed by device detach",
+      "failure": "on stall, timeout, or no detach within 5000 ms, release and fail without retrying in place",
+      "payload": "none",
+      "state": "START_ACCESSORY",
+      "timeout_ms": 1000,
+      "wIndex": 0,
+      "wValue": 0
+    }
+  ],
+  "control_timeout_ms": 1000,
+  "identity": [
+    {
+      "index": 0,
+      "name": "manufacturer",
+      "value": "Owner Lab"
+    },
+    {
+      "index": 1,
+      "name": "model",
+      "value": "RA4 AOA Probe"
+    },
+    {
+      "index": 2,
+      "name": "description",
+      "value": "Bounded transport test"
+    },
+    {
+      "index": 3,
+      "name": "version",
+      "value": "1.0"
+    },
+    {
+      "index": 4,
+      "name": "uri",
+      "value": "https://example.invalid/ra4-aoa"
+    },
+    {
+      "index": 5,
+      "name": "serial",
+      "value": "RA4-AOA-0001"
+    }
+  ],
+  "protocol_versions": [
+    1,
+    2
+  ],
+  "reenumeration_timeout_ms": 5000,
+  "state_machine": [
+    "DETECT",
+    "GET_PROTOCOL",
+    "SEND_IDENTITY",
+    "START_ACCESSORY",
+    "WAIT_DETACH",
+    "WAIT_ACCESSORY",
+    "SELECT_INTERFACE",
+    "BULK_EXCHANGE",
+    "RELEASE",
+    "COMPLETE"
+  ]
+}

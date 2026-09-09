@@ -1,0 +1,191 @@
+[
+  {
+    "aoa_operation": "detect Android device",
+    "implementation": "io-usb plus enum-usb/connmgr attach callbacks",
+    "permissions": "io-usb client connection and hotplug ownership",
+    "production_use": "yes, for fixed stock classifiers",
+    "ra4_api": "usbd_attach, usbd_connect, usbd_device_descriptor",
+    "remaining_unknown": "which HCD serves Radio C2 and how a new authorized owner receives first chance",
+    "requires_new_code": true,
+    "source_ids": [
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "read device/configuration/interface descriptors",
+    "implementation": "libusbdi.so.2; used by enum-usb, usb, connmgr, and media drivers",
+    "permissions": "connected device handle",
+    "production_use": "yes, internally",
+    "ra4_api": "usbd_device_descriptor, usbd_configuration_descriptor, usbd_interface_descriptor, usbd_parse_descriptors",
+    "remaining_unknown": "no authorized general caller",
+    "requires_new_code": true,
+    "source_ids": [
+      "repo-usb-census",
+      "qnx-usbd"
+    ]
+  },
+  {
+    "aoa_operation": "AOA GET_PROTOCOL request 51",
+    "implementation": "libusbdi.so.2 vendor URB submitted synchronously",
+    "permissions": "device control endpoint ownership",
+    "production_use": "vendor requests are used internally, but AOA request 51 is not identified",
+    "ra4_api": "usbd_alloc_urb, usbd_setup_vendor, usbd_io, usbd_urb_status",
+    "remaining_unknown": "authorized AOA caller and live timeout/status behavior",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "AOA SEND_STRING requests 52, indices 0 through 5",
+    "implementation": "libusbdi.so.2 vendor OUT URBs in fixed index order",
+    "permissions": "device control endpoint ownership",
+    "production_use": "vendor OUT exists in fixed clients, but no AOA identity sender is identified",
+    "ra4_api": "usbd_alloc, usbd_alloc_urb, usbd_setup_vendor, usbd_io, usbd_urb_status",
+    "remaining_unknown": "authorized AOA caller",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "AOA START_ACCESSORY request 53",
+    "implementation": "libusbdi.so.2 zero-length vendor OUT URB",
+    "permissions": "device control endpoint ownership",
+    "production_use": "generic primitive exists; AOA request 53 is not identified",
+    "ra4_api": "usbd_alloc_urb, usbd_setup_vendor, usbd_io, usbd_urb_status",
+    "remaining_unknown": "authorized AOA caller and physical phone response",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "observe detach after START_ACCESSORY",
+    "implementation": "io-usb event callback consumed by stock USB clients",
+    "permissions": "registered hotplug callback and correct device identity",
+    "production_use": "yes, internally",
+    "ra4_api": "usbd_disconnect callback, usbd_detach",
+    "remaining_unknown": "AOA-specific timeout and ownership arbitration",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "observe accessory re-enumeration and Google VID/PID",
+    "implementation": "io-usb attach callback plus device descriptor read",
+    "permissions": "hotplug callback before an incompatible stock claimant",
+    "production_use": "generic re-enumeration exists; no 18D1:2D00/2D01 rule was found",
+    "ra4_api": "usbd_attach, usbd_connect, usbd_device_descriptor",
+    "remaining_unknown": "physical hub behavior and AOA owner selection",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "repo-gateway",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "select configuration 1",
+    "implementation": "libusbdi.so.2; enum-usb and iPod clients select fixed configurations",
+    "permissions": "connected accessory-mode device",
+    "production_use": "yes, internally",
+    "ra4_api": "usbd_configuration_descriptor, usbd_select_config",
+    "remaining_unknown": "authorized AOA owner",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "select accessory interface and identify bulk endpoints",
+    "implementation": "libusbdi.so.2; class drivers parse and select their own interfaces",
+    "permissions": "unclaimed interface and descriptor access",
+    "production_use": "yes, internally for non-AOA classes",
+    "ra4_api": "usbd_select_interface, usbd_parse_descriptors, usbd_endpoint_descriptor, usbd_open_pipe",
+    "remaining_unknown": "exclusive AOA claim and 2D01 first-interface selection",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "bulk OUT bounded frame",
+    "implementation": "libusbdi.so.2 bulk URB on the accessory interface OUT pipe",
+    "permissions": "claimed accessory interface and open OUT pipe",
+    "production_use": "bulk OUT is used by mass-storage, serial, and MTP clients; not AOA",
+    "ra4_api": "usbd_setup_bulk, usbd_io, usbd_urb_status",
+    "remaining_unknown": "authorized caller, short-write semantics, and physical transport",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "bulk IN bounded frame",
+    "implementation": "libusbdi.so.2 bulk URB on the accessory interface IN pipe",
+    "permissions": "claimed accessory interface and open IN pipe",
+    "production_use": "bulk IN is used by mass-storage, serial, and MTP clients; not AOA",
+    "ra4_api": "usbd_setup_bulk, usbd_io, usbd_urb_status",
+    "remaining_unknown": "authorized caller, short-read framing, and physical transport",
+    "requires_new_code": true,
+    "source_ids": [
+      "google-aoa1",
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "abort and release pipes/interface",
+    "implementation": "libusbdi.so.2 cleanup used by fixed-purpose class clients",
+    "permissions": "ownership of opened pipes and connection",
+    "production_use": "yes, internally",
+    "ra4_api": "usbd_abort_pipe, usbd_close_pipe, usbd_detach, usbd_disconnect",
+    "remaining_unknown": "owner-death behavior for a future AOA service",
+    "requires_new_code": true,
+    "source_ids": [
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "device or pipe reset",
+    "implementation": "libusbdi.so.2 reset APIs used by enum/class drivers",
+    "permissions": "device/pipe ownership",
+    "production_use": "yes, internally",
+    "ra4_api": "usbd_reset_device, usbd_reset_pipe",
+    "remaining_unknown": "whether reset is safe after each AOA failure state on the physical phone",
+    "requires_new_code": true,
+    "source_ids": [
+      "qnx-usbd",
+      "repo-usb-census"
+    ]
+  },
+  {
+    "aoa_operation": "electrically equivalent disconnect and clean reconnect",
+    "implementation": "usbPowerSwitch or hub port feature handling is a candidate stock mechanism",
+    "permissions": "legitimate helper invocation and correct cabin-port mapping",
+    "production_use": "hub overcurrent recovery and USB power control exist",
+    "ra4_api": "stock USB power-control service plus hub usbd_feature/status operations",
+    "remaining_unknown": "actual cabin-port electrical effect and authorized experiment invocation",
+    "requires_new_code": true,
+    "source_ids": [
+      "repo-usb-power",
+      "repo-hub"
+    ]
+  }
+]
