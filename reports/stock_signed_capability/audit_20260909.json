@@ -1,0 +1,751 @@
+{
+  "best_benign_candidate": {
+    "classification": "STRONGLY INFERRED",
+    "name": "normal authorized Apps launch of already-installed visible Yelp",
+    "network_silence_guaranteed": false,
+    "runtime_result": "UNKNOWN"
+  },
+  "coverage": {
+    "archives": 300,
+    "class_occurrences": 72507,
+    "omitted_class_dollar_forName_sites": 358,
+    "uncompressed_class_bytes": 162243647,
+    "unique_class_hashes": 13272
+  },
+  "date": "2026-09-09",
+  "evidence_files": [
+    {
+      "path": "reports/stock_signed_capability/bytecode_index.json",
+      "worktree_sha256": "524b271e7682271064dfb4c9fcab575b6e4c03ddbff3dff62eefdb5f1b5946b4"
+    },
+    {
+      "path": "reports/stock_signed_capability/findings.json",
+      "worktree_sha256": "ebb7832f634da56122ed169794cebd8213c2a646b58af87c917280a2f193eccc"
+    },
+    {
+      "path": "reports/kim19_final/capability_matrix.json",
+      "worktree_sha256": "419cf163a0fc3884e3267c5e47586170df78e7995d96ca7ea9bd51da99edc54f"
+    },
+    {
+      "path": "reports/kim19_final/handoff_graph.json",
+      "worktree_sha256": "8ec67760c5a47636ce0df73e2a565078a725a01a17e94b56ea0bddbc0a46b5db"
+    },
+    {
+      "path": "reports/kim19_final/unresolved_gates.json",
+      "worktree_sha256": "856673115031cc1ee46b04df496d842fe81cbf3066783cde4710f3b32e2fc487"
+    }
+  ],
+  "evidence_inventories": {
+    "caller_graph": "reports/stock_signed_capability/findings.json (From/To table)",
+    "constructor_sites": "reports/stock_signed_capability/bytecode_index.json:incoming_selected",
+    "extensions": "reports/stock_extension_surface/java_extension_surfaces.json",
+    "kim19_capabilities": "reports/kim19_final/capability_matrix.json",
+    "kim19_handoffs": "reports/kim19_final/handoff_graph.json",
+    "listener_protocol_gates": "reports/stock_signed_capability/findings.json (configuration, commands and gates tables)",
+    "reachability_unknowns": "reports/kim19_final/unresolved_gates.json"
+  },
+  "fresh_checks": [
+    {
+      "command": "python -m unittest discover -s analysis_tools/tests -p test_*.py",
+      "errors": 0,
+      "exit_code": 0,
+      "failures": 0,
+      "tests_passed": 305
+    },
+    {
+      "command": "python -m analysis_tools.stock_capability_index --root <XLETS> --select <stored selection_regex> --output analysis_work/stock_signed_audit/bytecode_index.json",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m analysis_tools.kim19_final_capability --output reports/kim19_final --check",
+      "exit_code": 0,
+      "reports_verified": 3
+    },
+    {
+      "command": "python -m analysis_tools.kim19_yelp_analysis --work <work> --output reports/kim19_yelp --check",
+      "exit_code": 0,
+      "reports_verified": 7
+    },
+    {
+      "command": "python -m analysis_tools.kim19_runtime_analysis --work <work> --output reports/kim19_runtime_analysis --javap <JDK8 javap> --check",
+      "exit_code": 0,
+      "reports_verified": 8
+    },
+    {
+      "command": "python -m analysis_tools.yelp_observation_analysis --app-manager <appManager> --yelp-jar <KIM19 Yelp jar> --check",
+      "exit_code": 0
+    },
+    {
+      "command": "python tools/analyze_performance_pages_export.py --corpus <work> --check",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m analysis_tools.performance_pages_consumer_census --corpus <work> --check",
+      "exit_code": 0
+    },
+    {
+      "command": "python -m analysis_tools.performance_pages_native_storage --corpus <work> --check",
+      "exit_code": 0
+    },
+    {
+      "command": "javap -c -p -s -classpath <KIM3 manager jar> com.tweddle.test.input.SocketCommandSource com.tweddle.test.input.CommandSource",
+      "exit_code": 0,
+      "mode": "disassembly only"
+    }
+  ],
+  "git": {
+    "adopted_research_checkpoint": "5b9826b2b6537f12b4bf08a50003ea6914263700",
+    "adoption": "fast-forward of new branch only; existing worktrees untouched",
+    "branch": "codex/stock-signed-capability-audit",
+    "final_commit": "reported after commit and remote verification, not recursively embedded",
+    "inherited_file_count": 127,
+    "inherited_files": [
+      {
+        "path": ".gitattributes",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/README.md",
+        "status": "M"
+      },
+      {
+        "path": "analysis_tools/activation_graph.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/evidence_model.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/java_classfile.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/kim19_final_capability.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/kim19_final_notes.json",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/kim19_runtime_analysis.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/kim19_runtime_notes.json",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/kim19_yelp_analysis.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/kim19_yelp_notes.json",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/native_endpoint_census.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/performance_pages_consumer_census.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/performance_pages_export_analysis.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/performance_pages_export_notes.json",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/performance_pages_native_storage.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/performance_pages_storage_consumer_notes.json",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/render_stock_extension_reports.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/resident_surface_census.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/stock_capability_index.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/target_production_index.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_activation_graph.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_evidence_model.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_java_classfile.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_kim19_final_capability.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_kim19_runtime_analysis.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_kim19_yelp_analysis.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_native_endpoint_census.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_performance_pages_consumer_census.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_performance_pages_export_analysis.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_performance_pages_native_storage.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_render_stock_extension_reports.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_resident_surface_census.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_stock_capability_index.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_target_production_index.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/tests/test_yelp_observation_analysis.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/yelp_observation_analysis.py",
+        "status": "A"
+      },
+      {
+        "path": "analysis_tools/yelp_observation_model.json",
+        "status": "A"
+      },
+      {
+        "path": "docs/ecodrive_native_storage_boundary.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_application_service_graph.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_background_services.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_capability_assessment.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_final_capability_assessment.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_network_capabilities.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_removable_media_capabilities.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_runtime_observation_model.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_stock_capability_graph.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_target_observation_runbook.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_failure_states.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_input_dataflow.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_launch_graph.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_network_contract.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_reachability.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_response_actions.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_runtime_gates.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_stock_handoffs.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/kim19_yelp_target_observation.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/native_virtual_catalog_predicates.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/performance_pages_export_call_graph.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/performance_pages_file_write_capability.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/performance_pages_html_generation.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/performance_pages_storage_model.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/performance_pages_variant_inventory.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/performance_pages_vsb_contract.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/ra4_stock_storage_service_model.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/removable_media_consumer_graph.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/resident_network_services.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/stock_extension_surface.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/stock_signed_capability_analysis.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/superpowers/plans/2026-09-07-stock-extension-surface.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/superpowers/plans/2026-09-08-kim19-final-capability-closure.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/superpowers/plans/2026-09-08-kim19-yelp-complete-runtime.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/superpowers/plans/2026-09-08-yelp-target-observation-framework.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/superpowers/specs/2026-09-07-stock-extension-surface-design.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/target_observation_checklist.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/target_production_state.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/user_controlled_input_surface.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/yelp_launch_gate_model.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/yelp_network_contract.md",
+        "status": "A"
+      },
+      {
+        "path": "docs/yelp_target_observation_analysis.md",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_final/capability_matrix.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_final/handoff_graph.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_final/unresolved_gates.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_final/verification.md",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/application_activation_matrix.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/application_service_graph.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/background_services.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/method_evidence.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/network_capabilities.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/observation_inference_matrix.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/performance_pages_consumer_census.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/performance_pages_export_class_evidence.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/performance_pages_export_failure_signatures.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/performance_pages_export_summary.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/performance_pages_filename_dataflow.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/performance_pages_html_fields.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/performance_pages_native_storage.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/performance_pages_verification.md",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/validation.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/verification.md",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/yelp_failure_signatures.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_runtime_analysis/yelp_reachability.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_yelp/failure_paths.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_yelp/input_dataflow.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_yelp/launch_graph.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_yelp/network_fields.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_yelp/original_checkout_snapshot.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_yelp/response_actions.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_yelp/runtime_gates.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/kim19_yelp/stock_handoffs.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/map_update_2017q2_reverse_engineering.md",
+        "status": "M"
+      },
+      {
+        "path": "reports/stock_extension_surface/activation_call_paths.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_extension_surface/evidence_ledger.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_extension_surface/java_extension_surfaces.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_extension_surface/native_socket_correlation.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_extension_surface/network_ipc_endpoints.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_extension_surface/socket_command_source_notes.md",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_extension_surface/user_controlled_input_surfaces.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_signed_capability/bytecode_index.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_signed_capability/findings.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/stock_signed_capability/validation.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/target_production_state/capability_candidates.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/target_production_state/package_inventory.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/target_production_state/part_number_resolution.json",
+        "status": "A"
+      },
+      {
+        "path": "reports/target_production_state/validation.json",
+        "status": "A"
+      },
+      {
+        "path": "tools/analyze_performance_pages_export.py",
+        "status": "A"
+      },
+      {
+        "path": "tools/analyze_yelp_observation.py",
+        "status": "A"
+      }
+    ],
+    "starting_commit": "be5a83be9fc52493ed04070abac12531c6c6b901",
+    "worktree": "E:/Documents/GitHub/jeep_uconnect_custom_stock_signed_audit"
+  },
+  "index_comparison": {
+    "archive_hashes_equal": true,
+    "committed_blob_sha256": "524b271e7682271064dfb4c9fcab575b6e4c03ddbff3dff62eefdb5f1b5946b4",
+    "equal_after_CRLF_normalization": true,
+    "fresh_sha256": "821f04fb5727db67d6233bd58f41c598fa073102d45a38b787c7e1ace06e16ab",
+    "json_equal_to_committed_blob": true,
+    "raw_bytes_equal_to_committed_blob": false,
+    "skipped": [],
+    "worktree_file_sha256": "524b271e7682271064dfb4c9fcab575b6e4c03ddbff3dff62eefdb5f1b5946b4"
+  },
+  "network_use": "Only the user-authorized GitHub push and branch SHA verification, performed after research; no vehicle/OEM/backend services.",
+  "not_performed": [
+    "signing bypass",
+    "signature creation/replacement",
+    "trust modification",
+    "credential manipulation",
+    "unsigned installation",
+    "firmware modification",
+    "policy modification",
+    "live backend or recovered endpoint contact",
+    "vehicle-control action",
+    "diagnostic writes",
+    "recovered code execution"
+  ],
+  "original_checkout_preservation": {
+    "matches_20260908_checkpoint": true,
+    "observed": {
+      "branch": "codex/ra4-driver-temperature",
+      "dirty_path_count": 41,
+      "head": "894afe8e5361c3595623de599e62ba0f0c0d9f78",
+      "staged_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status_sha256": "f530fba15552b37c70dc7e7b1bd18c2f97721711080e207d7015c65a4d3999ce",
+      "tracked_diff_sha256": "d640dce2da93cbd40692549754f74ee796b897b00d5a38060d4ad17172cdc792",
+      "untracked_status_doc_git_blob": "0aae8d1167e29865adef9e7250e9f352164a10af"
+    },
+    "reference": "reports/kim19_final/verification.md"
+  },
+  "remaining_unknowns": [
+    "target installation and retained historical versions",
+    "effective grants and lifecycle",
+    "worker/socket success and available authorized local client",
+    "live interfaces/firewall/forwarding",
+    "IXC and VSB service liveness and sender permissions",
+    "backend/account/schema acceptance",
+    "media mount, write and durability",
+    "unrecovered native/AOT behavior"
+  ],
+  "schema_version": 1,
+  "scope": "Local recovered artifacts and existing repository evidence only; static references are not runtime observations.",
+  "socket": {
+    "authentication": "No application-layer authentication was found in the recovered path examined.",
+    "claim": "static identity, construction sites and package exclusion only",
+    "class_sha256": "55bf4d4ca3872b4434f69c4d9fe0c04e64fcef69da0682381ca91d904d972edb",
+    "classification": "PROVED",
+    "excluded_packages": [
+      "KIM1",
+      "KIM3",
+      "KIM12"
+    ],
+    "external_construction_references": [
+      {
+        "caller_descriptor": "()Lcom/tweddle/test/input/CommandSource;",
+        "class": "com/tweddle/test/input/CommandSource",
+        "class_sha256": "d0ceb9275f87c2fa90898a85ad5ae0a7902d8351314f4403619b5d5926e6057a",
+        "cp_index": 5,
+        "descriptor": "()V",
+        "kind": "invoke_special",
+        "method": "create",
+        "name": "<init>",
+        "offset": 4,
+        "opcode": "invokespecial",
+        "owner": "com/tweddle/test/input/SocketCommandSource"
+      },
+      {
+        "caller_descriptor": "()Lcom/tweddle/test/input/CommandSource;",
+        "class": "com/tweddle/test/input/CommandSource",
+        "class_sha256": "d0ceb9275f87c2fa90898a85ad5ae0a7902d8351314f4403619b5d5926e6057a",
+        "cp_index": 4,
+        "kind": "construct",
+        "method": "create",
+        "offset": 0,
+        "opcode": "new",
+        "owner": "com/tweddle/test/input/SocketCommandSource"
+      }
+    ],
+    "external_peer_reachability": "UNKNOWN",
+    "factory_bind": {
+      "address": "127.0.0.1",
+      "backlog_numeric": "UNKNOWN",
+      "classification": "PROVED",
+      "port": 11111
+    },
+    "historical_exact_copy_static_path_category": 4,
+    "junit_classes_in_scanned_jars": [],
+    "occurrences": [
+      {
+        "artifact": "kim_packages/KIM1/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+        "member": "com/tweddle/test/input/SocketCommandSource.class"
+      },
+      {
+        "artifact": "kim_packages/KIM1/xlets/d0412192-c51d-476c-91e0-76fc65a82692/prog/jars/d0412192-c51d-476c-91e0-76fc65a82692.jar",
+        "member": "com/tweddle/test/input/SocketCommandSource.class"
+      },
+      {
+        "artifact": "kim_packages/KIM12/xlets/1D5347C0-8B5E-11E2-9E96-0800200C9A66/prog/jars/yelp_embedded_10.r4799-FIT.jar",
+        "member": "com/tweddle/test/input/SocketCommandSource.class"
+      },
+      {
+        "artifact": "kim_packages/KIM12/xlets/d0412192-c51d-476c-91e0-76fc65a82692/prog/jars/iHeart.4491_FIT.jar",
+        "member": "com/tweddle/test/input/SocketCommandSource.class"
+      },
+      {
+        "artifact": "kim_packages/KIM3/xlets/c1d77320-6335-48b2-aa22-21912f657311/prog/jars/c1d77320-6335-48b2-aa22-21912f657311.jar",
+        "member": "com/tweddle/test/input/SocketCommandSource.class"
+      }
+    ],
+    "ordinary_install_reachability_category": 3,
+    "shipped_map_selects_socket_package": false,
+    "successful_target_bind": "UNKNOWN",
+    "target_runtime_category": 8
+  },
+  "target_selection": {
+    "fallback_used": false,
+    "input": "68224525AM",
+    "map_sha256": "4f219f18f84afe346f68844fb8f618a031eeb49aa158ba7c81d4de83fb381daa",
+    "matching_assignments": [
+      {
+        "line": 74,
+        "package": "KIM19",
+        "part": "68224525"
+      }
+    ],
+    "normalized": "68224525",
+    "scope": "ASCII model of recovered selector, not observation of FRAM",
+    "selected_package": "KIM19"
+  }
+}

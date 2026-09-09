@@ -1,7 +1,82 @@
 # Stock RA4 signed capability analysis
 
-Research date: 2026-09-07. Evidence is recovered RA4 18.45.01 software and
-repository evidence only. No recovered executable or command was executed.
+Original research date: 2026-09-07; revalidated and reconciled with the completed
+KIM19 research on 2026-09-09. Evidence is recovered RA4 18.45.01 software and
+repository evidence only. No recovered executable or target command was executed.
+
+## Current KIM19 result and audit provenance
+
+**PROVED:** the supplied part number `68224525AM` normalizes to `68224525` and
+selects **KIM19** at line 74 of the recovered map. The target part number is
+provided, not an outstanding unknown. The actual installed versions, historical
+retained packages, effective grants and service state remain **UNKNOWN**.
+
+**PROVED bounded negative:** the recovered ordinary KIM19 installation does
+not select any of the five socket-containing copies. They are real, conditionally
+activated test/UI code in older signed application packages, not dead classes.
+Category **3**, excluded by recovered production package selection, describes
+the supplied installation path. Category **4** describes their static lifecycle
+path if an exact older copy is already legitimately installed. Category **8**
+describes unresolved live target state. Neither successful bind nor an
+externally reachable running service has been observed.
+
+The evidence ladder must be read as separate claims:
+
+| Claim | Classification | Evidence or remaining boundary |
+|---|---|---|
+| Class exists and has public constructors | PROVED | Five copies, one class hash; three constructors |
+| A stock caller constructs it when reached | PROVED | `CommandSource.create`, `new` BCI 0 / constructor BCI 4 |
+| Old Xlet init/start reaches the construction/worker path | PROVED direct sites; STRONGLY INFERRED indirect dispatch | Section A graph; descriptor/lifecycle/thread receiver flow |
+| Target actually constructs it or starts the worker | UNKNOWN | Package/history, authorization and lifecycle not observed |
+| Default code requests loopback bind on 11111 | PROVED | Section B constructor-to-field-to-bind provenance |
+| Bind succeeds on the target | UNKNOWN | Runtime policy, socket implementation, port and worker state |
+| An off-unit peer can reach it | UNKNOWN | No recovered forwarder establishes that path; wildcard default is DISPROVED |
+
+The later [KIM19 assessment](kim19_final_capability_assessment.md),
+[Yelp dataflow](kim19_yelp_input_dataflow.md), and
+[Performance export analysis](performance_pages_file_write_capability.md)
+close several candidates that were still unresolved in the original broad
+census. The useful ranking for this request is:
+
+| Rank | Candidate | Supported capability | Remaining boundary |
+|---:|---|---|---|
+| 1 | Normal Apps launch of KIM19 Yelp 03.00.33 | Existing splash/home/category UI before a Yelp search request | Installed/visible/authorized app, lifecycle, platform services |
+| 2 | Performance Pages timer export | Fixed USB/SD `timersResult` HTML output through stock UI | Correct vehicle variant, app grants, existing timer state, writable/durable media |
+| 3 | Typed stock service handoffs | Existing Apps/AppManager/AMS and finite IXC/VSB operations | Actual remote bindings, caller permissions and service state; many operations are not benign |
+| 4 | Yelp search/result display | Typed HTTPS request/JSON response and stock result UI | Network/account/backend/schema; no service contacted in this work |
+| 5 | Historical Tweddle UI/VM queries | `getCurrentForm` / `getRuntimeInfo` implementations | Exact older installed copy, loopback client, policy, bind and worker; excluded from ordinary KIM19 |
+
+**Strongest benign no-new-signature proof candidate:** observe an existing Yelp
+UI through its normal authorized Apps launch, if already visible. This is a
+conditional proposal, not a target-tested result or an assertion of zero
+background traffic: platform/VR/service initialization and other running stock
+services prevent a global network-silence guarantee. No target interaction is
+part of this research. Performance's ordinary export is the strongest separate
+offline data-output candidate, but its success UI alone does not prove bytes
+were written: a filename collision skips writing and can still report success.
+No new timer driving or vehicle action is required or proposed here.
+
+No recovered KIM19 path establishes user-controlled general class loading,
+scripting, process launch, or a reusable external command interface. That is a
+bounded result for the examined artifacts, not a universal absence claim about
+unrecovered native/AOT code or historical target state. Fixed factories,
+packaged native loading, typed IXC/VSB callbacks and ordinary file export remain
+stock capabilities, with their existing policy boundaries intact.
+
+This audit created `codex/stock-signed-capability-audit` in
+`E:/Documents/GitHub/jeep_uconnect_custom_stock_signed_audit` from the requested
+network-probe commit `be5a83be9fc52493ed04070abac12531c6c6b901`, then fast-forwarded
+only that new worktree to existing committed research checkpoint
+`5b9826b2b6537f12b4bf08a50003ea6914263700`. Other worktrees were left untouched.
+The original investigation's state table below is historical provenance.
+
+Fresh validation: **305 analysis tests passed**, full 300-JAR index regeneration
+matched the committed JSON content, and all seven selected report/source check
+commands passed. Source-addressed graphs, listener/protocol tables and extension
+inventories remain in the linked evidence set; they were reused rather than
+duplicated. The [audit record](../reports/stock_signed_capability/audit_20260909.json)
+and [reproduction record](../reports/stock_signed_capability/audit_20260909.md)
+distinguish fresh checks from inherited findings and preserve exact identities.
 
 ## Result
 
@@ -470,7 +545,8 @@ new helper, test archive, package substitution, or gate-changing procedure is
 proposed. Given the shipped KIM map, further attempts to force this listener
 are not justified by the present evidence.
 
-Remaining unknowns are the target's part number and installed/history state;
+Remaining unknowns are the target's installed/history state (the provided part
+number is `68224525AM`, resolving to KIM19 as recorded above);
 effective per-code-source Java policy and socket implementation; runtime
 JUnit/AOT dependencies; successful bind and available local clients; live
 filter anchors and forwarding; startup/configuration of other listener and
