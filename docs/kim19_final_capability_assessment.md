@@ -195,13 +195,13 @@ Every plausible level-changing family is now one of: proved and bounded below Le
 
 The final synthesis verifies 12 authoritative evidence inputs by exact SHA-256, cross-checks nine identities/19 JARs/4,572 classes/23 reviewed service edges, and emits exactly three sorted ASCII/LF JSON reports. Every summary-level capability, negative, unknown, observation, ceiling, and decision row now carries nonempty evidence IDs that the generator validates against that hash-locked input set. Focused test-driven development observed both the initial missing-module failure and the later missing-provenance failure before implementation; the focused suite then passed 8 tests. Full final commands, counts, check-mode results, source-integrity results, and isolation fingerprints are recorded in [verification.md](../reports/kim19_final/verification.md).
 
-Verification checkpoint: `bebe8f87dfc08d5ac70d8501cb55cf62de79ad45`.
+Verification checkpoint: `44f1de422a33e3e4218d1687f96e7f41fdd01f24`.
 
 ## 18. Git state and commit SHA
 
 - Isolated worktree: `E:/Documents/GitHub/jeep_uconnect_custom_kim19_final`
 - Branch: `codex/kim19-final-capability-closure`
 - Base Yelp checkpoint: `c02e793bf032b5f7b5e9b7da066031b22530d0e4`
-- Content/verification checkpoint: `bebe8f87dfc08d5ac70d8501cb55cf62de79ad45`
+- Content/verification checkpoint: `44f1de422a33e3e4218d1687f96e7f41fdd01f24`
 - Final pushed tip: reported after the documentation-only SHA record commit; it cannot self-embed without changing itself.
 - Original dirty checkout: preserved and reverified against its recorded HEAD/status/diff fingerprints.
